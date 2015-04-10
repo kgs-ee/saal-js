@@ -13,8 +13,11 @@ router.get('/', function(req, res, next) {
         strictSSL: true,
         url: url
         },
-        function (err, data) {
-            res.send(data)
+        function (err, response, body) {
+        	data = JSON.parse(body)
+        	console.log(data)
+        	var count = data.count
+            res.render("index", {count:count, title:"zaza"})
         }
     )
 })
