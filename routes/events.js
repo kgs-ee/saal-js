@@ -6,10 +6,10 @@ var request     = require('request')
 
 
 /* GET users listing. */
-router.get('/:user_id', function(req, res, next) {
-	var user_id = req.params.user_id
+router.get('/', function(req, res, next) {
+	// var user_id = req.params.user_id
 
-    var url = 'https://saal.entu.ee/api2/entity-' + user_id
+    var url = 'https://saal.entu.ee/api2/entity?definition=event'
     request.get({
         strictSSL: true,
         url: url
