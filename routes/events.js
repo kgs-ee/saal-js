@@ -9,16 +9,22 @@ var request     = require('request')
 router.get('/', function(req, res, next) {
 	// var user_id = req.params.user_id
 
-    var url = 'https://saal.entu.ee/api2/entity?definition=event'
+    var url = 'https://saal.entu.ee/api2/entity?definition=event&limit=10'
     request.get({
         strictSSL: true,
         url: url
         },
         function (err, response, body) {
         	data = JSON.parse(body)
-        	console.log(data)
+        	console.log(data.result)
         	var count = data.count
-            res.render("index", {count:count, title:"zaza"})
+            // var result = data.result
+            // var item = data.result[1].name
+            res.render("index", {
+                count:count, 
+                title:"zaza", 
+                events:data.result
+            })
         }
     )
 })
