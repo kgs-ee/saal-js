@@ -4,10 +4,11 @@ var router = express.Router()
 
 var request     = require('request')
 
-
 router.get('/', function(req, res, next) {
+    console.log(req.query.id)
 
-    var url = 'https://saal.entu.ee/api2/entity?definition=event&limit=10'
+
+    var url = 'https://saal.entu.ee/api2/entity-' + req.query.id
     request.get({
         strictSSL: true,
         url: url
@@ -15,11 +16,8 @@ router.get('/', function(req, res, next) {
         function (err, response, body) {
         	data = JSON.parse(body)
         	console.log(data.result)
-        	var count = data.count
-            res.render("events", {
-                count:count,
-                title:"zaza",
-                events:data.result
+            res.render("event", {
+                event:data.result
             })
         }
     )

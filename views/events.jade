@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome to #{title}
+
+	h3!= count
+	p Welcome to foo #{count}
+	p Welcome to foo #{events.length}
+
+	ul
+		each event in events
+			li
+				a(href='event?id=' + event.id) #{event.name}
+
+
