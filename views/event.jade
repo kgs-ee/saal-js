@@ -4,3 +4,8 @@ block content
     h1= event.displayname
     img(src=event.displaypicture)
     p= event.properties.description.values[0].value
+    p= event.displayinfo
+
+    ul
+        each category in event.properties.category.values
+            li= category.value
