@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1= event.displayname
-    img(src=event.displaypicture)
+    img(src='https://saal.entu.ee' + event.displaypicture)
     p= event.properties.description.values[0].value
     p= event.displayinfo
 
