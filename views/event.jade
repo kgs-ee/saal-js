@@ -3,4 +3,4 @@ extends layout
 block content
     h1= event.displayname
     img(src=event.displaypicture)
-    p= event.properties.description.values.value
+    p= event.properties.description.values[0].value
