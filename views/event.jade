@@ -1,11 +1,33 @@
 extends layout
 
 block content
-    h1= event.displayname
-    img(src='https://saal.entu.ee' + event.displaypicture)
-    p= event.properties.description.values[0].value
-    p= event.displayinfo
+	h1= event.displayname
 
-    ul
-        each category in event.properties.category.values
-            li= category.value
+	img(src='https://saal.entu.ee' + event.displaypicture)
+	
+	p= event.properties.description.values[0].value
+	p= event.displayinfo
+
+
+	if event.properties.category.values
+		ul
+			each category in event.properties.category.values
+				li= category.value
+	else
+		p No Categories
+
+
+	ul
+		li
+			span Teater
+		li
+			span Tants
+		li
+			span Muusika
+		li
+			span Performance
+		li
+			span Loeng
+		li
+			span Film
+
