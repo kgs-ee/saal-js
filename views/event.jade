@@ -7,6 +7,7 @@ block content
 	
 	p= event.properties.description.values[0].value
 	p= event.displayinfo
+	p= event.properties.price.values[0].value
 
 
 	if event.properties.category.values
@@ -15,19 +16,4 @@ block content
 				li= category.value
 	else
 		p No Categories
-
-
-	ul
-		li
-			span Teater
-		li
-			span Tants
-		li
-			span Muusika
-		li
-			span Performance
-		li
-			span Loeng
-		li
-			span Film
 
