@@ -1,12 +1,6 @@
 extends layout
 
 block content
-	h1= title
-	p Welcome to #{title}
-
-	h3!= count
-	p Welcome to foo #{count}
-	p Welcome to foo #{events.length} 
 
 	ul
 		each event in events
@@ -14,3 +8,8 @@ block content
 				a(href='localhost:3000/event/' + event.id) #{event.name}
 
 
+	ul
+		each banner in banners
+			li
+				a(href='localhost:3000/event/' + banner.id)
+					img(src='http://placehold.it/300x300')

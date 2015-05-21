@@ -1,18 +1,18 @@
 extends layout
 
 block content
-	h1= event.displayname
+	h1= title
 
-	img(src='https://saal.entu.ee' + event.displaypicture)
+	img(src='https://saal.entu.ee' + image)
 	
-	p= event.properties.description.values[0].value
-	p= event.displayinfo
-	p= event.properties.price.values[0].value
+	p= content
+	p!= schedule
+	p= price
 
 
-	if event.properties.category.values
+	if categories
 		ul
-			each category in event.properties.category.values
+			each category in categories
 				li= category.value
 	else
 		p No Categories

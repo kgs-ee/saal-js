@@ -14,12 +14,12 @@ router.get('/', function(req, res, next) {
         },
         function (err, response, body) {
         	data = JSON.parse(body)
-        	console.log(data.result)
+        	//console.log(data.result)
         	var count = data.count
             res.render("events", {
-                count:count,
-                title:"zaza",
-                events:data.result
+                count: count,
+                title: "Sündmused",
+                events: data.result
             })
         }
     )
