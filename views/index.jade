@@ -11,5 +11,5 @@ block content
 	ul
 		each banner in banners
 			li
-				a(href='localhost:3000/event/' + banner.id)
-					img(src='http://placehold.it/300x300')
+				a(href=banner.table[1])
+					img(src='https://saal.entu.ee/api2/entity-' + banner.id + '/picture')

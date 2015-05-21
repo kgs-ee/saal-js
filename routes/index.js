@@ -25,6 +25,7 @@ router.get('/', function(req, res, next) {
         },
         function (err, response, body) {
         	data = JSON.parse(body)
+        	//console.log(data.result)
         	var count = data.count
             res.render("index", {
                 banners:data.result
