@@ -1,7 +1,6 @@
-var express = require('express');
-var router = express.Router();
-
-var request     = require('request')
+var express  = require('express');
+var router   = express.Router();
+var request  = require('request')
 
 router.get('/', function(req, res, next) {
 
@@ -10,13 +9,20 @@ router.get('/', function(req, res, next) {
 
 	var eventOptions = { strictSSL: true, url: eventUrl }
 	var bannerOptions = { strictSSL: true, url: bannerUrl }
-	
-	request.get(eventOptions, function (err, response, body) {
+
+	request.get(eventOptions, function getEvents(err, response, body) {
+		if (err) {
+			console.log('Err:', err, response)
+			return // from getEvents
+		}
 		event_data = JSON.parse(body).result
-		
-		request.get(bannerOptions, function (err, response, body) {
+
+		request.get(bannerOptions, function getBanners(err, response, body) {
+			if (err) {
+				console.log('Err:', err, response)
+				return // from getBanners
+			}
 			banner_data = JSON.parse(body).result
-				// var count = data.count
 			res.render("index", {
 				events: event_data,
 				banners: banner_data
