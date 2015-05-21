@@ -5,33 +5,24 @@ var request     = require('request')
 
 router.get('/', function(req, res, next) {
 
-    var eventUrl = 'https://saal.entu.ee/api2/entity?definition=event&limit=10&order_by=name&changed=dt'
-    request.get({
-        strictSSL: true,
-        url: eventUrl
-        },
-        function (err, response, body) {
-        	data = JSON.parse(body)
-            res.render("index", {
-                events:data.result
-            })
-        }
-    )
+	var eventUrl = 'https://saal.entu.ee/api2/entity?definition=event&limit=10&order_by=name&changed=dt'
+	var bannerUrl = 'https://saal.entu.ee/api2/entity?definition=banner&limit=3'
 
-    var bannerUrl = 'https://saal.entu.ee/api2/entity?definition=banner&limit=3'
-    request.get({
-        strictSSL: true,
-        url: bannerUrl
-        },
-        function (err, response, body) {
-        	data = JSON.parse(body)
-        	//console.log(data.result)
-        	var count = data.count
-            res.render("index", {
-                banners:data.result
-            })
-        }
-    )
+	var eventOptions = { strictSSL: true, url: eventUrl }
+	var bannerOptions = { strictSSL: true, url: bannerUrl }
+	
+	request.get(eventOptions, function (err, response, body) {
+		event_data = JSON.parse(body).result
+		
+		request.get(bannerOptions, function (err, response, body) {
+			banner_data = JSON.parse(body).result
+				// var count = data.count
+			res.render("index", {
+				events: event_data,
+				banners: banner_data
+			})
+		})
+	})
 })
 
 module.exports = router;
