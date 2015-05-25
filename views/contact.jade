@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	h1= title
+
+	ul
+		each news in newsList
+			li
+				h2= news.name
+				p=
