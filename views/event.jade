@@ -21,14 +21,15 @@ block content
 	//- 		each category in categories
 	//- 			li= category.value
 
+	- categoryNames = categories.map(function(c){return c.value});
+
 	ul
-		li Diskussioon
-		li Film
-		li Loeng
-		li Muusika
-		li Performance
-		li Tants
-		li Teater
-		li Tsirkus
-		li Video
+		li(class=(categoryNames.indexOf("Diskussioon") > -1 ? "" : "unactive")) Diskussioon
+		li(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive")) Film
+		li(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive")) Loeng
+		li(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive")) Muusika
+		li(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive")) Tants
+		li(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive")) Teater
+		li(class=(categoryNames.indexOf("Tsirkus") > -1 ? "" : "unactive")) Tsirkus
+		li(class=(categoryNames.indexOf("Video") > -1 ? "" : "unactive")) Video	
 
