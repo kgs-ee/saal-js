@@ -10,7 +10,8 @@ block content
 
 	ul
 		each date in schedule
-			li= date.value
+			li= moment(date.value).format("YYYY/MM/DD")
+			
 				li
 					button Väljamüüdud
 
