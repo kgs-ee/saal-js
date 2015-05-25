@@ -6,14 +6,28 @@ block content
 	img(src='https://saal.entu.ee' + image)
 	
 	p= content
-	p!= schedule
 	p= price
 
+	ul
+		each date in schedule
+			li= date.value
+				li
+					button Väljamüüdud
 
-	if categories
-		ul
-			each category in categories
-				li= category.value
-	else
-		p No Categories
+
+	//- if categories
+	//- 	ul
+	//- 		each category in categories
+	//- 			li= category.value
+
+	ul
+		li Diskussioon
+		li Film
+		li Loeng
+		li Muusika
+		li Performance
+		li Tants
+		li Teater
+		li Tsirkus
+		li Video
 

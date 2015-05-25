@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
                 title: data.result.displayname,
                 image: data.result.displaypicture,
                 content: data.result.properties.description.values[0].value,
-                schedule: data.result.displayinfo,
+                schedule: data.result.properties.time.values,
                 price: data.result.properties.price.values[0].value,
                 categories: data.result.properties.category.values,
             })
