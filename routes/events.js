@@ -7,7 +7,7 @@ var request     = require('request')
 
 router.get('/', function(req, res, next) {
 
-    var url = 'https://saal.entu.ee/api2/entity?definition=event&limit=10'
+    var url = 'https://saal.entu.ee/api2/entity?definition=event&limit=10&order_by=time'
     request.get({
         strictSSL: true,
         url: url

@@ -32,7 +32,7 @@ var request  = require('request')
 
 // Alternate way to gather data from multiple sources
 router.get('/', function(req, res, next) {
-	var eventUrl = 'https://saal.entu.ee/api2/entity?definition=event&limit=10&order_by=name&changed=dt'
+	var eventUrl = 'https://saal.entu.ee/api2/entity?definition=event&limit=10&order_by=time'
 	var bannerUrl = 'https://saal.entu.ee/api2/entity?definition=banner&limit=3'
 
 	var eventOptions = { strictSSL: true, url: eventUrl }
