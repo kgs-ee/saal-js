@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
             console.log(data.result.displaypicture)
             res.render("event", {
                 title: data.result.displayname,
-                image: data.result.displaypicture,
+                image: data.result.properties.photo.values[0].db_value,
                 content: data.result.properties.description.values[0].value,
                 schedule: data.result.properties.time.values,
                 price: data.result.properties.price.values[0].value,
