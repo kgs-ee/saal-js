@@ -3,7 +3,7 @@ extends layout
 block content
 	h1= title
 
-	img(src='https://saal.entu.ee/api2/file-' + image)
+	img(src='https://saal.entu.ee/api2/file-' + imageId)
 
 	- categoryNames = categories.map(function(c){return c.value});
 
