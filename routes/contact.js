@@ -5,22 +5,73 @@ var request = require('request')
 
 router.get('/', function(req, res, next) {
 
-    var url = 'https://saal.entu.ee/api2/entity?definition=news&limit=10'
-    request.get({
-        strictSSL: true,
-        url: url
-        },
-        function (err, response, body) {
-        	data = JSON.parse(body)
-        	//console.log(data.result)
-        	var count = data.count
-            res.render("contact", {
-                count: count,
-                title: "Kontakt",
-                newsList: data.result
-            })
+    var news_list_url = 'https://saal.entu.ee/api2/entity?definition=news&limit=10'
+    var entity_url = 'https://saal.entu.ee/api2/entity-'
+
+    var contact_options = {strictSSL: true, url: news_list_url}
+    request.get(contact_options, function getContacts(err, response, body) {
+        if (err) {
+            console.log('Err:', err, response)
+            return
         }
-    )
+        var contact_data = JSON.parse(body)
+
+        // console.log(contact_data.result)
+
+        var render_data = []
+        var proccess_count = 0
+
+        contact_data.result.forEach(function iterate(item) {
+            proccess_count ++
+            request.get({strictSSL: true, url: entity_url + item.id}, function getContacts(err, response, body) {
+                if (err) {
+                    console.log('Err:', err, response)
+                    return
+                }
+                item['body'] = JSON.parse(body).result.properties.body.values ? JSON.parse(body).result.properties.body.values[0].value : 'No body'
+                render_data.push(item)
+                proccess_count --
+                if (proccess_count === 0) {
+                    // console.log(render_data)
+                    res.render("contact", {
+                        contact_count: contact_data.count,
+                        title: "Kontakt",
+                        newsList: render_data
+                    })
+                }
+            })
+        })
+
+
+    })
 })
 
 module.exports = router
+
+// router.get('/', function(req, res, next) {
+//  var eventUrl = 'https://saal.entu.ee/api2/entity?definition=event&limit=10&order_by=name&changed=dt'
+//  var bannerUrl = 'https://saal.entu.ee/api2/entity?definition=banner&limit=3'
+
+//  var eventOptions = { strictSSL: true, url: eventUrl }
+//  var bannerOptions = { strictSSL: true, url: bannerUrl }
+
+//  request.get(eventOptions, function getEvents(err, response, body) {
+//      if (err) {
+//          console.log('Err:', err, response)
+//          return // from getEvents
+//      }
+//      var event_data = JSON.parse(body).result
+
+//      request.get(bannerOptions, function getBanners(err, response, body) {
+//          if (err) {
+//              console.log('Err:', err, response)
+//              return // from getBanners
+//          }
+//          var banner_data = JSON.parse(body).result
+//          res.render("index", {
+//              events: event_data,
+//              banners: banner_data
+//          })
+//      })
+//  })
+// })
