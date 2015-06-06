@@ -8,4 +8,5 @@ block content
 			li
 				h2= news.name
 				i= news.info
-				p= news.body
+				p!= news.body_md
+				p !{news.body.replace(/\n/g, '<br/>')}

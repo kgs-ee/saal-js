@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var request = require('request')
-
+var md = require("node-markdown").Markdown
 
 router.get('/', function(req, res, next) {
 
@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
                     return
                 }
                 item['body'] = JSON.parse(body).result.properties.body.values ? JSON.parse(body).result.properties.body.values[0].value : 'No body'
+                item['body_md'] = md(item['body'])
                 render_data.push(item)
                 proccess_count --
                 if (proccess_count === 0) {
