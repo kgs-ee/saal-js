@@ -32,6 +32,14 @@ router.get('/', function(req, res, next) {
                 render_data.push(item)
                 proccess_count --
                 if (proccess_count === 0) {
+                    var compare = function compare(a, b) {
+                        if (a.info < b.info)
+                            return 1
+                        if (a.info > b.info)
+                            return -1
+                        return 0
+                    }
+                    render_data.sort(compare)
                     // console.log(render_data)
                     res.render("contact", {
                         contact_count: contact_data.count,
