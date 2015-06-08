@@ -102,38 +102,40 @@ router.get('/', function(req, res, next) {
 			return // from getBanners
 		}
 
-		var banner_data = JSON.parse(body)
+		banner_data = JSON.parse(body).result
+
 		var render_data = []
+        var proccess_count = 0
 
-			banner_data.result.forEach(function iterate(item) { 
-				
-				request.get({strictSSL: true, url: entity_url + item.id}, function getSingleBanner(err, response, body) { 
-					if (err) {
-                    	console.log('Err:', err, response)
-                    	return
-                	}
+		banner_data.forEach(function iterate(item){
+			proccess_count ++
+			request.get({strictSSL: true, url: entity_url + item.id}, function getSingleBanner(err, response, body) {
+			    if (err) {
+			        console.log('Err:', err, response)
+			        return
+			    }
 
-                	render_data = JSON.parse(body)
-
-                	//File-ID for URL
-                	console.log(render_data.result.properties.photo.values[0].db_value)
-				})
+			    render_data = JSON.parse(body).result
+			    console.log(render_data.properties.photo.values[0].db_value)
 			})
+		})
 
 		render()
 	})
 
+
 	var render = function render() {
-		if (render_data === undefined) {
+		if (banner_data === undefined) {
 			return
 		}
 		if (event_data === undefined) {
 			return
 		}
+
 		res.render("index", {
 			title: "Esileht",
 			events: event_data,
-			banners: render_data
+			banners: banner_data
 		})
 	}
 })
