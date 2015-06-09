@@ -117,10 +117,11 @@ router.get('/', function(req, res, next) {
 
 			    render_data = JSON.parse(body).result
 			    console.log(render_data.properties.photo.values[0].db_value)
+
+			    render()
+
 			})
 		})
-
-		render()
 	})
 
 
@@ -131,11 +132,15 @@ router.get('/', function(req, res, next) {
 		if (event_data === undefined) {
 			return
 		}
+		if (render_data === undefined) {
+			return
+		}
 
 		res.render("index", {
 			title: "Esileht",
 			events: event_data,
-			banners: banner_data
+			other: banner_data,
+			banners: render_data
 		})
 	}
 })

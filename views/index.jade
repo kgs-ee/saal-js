@@ -6,10 +6,3 @@ block content
 		each event in events
 			li
 				a(href='event?id=' + event.id) #{event.name}
-
-
-	ul
-		each banner in banners
-			li
-				a(href=banner.table[1])
-					img(src='https://saal.entu.ee/api2/entity-' + banner.id + '/picture')
