@@ -29,3 +29,6 @@ node_modules
 # Files
 www.saal.ee.sublime-project
 www.saal.ee.sublime-workspace
+
+# Other temporary stuff
+temp/*

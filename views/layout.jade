@@ -1,15 +1,68 @@
 doctype html
 html
-	head
-		title= title
-		link(rel='stylesheet', href='/stylesheets/style.css')
-	body
+    head
+        title= (title && title !== 'Saal') ? title + ' - Saal' : 'Saal'
+        link(rel='stylesheet', type='text/css', href='https://fonts.googleapis.com/css?family=Raleway')
+        link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+        link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+        link(rel='icon', type='image/png', href='/images/kgs-logo.png')
 
-		ul
-			li
-				a(href="/") Esileht/tuleb logo
-			li
-				a(href="/events") Programm
-			li
-				a(href="/contact") Kontakt	
-	block content
+        script(src='https://code.jquery.com/jquery-2.1.4.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
+    body
+        #wrap
+            #main
+                nav.navbar.navbar-default
+                    .container
+                        .navbar-header
+                            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                                span.sr-only Toggle navigation
+                                span.icon-bar
+                                span.icon-bar
+                                span.icon-bar
+                            if title
+                                a.navbar-brand.hidden-xs(href='/')
+                                    img(src='/images/kgs-logo-text-hr.png', alt='Saal logo', style='height:100%')
+                        .collapse.navbar-collapse(id='bs-example-navbar-collapse-1')
+                            ul.nav.navbar-nav.navbar-right
+                                li
+                                    a(href='/profiles') Profiles
+                                li
+                                    a(href='/partners') Partners
+                                li
+                                    a(href='/team') Team
+                                li
+                                    a(href='/terms') Terms
+
+                .container
+                    a.row(href='/')
+                        if title
+                            img.visible-xs.col-xs-4.col-xs-offset-4(src='/images/kgs-logo-text.png', alt='Kanuti Gildi Saali logo')
+                        else
+                            img.col-xs-4.col-sm-4.col-md-2.col-xs-offset-4.col-sm-offset-4.col-md-offset-5(src='/images/kgs-logo-text.png', alt='Kanuti Gildi Saali logo')
+
+                    .row
+                        h1.col-xs-12.text-center
+                            span.col-xs-12= pretitle
+                            | #{title}
+
+                .container
+                    block content
+
+        footer.container
+            .row
+                .col-xs-12
+                    hr
+            .row
+                .col-xs-12.text-center
+                    a(href='https://www.facebook.com/KanutiGildiSAAL', target='_blank')
+                        i.fa.fa-facebook-square.social(style='color:#3b5998')
+                    a(href='https://www.twitter.com/kanutigildisaal', target='_blank')
+                        i.fa.fa-twitter-square.social(style='color:#00aced')
+                    a(href='http://www.pikore.com/location/352123', target='_blank')
+                        i.fa.fa-pikore.social(style='color:#517fa4')
+                    a(href='https://www.tumblr.com/search/kanuti%20gildi%20saal', target='_blank')
+                        i.fa.fa-tumblr-square.social(style='color:#32506d')
+                    a(href='https://www.youtube.com/channel/UCYSZa3J4t_EAIdhlxEuEhVA', target='_blank')
+                        i.fa.fa-youtube-square.social(style='color:#bb0000')

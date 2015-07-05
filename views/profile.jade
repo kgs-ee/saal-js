@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    .row
+        if profile.about.video
+            iframe.col-xs-12(src='https://fast.wistia.net/embed/iframe/' + profile.about.video + '?videoFoam=true', allowtransparency='true', frameborder='0', scrolling='no', class='wistia_embed', name='wistia_embed', allowfullscreen, mozallowfullscreen, webkitallowfullscreen, oallowfullscreen, msallowfullscreen)
+
+            script(src='https://fast.wistia.net/assets/external/E-v1.js')
+            //- .col-xs-12
+            //-     .wistia_embed(id='wistia_' + profile.about.video)
+            //- script(charset='ISO-8859-1' src='https://fast.wistia.com/assets/external/E-v1.js')
+            //- script wistiaEmbed = Wistia.embed('#{profile.about.video}', {videoFoam: true});
+
+        else if profile.about.photo
+            img.col-xs-12(src='https://saal.entu.ee/api2/file-' + profile.about.photo, alt=profile.forename)
+    .row
+        .col-xs-12
+            ul.nav.nav-pills.nav-justified
+                li(style='background-color:#f14d3e')
+                    a(href='')= profile.forename
+                li(style='background-color:#55938e')
+                    a(href='') Aitan sind
+                li(style='background-color:#fab235')
+                    a(href='') Aita mind
+    .row
+        .col-xs-12!= md(profile.about.text)

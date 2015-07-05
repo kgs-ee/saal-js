@@ -1,0 +1,28 @@
+[Unit]
+Description=Kanuti Gildi Saal webpage
+After=etcd.service
+After=docker.service
+
+[Service]
+TimeoutStartSec=0
+KillMode=none
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker kill saal
+ExecStartPre=-/usr/bin/docker rm saal
+ExecStartPre=/usr/bin/docker pull argoroots/saal:latest
+ExecStart=/usr/bin/docker run \
+          --name="saal" \
+          --env="PORT=4000" \
+          --env="NEW_RELIC_APP_NAME=saal" \
+          --env="NEW_RELIC_LICENSE_KEY=" \
+          --env="NEW_RELIC_LOG=stdout" \
+          --env="NEW_RELIC_LOG_LEVEL=error" \
+          --env="NEW_RELIC_NO_CONFIG_FILE=true" \
+          --volume="/data/saal/log:/usr/src/saal/log" \
+          --publish="80:4000" \
+          argoroots/saal
+ExecStop=/usr/bin/docker stop saal
+
+[X-Fleet]
+Conflicts=saal*
+MachineMetadata=public_ip=188.166.9.145

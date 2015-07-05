@@ -1,12 +1,1 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
-.unactive {
-	text-decoration: line-through;
-}
+html{height:100%}body{height:100%;color:#585858;font-family:'Raleway',sans-serif;font-size:16px;letter-spacing:1px}#wrap{min-height:100%}#main{overflow:auto;padding-bottom:195px;}.navbar{min-height:100px;background:none;border:none;}.navbar .navbar-header{min-height:100px;}.navbar .navbar-header img{height:70px !important}.navbar .navbar-collapse{border:none}.navbar .navbar-nav li a{padding-top:0;padding-bottom:0;line-height:100px}@media (max-width 767px){.navbar{min-height:50px;}.navbar .navbar-nav li a{line-height:20px;padding-top:10px;padding-bottom:10px;line-height:50px}}footer{position:relative;margin-top:-130px;height:130px;clear:both;padding-top:20px}a{color:#cd5c5c;text-decoration:underline;}a:hover{color:#cd5c5c;text-decoration:none}h1{margin-top:0;color:#55938e;font-size:64px;line-height:64px;font-weight:normal;height:auto;letter-spacing:-3px;}h1 span{font-size:32px;line-height:32px;font-weight:normal;height:auto;letter-spacing:0}h2{color:#55938e;font-size:32px;font-weight:normal;height:auto;letter-spacing:0}pre{padding:0;background:none;border:none}.jumbotron{background:none}#search{margin-top:40px;margin-bottom:80px;}#search .form-group{border-bottom:solid 1px #55938e}#search label{padding:0;z-index:10;}#search label i{color:#55938e;font-size:25px}#search input{margin-bottom:5px;padding:0;color:#55938e;border:none;outline:none;font-weight:normal}ul.nav-pills{margin-bottom:50px;}ul.nav-pills li a{padding-top:25px;padding-bottom:25px;color:#fff;font-size:20px;text-decoration:none;}ul.nav-pills li a:hover,ul.nav-pills li a:active,ul.nav-pills li a:focus{padding-top:22px;background:none !important;border-top:solid 3px #fff;border-radius:0;color:#fff;text-decoration:none}.spacer{height:100px}i.social{font-size:40px;margin:5px}

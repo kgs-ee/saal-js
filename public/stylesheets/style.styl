@@ -1,0 +1,178 @@
+header-height = 100px
+header-height-xs = 50px
+footer-height = 130px
+
+
+
+html
+    height 100%
+
+
+
+body
+    height 100%
+    color #585858
+    font-family 'Raleway', sans-serif
+    font-size 16px
+    letter-spacing 1px
+
+
+
+#wrap
+    min-height 100%
+
+
+
+#main
+    overflow auto
+    padding-bottom footer-height * 1.5 /* this needs to be bigger than footer height*/
+
+
+
+.navbar
+    min-height header-height
+    background none
+    border none
+
+    .navbar-header
+        min-height header-height
+
+        img
+            height header-height - 30px !important
+
+    .navbar-collapse
+        border none
+
+    .navbar-nav
+        li
+            a
+                padding-top 0px
+                padding-bottom 0px
+                line-height header-height
+
+
+
+@media (max-width 767px)
+    .navbar
+        min-height header-height-xs
+
+        .navbar-nav
+            li
+                a
+                    line-height 20px
+                    padding-top 10px
+                    padding-bottom 10px
+                    line-height header-height-xs
+
+
+
+footer
+    position relative
+    margin-top footer-height * -1 /* negative value of footer height */
+    height footer-height
+    clear both
+    padding-top 20px
+
+
+
+a
+    color #cd5c5c
+    text-decoration underline
+
+    &:hover
+        color #cd5c5c
+        text-decoration none
+
+
+
+h1
+    margin-top 0px
+    color #55938e
+    font-size 64px
+    line-height 64px
+    font-weight normal
+    height auto
+    letter-spacing -3px
+
+    span
+        font-size 32px
+        line-height 32px
+        font-weight normal
+        height auto
+        letter-spacing 0px
+
+
+
+h2
+    color #55938e
+    font-size 32px
+    font-weight normal
+    height auto
+    letter-spacing 0px
+
+
+pre
+    padding 0px
+    background none
+    border none
+
+
+.jumbotron
+    background none
+
+
+
+#search
+    margin-top 40px
+    margin-bottom 80px
+
+    .form-group
+        border-bottom solid 1px #55938e
+
+    label
+        padding 0px
+        z-index 10
+
+        i
+            color #55938e
+            font-size 25px
+
+    input
+        margin-bottom 5px
+        padding 0px
+        color #55938e
+        border none
+        outline none
+        font-weight normal
+
+
+
+ul.nav-pills
+    margin-bottom 50px
+
+    li
+        a
+            padding-top 25px
+            padding-bottom 25px
+            color #ffffff
+            font-size 20px
+            text-decoration none
+
+            &:hover, &:active, &:focus
+                padding-top 22px
+                background none !important
+                border-top solid 3px #ffffff
+                border-radius 0px
+                color #ffffff
+                text-decoration none
+
+
+
+.spacer
+    height 100px
+
+
+
+i.social
+    font-size 40px
+    margin 5px

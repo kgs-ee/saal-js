@@ -1,8 +1,11 @@
 extends layout
 
 block content
+    .row.jumbotron
+        p.col-xs-12.text-center Kanuti Gildi Saali soov on
+        p.col-xs-12.text-center pakkuda lava uutele tegijatele
+        p.col-xs-12.text-center ja vanadele olijatele.
 
-	ul
-		each event in events
-			li
-				a(href='event?id=' + event.id) #{event.name}
+    .row.jumbotron
+        p.col-xs-12.text-center
+            a(href='/profiles') Tule, teeme seda koos!
