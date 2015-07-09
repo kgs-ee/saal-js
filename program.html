@@ -36,14 +36,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/i18n/jquery-ui-i18n.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBciYurCY83KDZCbKeXpxOaHhD7DvK7Y1c"></script>
     
     <!-- build:js javascripts/compiled.min.js -->
     <script src="javascripts/bootstrap/bootstrap.js"></script>
     <script src="javascripts/jquery.shorten/jquery.shorten.js"></script>
     <script src="javascripts/fancybox2/source/jquery.fancybox.pack.js"></script>
-    <script src="javascripts/gradientmaps/gradientmaps.min.js"></script>
     <script src="javascripts/scripts.js"></script>
     <!-- /build -->
 
@@ -97,286 +95,271 @@
 
     <div class="container-fluid">
 
-        <!-- .event-banners -->
-        <div class="row">            
-            <section id="front-carousel" class="event-banner carousel slide" data-ride="carousel">
-                <div class="carousel-inner" role="listbox">
-                    <a class="item active" href="single-event.html">
-                        <figure id="slide-01" style="background-image: url(images/testimage_landscape_full.jpg);"></figure>
-                        <header class="col-md-8">
-                            <p>Eesti Kunstiakadeemia arhitektuuriteaduskonna avatud loengute sari</p> 
-                            <h1>HENRI HÜTT & TAAVET JANSEN: Kaota mu naine ära, ehk mis tunne on olla mustkunstnik</h1>
-                        </header>
-                        <ul class="event-categories">
-                            <li class="text-uppercase h3"><span>Teater</span></li>
-                            <li class="text-uppercase h3 unactive"><span>Tants</span></li>
-                            <li class="text-uppercase h3"><span>Performance</span></li>
-                            <li class="text-uppercase h3 unactive"><span>Muusika</span></li>
-                            <li class="text-uppercase h3 unactive"><span>Loeng</span></li>
-                            <li class="text-uppercase h3"><span>Film</span></li>
-                            <li class="text-uppercase h3"><span>Uus Tsirkus</span></li>
-                        </ul>
-                    </a>
-
-                    <a class="item" href="single-event.html">
-                        <figure id="slide-02" style="background-image: url(images/testimage_portrait_full.jpg);"></figure>
-                        <header class="col-md-8">
-                            <p>Eesti Kunstiakadeemia arhitektuuriteaduskonna avatud loengute sari</p> 
-                            <h1>HENRI HÜTT & TAAVET JANSEN: Kaota mu naine ära, ehk mis tunne on olla mustkunstnik</h1>
-                        </header>
-                        <ul class="event-categories">
-                            <li class="text-uppercase h3"><span>Teater</span></li>
-                            <li class="text-uppercase h3 unactive"><span>Tants</span></li>
-                            <li class="text-uppercase h3"><span>Performance</span></li>
-                            <li class="text-uppercase h3 unactive"><span>Muusika</span></li>
-                            <li class="text-uppercase h3 unactive"><span>Loeng</span></li>
-                            <li class="text-uppercase h3"><span>Film</span></li>
-                            <li class="text-uppercase h3"><span>Uus Tsirkus</span></li>
-                        </ul>
-                    </a>
-                </div>
-                <!-- Controls -->
-                <a class="left carousel-control" href="#front-carousel" role="button" data-slide="prev">
-                  <span class="icon-prev arrow-left" aria-hidden="true"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" href="#front-carousel" role="button" data-slide="next">
-                  <span class="icon-next arrow-right" aria-hidden="true"></span>
-                  <span class="sr-only">Next</span>
-                </a>
-            </section>
-        </div>
-        <!-- /.event-banners -->
-
         <div class="row page-margin">
-            <section class="col-xs-12 col-md-12 col-lg-9">
-                <!-- .programme -->
+
+            <!-- .event-categories -->
+            <div class="col-xs-6 col-md-1">
+                <div class="select-drop btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Aasta <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">2015</a></li>
+                    <li><a href="#">2014</a></li>
+                    <li><a href="#">2013</a></li>
+                    <li><a href="#">2012</a></li>
+                    <li><a href="#">2011</a></li>
+                    <li><a href="#">2010</a></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-11">
+                <!-- <div class="select-cat text-uppercase" data-toggle="buttons">
+                    <label class="btn active">
+                        <input type="checkbox" autocomplete="off" checked>Teater <span class="icon-checkmark2"></span>
+                    </label>
+                    <label class="btn">
+                        <input type="checkbox" autocomplete="off">Tants <span class="icon-checkmark2"></span> 
+                    </label>
+                    <label class="btn active">
+                        <input type="checkbox" autocomplete="off" checked>Performance <span class="icon-checkmark2"></span>
+                    </label>
+                    <label class="btn active">
+                        <input type="checkbox" autocomplete="off" checked>Muusika <span class="icon-checkmark2"></span>
+                    </label>
+                    <label class="btn active">
+                        <input type="checkbox" autocomplete="off" checked>Loeng <span class="icon-checkmark2"></span>
+                    </label>
+                    <label class="btn">
+                        <input type="checkbox" autocomplete="off">Film <span class="icon-checkmark2"></span>
+                    </label>
+                    <label class="btn">
+                        <input type="checkbox" autocomplete="off">Uus tsirkus <span class="icon-checkmark2"></span>
+                    </label>
+                </div> -->
+                
+                <div class="button-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Kategooria <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-value="option1" tabIndex="-1"><input type="checkbox"/>&nbsp;Teater</a></li>
+                        <li><a href="#" data-value="option2" tabIndex="-1"><input type="checkbox"/>&nbsp;Tants</a></li>
+                        <li><a href="#" data-value="option3" tabIndex="-1"><input type="checkbox"/>&nbsp;Performance</a></li>
+                        <li><a href="#" data-value="option4" tabIndex="-1"><input type="checkbox"/>&nbsp;Muusika</a></li>
+                        <li><a href="#" data-value="option5" tabIndex="-1"><input type="checkbox"/>&nbsp;Loeng</a></li>
+                        <li><a href="#" data-value="option6" tabIndex="-1"><input type="checkbox"/>&nbsp;Film</a></li>
+                        <li><a href="#" data-value="option7" tabIndex="-1"><input type="checkbox"/>&nbsp;Uus Tsirkus</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.event-categories -->
+
+            <section class="col-xs-12 col-md-12">
+                <!-- .programme april -->
                 <div class="programme row">
-                    <div class="col-xs-12 col-md-12 col-lg-12">
-                        <h2>Programm</h2>
+                    <div class="col-md-12">
+                        <h2>Aprill 2015</h2>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                    <div class="col-xs-12 col-md-2">
                         <p>Laupäev</p>
                         <p>24.01.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-md-6">
                         <h3><a href="single-event.html">RESIDENDID Püha Vaimu SAALis JAANUAR 2015: HENRI HÜTT & TAAVET JANSEN SHOWING: LIIS VARES</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
+                    <div class="col-xs-6 col-md-2">
                         <p>Kanuti Gildi Saal</p>
                         <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
+                    <div class="col-xs-6 col-md-2 text-right">
                         <a class="btn btn-primary" href="#">Osta pilet</a>
                     </div>
-                    <div class="col-xs-12 col-md-12 col-lg-12">
+                    <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                    <div class="col-xs-12 col-md-2">
                         <p>Esmaspäev</p>
                         <p>01.01.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-md-6">
                         <h3><a href="single-event.html">PAAVO PIIK, PAUL PIIK, HENRIK KALMET / KINOTEATER "Kaota mu naine ära ehk mis tunne on olla mustkunstnik"</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
+                    <div class="col-xs-6 col-md-2">
                         <p>Kanuti Gildi Saal</p>
                         <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
+                    <div class="col-xs-6 col-md-2 text-right">
                         <a class="btn btn-primary" href="#">Osta pilet</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                    <div class="col-xs-12 col-md-2">
                         <p>Reede</p>
                         <p>30.06.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-md-6">
                         <h3><a href="single-event.html">KINOTEATRI RETROSPEKTIIV</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
+                    <div class="col-xs-6 col-md-2">
                         <p>Kanuti Gildi Saal</p>
                         <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
+                    <div class="col-xs-6 col-md-2 text-right">
                         <a class="btn btn-primary disabled" href="#">Välja müüdud</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                    <div class="col-xs-12 col-md-2">
                         <p>Reede</p>
                         <p>30.06.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-md-6">
                         <h3><a href="single-event.html">KINOTEATRI RETROSPEKTIIV</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
+                    <div class="col-xs-6 col-md-2">
                         <p>Kanuti Gildi Saal</p>
                         <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
+                    <div class="col-xs-6 col-md-2 text-right">
                         <a class="btn btn-primary disabled" href="#">Välja müüdud</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                    <div class="col-xs-12 col-md-2">
                         <p>Reede</p>
                         <p>30.06.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-md-6">
                         <h3><a href="single-event.html">KINOTEATRI RETROSPEKTIIV</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
+                    <div class="col-xs-6 col-md-2">
                         <p>Kanuti Gildi Saal</p>
                         <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
+                    <div class="col-xs-6 col-md-2 text-right">
                         <a class="btn btn-primary disabled" href="#">Välja müüdud</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
-                    </div>
-
-                    <div class="col-xs-12 col-md-12">
-                        <a class="load-more btn btn-primary" href="#">Lae veel</a>
                     </div>
                 </div>
-                <!-- /.programme -->
+                <!-- /.programme april -->
 
-                <!-- .tour -->
-                <div class="tour row">
-                    <div class="col-xs-12 col-md-12">
-                        <h2>Tuur</h2>
+                <!-- .programme may -->
+                <div class="programme row">
+                    <div class="col-md-12">
+                        <h2>Mai 2015</h2>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                    <div class="col-xs-12 col-md-2">
                         <p>Laupäev</p>
                         <p>24.01.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
-                        <h3><a href="single-event.html">IMPROTEST: Eksperimentaalne vokaaltrio AtgRuioFallA (Laura Remmel/Ivi Rausi/Roomet Jakapi)</a></h3>
+                    <div class="col-xs-12 col-md-6">
+                        <h3><a href="single-event.html">RESIDENDID Püha Vaimu SAALis JAANUAR 2015: HENRI HÜTT & TAAVET JANSEN SHOWING: LIIS VARES</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
-                        <p>Kaaistudio's</p>
+                    <div class="col-xs-6 col-md-2">
+                        <p>Kanuti Gildi Saal</p>
+                        <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
-                        <p>Brüssel, Belgia</p>
+                    <div class="col-xs-6 col-md-2 text-right">
+                        <a class="btn btn-primary" href="#">Osta pilet</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                    <div class="col-xs-12 col-md-2">
+                        <p>Esmaspäev</p>
+                        <p>01.01.2015</p>
+                        <p>19:30</p>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <h3><a href="single-event.html">PAAVO PIIK, PAUL PIIK, HENRIK KALMET / KINOTEATER "Kaota mu naine ära ehk mis tunne on olla mustkunstnik"</a></h3>
+                    </div>
+                    <div class="col-xs-6 col-md-2">
+                        <p>Kanuti Gildi Saal</p>
+                        <p>11/15EUR</p>
+                    </div>
+                    <div class="col-xs-6 col-md-2 text-right">
+                        <a class="btn btn-primary" href="#">Osta pilet</a>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                        <hr>
+                    </div>
+
+                    <div class="col-xs-12 col-md-2">
                         <p>Reede</p>
-                        <p>12.12.2015</p>
+                        <p>30.06.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
-                        <h3><a href="single-event.html">Eesti Kunstiakadeemia arhitektuuriteaduskonna avatud loengute sari: KUNLÉ ADEYEMI / NLÉ / Amsterdam - Lagos</a></h3>
+                    <div class="col-xs-12 col-md-6">
+                        <h3><a href="single-event.html">KINOTEATRI RETROSPEKTIIV</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
-                        <p>PACT Zollverein</p>
+                    <div class="col-xs-6 col-md-2">
+                        <p>Kanuti Gildi Saal</p>
+                        <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
-                        <p>Brüssel, Belgia</p>
+                    <div class="col-xs-6 col-md-2 text-right">
+                        <a class="btn btn-primary disabled" href="#">Välja müüdud</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
 
-                    <div class="col-xs-12 col-sm-2 col-lg-2">
-                        <p>Teisipäev</p>
-                        <p>01.05.2015</p>
+                    <div class="col-xs-12 col-md-2">
+                        <p>Reede</p>
+                        <p>30.06.2015</p>
                         <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-6">
-                        <h3><a href="single-event.html">Eesti Tsirkuse Festival: EKSPERIMENTAALSE LIIKUMISE KESKUS / Lack of Art</a></h3>
+                    <div class="col-xs-12 col-md-6">
+                        <h3><a href="single-event.html">KINOTEATRI RETROSPEKTIIV</a></h3>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2">
-                        <p>BIT-Teatergarasjen</p>
+                    <div class="col-xs-6 col-md-2">
+                        <p>Kanuti Gildi Saal</p>
+                        <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-6 col-md-2 col-lg-2 text-right">
-                        <p>Bergen, Saksamaa</p>
+                    <div class="col-xs-6 col-md-2 text-right">
+                        <a class="btn btn-primary disabled" href="#">Välja müüdud</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
 
-                    <div class="col-xs-12 col-md-12">
-                        <a class="load-more btn btn-primary" href="#">Lae veel</a>
-                    </div>
-                </div>
-                <!-- /.tour -->
-
-                <!-- .residency -->
-                <div class="tour row">
-                    <div class="col-xs-12 col-md-12">
-                        <h2>Residentuur</h2>
-                    </div>
-
                     <div class="col-xs-12 col-md-2">
-                        <p>01.01—31.01.2015</p>
+                        <p>Reede</p>
+                        <p>30.06.2015</p>
+                        <p>19:30</p>
                     </div>
-                    <div class="col-xs-12 col-md-10">
-                        <h3><a href="single-event.html">Henri Hütt & Taavet Jansen</a></h3>
+                    <div class="col-xs-12 col-md-6">
+                        <h3><a href="single-event.html">KINOTEATRI RETROSPEKTIIV</a></h3>
                     </div>
-                    <div class="col-xs-12 col-md-12">
-                        <hr>
+                    <div class="col-xs-6 col-md-2">
+                        <p>Kanuti Gildi Saal</p>
+                        <p>11/15EUR</p>
                     </div>
-                    <div class="col-xs-12 col-md-2">
-                        <p>01.01—31.01.2015</p>
-                    </div>
-                    <div class="col-xs-12 col-md-10">
-                        <h3><a href="single-event.html">Veronika Vallimäe</a></h3>
-                    </div>
-                    <div class="col-xs-12 col-md-12">
-                        <hr>
-                    </div>
-                    <div class="col-xs-12 col-md-2">
-                        <p>01.01—31.01.2015</p>
-                    </div>
-                    <div class="col-xs-12 col-md-10">
-                        <h3><a href="single-event.html">Alissa Šneider</a></h3>
+                    <div class="col-xs-6 col-md-2 text-right">
+                        <a class="btn btn-primary disabled" href="#">Välja müüdud</a>
                     </div>
                     <div class="col-xs-12 col-md-12">
                         <hr>
                     </div>
                 </div>
-                <!-- /.residency -->
-            </section>
-
-            <aside class="col-xs-12 col-md-12 col-lg-3">
-                <div class="row">
-                    <div id="datepicker" class="hidden-xs col-md-4"></div>
-
-                    <div class="col-xs-12 col-md-4 col-lg-12 voulenteer">
-                        <a href="mailto:vabatahtlik@saal.ee" class="text-center h2">Tule<br>vabatahtlikuks!</a>
-                    </div>
-                    
-                    <form class="form-inline col-md-4 col-lg-12 newsletter">
-                        <div class="form-group">
-                            <label class="sr-only" for="exampleInputEmail2">Liitu uudiskirjaga</label>
-                            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Liitu uudiskirjaga">
-                        </div>
-                        <button type="submit" class="btn btn-default">OK!</button>
-                    </form>
-                </div>
-            </aside>
+                <!-- /.programme may -->
+            </section> 
         </div>
 
         <footer class="row">
@@ -397,15 +380,6 @@
         </footer>
 
     </div>
-
-    <script>
-    var target1 = document.getElementById('slide-01');
-    var target2 = document.getElementById('slide-02');
-    var gradientMap = "#0A2A6B, #A62720";
-
-    GradientMaps.applyGradientMap(target1, gradientMap);
-    GradientMaps.applyGradientMap(target2, gradientMap);
-    </script>
 
 </body>
 </html>
