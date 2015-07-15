@@ -140,7 +140,7 @@ var arrEvents = {};
 var currentTitle = "";
 
   
-  $.getJSON('http://localhost/08_HTML_Kavandid/javascripts/campo-json.json', function(response){
+  $.getJSON('http://kgs-ee.github.io/saal-js/javascripts/campo-json.json', function(response){
 
     for (var key in response) {
       //console.log(key);
