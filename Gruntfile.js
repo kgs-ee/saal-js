@@ -15,6 +15,7 @@ module.exports = function(grunt) {
         ignore: [
         /ui-datepicker/,
         '.badge',
+        'svg',
         'td[title="Available"]',
         '.collapsed',
         '.collasing',
