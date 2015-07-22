@@ -13,7 +13,8 @@ module.exports = function(grunt) {
     dist: {
       options: {
         ignore: [
-        /datepicker/,
+        /ui-datepicker/,
+        '.badge',
         'td[title="Available"]',
         '.collapsed',
         '.collasing',
