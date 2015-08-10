@@ -1,7 +1,6 @@
 FROM node:slim
 
-ADD ./ /usr/src/saal
-RUN cd /usr/src/saal && npm install
+ADD ./ /usr/src/wwwentu
+RUN cd /usr/src/wwwentu && npm install
 
-EXPOSE  3000
-CMD ["node", "/usr/src/saal/app.js"]
+CMD ["node", "/usr/src/wwwentu/app.js"]

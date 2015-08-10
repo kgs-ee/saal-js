@@ -1,0 +1,14 @@
+extends layout
+
+block vars
+    - title='Partners'
+
+block content
+    .container
+        each p, i in partners
+            .row.text-center
+                a(href=p.get('url.value'), target='_blank')
+                    img.col-xs-6.col-sm-4.col-md-2.col-xs-offset-3.col-sm-offset-4.col-md-offset-5(src=p.get('photo.file'), alt=p.get('name.value'), style='margin-bottom:20px')
+                h3.col-xs-12= p.get('name.value')
+                p.col-xs-12= p.get('note.value')
+            .spacer

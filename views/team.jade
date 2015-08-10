@@ -1,0 +1,19 @@
+extends layout
+
+block vars
+    - title='Our team'
+
+block content
+    .container
+        each p, i in team.sort(function(obj1, obj2) { return obj1.get('forename.value') + obj1.get('surname.value') > obj2.get('forename.value') + obj2.get('surname.value') })
+            .row
+                img.col-xs-3.col-sm-3.col-md-2.img-circle(src=p.get('_picture'), alt=p.get('forename.value'), class=(i % 2 == 0) ? 'pull-left' : 'pull-right', style='margin-bottom:20px')
+                .col-xs-12.col-md-8(class=(i % 2 == 0) ? '' : 'text-right col-md-offset-2')
+                    h3= p.get('forename.value') + ' ' + p.get('surname.value')
+                    if p.has('about-me-text')
+                        .text-justify!= p.get('about-me-text.md')
+                    p
+                        a(href='mailto:'+p.get('email.value'))= p.get('email.value')
+                    p
+                        a(href='tel:'+p.get('phone.value'))= p.get('phone.value')
+            .row.spacer

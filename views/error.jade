@@ -1,5 +1,9 @@
 extends layout
 
+block vars
+    - title='Error'
+
 block content
-    h2= message
-    pre #{error.stack}
+    .container
+        h2= message
+        pre #{error.stack}

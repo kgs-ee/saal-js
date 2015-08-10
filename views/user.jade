@@ -1,0 +1,49 @@
+extends layout
+
+block vars
+
+block content
+    .container
+        .row
+            .col-xs-12
+                ul.nav.nav-pills.nav-justified
+                    if profile.has('me-help-you-video') || profile.has('me-help-you-photo') || profile.has('me-help-you-text') || profile.has('you-help-me-video') || profile.has('you-help-me-photo') || profile.has('you-help-me-text')
+                        li.active(style='background-color:#f14d3e')
+                            a(href='#tab-about', data-toggle='tab') About #{profile.get('forename.value', 'me')}
+                    if profile.has('me-help-you-video') || profile.has('me-help-you-photo') || profile.has('me-help-you-text')
+                        li(style='background-color:#55938e')
+                            a(href='#tab-me-help', data-toggle='tab') I help you
+                    if profile.has('you-help-me-video') || profile.has('you-help-me-photo') || profile.has('you-help-me-text')
+                        li(style='background-color:#fab235')
+                            a(href='#tab-you-help', data-toggle='tab') You help me
+        .row.tab-content
+            #tab-about.tab-pane.active
+                if profile.has('about-me-video')
+                    .embed-responsive.embed-responsive-16by9
+                        iframe.embed-responsive-item.col-xs-12(src=media_embed(profile.get('about-me-video.value')), allowtransparency='true', frameborder='0', scrolling='no', allowfullscreen, mozallowfullscreen, webkitallowfullscreen, oallowfullscreen, msallowfullscreen)
+                else if profile.has('about-me-photo')
+                    .col-xs-12
+                        .profile-photo(style='background-image: url(' + profile.get('about-me-photo.file') + ')')
+                .spacer.col-xs-12
+                .col-xs-12.text-justify!= profile.get('about-me-text.md')
+
+            #tab-me-help.tab-pane
+                if profile.has('me-help-you-video')
+                    .embed-responsive.embed-responsive-16by9
+                        iframe.embed-responsive-item.col-xs-12(src=media_embed(profile.get('me-help-you-video.value')), allowtransparency='true', frameborder='0', scrolling='no', allowfullscreen, mozallowfullscreen, webkitallowfullscreen, oallowfullscreen, msallowfullscreen)
+                else if profile.has('me-help-you-photo')
+                    .col-xs-12
+                        .profile-photo(style='background-image: url(' + profile.get('me-help-you-photo.file') + ')')
+                .spacer.col-xs-12
+                .col-xs-12.text-justify!= profile.get('me-help-you-text.md')
+
+            #tab-you-help.tab-pane
+                if profile.has('you-help-me-video')
+                    .embed-responsive.embed-responsive-16by9
+                        iframe.embed-responsive-item.col-xs-12(src=media_embed(profile.get('you-help-me-video.value')), allowtransparency='true', frameborder='0', scrolling='no', allowfullscreen, mozallowfullscreen, webkitallowfullscreen, oallowfullscreen, msallowfullscreen)
+                else if profile.has('you-help-me-photo')
+                    .col-xs-12
+                        .profile-photo(style='background-image: url(' + profile.get('you-help-me-photo.file') + ')')
+                .spacer.col-xs-12
+                .col-xs-12.text-justify!= profile.get('you-help-me-text.md')
+        .row.spacer

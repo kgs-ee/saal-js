@@ -1,19 +1,43 @@
 doctype html
 html
+
+    block vars
+
     head
-        title= (title && title !== 'Saal') ? title + ' - Saal' : 'Saal'
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1, width=device-width, minimal-ui')
+        if description
+            meta(name='description', content=description)
+        if keywords
+            meta(name='keywords', content=keywords.join(', '))
+
+        title= (title && title !== 'Kanuti Gildi Saal') ? title + ' - Kanuti Gildi Saal' : 'Kanuti Gildi Saal'
+
         link(rel='stylesheet', type='text/css', href='https://fonts.googleapis.com/css?family=Raleway')
         link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
         link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
         link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
-        link(rel='icon', type='image/png', href='/images/kgs-logo.png')
+
+        link(rel='icon', type='image/png', href='/images/logo.png')
+        link(rel='apple-touch-icon', type='image/png', href='/images/logo.png')
+
+        script.
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-xxxxxx-xx', 'auto');
+            ga('send', 'pageview');
 
         script(src='https://code.jquery.com/jquery-2.1.4.min.js')
         script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
+        script(src='/javascripts/date-et-EE.js')
     body
         #wrap
             #main
-                nav.navbar.navbar-default
+                nav.navbar.navbar-default.navbar-fixed-top
                     .container
                         .navbar-header
                             button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
@@ -21,48 +45,75 @@ html
                                 span.icon-bar
                                 span.icon-bar
                                 span.icon-bar
-                            if title
-                                a.navbar-brand.hidden-xs(href='/')
-                                    img(src='/images/kgs-logo-text-hr.png', alt='Saal logo', style='height:100%')
+                            a.navbar-brand(href='/')
+                                img(src='/images/saal_logo.svg', alt='Kanuti Gildi Saal logo')
+                                p= season
                         .collapse.navbar-collapse(id='bs-example-navbar-collapse-1')
                             ul.nav.navbar-nav.navbar-right
-                                li
-                                    a(href='/profiles') Profiles
-                                li
-                                    a(href='/partners') Partners
-                                li
-                                    a(href='/team') Team
-                                li
-                                    a(href='/terms') Terms
+
+                                block navigation
+
+                                if user
+                                    li
+                                        a(href='/users/me') Me
+                                    li
+                                        a(href='/signin/exit') Sign Out
+                                else
+                                    li
+                                        a(href='/signin') Sign In
 
                 .container
-                    a.row(href='/')
-                        if title
-                            img.visible-xs.col-xs-4.col-xs-offset-4(src='/images/kgs-logo-text.png', alt='Kanuti Gildi Saali logo')
-                        else
-                            img.col-xs-4.col-sm-4.col-md-2.col-xs-offset-4.col-sm-offset-4.col-md-offset-5(src='/images/kgs-logo-text.png', alt='Kanuti Gildi Saali logo')
+                    if title
+                        .row
+                            h1.col-xs-12.text-center= title
 
-                    .row
-                        h1.col-xs-12.text-center
-                            span.col-xs-12= pretitle
-                            | #{title}
+                block content
 
-                .container
-                    block content
+        footer.container-fluid
+            .container
+                .row
+                    .col-xs-12.col-sm-6
+                        b WWW-Entu
+                        br
+                        small
+                            | Reg nr: XXXXXXXXXX
+                            br
+                            | Konto: EEXXXXXXXXXXXXXXXXXX
+                            br
+                            | SWIFT/BIC: XXXXXXXX
+                            br
+                            | PANK
+                    .col-xs-12.col-sm-6.text-right
+                        a(href='/team') Team
+                        br
+                        a(href='/partners') Partners
+                        br
+                        a(href='/tos') Terms of Service
+                .row
+                    .col-xs-12.text-center
+                        a(href='https://www.facebook.com/', target='_blank')
+                            i.fa.fa-facebook-square.social(style='color:#3b5998')
+                        a(href='https://www.twitter.com/xxxxxx', target='_blank')
+                            i.fa.fa-twitter-square.social(style='color:#00aced')
+                        a(href='https://xxxxxx.blogspot.com/', target='_blank')
+                            i.fa.fa-rss-square.social(style='color:#f57d00')
+                        a(href='http://www.enjoygram.com/tag/xxxxxx', target='_blank')
+                            i.fa.fa-instagram.social(style='color:#517fa4')
+                        a(href='https://www.linkedin.com/company/xxxxxx', target='_blank')
+                            i.fa.fa-linkedin-square.social(style='color:#007bb6')
+                        a(href='https://www.pinterest.com/xxxxxx/', target='_blank')
+                            i.fa.fa-pinterest-square.social(style='color:#cb2027')
+                        a(href='http://xxxxxx.tumblr.com/', target='_blank')
+                            i.fa.fa-tumblr-square.social(style='color:#32506d')
+                        a(href='https://www.youtube.com/channel/xxxxxx', target='_blank')
+                            i.fa.fa-youtube-square.social(style='color:#bb0000')
 
-        footer.container
-            .row
-                .col-xs-12
-                    hr
-            .row
-                .col-xs-12.text-center
-                    a(href='https://www.facebook.com/KanutiGildiSAAL', target='_blank')
-                        i.fa.fa-facebook-square.social(style='color:#3b5998')
-                    a(href='https://www.twitter.com/kanutigildisaal', target='_blank')
-                        i.fa.fa-twitter-square.social(style='color:#00aced')
-                    a(href='http://www.pikore.com/location/352123', target='_blank')
-                        i.fa.fa-pikore.social(style='color:#517fa4')
-                    a(href='https://www.tumblr.com/search/kanuti%20gildi%20saal', target='_blank')
-                        i.fa.fa-tumblr-square.social(style='color:#32506d')
-                    a(href='https://www.youtube.com/channel/UCYSZa3J4t_EAIdhlxEuEhVA', target='_blank')
-                        i.fa.fa-youtube-square.social(style='color:#bb0000')
+
+        script.
+            $(window).scroll(function(event) {
+                if($(window).scrollTop() > 10) {
+                    $('.navbar').addClass('navbar-border')
+                } else {
+                    $('.navbar').removeClass('navbar-border')
+                }
+            })

@@ -1,0 +1,25 @@
+extends layout
+
+block vars
+    - title='Sign In'
+
+block content
+    .container
+        .row
+            .jumbotron.col-xs-12.text-center
+                p Please use your preferred identity provider to sign in...
+
+        .row
+            .col-xs-12.text-center
+                a(href='/signin/facebook', title='Facebook')
+                    i.signin.fa.fa-facebook-square(style='color:#3b5998')
+
+                a(href='/signin/google', title='Google')
+                    i.signin.fa.fa-google-plus-square(style='color:#dd4b39')
+
+        .row.spacer
+
+        .row
+            .col-xs-12.text-center
+                p * if you sign in, you accept our&nbsp;
+                    a(href='/terms') terms of service
