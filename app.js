@@ -27,7 +27,7 @@ if (!process.env.WWW_ROOT_EID) throw '"WWW_ROOT_EID" missing in environment'
 APP_ENTU_USER = process.env.ENTU_USER
 APP_ENTU_KEY  = process.env.ENTU_KEY
 
-console.log(process.env)
+// console.log(process.env)
 
 require('./maintenance')
 
@@ -63,7 +63,7 @@ express()
 
     // static files path & favicon
     .use(express.static(path.join(__dirname, 'public')))
-    .use(favicon(path.join(__dirname, 'public', 'images', 'logo.ico')))
+    .use(favicon(path.join(__dirname, 'public', 'images', 'kgs-logo.ico')))
 
     // logging
     .use(logger(':date[iso] | HTTP/:http-version | :method | :status | :url | :res[content-length] b | :response-time ms | :remote-addr | :referrer | :user-agent', {stream: access_log_stream}))

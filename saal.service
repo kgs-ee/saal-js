@@ -1,28 +1,31 @@
 [Unit]
-Description=Kanuti Gildi Saal webpage
+Description=Kanuti Gildi Saal webpage on Entu webpage engine
 After=etcd.service
 After=docker.service
 
 [Service]
 TimeoutStartSec=0
 KillMode=none
+Restart=always
 EnvironmentFile=/etc/environment
-ExecStartPre=-/usr/bin/docker kill saal
-ExecStartPre=-/usr/bin/docker rm saal
-ExecStartPre=/usr/bin/docker pull argoroots/saal:latest
+ExecStartPre=-/usr/bin/docker kill kgswww
+ExecStartPre=-/usr/bin/docker rm kgswww
+ExecStartPre=/usr/bin/docker pull mitselek/saal-js:latest
 ExecStart=/usr/bin/docker run \
-          --name="saal" \
+          --name="kgswww" \
           --env="PORT=4000" \
-          --env="NEW_RELIC_APP_NAME=saal" \
+          --env="NEW_RELIC_APP_NAME=" \
           --env="NEW_RELIC_LICENSE_KEY=" \
           --env="NEW_RELIC_LOG=stdout" \
           --env="NEW_RELIC_LOG_LEVEL=error" \
           --env="NEW_RELIC_NO_CONFIG_FILE=true" \
-          --volume="/data/saal/log:/usr/src/saal/log" \
+          --env="ENTU_USER=" \
+          --env="ENTU_KEY=" \
+          --volume="/data/kgswww/log:/usr/src/kgswww/log" \
           --publish="80:4000" \
-          argoroots/saal
-ExecStop=/usr/bin/docker stop saal
+          argoroots/kgswww
+ExecStop=/usr/bin/docker stop kgswww
 
 [X-Fleet]
-Conflicts=saal*
-MachineMetadata=public_ip=188.166.9.145
+Conflicts=kgswww*
+MachineMetadata=public_ip=

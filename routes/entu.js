@@ -37,11 +37,9 @@ function sign_data(data) {
 exports.get_entity = get_entity
 function get_entity(id, auth_id, auth_token, callback) {
     if(auth_id && auth_token) {
-        debug('auth://' + APP_ENTU_URL + '/entity-' + id)
         var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
         var qs = {}
     } else {
-        debug('sign://' + APP_ENTU_URL + '/entity-' + id)
         var headers = {}
         var qs = sign_data()
     }
