@@ -38,7 +38,7 @@ html
         #wrap
             #main
                 nav.navbar.navbar-default.navbar-fixed-top
-                    .container
+                    .container-fluid
                         .navbar-header
                             button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
                                 span.sr-only Toggle navigation
@@ -51,27 +51,27 @@ html
                         .collapse.navbar-collapse(id='bs-example-navbar-collapse-1')
                             ul.nav.navbar-nav.navbar-right
                                 li
-                                    a(href='/program')= t('nav.program')
+                                    a(href='/' + lang + '/program')= t('nav.program')
                                 li
-                                    a(href='/residency')= t('nav.residency')
+                                    a(href='/' + lang + '/residency')= t('nav.residency')
                                 li
-                                    a(href='/tours')= t('nav.tours')
+                                    a(href='/' + lang + '/tours')= t('nav.tours')
                                 li
-                                    a(href='/projects')= t('nav.projects')
+                                    a(href='/' + lang + '/projects')= t('nav.projects')
                                 li
-                                    a(href='/contact')= t('nav.contact')
+                                    a(href='/' + lang + '/contact')= t('nav.contact')
                                 li
-                                    a(href='/festival/1234') NU Performance
+                                    a(href='/' + lang + '/festival/1234') NU Performance
                                 li
-                                    a(href='/festival/1235') SAAL Bienaal
+                                    a(href='/' + lang + '/festival/1235') SAAL Bienaal
                                 if user
                                     li
-                                        a(href='/users/me') Me
+                                        a(href='/' + lang + '/users/me') Me
                                     li
-                                        a(href='/signin/exit') Sign Out
+                                        a(href='/' + lang + '/signin/exit') Sign Out
                                 else
                                     li
-                                        a(href='/signin') Sign In
+                                        a(href='/' + lang + '/signin') Sign In
 
                 .container
                     if title
@@ -84,7 +84,7 @@ html
             .container
                 .row
                     .col-xs-12.col-sm-6
-                        b WWW-Entu
+                        b= t('.KGS')
                         br
                         small
                             | Reg nr: XXXXXXXXXX
