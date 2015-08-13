@@ -1,0 +1,74 @@
+extends layout
+
+block vars
+    - title='Help ' + help_type + 's'
+
+block content
+    .container
+        if show_add
+            .row
+                .col-xs-12.text-right
+                    a#request-add(href='javascript:void(0)') Add new help #{help_type}
+            form#request-form.hidden
+                .row
+                    .form-group.col-xs-12.col-sm-3
+                        label.control-label(for='time') Date/time
+                        input#time.form-control(type='text')
+
+                    .form-group.col-xs-12.col-sm-3
+                        label.control-label(for='location') Location
+                        input#location.form-control(type='text')
+
+                    .form-group.col-xs-12.col-sm-5
+                        label.control-label(for='request') #{help_type}
+                        input#request.form-control(type='text')
+                    .form-group.col-xs-12.col-sm-1.text-right
+                        label.control-label(for='request') &nbsp;
+                        a#request-save.text-center(href='javascript:void(0)') Save
+
+        .row.spacer
+
+        .table
+            each r, i in requests.sort(function(obj1, obj2) { return obj1.get('time.value') > obj2.get('time.value') })
+                .row
+                    a(href='/users/' + r.get('person.reference'))
+                        img.col-xs-3.col-sm-2.col-md-1.img-circle(src=APP_ENTU_URL + '/entity-' + r.get('person.reference') + '/picture', alt=r.get('person.value'))
+                    .col.col-xs-9.col-sm-3.col-md-3
+                        a(href='/users/' + r.get('person.reference'))= r.get('person.value')
+                        div= r.get('time.value')
+                        div(style='font-style:italic')= r.get('location.value')
+                    .col.col-xs-9.col-sm-7.col-md-8= r.get('request.value')
+
+        .row.spacer
+
+    script.
+        $('input').focus(function() {
+            $("label[for='" + this.id + "']").addClass('labelfocus')
+        }).blur(function() {
+            $('label').removeClass('labelfocus')
+        })
+
+        $('#time').change(function() {
+            var d = Date.parse($(this).val());
+            if(d) $(this).val(d.toString('yyyy-MM-dd HH:mm'))
+        })
+
+        $('#request-add').click(function() {
+            $('#request-add').addClass('hidden')
+            $('#request-form').removeClass('hidden')
+        })
+
+        $('#request-save').click(function() {
+            if($('#request').val()) {
+                var postdata = {
+                    'time': $('#time').val(),
+                    'location': $('#location').val(),
+                    'request': $('#request').val()
+                }
+                $.post('', postdata, function(data) {
+                    window.location.reload(true)
+                }).fail(console.log)
+            } else {
+                $('#request').focus()
+            }
+        })

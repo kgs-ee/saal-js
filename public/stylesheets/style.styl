@@ -1,0 +1,380 @@
+header-height = 100px
+header-height-xs = 50px
+footer-height = 200px
+
+screen-sm-min = 768px
+screen-md-min = 992px
+screen-lg-min = 1200px
+
+
+
+html
+    height 100%
+
+
+
+body
+    height 100%
+    color #585858
+    font-family 'Raleway', sans-serif
+    font-size 16px
+    letter-spacing 1px
+
+
+
+#wrap
+    min-height 100%
+
+
+
+#main
+    overflow auto
+    padding-bottom footer-height /* this needs to be bigger than footer height*/
+
+
+
+.navbar
+    min-height header-height
+    background rgba(255, 255, 255, 0.95)
+    border none
+
+    .navbar-header
+        min-height header-height
+
+        img
+            padding-top 5px
+            height header-height - 35px !important
+
+    .navbar-collapse
+        max-height 600px
+        border none
+
+    .navbar-toggle
+        margin-top 33px
+        border none
+
+    .navbar-nav
+        li
+            a
+                padding-top 0px
+                padding-bottom 0px
+                line-height header-height
+                text-decoration none
+
+                &:hover
+                    text-decoration underline
+
+.navbar-border
+    border-bottom 1px solid #F0F0F0
+
+
+
+#cover
+    padding-top 100px
+    color #ffffff
+    font-size 40px
+    font-weight bold
+    text-align center
+    text-shadow 0px 0px 10px rgba(64, 64, 64, 1)
+    vertical-align middle
+    text-transform uppercase
+
+
+
+#scroll-down
+    position fixed
+    bottom 0px
+    width 100%
+    text-align center
+    color rgba(64, 64, 64, 0.5)
+    background-color rgba(255, 255, 255, 0.5)
+    font-size 50px
+
+
+
+@media (max-width: 768px)
+    .navbar
+        min-height header-height-xs
+
+        .navbar-nav
+            li
+                a
+                    line-height 20px
+                    padding-top 10px
+                    padding-bottom 10px
+                    line-height header-height-xs
+                    text-align center
+
+
+
+footer
+    position relative
+    margin-top footer-height * -1 /* negative value of footer height */
+    height footer-height
+    clear both
+    padding-top 20px
+    background-color #F4F4F4
+    overflow hidden
+
+
+
+a
+    color #cd5c5c
+    text-decoration none
+    outline: 0
+
+    &:hover
+        color #cd5c5c
+        text-decoration underline
+
+
+
+h1
+    margin-top header-height + 50px
+    margin-bottom 100px
+    color #55938e
+    font-size 64px
+    line-height 64px
+    font-weight normal
+    height auto
+    letter-spacing -3px
+
+    span
+        font-size 32px
+        line-height 32px
+        font-weight normal
+        height auto
+        letter-spacing 0px
+
+
+
+h2
+    margin-bottom 30px
+    color #55938e
+    font-size 32px
+    font-weight normal
+    height auto
+    letter-spacing 0px
+
+
+
+h3
+    margin-top 0px
+    color #585858
+    font-size 20px
+    font-weight bold
+    height auto
+    letter-spacing 0px
+
+
+
+pre
+    padding 0px
+    background none
+    border none
+
+
+
+.jumbotron
+    background none
+
+
+
+.bullet
+    display block
+    margin 0px auto 20px auto
+    height 80px
+    width 80px
+    border-radius 40px
+    color #ffffff
+    background-color #f14d3e
+    font-family helvetica
+    font-size 50px
+    line-height 80px
+
+
+#search
+    margin-top 40px
+    margin-bottom 80px
+
+    .form-group
+        border-bottom solid 1px #55938e
+
+    label
+        padding 0px
+        z-index 10
+
+        i
+            color #55938e
+            font-size 25px
+
+    input
+        margin-bottom 5px
+        padding 0px
+        color #55938e
+        border none
+        outline none
+        font-weight normal
+
+
+
+ul.nav-pills
+    margin-bottom 20px
+
+    li
+        border-top solid 15px white
+        border-bottom solid 5px white
+
+        a
+            padding-top 25px
+            padding-bottom 25px
+            background none !important
+            color #ffffff
+            font-size 20px
+            text-decoration none
+            border-radius 0px
+
+            &:hover, &:active, &:focus
+                background none !important
+                border-radius 0px
+                color #ffffff
+                text-decoration none
+
+    li.active
+        border-top none
+        border-bottom none
+
+
+
+.profile-photo
+    background-position center center
+    background-size cover
+    height 300px
+
+@media (min-width: 768px) and (max-width: 992px)
+    .profile-photo
+        height 400px
+
+@media (min-width: 992px) and (max-width: 1199px)
+    .profile-photo
+        height 500px
+
+@media (min-width: 1200px)
+    .profile-photo
+        height 600px
+
+
+
+.spacer
+    height 100px
+
+
+
+i.social
+    font-size 40px
+    margin 20px 3px
+
+
+
+i.signin
+    font-size 100px
+    margin 20px
+
+
+
+.btn
+    border none
+    border-radius 0px
+    text-decoration none
+
+.btn-lg
+    padding-top 25px
+    padding-bottom 25px
+    font-weight bold
+    text-transform uppercase
+
+
+
+
+#profile
+#request-form
+    label
+        display block
+        margin-top 30px
+        margin-bottom 5px
+        text-transform uppercase
+        font-weight normal
+
+    label.labelfocus
+        color #55938e
+        font-weight bold
+
+    select
+        border-color #777777
+        outline none
+        box-shadow none
+
+        &:focus
+            outline none
+            border-color #55938e
+            outline 0px
+
+    input
+    textarea
+        padding 5px 1px
+        border-radius 0px
+        border none
+        border-bottom solid 1px #777777
+        outline none
+        box-shadow none
+        font-size 18px
+
+        &:focus
+            border-bottom solid 2px #55938e
+            outline 0px
+
+        &[type=file]
+            border none
+            color white
+
+        &[readonly]
+            background-color white
+
+    button
+        margin-top 100px
+
+
+
+.table
+    .row
+        margin-top 0px
+        margin-bottom 0px
+        padding-top 10px
+        padding-bottom 10px
+        border-bottom 1px solid #F0F0F0
+
+        &:last-child
+            border-bottom none
+
+
+
+#btn-add
+    margin-top 30px
+    font-size 50px
+    color #55938e
+
+    span
+        display block
+        font-size 14px
+        line-height 14px
+
+
+
+#tos
+    ol
+        padding-left 30px
+        counter-reset section
+        list-style-type none
+    li:before
+        counter-increment section
+        content counters(section, ".") " "

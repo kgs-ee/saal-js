@@ -1,0 +1,31 @@
+[Unit]
+Description=Kanuti Gildi Saal webpage on Entu webpage engine
+After=etcd.service
+After=docker.service
+
+[Service]
+TimeoutStartSec=0
+KillMode=none
+Restart=always
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker kill kgswww
+ExecStartPre=-/usr/bin/docker rm kgswww
+ExecStartPre=/usr/bin/docker pull mitselek/saal-js:latest
+ExecStart=/usr/bin/docker run \
+          --name="kgswww" \
+          --env="PORT=4000" \
+          --env="NEW_RELIC_APP_NAME=" \
+          --env="NEW_RELIC_LICENSE_KEY=" \
+          --env="NEW_RELIC_LOG=stdout" \
+          --env="NEW_RELIC_LOG_LEVEL=error" \
+          --env="NEW_RELIC_NO_CONFIG_FILE=true" \
+          --env="ENTU_USER=" \
+          --env="ENTU_KEY=" \
+          --volume="/data/kgswww/log:/usr/src/kgswww/log" \
+          --publish="80:4000" \
+          argoroots/kgswww
+ExecStop=/usr/bin/docker stop kgswww
+
+[X-Fleet]
+Conflicts=kgswww*
+MachineMetadata=public_ip=
