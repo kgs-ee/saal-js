@@ -19,9 +19,9 @@ fs.readdir('./pagecache', function(error, files) {
     })
 })
 
-var cacheEntities = function cacheEntities(definition, delay_ms, marker_f, manipulator_f) {
+var cacheEntities = function cacheEntities(definition, parent, delay_ms, marker_f, manipulator_f) {
     debug('Caching ' + definition)
-    entu.get_entities(definition=definition, limit=null, auth_id=null, auth_token=null, callback=function(error, events) {
+    var callback = function(error, events) {
         if (error) {
             // debug('1', error)
             if (error.code == 'ENOTFOUND') {
@@ -61,15 +61,21 @@ var cacheEntities = function cacheEntities(definition, delay_ms, marker_f, manip
             }
             debug('Caching ' + definition + ' done.')
         })
-    })
+    }
+    if (parent) {
+        entu.get_childs(parent=parent, definition=definition, auth_id=null, auth_token=null, callback=callback)
+    } else {
+        entu.get_entities(definition=definition, limit=null, auth_id=null, auth_token=null, callback=callback)
+    }
 }
 
 
 // Example markers on person
 cacheEntities(
-    'person',
-    60 * 60 * 1000,
-    function marker_f(entity) {
+    definition='person',
+    parent=null,
+    delay_ms=60 * 60 * 1000,
+    marker_f=function marker_f(entity) {
         if (entity.get('name') == 'Mihkel-Mikelis Putrinš')
             return ['entusiastid.mihkel']
         else if (entity.get('name') == 'Argo Roots')
@@ -77,7 +83,7 @@ cacheEntities(
         else
             return ['others']
     },
-    function manipulator_f(entity_in) {
+    manipulator_f=function manipulator_f(entity_in) {
         var entity_out = op({})
         entity_out.set('id', entity_in.get('id'))
         entity_out.set('name', entity_in.get('displayname'))
@@ -90,6 +96,7 @@ cacheEntities(
 // Split events into past and future and group by time
 cacheEntities(
     'event',
+    parent=597,
     60 * 60 * 1000,
     function marker_f(entity) {
         var event_times = entity.get('times')
@@ -134,6 +141,7 @@ cacheEntities(
 // Split news into old and new and group by time
 cacheEntities(
     'news',
+    parent=null,
     30 * 1000,
     function marker_f(entity) {
         var event_times = entity.get('properties.time')
