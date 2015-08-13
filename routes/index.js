@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 
     var program = []
     var upcoming_events = SDC.get('event_upcoming')
-    debug(Object.keys(upcoming_events))
+    // debug(Object.keys(upcoming_events))
+    if (!upcoming_events) {next(new Error('Cache not ready...'))}
     async.each(
         Object.keys(upcoming_events).sort(),
         function(key, callback) {
