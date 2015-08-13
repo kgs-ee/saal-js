@@ -45,14 +45,25 @@ html
                                 span.icon-bar
                                 span.icon-bar
                                 span.icon-bar
-                            a.navbar-brand(href='/')
-                                img(src='/images/saal_logo.svg', alt='Kanuti Gildi Saal logo')
+                            a.navbar-brand(href='/' + lang + '/')
+                                img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
                                 p= season
                         .collapse.navbar-collapse(id='bs-example-navbar-collapse-1')
                             ul.nav.navbar-nav.navbar-right
-
-                                block navigation
-
+                                li
+                                    a(href='/program')= t('nav.program')
+                                li
+                                    a(href='/residency')= t('nav.residency')
+                                li
+                                    a(href='/tours')= t('nav.tours')
+                                li
+                                    a(href='/projects')= t('nav.projects')
+                                li
+                                    a(href='/contact')= t('nav.contact')
+                                li
+                                    a(href='/festival/1234') NU Performance
+                                li
+                                    a(href='/festival/1235') SAAL Bienaal
                                 if user
                                     li
                                         a(href='/users/me') Me

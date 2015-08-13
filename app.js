@@ -11,9 +11,13 @@ var cookie  = require('cookie-parser')
 var random  = require('randomstring')
 var bparser = require('body-parser')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+var op      = require('object-path')
+
+
+var i18n    = require('./helpers/i18n')
+
 
 debug('Loading Entu web ...')
-
 
 // global variables (and list of all used environment variables)
 APP_DEBUG     = process.env.DEBUG
@@ -29,7 +33,10 @@ APP_ENTU_KEY  = process.env.ENTU_KEY
 
 // console.log(process.env)
 
-require('./maintenance')
+
+// Site data cache
+SDC = op({})
+require('./helpers/maintenance')
 
 // ensure log directory exists
 fs.existsSync(APP_LOG_DIR) || fs.mkdirSync(APP_LOG_DIR)
@@ -45,8 +52,19 @@ var access_log_stream = rotator.getStream({
 })
 
 
+// Configure i18n
+i18n.configure({
+    locales: ['en', 'et'],
+    defaultLocale: 'en',
+    redirectWrongLocale: true,
+    file: path.join(__dirname, 'localization', 'locales.yaml'),
+    updateFile: true
+})
 
-express()
+
+var app     = express()
+
+app
     // jade view engine
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'jade')
@@ -68,8 +86,14 @@ express()
     // logging
     .use(logger(':date[iso] | HTTP/:http-version | :method | :status | :url | :res[content-length] b | :response-time ms | :remote-addr | :referrer | :user-agent', {stream: access_log_stream}))
 
+    //Initiate i18n
+    app.use(i18n.init)
+
     // set defaults for views
     .use(function(req, res, next) {
+        if(req.path === '/') return res.redirect('/' + 'et/')
+        // debug(JSON.stringify(req.path, null, '    '))
+        res.locals.lang = 'et'
         if(req.signedCookies.auth_id && req.signedCookies.auth_token) {
             res.locals.user = {
                 id: req.signedCookies.auth_id,
@@ -79,14 +103,17 @@ express()
         next(null)
     })
 
+
+app
+
     // routes mapping
-    .use('/',       require('./routes/index'))
-    .use('/users',  require('./routes/users'))
-    .use('/help',   require('./routes/help'))
-    .use('/signin', require('./routes/signin'))
+    .use('/:lang',              require('./routes/index'))
+    .use('/:lang/program/',     require('./routes/program'))
+    .use('/:lang/signin',       require('./routes/signin'))
 
     // 404
     .use(function(req, res, next) {
+        debug(req.path)
         var err = new Error('Not Found')
         err.status = 404
         next(err)

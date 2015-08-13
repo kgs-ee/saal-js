@@ -3,62 +3,15 @@ extends layout
 block vars
 
 block content
-    #cover.container-fluid Isn't it easier together?
+    #cover= t('.KGS')
 
-    .container
-        .row.spacer
-
-        .row
-            .jumbotron.col-xs-12.text-center
-                h2 It's never been easier to give and get help
-                p Helpific connects volunteers to those who need help with everyday activities.
-                p At the moment we have 99 help requests fulfilled and 1044 active voluteers.
-
-        .row.text-center
-            h2.col-xs-12 How Helpific works?
-            h3#bullet-1.col-xs-10.col-sm-4.col-md-2.col-xs-offset-1.col-sm-offset-0.col-md-offset-2.text-center
-                .bullet 1
-                | Sign in via Facebook or Google
-            h3#bullet-2.col-xs-10.col-sm-4.col-md-2.col-xs-offset-1.col-sm-offset-0.col-md-offset-1.text-center
-                .bullet 2
-                | Let us know what you can do or need
-            h3#bullet-3.col-xs-10.col-sm-4.col-md-2.col-xs-offset-1.col-sm-offset-0.col-md-offset-1.text-center
-                .bullet 3
-                | Make your needs and deeds work
-
-        .row.spacer
-
-        .row.text-center
-            h2.col-xs-12 Choose your way
-
-    .container-fluid
-        .row.text-center
-            a.col-xs-6(href='/help/offers', style='background-color:#55938e')
-                .spacer.col-xs-12
-                h3(style='color:#ffffff;margin-bottom:30px') Meet the volunteers
-                img.col-xs-8.col-md-4.col-xs-offset-2.col-md-offset-4(src='/images/door-left.png', alt='Left door')
-            a.col-xs-6(href='/help/requests', style='background-color:#fab235')
-                .spacer.col-xs-12
-                h3(style='color:#ffffff;margin-bottom:30px') Help those in need
-                img.col-xs-8.col-md-4.col-xs-offset-2.col-md-offset-4(src='/images/door-right.png', alt='Right door')
-
-    #scroll-down
-        i.fa.fa-chevron-down
-
-    script.
-        $(window).scroll(function(event) {
-            $('#cover').css('background-position', 'center ' + $(window).scrollTop() * 0.3 + 'px')
-
-            if($(window).scrollTop() > 10) {
-                var alpha = 1 - $(window).scrollTop() / 200
-                $('#cover').css('color', 'rgba(255, 255, 255, ' + alpha + ')')
-                $('#cover').css('text-shadow', '0px 0px 10px rgba(64, 64, 64, ' + alpha + ')')
-                $('#scroll-down').css('color', 'rgba(64, 64, 64, ' + alpha / 2 + ')')
-                $('#scroll-down').css('background-color', 'rgba(255, 255, 255, ' + alpha / 2 + ')')
-            }
-            if($(window).scrollTop() > 50) $('#scroll-down').addClass('hidden')
-
-            $('#bullet-1').css('opacity', ($(window).scrollTop() + $(window).height() - $('#bullet-1').offset().top - $('#bullet-1').height() / 2  ) / 100)
-            $('#bullet-2').css('opacity', ($(window).scrollTop() + $(window).height() - $('#bullet-2').offset().top - $('#bullet-2').height() / 1.5) / 100)
-            $('#bullet-3').css('opacity', ($(window).scrollTop() + $(window).height() - $('#bullet-3').offset().top - $('#bullet-3').height())       / 100)
-        })
+    H4= t('nav.program')
+    each eventdate in program
+        each p, i in eventdate.events
+            .row
+                a(href='/' + lang + '/event/' + op.get(p,'id'))
+                    img.col-xs-6.col-sm-4.col-md-2.col-xs-offset-3.col-sm-offset-4.col-md-offset-5(src=op.get(p, 'properties.photo.0.file'), alt=op.get(p, 'properties.name.value'), style='margin-bottom:20px')
+                h3.col-xs-12= op.get(p, 'properties.name.value')
+                p.col-xs-12= eventdate.date
+                p.col-xs-12= op.get(p, 'properties.description.value')
+            .spacer

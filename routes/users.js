@@ -7,35 +7,9 @@ var request = require('request')
 var entu    = require('./entu')
 
 
-
-// Convert media url to embeding url
-function media_embed(url) {
-    if(!url) return null
-
-    if(url.indexOf('youtu.be/') > -1) {
-        return 'https://www.youtube.com/embed/' + url.split('youtu.be/')[1].split('?')[0]
-    } else if (url.indexOf('youtube.com/watch') > -1) {
-        return 'https://www.youtube.com/embed/' + url.split('v=')[1].split('&')[0]
-    }else if (url.indexOf('vimeo.com/') > -1) {
-        return 'https://player.vimeo.com/video/' + url.split('vimeo.com/')[1].split('?')[0]
-    }else if (url.indexOf('wistia.com/medias/') > -1) {
-        return 'https://fast.wistia.net/embed/iframe/' + url.split('wistia.com/medias/')[1].split('?')[0]
-    }else {
-        return null
-    }
-}
-
-
-
 // GET profiles listing
 router.get('/', function(req, res, next) {
-    entu.get_entities(615, 'person', null, null, function(error, profiles) {
-        if(error) return next(error)
-
-        res.render('user_list', {
-            profiles: profiles
-        })
-    })
+    res.end('user_list')
 })
 
 
@@ -76,17 +50,8 @@ router.post('/me', function(req, res, next) {
 
 // GET profile
 router.get('/:id', function(req, res, next) {
-    if(!req.params.id) res.redirect('/users')
-
-        entu.get_entity(req.params.id, null, null, function(error, profile) {
-            if(error) return next(error)
-
-            res.render('user', {
-                title: profile.get('forename.value', '') + ' ' + profile.get('surname.value', ''),
-                profile: profile,
-                media_embed: media_embed
-            })
-        })
+    debug('/:id', req.params)
+    res.end('user_list')
 })
 
 

@@ -98,14 +98,20 @@ function get_entity(id, auth_id, auth_token, callback) {
 
 
 //Get entities by definition
-exports.get_entities = function(definition, auth_id, auth_token, callback) {
-    if (!definition) callback(new Error('Missing "definition"'))
+exports.get_entities = function(definition, limit, auth_id, auth_token, callback) {
+    if (!definition) {
+        callback(new Error('Missing "definition"'))
+        return
+    }
+    var qs = {definition: definition}
+    if (limit) {
+        qs['limit'] = limit
+    }
     if(auth_id && auth_token) {
         var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
-        var qs = definition ? {definition: definition} : {}
     } else {
         var headers = {}
-        var qs = definition ? sign_data({definition: definition}) : sign_data()
+        qs = sign_data(qs)
     }
 
     var url = '/entity'

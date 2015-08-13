@@ -1,0 +1,59 @@
+{
+    "et": {
+        "main": [
+            {
+                "label": "Programm",
+                "controller": "program"
+            },
+            {
+                "label": "Residentuurid",
+                "controller": "program"
+            },
+            {
+                "label": "Tuurid",
+                "controller": "tours"
+            },
+            {
+                "label": "Projektid",
+                "controller": "projects"
+            },
+            {
+                "label": "Kontakt",
+                "controller": "team"
+            }
+        ],
+        "festivals": [
+            {
+                "label": "NU Performance Festival",
+                "controller": "festival",
+                "parameters": {
+                    "eid": 1972
+                }
+            },
+            {
+                "label": "SAAL Bienaal Festival",
+                "controller": "festival",
+                "parameters": {
+                    "eid": 1973
+                }
+            }
+        ],
+        "languages": [
+            {
+                "label": "Eesti",
+                "code": "et",
+                "image": "et.png"
+            },
+            {
+                "label": "English",
+                "code": "en",
+                "image": "en.png"
+            },
+            {
+                "label": "Русский",
+                "code": "ru",
+                "image": "ru.png"
+            }
+        ]
+    }
+}
