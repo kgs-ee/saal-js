@@ -4,7 +4,7 @@ var path    = require('path')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var request = require('request')
 
-var entu    = require('./entu')
+var entu    = require('../helpers/entu')
 
 
 

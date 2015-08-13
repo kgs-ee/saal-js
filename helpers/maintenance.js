@@ -5,7 +5,7 @@ var async   = require('async')
 var op      = require('object-path')
 var fs      = require('fs')
 
-var entu    = require('../routes/entu')
+var entu    = require('../helpers/entu')
 
 debug('Maintenance Started at ' + Date().toString())
 
