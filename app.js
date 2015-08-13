@@ -55,7 +55,7 @@ var access_log_stream = rotator.getStream({
 // Configure i18n
 i18n.configure({
     locales: ['en', 'et'],
-    defaultLocale: 'en',
+    defaultLocale: 'et',
     redirectWrongLocale: true,
     file: path.join(__dirname, 'localization', 'locales.yaml'),
     updateFile: true
@@ -86,14 +86,12 @@ app
     // logging
     .use(logger(':date[iso] | HTTP/:http-version | :method | :status | :url | :res[content-length] b | :response-time ms | :remote-addr | :referrer | :user-agent', {stream: access_log_stream}))
 
-    //Initiate i18n
-    app.use(i18n.init)
-
     // set defaults for views
     .use(function(req, res, next) {
         if(req.path === '/') return res.redirect('/' + 'et/')
         // debug(JSON.stringify(req.path, null, '    '))
         res.locals.lang = 'et'
+        res.locals.op = op
         if(req.signedCookies.auth_id && req.signedCookies.auth_token) {
             res.locals.user = {
                 id: req.signedCookies.auth_id,
@@ -102,6 +100,9 @@ app
         }
         next(null)
     })
+
+    //Initiate i18n
+    app.use(i18n.init)
 
 
 app
