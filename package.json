@@ -56,7 +56,19 @@
     "morgan": "~1.5.1",
     "request": "^2.55.0",
     "node-markdown": "*",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "async": "1.x",
+    "file-stream-rotator": "0.x",
+    "fs": "0.x",
+    "jade": "1.x",
+    "marked": "0.x",
+    "newrelic": "1.x",
+    "object-path": "0.x",
+    "randomstring": "1.x",
+    "sanitize-html": "1.x",
+    "stylus": "0.x",
+    "js-yaml": "3.x",
+    "underscore": "1.x"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
