@@ -39,7 +39,7 @@
         "stylus": "0.x",
         "js-yaml": "3.x",
         "underscore": "1.x"
-    }
+    },
   "name": "saal",
   "version": "0.0.0",
   "private": true,
