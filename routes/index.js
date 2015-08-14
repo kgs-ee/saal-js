@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
     debug('Loading "' + req.url + '"', req.params.lang)
 
     var program = []
-    var upcoming_events = SDC.get('event_upcoming')
+    var upcoming_events = SDC.get('program_upcoming')
     // debug(Object.keys(upcoming_events))
     if (!upcoming_events) {next(new Error('Cache not ready...'))}
     async.each(
@@ -30,7 +30,6 @@ router.get('/', function(req, res, next) {
             }
             debug('c',JSON.stringify(program, null, '  '))
             res.render('index', {
-                "op": op,
                 "program": program
             })
             res.end()
