@@ -1,41 +1,48 @@
 '':
     KGS:
-        en: .KGS
+        en: Kanuti Gildi Saal
         et: Kanuti Gildi Saal
     KGS_logo:
-        en: .KGS_logo
+        en: Kanuti Gildi Saal logo
         et: Kanuti Gildi Saali logo
     event_picture:
         en: .event_picture
         et: .event_picture
 nav:
     contact:
-        en: nav.contact
+        en: Contact
         et: Kontakt
     program:
-        en: nav.program
+        en: Program
         et: Programm
     projects:
-        en: nav.projects
+        en: Projects
         et: Projektid
     residency:
-        en: nav.residency
+        en: Residency
         et: Residentuur
     tours:
-        en: nav.tours
+        en: Tours
         et: Tuurid
 weekdays:
     '0':
+        en: Monday
         et: esmaspäev
     '1':
+        en: Tuesday
         et: teisipäev
     '2':
+        en: Wednesday
         et: kolmapäev
     '3':
+        en: Thursday
         et: neljapäev
     '4':
+        en: Friday
         et: reede
     '5':
+        en: Saturday
         et: laupäev
     '6':
+        en: Sunday
         et: pühapäev
