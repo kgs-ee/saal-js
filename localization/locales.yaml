@@ -21,6 +21,8 @@ nav:
     residency:
         en: nav.residency
         et: Residentuur
+    tour:
+        et: nav.tour
     tours:
         en: nav.tours
         et: Tuurid
