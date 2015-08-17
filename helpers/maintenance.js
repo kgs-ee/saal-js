@@ -101,7 +101,7 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     })
 
     if (entity_in.get('properties.performance.reference')) {
-        debug('fetch performance')
+        // debug('fetch performance')
         entu.get_entity(id=entity_in.get('properties.performance.reference'), null, null, performanceCB=function(error, performance) {
             if (error) {
                 debug('Event manipulator performance reference', error)
@@ -111,7 +111,7 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
             callback(null, entity_out)
         })
     } else {
-        debug('no performance')
+        // debug('no performance')
         callback(null, entity_out)
     }
 }
@@ -195,6 +195,66 @@ cacheEntities(
     name = 'NU_Performance',
     definition = 'event',
     parent = 1933,
+    reset_markers = ['no_date', 'past', 'upcoming'],
+    delay_ms = 30 * 60 * 1000,
+    marker_f = function marker_f(entity) {
+        var event_times = entity.get('start-times')
+        var markers = []
+        if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
+            markers.push('no_date')
+        } else {
+            for (i in event_times.sort()) {
+                var ms = Date.parse(event_times[i])
+                var event_date = (event_times[i]).slice(0,10)
+                // var event_date = (new Date(ms)).toJSON().slice(0,10)
+                if (ms < Date.now()) {
+                    markers.push('past.' + event_date)
+                } else {
+                    markers.push('upcoming.' + event_date)
+                }
+            }
+        }
+        return markers
+    },
+    manipulator_f = event_manipulator
+)
+
+
+// Fetch events from under Tours and group by time
+cacheEntities(
+    name = 'Tours',
+    definition = 'event',
+    parent = 1929,
+    reset_markers = ['no_date', 'past', 'upcoming'],
+    delay_ms = 30 * 60 * 1000,
+    marker_f = function marker_f(entity) {
+        var event_times = entity.get('start-times')
+        var markers = []
+        if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
+            markers.push('no_date')
+        } else {
+            for (i in event_times.sort()) {
+                var ms = Date.parse(event_times[i])
+                var event_date = (event_times[i]).slice(0,10)
+                // var event_date = (new Date(ms)).toJSON().slice(0,10)
+                if (ms < Date.now()) {
+                    markers.push('past.' + event_date)
+                } else {
+                    markers.push('upcoming.' + event_date)
+                }
+            }
+        }
+        return markers
+    },
+    manipulator_f = event_manipulator
+)
+
+
+// Fetch events from under Residency and group by time
+cacheEntities(
+    name = 'Residency',
+    definition = 'event',
+    parent = 1931,
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 30 * 60 * 1000,
     marker_f = function marker_f(entity) {
