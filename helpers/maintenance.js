@@ -15,7 +15,9 @@ fs.readdir('./pagecache', function(error, files) {
     }
     files.forEach(function(file) {
         debug('Read from cache: ' + path.basename(file, '.json'))
-        SDC.set(path.basename(file, '.json'), require(path.join('../pagecache', file)))
+        if (path.extname(file) === '.json') {
+            SDC.set(path.basename(file, '.json'), require(path.join('../pagecache', file)))
+        }
     })
 })
 
