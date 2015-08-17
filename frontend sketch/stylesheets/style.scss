@@ -172,6 +172,7 @@ h3, .h3 {
 
 .season {
 	font-size: .75em;
+	margin-top: .4em;
 }
 
 hr {
@@ -400,6 +401,10 @@ a.logo {
 	}
 }
 
+#about-carousel {
+	margin-bottom: 1.5em;
+}
+
 .event-banner {
 
 	svg {
@@ -472,6 +477,10 @@ a.logo {
 	        &.unactive span {
 	        	background-color: white;
 	        }
+	    }
+
+	    .h3 {
+	    	font-size: 1.5em;
 	    }
 	}
 
@@ -608,6 +617,22 @@ a.logo {
 	}
 }
 
+.supporter img {
+	margin-bottom: 1em;
+}
+
+.news,
+.residents,
+.floorplans {
+	margin-top: 3em;
+}
+
+.news {
+	@media (min-width: $screen-md) {
+		margin-top: 0 !important;
+	}
+}
+
 
 .tour,
 .programme {
@@ -735,8 +760,10 @@ a.logo {
 }
 
 footer {
+	color: white;
 	padding: 2em 0;
-	border-top: 2px solid #000;
+	//border-top: 2px solid $primary-color;
+	background-color: $primary-color;
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
