@@ -24,3 +24,18 @@ nav:
     tours:
         en: nav.tours
         et: Tuurid
+weekdays:
+    '0':
+        et: esmaspäev
+    '1':
+        et: teisipäev
+    '2':
+        et: kolmapäev
+    '3':
+        et: neljapäev
+    '4':
+        et: reede
+    '5':
+        et: laupäev
+    '6':
+        et: pühapäev

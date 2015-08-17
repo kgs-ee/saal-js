@@ -11,10 +11,10 @@ block content
                     .col-xs-12.col-md-12.col-lg-12
                         h2= t('nav.program')
 
-                    each eventdate, date in program
-                        h4.col-xs-12= date
-                        each eventtime, time in eventdate
-                            h4.col-xs-12= time
+                    each eventdate, datestring in program
+                        h3.col-xs-12= datestring + ' ' + t('weekdays.' + new Date(datestring).getDay())
+                        each eventtime, timestring in eventdate
+                            h4.col-xs-12= timestring
                             each p, i in eventtime
                                 .col-xs-12.col-sm-2.col-lg-2
                                     p= op.get(p, 'start-times')
