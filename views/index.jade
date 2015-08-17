@@ -7,13 +7,15 @@ block content
         #cover= t('.KGS')
 
         H4= t('nav.program')
-        each eventdate in program
-            each p, i in eventdate.events
+        each eventdate, date in program
+            h4.col-xs-12= date
+            each p, i in eventdate
                 .row
                     hr
                     a.col-xs-12(href='/' + lang + '/event/' + op.get(p,'id'))
                         img.col-xs-6.col-sm-4.col-md-2.col-xs-offset-3.col-sm-offset-4.col-md-offset-5(src=op.get(p, 'photo.file'), alt=op.get(p, 'name'), style='margin-bottom:20px')
-                    h4.col-xs-12= eventdate.date
+                    p.col-xs-12= op.get(p, 'start-times')
                     b.col-xs-12= op.get(p, 'name')
                     p.col-xs-12!= op.get(p, 'description')
-                .spacer
+                .spacer 
+                    p.col-xs-12= op.get(p.id)
