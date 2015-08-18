@@ -225,7 +225,7 @@ cacheEntities(
 
 // Fetch events from under Tours and group by time
 cacheEntities(
-    name = 'Tours',
+    name = 'tours',
     definition = 'event',
     parent = 1929,
     reset_markers = ['no_date', 'past', 'upcoming'],
