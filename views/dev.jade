@@ -1,7 +1,3 @@
-extends layout
-
-block vars
-
 block content
 
     .container-fluid
@@ -12,10 +8,9 @@ block content
                         h2= t('nav.tours')
 
                     each eventdate, datestring in tours
-                        h3.col-xs-12= datestring + ' ' + t('weekdays.' + new Date(datestring).getDay())
                         each eventtime, timestring in eventdate
-                            h4.col-xs-12= timestring
-                            each p, i in eventtime
+                            h4.col-xs-12= datestring + ' ' + t('weekdays.' + new Date(datestring).getDay()) + ' ' + timestring
+                            each p in eventtime
                                 .col-xs-12.col-sm-2.col-lg-2
                                     p= op.get(p, 'start-times')
                                 .col-xs-12.col-md-6.col-lg-6
@@ -28,4 +23,3 @@ block content
                                     a.btn.btn-primary(href='#') Osta pilet
                                 .col-xs-12.col-md-12.col-lg-12
                                     hr
-

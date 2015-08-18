@@ -147,11 +147,12 @@ cacheEntities(
             for (i in event_times) {
                 var ms = Date.parse(event_times[i])
                 var event_date = (event_times[i]).slice(0,10)
+                var event_time = (event_times[i]).slice(11,16)
                 // var event_date = (new Date(ms)).toJSON().slice(0,10)
                 if (ms < Date.now()) {
-                    markers.push('past.' + event_date)
+                    markers.push('past.' + event_date + '.' + event_time)
                 } else if (ms >= Date.now()) {
-                    markers.push('upcoming.' + event_date)
+                    markers.push('upcoming.' + event_date + '.' + event_time)
                 }
             }
         }
@@ -176,11 +177,12 @@ cacheEntities(
             for (i in event_times.sort()) {
                 var ms = Date.parse(event_times[i])
                 var event_date = (event_times[i]).slice(0,10)
+                var event_time = (event_times[i]).slice(11,16)
                 // var event_date = (new Date(ms)).toJSON().slice(0,10)
                 if (ms < Date.now()) {
-                    markers.push('past.' + event_date)
-                } else {
-                    markers.push('upcoming.' + event_date)
+                    markers.push('past.' + event_date + '.' + event_time)
+                } else if (ms >= Date.now()) {
+                    markers.push('upcoming.' + event_date + '.' + event_time)
                 }
             }
         }
@@ -206,11 +208,12 @@ cacheEntities(
             for (i in event_times.sort()) {
                 var ms = Date.parse(event_times[i])
                 var event_date = (event_times[i]).slice(0,10)
+                var event_time = (event_times[i]).slice(11,16)
                 // var event_date = (new Date(ms)).toJSON().slice(0,10)
                 if (ms < Date.now()) {
-                    markers.push('past.' + event_date)
-                } else {
-                    markers.push('upcoming.' + event_date)
+                    markers.push('past.' + event_date + '.' + event_time)
+                } else if (ms >= Date.now()) {
+                    markers.push('upcoming.' + event_date + '.' + event_time)
                 }
             }
         }
@@ -236,11 +239,12 @@ cacheEntities(
             for (i in event_times.sort()) {
                 var ms = Date.parse(event_times[i])
                 var event_date = (event_times[i]).slice(0,10)
+                var event_time = (event_times[i]).slice(11,16)
                 // var event_date = (new Date(ms)).toJSON().slice(0,10)
                 if (ms < Date.now()) {
-                    markers.push('past.' + event_date)
-                } else {
-                    markers.push('upcoming.' + event_date)
+                    markers.push('past.' + event_date + '.' + event_time)
+                } else if (ms >= Date.now()) {
+                    markers.push('upcoming.' + event_date + '.' + event_time)
                 }
             }
         }
@@ -266,11 +270,12 @@ cacheEntities(
             for (i in event_times.sort()) {
                 var ms = Date.parse(event_times[i])
                 var event_date = (event_times[i]).slice(0,10)
+                var event_time = (event_times[i]).slice(11,16)
                 // var event_date = (new Date(ms)).toJSON().slice(0,10)
                 if (ms < Date.now()) {
-                    markers.push('past.' + event_date)
-                } else {
-                    markers.push('upcoming.' + event_date)
+                    markers.push('past.' + event_date + '.' + event_time)
+                } else if (ms >= Date.now()) {
+                    markers.push('upcoming.' + event_date + '.' + event_time)
                 }
             }
         }

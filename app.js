@@ -108,7 +108,7 @@ app
 
     // routes mapping
     .use('/:lang',              require('./routes/index'))
-    .use('/:lang/program/',     require('./routes/program'))
+    .use('/:lang/dev/',         require('./routes/dev'))
     .use('/:lang/signin',       require('./routes/signin'))
 
     // 404

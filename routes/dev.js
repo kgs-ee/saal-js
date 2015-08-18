@@ -9,13 +9,12 @@ var op      = require('object-path')
 
 router.get('/', function(req, res, next) {
 
-    var tours = []
     var tours = SDC.get('tours_upcoming')
     if (!tours) {
         next(new Error('"tours_upcoming" not cached...'))
     }
 
-    res.render('tours', {
+    res.render('dev', {
         "tours": tours
     })
     res.end()
