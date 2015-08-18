@@ -14,6 +14,9 @@ router.get('/', function(req, res, next) {
     if (!tours) {
         next(new Error('"tours_upcoming" not cached...'))
     }
+    if (!program) {
+        next(new Error('"program_upcoming" not cached...'))
+    }
 
     res.render('dev', {
         "tours": tours,
