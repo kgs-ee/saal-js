@@ -12,10 +12,12 @@ router.get('/', function(req, res, next) {
 
     var program = []
     var upcoming_events = SDC.get('program_upcoming')
+    var upcoming_tours = SDC.get('tours_upcoming')
     if (!upcoming_events) {next(new Error('"upcoming_events" not cached...'))}
 
             res.render('index', {
-                "program": upcoming_events
+                "program": upcoming_events,
+                "tours": upcoming_tours
             })
             res.end()
             return
