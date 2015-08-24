@@ -12,7 +12,7 @@
     season:
         en: Season
         et: Hooaeg
-        lt: .season
+        lt: Sezona
 button:
     buy_ticket:
         en: Buy ticket
