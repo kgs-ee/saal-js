@@ -13,9 +13,9 @@ exports.configure = function(config) {
     if(!config) config = {}
 
     i18n_config.file = config.file || path.join(__dirname, 'localization', 'locales.yaml')
-    i18n_config.locales = config.locales || ['en', 'en']
+    i18n_config.locales = config.locales || ['et', 'en']
     i18n_config.redirectWrongLocale = config.redirectWrongLocale || true
-    i18n_config.defaultLocale = config.defaultLocale || 'en'
+    i18n_config.defaultLocale = config.defaultLocale || 'et'
     i18n_config.updateFile = config.updateFile || false
 
     i18n_config.translations = {}
@@ -37,7 +37,7 @@ exports.init = function(req, res, next) {
     res.locals.lang = i18n_config.lang
     res.locals.t = translate
     res.locals.md = md
-
+    res.locals.locales = i18n_config.locales
     next()
 }
 
@@ -55,3 +55,4 @@ function translate(key) {
     }
     return value || key
 }
+

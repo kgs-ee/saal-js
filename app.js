@@ -54,7 +54,7 @@ var access_log_stream = rotator.getStream({
 
 // Configure i18n
 i18n.configure({
-    locales: ['en', 'et'],
+    locales: ['en', 'et', 'lt'],
     defaultLocale: 'et',
     redirectWrongLocale: true,
     file: path.join(__dirname, 'localization', 'locales.yaml'),
@@ -88,11 +88,15 @@ app
 
     // set defaults for views
     .use(function(req, res, next) {
-        if(req.path === '/') return res.redirect('/' + 'et/')
+        if(req.path === '/') return res.redirect('/et/')
         // debug(JSON.stringify(req.path, null, '    '))
-        res.locals.lang = 'et'
+        // res.locals.lang = 'et'
         res.locals.op = op
         res.locals.SAAL = SDC.get('__')
+        var p = req.path.split('/')
+        p.shift()
+        p.shift()
+        res.locals.path = p.join('/')
         if(req.signedCookies.auth_id && req.signedCookies.auth_token) {
             res.locals.user = {
                 id: req.signedCookies.auth_id,

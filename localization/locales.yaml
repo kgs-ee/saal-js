@@ -5,54 +5,82 @@
     KGS_logo:
         en: Kanuti Gildi Saal logo
         et: Kanuti Gildi Saali logo
+        lt: .KGS_logo
     event_picture:
         en: .event_picture
         et: .event_picture
     season:
         en: Season
         et: Hooaeg
+        lt: .season
 button:
     buy_ticket:
         en: Buy ticket
         et: Osta pilet
+        lt: button.buy_ticket
 categories:
     dance:
         en: Dance
         et: Tants
+        lt: categories.dance
     film:
         en: Film
         et: Film
+        lt: categories.film
     lecture:
         en: Lecture
         et: Loeng
+        lt: categories.lecture
     music:
         en: Music
         et: Muusika
+        lt: categories.music
     new-circus:
         en: New Circus
         et: Uus Tsirkus
+        lt: categories.new-circus
     performance:
         en: Performance
         et: Performance
+        lt: categories.performance
     theatre:
         en: Theatre
         et: Teater
+        lt: categories.theatre
+lang:
+    en:
+        en: English
+        et: English
+        lt: English
+    et:
+        en: Eesti
+        et: Eesti
+        lt: Eesti
+    lt:
+        en: Latviešu
+        et: Latviešu
+        lt: Latviešu
 nav:
     contact:
         en: Contact
         et: Kontakt
+        lt: nav.contact
     program:
         en: Program
         et: Programm
+        lt: nav.program
     projects:
         en: Projects
         et: Projektid
+        lt: nav.projects
     residency:
         en: Residency
         et: Residentuur
+        lt: nav.residency
     tours:
         en: Tours
         et: Tuurid
+        lt: nav.tours
 weekdays:
     '0':
         en: Monday
@@ -60,12 +88,15 @@ weekdays:
     '1':
         en: Tuesday
         et: teisipäev
+        lt: weekdays.1
     '2':
         en: Wednesday
         et: kolmapäev
+        lt: weekdays.2
     '3':
         en: Thursday
         et: neljapäev
+        lt: weekdays.3
     '4':
         en: Friday
         et: reede
@@ -75,3 +106,4 @@ weekdays:
     '6':
         en: Sunday
         et: pühapäev
+        lt: weekdays.6

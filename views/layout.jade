@@ -88,8 +88,10 @@ html
                             li
                                 a(href='/' + lang + '/festival/1235') SAAL Bienaal
                         ul.list-unstyled.col-xs-6.col-lg-2
-                            li
-                                a(href='/en') In English
+                            each locale in locales
+                                if lang !== locale
+                                    li
+                                        a(href='/'+locale+'/'+path)= t('lang.' + locale)
                         ul.social.list-inline.col-xs-6.col-lg-2.text-right
                             li
                                 a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
