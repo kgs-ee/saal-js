@@ -6,26 +6,27 @@ block content
 
     .container-fluid
         .row.page-margin
-            .col-xs-12.col-md-12.col-lg-9
+            .col-md-12
                 .programme.row
                     .col-xs-12.col-md-12.col-lg-12
-                        h2= t('nav.tours')
+                        h2 Aprill 2015
 
                     each eventdate, datestring in tours
-                        h3.col-xs-12= datestring + ' ' + t('weekdays.' + new Date(datestring).getDay())
                         each eventtime, timestring in eventdate
-                            h4.col-xs-12= timestring
                             each p, i in eventtime
-                                .col-xs-12.col-sm-2.col-lg-2
-                                    p= op.get(p, 'start-times')
-                                .col-xs-12.col-md-6.col-lg-6
+                                .col-xs-12.col-md-2
+                                    p= t('weekdays.' + new Date(datestring).getDay())
+                                    p= datestring
+                                    //p= (new Date(datestring).toString())
+                                    p= timestring
+                                .col-xs-12.col-md-6
                                     h3
                                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
                                 .col-xs-6.col-md-2.col-lg-2
-                                    p= op.get(p, 'location')
+                                    
                                     p= op.get(p, 'price')
-                                .col-xs-6.col-md-2.col-lg-2.text-right
-                                    a.btn.btn-primary(href='#') Osta pilet
-                                .col-xs-12.col-md-12.col-lg-12
+                                .col-xs-6.col-md-2.text-right
+                                    p= op.get(p, 'location')
+                                .col-xs-12.col-md-12
                                     hr
 
