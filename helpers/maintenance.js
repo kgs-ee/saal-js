@@ -23,6 +23,7 @@ fs.readdir('./pagecache', function(error, files) {
 
 var cacheRoot = function cacheRoot() {
     debug('Caching root')
+    SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-5.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-5.5)-1)/2+1))
     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
         if (error) {
             debug('Cant cache institution entity', error)

@@ -8,7 +8,6 @@ var op      = require('object-path')
 
 
 router.get('/', function(req, res, next) {
-    debug('Loading "' + req.url + '"', req.params.lang)
 
     var program = []
     var upcoming_events = SDC.get('program_upcoming')
