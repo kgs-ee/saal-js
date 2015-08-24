@@ -109,51 +109,22 @@ html
                                 li
                                     a(href='/' + lang + '/signin') Sign In
 
-        .container
-            if title
-                .row
-                    h1.col-xs-12.text-center= title
-
         block content
 
-footer.container-fluid
-    .container
-        .row
-            .col-xs-12.col-sm-6
-                b= t('.KGS')
-                br
-                small
-                    | Reg nr: XXXXXXXXXX
-                    br
-                    | Konto: EEXXXXXXXXXXXXXXXXXX
-                    br
-                    | SWIFT/BIC: XXXXXXXX
-                    br
-                    | PANK
-            .col-xs-12.col-sm-6.text-right
-                a(href='/team') Team
-                br
-                a(href='/partners') Partners
-                br
-                a(href='/tos') Terms of Service
-        .row
-            .col-xs-12.text-center
-                a(href='https://www.facebook.com/', target='_blank')
-                    i.fa.fa-facebook-square.social(style='color:#3b5998')
-                a(href='https://www.twitter.com/xxxxxx', target='_blank')
-                    i.fa.fa-twitter-square.social(style='color:#00aced')
-                a(href='https://xxxxxx.blogspot.com/', target='_blank')
-                    i.fa.fa-rss-square.social(style='color:#f57d00')
-                a(href='http://www.enjoygram.com/tag/xxxxxx', target='_blank')
-                    i.fa.fa-instagram.social(style='color:#517fa4')
-                a(href='https://www.linkedin.com/company/xxxxxx', target='_blank')
-                    i.fa.fa-linkedin-square.social(style='color:#007bb6')
-                a(href='https://www.pinterest.com/xxxxxx/', target='_blank')
-                    i.fa.fa-pinterest-square.social(style='color:#cb2027')
-                a(href='http://xxxxxx.tumblr.com/', target='_blank')
-                    i.fa.fa-tumblr-square.social(style='color:#32506d')
-                a(href='https://www.youtube.com/channel/xxxxxx', target='_blank')
-                    i.fa.fa-youtube-square.social(style='color:#bb0000')
+.container-fluid        
+    footer.row
+        .col-md-4
+            p Kanuti Gildi SAAL
+            p Pikk 20, 10133
+            p Tallinn, Estonia
+
+        .col-md-3.col-md-offset-5.text-right
+            form.form-inline
+                .form-group
+                    label.sr-only(for='seach') Otsi…
+                    input.form-control(type='text' id='search' placeholder='Otsi…')
+                button.btn.btn-default(type='submit') Otsi
+        
 style.
     /**
     ** SAAL COLOR SCHEME
