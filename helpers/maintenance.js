@@ -29,9 +29,8 @@ var cacheRoot = function cacheRoot() {
         }
         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-        debug(JSON.stringify(SDC.get('__')))
         debug('Root cached')
-        setTimeout(cacheRoot, 10 * 60 * 1000)
+        setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
     })
 }
 cacheRoot()
