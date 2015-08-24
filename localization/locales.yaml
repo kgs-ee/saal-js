@@ -8,6 +8,28 @@
     event_picture:
         en: .event_picture
         et: .event_picture
+categories:
+    dance:
+        en: Dance
+        et: Tants
+    film:
+        en: Film
+        et: Film
+    lecture:
+        en: Lecture
+        et: Loeng
+    music:
+        en: Music
+        et: Muusika
+    new-circus:
+        en: New Circus
+        et: Uus Tsirkus
+    performance:
+        en: Performance
+        et: Performance
+    theatre:
+        en: Theatre
+        et: Teater
 nav:
     contact:
         en: Contact
