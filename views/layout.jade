@@ -154,3 +154,81 @@ footer.container-fluid
                     i.fa.fa-tumblr-square.social(style='color:#32506d')
                 a(href='https://www.youtube.com/channel/xxxxxx', target='_blank')
                     i.fa.fa-youtube-square.social(style='color:#bb0000')
+style.
+    /**
+    ** SAAL COLOR SCHEME
+    ** #00f - primary color
+    ** #A62720 - secondary color
+    */
+    a:hover {
+        color: #00f;
+    }
+
+    .navbar-default .social a {
+        color: #00f;
+    }
+
+    .select-cat .active {
+        color: #00f;
+    }
+
+    .select-cat label:hover {
+        color:#00f;
+    }
+
+    .btn-primary {
+        background-color: #00f;
+        border-color: #00f;
+    }
+
+    .btn-primary:hover {
+        color: #00f;
+        border-color: #00f;
+    }
+
+    .btn-primary:focus {
+        background-color: #00f;
+        border-color: #00f;
+    }
+
+    .open>.btn-default.dropdown-toggle {
+        background-color: #00f;
+        border-color: #00f;
+    }
+
+    .btn-default {
+        color: #00f;
+        border-color: #00f;
+    }
+
+    .btn-default:hover {
+        background-color: #00f;
+        border-color: #00f;
+    }
+
+    .voulenteer a {
+        background-color: #00f;
+    }
+
+    .voulenteer a:hover {
+        border: 2px solid #00f;
+        color: #00f;
+    }
+
+    .panel h3 a:focus,
+    .panel .select-cat label a:focus,
+    .select-cat .panel label a:focus {
+        color: #00f;
+    }
+
+    footer {
+        background-color: #00f;
+    }
+
+script.
+    var target1 = document.getElementById('slide-01');
+    var target2 = document.getElementById('slide-02');
+    var gradientMap = "#00f, #A62720";
+
+    GradientMaps.applyGradientMap(target1, gradientMap);
+    GradientMaps.applyGradientMap(target2, gradientMap);
