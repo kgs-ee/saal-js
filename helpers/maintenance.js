@@ -21,6 +21,22 @@ fs.readdir('./pagecache', function(error, files) {
     })
 })
 
+var cacheRoot = function cacheRoot() {
+    debug('Caching root')
+    entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
+        if (error) {
+            debug('Cant cache institution entity', error)
+        }
+        SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
+        SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
+        debug(JSON.stringify(SDC.get('__')))
+        debug('Root cached')
+        setTimeout(cacheRoot, 10 * 60 * 1000)
+    })
+}
+cacheRoot()
+
+
 var cacheEntities = function cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f) {
     debug('Caching ' + name)
     var callback = function(error, entities) {

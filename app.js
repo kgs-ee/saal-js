@@ -20,13 +20,13 @@ var i18n    = require('./helpers/i18n')
 debug('Loading Entu web ...')
 
 // global variables (and list of all used environment variables)
+APP_ENTU_ROOT = 1 // institution
 APP_DEBUG     = process.env.DEBUG
 APP_PORT      = process.env.PORT || 3000
 APP_LOG_DIR   = process.env.LOGDIR || __dirname + '/log'
 APP_COOKIE_SECRET = process.env.COOKIE_SECRET || random.generate(16)
 APP_ENTU_URL  = process.env.ENTU_URL
 if (!process.env.ENTU_URL) throw '"ENTU_URL" missing in environment'
-WWW_ROOT_EID  = process.env.WWW_ROOT_EID
 APP_ENTU_USER = process.env.ENTU_USER
 APP_ENTU_KEY  = process.env.ENTU_KEY
 
@@ -91,6 +91,7 @@ app
         // debug(JSON.stringify(req.path, null, '    '))
         res.locals.lang = 'et'
         res.locals.op = op
+        res.locals.SAAL = SDC.get('__')
         if(req.signedCookies.auth_id && req.signedCookies.auth_token) {
             res.locals.user = {
                 id: req.signedCookies.auth_id,
