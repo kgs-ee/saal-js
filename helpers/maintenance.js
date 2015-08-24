@@ -14,12 +14,17 @@ fs.readdir('./pagecache', function(error, files) {
         debug('0', error)
     }
     files.forEach(function(file) {
-        debug('Read from cache: ' + path.basename(file, '.json'))
         if (path.extname(file) === '.json') {
+            debug('Read from cache: ' + path.basename(file, '.json'))
             SDC.set(path.basename(file, '.json'), require(path.join('../pagecache', file)))
         }
     })
 })
+
+
+SDC.set('calendar.min_date', new Date().toLocaleDateString())
+SDC.set('calendar.max_date', new Date().toLocaleDateString())
+// fs.createWriteStream('./pagecache/calendar.json').write(JSON.stringify(SDC.get('calendar'), null, '  '))
 
 var cacheRoot = function cacheRoot() {
     debug('Caching root')
@@ -30,6 +35,7 @@ var cacheRoot = function cacheRoot() {
         }
         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
+        fs.createWriteStream('./pagecache/root.json').write(JSON.stringify(SDC.get('__'), null, '  '))
         debug('Root cached')
         setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
     })
