@@ -103,6 +103,9 @@ app
     //Initiate i18n
     app.use(i18n.init)
 
+    .locals
+        .moment = require('moment');
+
 
 app
 
