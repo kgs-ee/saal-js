@@ -7,66 +7,51 @@ block content
     .container-fluid
         .row.page-margin
             section.col-xs-12.col-md-12.col-lg-9
+
                 .programme.row
                     .col-xs-12.col-md-12.col-lg-12
                         h2= t('nav.program')
-                    
-                    each eventdate, date in program
-                        // h4.col-xs-12= date
-                        each p, i in eventdate
 
-                            .col-xs-12.col-sm-2.col-lg-2
-                                p= op.get(p, 'start-times')
-
-                            .col-xs-12.col-md-6.col-lg-6
-                                h3
-                                    a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
-
-                            .col-xs-6.col-md-2.col-lg-2
-                                p= op.get(p, 'location')
-                                p= op.get(p, 'price')
-
-                            .col-xs-6.col-md-2.col-lg-2.text-right
-                                a.btn.btn-primary(href='#') Osta pilet
-
-                            .col-xs-12.col-md-12.col-lg-12
-                                hr
-                
-                .tour.row
-                    .col-xs-12.col-md-12
+                    each eventdate, datestring in program
+                        each eventtime, timestring in eventdate
+                            each p in eventtime
+                                .col-xs-12.col-sm-2.col-lg-2
+                                    p= t('weekdays.' + new Date(datestring).getDay())
+                                    p= (new Date(datestring).toString())
+                                    p= timestring
+                                .col-xs-12.col-md-6.col-lg-6
+                                    h3.col-xs-12
+                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
+                                .col-xs-6.col-md-2.col-lg-2
+                                    p= op.get(p, 'location')
+                                    p= op.get(p, 'price')
+                                .col-xs-6.col-md-2.col-lg-2.text-right
+                                    a.btn.btn-primary(href='#') Osta pilet
+                                .col-xs-12.col-md-12.col-lg-12
+                                    hr
+                                        
+                .programme.row
+                    .col-xs-12.col-md-12.col-lg-12
                         h2= t('nav.tours')
 
-                    .col-xs-12.col-sm-2.col-lg-2
-                        p Laupäev
-                        p 24.01.2015
-                        p 19:00
-
-                    .col-xs-12.col-md-6.col-lg-6
-                        h3
-                            a(href='#') IMPROTEST: Eksperimentaalne vokaaltrio AtgRuioFallA (Laura Remmel/Ivi Rausi/Roomet Jakapi)
-
-                    .col-xs-6.col-md-2.col-lg-2
-                        p Kaalstuudio's
-
-                    .col-xs-6.col-md-2.col-lg-2.text-right
-                        p Brüssel, Belgia
-
-                    .col-xs-12.col-md-12
-                        hr
-
-                .tour.row
-                    .col-xs-12.col-md-12
-                        h2= t('nav.residency')
-
-                    .col-xs-12.col-md-2
-                        p 01.01—31.01.2015
-
-                    .col-xs-12.col-md-10
-                        h3
-                            a(href='#') Henri Hütt & Taavet Jansen
-
-                    .col-xs-12.col-md-12
-                        hr
+                    each eventdate, datestring in tours
+                        each eventtime, timestring in eventdate
+                            each p in eventtime
+                                .col-xs-12.col-sm-2.col-lg-2
+                                    p= t('weekdays.' + new Date(datestring).getDay())
+                                    p= datestring
+                                    //p= (new Date(datestring).toString())
+                                    p= timestring
+                                .col-xs-12.col-md-6.col-lg-6
+                                    h3
+                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
+                                .col-xs-6.col-md-2.col-lg-2
+                                    p= op.get(p, 'location')
+                                    p= op.get(p, 'price')
+                                .col-xs-6.col-md-2.col-lg-2.text-right
+                                    a.btn.btn-primary(href='#') Osta pilet
+                                .col-xs-12.col-md-12.col-lg-12
+                                    hr                            
 
             aside.col-xs-12.col-md-12.col-lg-3
                 .row
