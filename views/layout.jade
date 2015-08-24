@@ -66,7 +66,7 @@ html
                             span.icon-bar
                         a.logo(href='/' + lang + '/')
                             img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
-                            p.season.visible-lg= season
+                            p.season.visible-lg Hooaeg 15/16
                     .collapse.navbar-collapse(id='navbar')
                         ul.list-unstyled.col-lg-1
                             li
@@ -131,74 +131,74 @@ style.
     ** #A62720 - secondary color
     */
     a:hover {
-        color: #{SAAL.main_color};
+        color: #{SAAL.secondary_color};
     }
 
     .navbar-default .social a {
-        color: #{SAAL.main_color};
+        color: #{SAAL.secondary_color};
     }
 
     .select-cat .active {
-        color: #{SAAL.main_color};
+        color: #{SAAL.secondary_color};
     }
 
     .select-cat label:hover {
-        color:#{SAAL.main_color};
+        color:#{SAAL.secondary_color};
     }
 
     .btn-primary {
-        background-color: #{SAAL.main_color};
-        border-color: #{SAAL.main_color};
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
     }
 
     .btn-primary:hover {
-        color: #{SAAL.main_color};
-        border-color: #{SAAL.main_color};
+        color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
     }
 
     .btn-primary:focus {
-        background-color: #{SAAL.main_color};
-        border-color: #{SAAL.main_color};
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
     }
 
     .open>.btn-default.dropdown-toggle {
-        background-color: #{SAAL.main_color};
-        border-color: #{SAAL.main_color};
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
     }
 
     .btn-default {
-        color: #{SAAL.main_color};
-        border-color: #{SAAL.main_color};
+        color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
     }
 
     .btn-default:hover {
-        background-color: #{SAAL.main_color};
-        border-color: #{SAAL.main_color};
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
     }
 
     .voulenteer a {
-        background-color: #{SAAL.main_color};
+        background-color: #{SAAL.secondary_color};
     }
 
     .voulenteer a:hover {
-        border: 2px solid #{SAAL.main_color};
-        color: #{SAAL.main_color};
+        border: 2px solid #{SAAL.secondary_color};
+        color: #{SAAL.secondary_color};
     }
 
     .panel h3 a:focus,
     .panel .select-cat label a:focus,
     .select-cat .panel label a:focus {
-        color: #{SAAL.main_color};
+        color: #{SAAL.secondary_color};
     }
 
     footer {
-        background-color: #{SAAL.main_color};
+        background-color: #{SAAL.secondary_color};
     }
 
 script.
     var target1 = document.getElementById('slide-01');
     var target2 = document.getElementById('slide-02');
-    var gradientMap = '#{SAAL.main_color}, #{SAAL.secondary_color}';
+    var gradientMap = '#{SAAL.secondary_color}, #{SAAL.main_color}';
 
     GradientMaps.applyGradientMap(target1, gradientMap);
     GradientMaps.applyGradientMap(target2, gradientMap);
