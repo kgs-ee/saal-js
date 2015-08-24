@@ -47,12 +47,12 @@ html
 
         script(src='/javascripts/jquery/jquery-2.1.3.min.js')
         script(src='/javascripts/jquery/jquery-ui.min.js')
-        script(src='/javascripts/jquery/jquery-ui-i18n.min.js')    
+        script(src='/javascripts/jquery/jquery-ui-i18n.min.js')
         script(src='/javascripts/bootstrap/bootstrap.js')
         script(src='/javascripts/jquery.shorten/jquery.shorten.js')
         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')
         script(src='/javascripts/gradientmaps/gradientmaps.min.js')
-        script(src='/javascripts/scripts.js')    
+        script(src='/javascripts/scripts.js')
     body
 
         nav.navbar-default.navbar-fixed-top
@@ -66,7 +66,7 @@ html
                             span.icon-bar
                         a.logo(href='/' + lang + '/')
                             img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
-                            p.season.visible-lg= 'Hooaeg ' + (new Date().getFullYear())
+                            p.season.visible-lg= t('.season') + ' ' + (new Date().getFullYear())
                     .collapse.navbar-collapse(id='navbar')
                         ul.list-unstyled.col-lg-1
                             li
@@ -75,21 +75,21 @@ html
                                 a(href='/' + lang + '/program')= t('nav.program')
                             li
                                 a(href='/' + lang + '/residency')= t('nav.residency')
-                        ul.list-unstyled.col-lg-2            
+                        ul.list-unstyled.col-lg-2
                             li
                                 a(href='/' + lang + '/tours')= t('nav.tours')
                             li
                                 a(href='/' + lang + '/projects')= t('nav.projects')
                             li
                                 a(href='/' + lang + '/contact')= t('nav.contact')
-                        ul.list-unstyled.col-lg-4 
+                        ul.list-unstyled.col-lg-4
                             li
                                 a(href='/' + lang + '/festival/1234') NU Performance
                             li
                                 a(href='/' + lang + '/festival/1235') SAAL Bienaal
                         ul.list-unstyled.col-xs-6.col-lg-2
                             li
-                                a(href='/en') In English   
+                                a(href='/en') In English
                         ul.social.list-inline.col-xs-6.col-lg-2.text-right
                             li
                                 a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
@@ -110,7 +110,7 @@ html
 
         block content
 
-.container-fluid        
+.container-fluid
     footer.row
         .col-md-4
             p Kanuti Gildi SAAL
@@ -123,7 +123,7 @@ html
                     label.sr-only(for='seach') Otsi…
                     input.form-control(type='text' id='search' placeholder='Otsi…')
                 button.btn.btn-default(type='submit') Otsi
-        
+
 style.
     /**
     ** SAAL COLOR SCHEME

@@ -8,6 +8,9 @@
     event_picture:
         en: .event_picture
         et: .event_picture
+    season:
+        en: Season
+        et: Hooaeg
 button:
     buy_ticket:
         en: Buy ticket
