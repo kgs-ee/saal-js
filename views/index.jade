@@ -17,7 +17,8 @@ block content
                             each p in eventtime
                                 .col-xs-12.col-sm-2.col-lg-2
                                     p= t('weekdays.' + new Date(datestring).getDay())
-                                    p= (new Date(datestring).toString())
+                                    p= datestring
+                                    //p= (new Date(datestring).toShortDateString())
                                     p= timestring
                                 .col-xs-12.col-md-6.col-lg-6
                                     h3.col-xs-12
@@ -29,29 +30,43 @@ block content
                                     a.btn.btn-primary(href='#') Osta pilet
                                 .col-xs-12.col-md-12.col-lg-12
                                     hr
-                                        
-                .programme.row
-                    .col-xs-12.col-md-12.col-lg-12
-                        h2= t('nav.tours')
 
-                    each eventdate, datestring in tours
-                        each eventtime, timestring in eventdate
-                            each p in eventtime
-                                .col-xs-12.col-sm-2.col-lg-2
-                                    p= t('weekdays.' + new Date(datestring).getDay())
-                                    p= datestring
-                                    //p= (new Date(datestring).toString())
-                                    p= timestring
-                                .col-xs-12.col-md-6.col-lg-6
-                                    h3
-                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
-                                .col-xs-6.col-md-2.col-lg-2
-                                    p= op.get(p, 'location')
-                                    p= op.get(p, 'price')
-                                .col-xs-6.col-md-2.col-lg-2.text-right
-                                    a.btn.btn-primary(href='#') Osta pilet
-                                .col-xs-12.col-md-12.col-lg-12
-                                    hr                            
+                //- .tour.row
+                //-     .col-xs-12.col-md-12.col-lg-12
+                //-         h2= t('nav.tours')
+
+                //-     each eventdate, datestring in tours
+                //-         each eventtime, timestring in eventdate
+                //-             each p in eventtime
+                //-                 .col-xs-12.col-sm-2.col-lg-2
+                //-                     p= t('weekdays.' + new Date(datestring).getDay())
+                //-                     p= datestring
+                //-                     //p= (new Date(datestring).toString())
+                //-                     p= timestring
+                //-                 .col-xs-12.col-md-6.col-lg-6
+                //-                     h3
+                //-                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
+                //-                 .col-xs-6.col-md-2.col-lg-2
+                //-                     p= op.get(p, 'location')
+                //-                     p= op.get(p, 'price')
+                //-                 .col-xs-6.col-md-2.col-lg-2.text-right
+                //-                     a.btn.btn-primary(href='#') Osta pilet
+                //-                 .col-xs-12.col-md-12.col-lg-12
+                //-                     hr
+
+                .tour.row
+                    .col-xs-12.col-md-12
+                        h2= t('nav.residency')
+
+                    .col-xs-12.col-md-2
+                        p 01.01—31.01.2015
+
+                    .col-xs-12.col-md-10
+                        h3
+                            a(href='#') Henri Hütt & Taavet Jansen
+
+                    .col-xs-12.col-md-12
+                        hr                        
 
             aside.col-xs-12.col-md-12.col-lg-3
                 .row
