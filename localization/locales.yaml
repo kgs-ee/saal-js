@@ -8,6 +8,10 @@
     event_picture:
         en: .event_picture
         et: .event_picture
+button:
+    buy_ticket:
+        en: Buy ticket
+        et: Osta pilet
 categories:
     dance:
         en: Dance
