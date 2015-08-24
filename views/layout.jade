@@ -66,7 +66,7 @@ html
                             span.icon-bar
                         a.logo(href='/' + lang + '/')
                             img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
-                            p.season.visible-lg Hooaeg 15/16
+                            p.season.visible-lg= 'Hooaeg ' + (new Date().getFullYear())
                     .collapse.navbar-collapse(id='navbar')
                         ul.list-unstyled.col-lg-1
                             li
