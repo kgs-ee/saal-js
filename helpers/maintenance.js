@@ -24,11 +24,10 @@ fs.readdir('./pagecache', function(error, files) {
 
 SDC.set('calendar.min_date', new Date().toLocaleDateString())
 SDC.set('calendar.max_date', new Date().toLocaleDateString())
-// fs.createWriteStream('./pagecache/calendar.json').write(JSON.stringify(SDC.get('calendar'), null, '  '))
 
 var cacheRoot = function cacheRoot() {
     debug('Caching root')
-    SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-5.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-5.5)-1)/2+1))
+    SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-5.5)-1)/2+1))
     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
         if (error) {
             debug('Cant cache institution entity', error)
@@ -121,6 +120,7 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     entity_in.get('properties.start-time', []).forEach(function(starttime) {
         entity_out.push('start-times', starttime.value)
     })
+
 
     if (entity_in.get('properties.performance.reference')) {
         // debug('fetch performance')
