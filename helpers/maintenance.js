@@ -92,6 +92,7 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
             if (delay_ms) {
                 setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f)}, delay_ms)
             }
+            // fs.createWriteStream('./pagecache/calendar.json').write(JSON.stringify(SDC.get('calendar'), null, '  '))
             debug('Caching ' + name + ' done. Next check in ' + delay_ms/1000 + ' sec.')
         })
     }
@@ -119,6 +120,7 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
 
     entity_in.get('properties.start-time', []).forEach(function(starttime) {
         entity_out.push('start-times', starttime.value)
+        // SDC.set(['calendar', 'dates', new Date(starttime.value).toLocaleDateString(), entity_out.get('id')], entity_out.get())
     })
 
 
