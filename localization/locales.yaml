@@ -5,105 +5,116 @@
     KGS_logo:
         en: Kanuti Gildi Saal logo
         et: Kanuti Gildi Saali logo
-        lt: .KGS_logo
-    event_picture:
-        en: .event_picture
-        et: .event_picture
+        lv: Kanuti Gildi Saal logo
     season:
         en: Season
         et: Hooaeg
-        lt: Sezona
+        lv: Sezona
 button:
     buy_ticket:
         en: Buy ticket
         et: Osta pilet
-        lt: button.buy_ticket
+        lv: Pirkt biļeti
+    search:
+        en: Search
+        et: Otsi
+        lv: Meklē
 categories:
     dance:
         en: Dance
         et: Tants
-        lt: categories.dance
+        lv: Deja
     film:
         en: Film
         et: Film
-        lt: categories.film
+        lv: Filma
     lecture:
         en: Lecture
         et: Loeng
-        lt: categories.lecture
+        lv: Lekcija
     music:
         en: Music
         et: Muusika
-        lt: categories.music
+        lv: Mūzika
     new-circus:
         en: New Circus
         et: Uus Tsirkus
-        lt: categories.new-circus
+        lv: Cirks
     performance:
         en: Performance
         et: Performance
-        lt: categories.performance
+        lv: Performance
     theatre:
         en: Theatre
         et: Teater
-        lt: categories.theatre
+        lv: Teātris
 lang:
     en:
         en: English
         et: English
-        lt: English
+        lv: English
     et:
         en: Eesti
         et: Eesti
-        lt: Eesti
+        lv: Eesti
     lt:
+        et: lang.lt
+    lv:
         en: Latviešu
         et: Latviešu
-        lt: Latviešu
+        lv: Latviešu
 nav:
     contact:
         en: Contact
         et: Kontakt
-        lt: nav.contact
+        lv: Kontakts
     program:
         en: Program
         et: Programm
-        lt: nav.program
+        lv: Programma
     projects:
         en: Projects
         et: Projektid
-        lt: nav.projects
+        lv: Projekti
     residency:
         en: Residency
         et: Residentuur
-        lt: nav.residency
+        lv: Residentuura
     tours:
         en: Tours
         et: Tuurid
-        lt: nav.tours
+        lv: nav.tours
+placeholder:
+    search:
+        en: Search…
+        et: Otsi…
+        lv: Meklē…
 weekdays:
     '0':
         en: Monday
         et: esmaspäev
+        lv: pirmdiena
     '1':
         en: Tuesday
         et: teisipäev
-        lt: weekdays.1
+        lv: otrdiena
     '2':
         en: Wednesday
         et: kolmapäev
-        lt: weekdays.2
+        lv: trešdiena
     '3':
         en: Thursday
         et: neljapäev
-        lt: weekdays.3
+        lv: ceturdiena
     '4':
         en: Friday
         et: reede
+        lv: piektdiena
     '5':
         en: Saturday
         et: laupäev
+        tv: sestdiena
     '6':
         en: Sunday
         et: pühapäev
-        lt: weekdays.6
+        lv: svētdiena
