@@ -25,12 +25,16 @@ body {
 	padding-top: 63px;
 	-webkit-font-smoothing: subpixel-antialiased;
 
-	@media (min-width: $screen-md) {
+	@media (min-width: $screen-sm) {
 		padding-top: 91px;
 	}
 
+	@media (min-width: $screen-md) {
+		padding-top: 92px;
+	}
+
 	@media (min-width: $screen-lg) {
-		padding-top: 104px;
+		padding-top: 108px;
 	}
 }
 
