@@ -2,8 +2,11 @@
 **  Events to datepicker
 */
 function datePickerInit() {
+  var baseHref = document.getElementsByTagName('base')[0].href;
   var options = $.extend(
       {},
+      locale = ((baseHref == '/et/') ? "et" : "en");
+      alert(locale);
       $.datepicker.regional["et"],
       { dateFormat: "d MM, y" }
   );
