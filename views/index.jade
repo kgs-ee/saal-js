@@ -68,9 +68,12 @@ block content
                         each eventtime, timestring in eventdate
                             each p in eventtime
                                 .col-xs-12.col-sm-2.col-lg-2
-                                    p= t('weekdays.' + new Date(datestring).getDay())
+                                    p= (moment(datestring).locale(lang).format('dddd'))
                                     p= (moment(datestring).locale(lang).format('L'))
                                     p= timestring
+                                    if (moment(datestring).format('D')) == (moment().date())
+                                        div.today= t('button.today')
+
                                 .col-xs-12.col-md-6.col-lg-6
                                     h3.col-xs-12
                                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')

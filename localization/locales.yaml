@@ -21,9 +21,12 @@ button:
         en: Search
         et: Otsi
         lv: Meklē
+    today:
+        en: Today!
+        et: Täna!
     voulenteer:
-        en: Become a volunteer!
-        et: Tule vabatahtlikuks!
+        en: 'Become a volunteer!'
+        et: 'Tule vabatahtlikuks!'
 categories:
     dance:
         en: Dance
