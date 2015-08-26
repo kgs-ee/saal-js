@@ -27,7 +27,7 @@ SDC.set('calendar.max_date', new Date().toLocaleDateString())
 
 var cacheRoot = function cacheRoot() {
     debug('Caching root')
-    SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-5.5)-1)/2+1))
+    SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
         if (error) {
             debug('Cant cache institution entity', error)
@@ -120,8 +120,8 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
 
     entity_in.get('properties.start-time', []).forEach(function(starttime) {
         entity_out.push('start-times', starttime.value)
-        // SDC.set(['calendar', 'dates', new Date(starttime.value).toLocaleDateString(), entity_out.get('id')], entity_out.get())
     })
+
 
 
     if (entity_in.get('properties.performance.reference')) {
@@ -131,11 +131,13 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
                 debug('Event manipulator performance reference', error)
             }
             entity_out.set('performance', performance_manipulator(performance).get())
+            SDC.push('events', entity_out.get())
             // debug(entity_out.get('performance'))
             callback(null, entity_out)
         })
     } else {
         // debug('no performance')
+        SDC.push('events', entity_out.get())
         callback(null, entity_out)
     }
 }
