@@ -647,8 +647,28 @@ a.logo {
 	}
 }
 
-.newsletter {
+#mailchimp-sign-up {
 	margin-top: 2em;
+
+	input[type="text"] {
+		border: 2px solid $primary-color;
+		@include border-top-radius(5px);
+		@include border-bottom-radius(5px);
+		color: $primary-color;
+		padding: .5em;
+		width: 100%;
+	}
+
+	input[type="submit"] {
+		background-color: #fff;
+		border: 0;
+		color: $primary-color;
+		position: absolute;
+		top: 9px;
+		right: 22px;
+		padding: 0;
+	}
+
 }
 
 .main-text {
@@ -760,6 +780,33 @@ footer {
 	padding: 2em 0;
 	//border-top: 2px solid $primary-color;
 	background-color: $primary-color;
+
+	.site-search {
+
+		margin-top: 1em;
+
+		@media (min-width: $screen-desktop) {
+			margin-top: 0;
+		}
+		
+		input {
+			border: 1px solid #fff;
+			@include border-top-radius(5px);
+			@include border-bottom-radius(5px);
+			color: $primary-color;
+			padding: .5em;
+			width: 100%;
+		}
+
+		button {
+			background-color: #fff;
+			border: 0;
+			color: $primary-color;
+			position: absolute;
+			top: -3px;
+			right: 15px;
+		}
+	}
 }
 
 .test{}

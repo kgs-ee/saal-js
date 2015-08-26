@@ -121,12 +121,10 @@ html
             p Pikk 20, 10133
             p Tallinn, Estonia
 
-        .col-md-3.col-md-offset-5.text-right
-            form.form-inline
-                .form-group
-                    label.sr-only(for='seach') Otsi…
-                    input.form-control(type='text' id='search' placeholder='Otsi…')
-                button.btn.btn-default(type='submit') Otsi
+        .col-md-3.col-md-offset-5.text-right.site-search
+            form
+                input(type='text' id='search' placeholder='Otsi…')
+                button.icon-search.h4(type='submit')
 
 style.
     /**
