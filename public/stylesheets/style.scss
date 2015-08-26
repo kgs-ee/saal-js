@@ -273,13 +273,13 @@ a.logo {
 #datepicker {
 	width: auto;
 	//margin-top: 1em;
-	@extend .table-responsive;
 }
 
 .ui-datepicker-calendar {
 	width: auto;
 	@extend .table;
 	//@extend .table-bordered;
+	@extend .table-responsive;
 	@extend .text-center;
 
 	thead th {
