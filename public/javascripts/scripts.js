@@ -1,127 +1,7 @@
-
-/*
-** Datepicker
+/**
+**  Events to datepicker
 */
-// var availableDates = ["11-6-2015","21-6-2015","15-6-2015"];
-
-// function available(date) {
-//   dmy = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear();
-//   if ($.inArray(dmy, availableDates) != -1) {
-//     return [true, "","Available"];
-//   } else {
-//     return [false,"","unAvailable"];
-//   }
-// }
-
-function toggleTooltip(options)
-{
-  var settings = {
-    show : true,
-    content : '',
-    effect : '',
-    align : ''
-  };  
-  $.extend(settings, options);
-  if (settings.content)
-    $('#tooltip-content').html(settings.content);
-  var $tooltip = $('#tooltip');
-  $tooltip.stop();
-  if (settings.show) {
-    if (settings.effect == 'fade') {
-      $tooltip.fadeTo(200, 1);
-    } else {
-      $tooltip.show();
-    }
-    $(document).bind('mousemove', {settings: settings}, followTooltip);
-  } else {
-    if (settings.effect == 'fade') {
-      $tooltip.fadeTo(200, 0);
-    } else {
-      $tooltip.hide();
-    }
-    $(document).unbind('mousemove', followTooltip);
-  } 
-}
-
-function followTooltip(e)
-{
-  var $tooltip = $('#tooltip');
-  var width = $tooltip.width();
-  var left = (e.pageX - $tooltip.width() - 25);
-
-  if (left < 10) {
-    left = e.pageX;
-  }
-  $tooltip.css({
-    'top' : (e.pageY + 20) + "px",
-    'left' : left + "px",
-    'width' : 'auto'
-  });
-  /*
-  if (e.pageX + width > $(window).width() && !e.data.settings.align == "right") {
-    $tooltip.css('right', e.pageX - width - 15).css('top', e.pageY - 55);
-  } else {
-    $tooltip.css('right', e.pageX+15).css('top', e.pageY - 55);
-  }*/
-}
-
-
-function eventBannerHeight() {
-  windowHeight = $(window).height();
-  navHeight = $('.navbar-default').outerHeight(true);
-
-  $(".event-banner figure").height(windowHeight - navHeight);
-}
-
-function categoryDropDown() {
-  var options = [];
-
-  $( '.dropdown-menu a' ).on( 'click', function( event ) {
-
-     var $target = $( event.currentTarget ),
-         val = $target.attr( 'data-value' ),
-         $inp = $target.find( 'input' ),
-         idx;
-
-     if ( ( idx = options.indexOf( val ) ) > -1 ) {
-        options.splice( idx, 1 );
-        setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
-     } else {
-        options.push( val );
-        setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
-     }
-
-     $( event.target ).blur();
-        
-     console.log( options );
-     return false;
-  });
-}
-
-/*
-**  Google Maps
-*/
-function initMap() {
-  var myLatlng = new google.maps.LatLng(59.438552,24.745975);
-  
-  var mapOptions = {
-    center: myLatlng,
-    zoom: 18
-  };
-
-  var map = new google.maps.Map(document.getElementById('map'),
-  mapOptions);
-
-  var marker = new google.maps.Marker({
-      position: myLatlng,
-      map: map,
-      title: 'Kanuti Gildi Saal'
-  });
-
-}
-
-$(document).ready(function() {
-
+function datePickerInit() {
   var options = $.extend(
       {},
       $.datepicker.regional["et"],
@@ -140,7 +20,7 @@ var arrEvents = {};
 var currentTitle = "";
 
   
-  $.getJSON('http://localhost:3000/javascripts/campo-json.json', function(response){
+  $.getJSON('http://kgs-ee.github.io/saal-js/javascripts/campo-json.json', function(response){
 
     for (var key in response) {
       //console.log(key);
@@ -162,6 +42,8 @@ var currentTitle = "";
         }, 0);
       },
       onSelect: function(dateText, inst) {
+
+
         //console.log(dateText);
         var parts = dateText.split("-");
         //console.log(parts);
@@ -203,11 +85,11 @@ var currentTitle = "";
             /*console.log(event);*/
             extraClass += " " + event.extraClasses;
             var time = (event.time != "00:00") ? (event.time + " uur ") : "";
-            /*tooltip += "<li class='" + event.extraClasses + "'>" + time + ": "  + event.name + ((event.short) ? (" - " + event.short) : "") + "</li>";*/
+            tooltip += "<li class='" + event.extraClasses + "'>" + time + ": "  + event.name + ((event.short) ? (" - " + event.short) : "") + "</li>";
             tooltip += "<li class='" + event.extraClasses + "'>";
               tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />";
               tooltip += event.client + ((event.city) ? (" - " + event.city) : "");
-              //tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />";
+              tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />";
             
             tooltip += "</li>";
           }
@@ -217,10 +99,89 @@ var currentTitle = "";
       }
     });
   });
+}
 
 
-  $('.highlight').tooltip();
+/**
+**  Calendar tooltip
+*/
+function calToolTip() {
+  $('body').tooltip({
+    selector: '[data-handler="selectDay"]',
+    html: true,
+    container: "body",
+    placement: "bottom"
+  });
+}
 
+
+/**
+**  Frontpage slider height
+*/
+function eventBannerHeight() {
+  windowHeight = $(window).height();
+  navHeight = $('.navbar-default').outerHeight(true);
+
+  $(".event-banner figure").height(windowHeight - navHeight);
+}
+
+
+/**
+**  Programme category dropdown
+*/
+function categoryDropDown() {
+  var options = [];
+
+  $( '.dropdown-menu a' ).on( 'click', function( event ) {
+
+     var $target = $( event.currentTarget ),
+         val = $target.attr( 'data-value' ),
+         $inp = $target.find( 'input' ),
+         idx;
+
+     if ( ( idx = options.indexOf( val ) ) > -1 ) {
+        options.splice( idx, 1 );
+        setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+     } else {
+        options.push( val );
+        setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+     }
+
+     $( event.target ).blur();
+        
+     console.log( options );
+     return false;
+  });
+}
+
+
+/**
+**  Google Maps
+*/
+function initMap() {
+  var myLatlng = new google.maps.LatLng(59.438552,24.745975);
+  
+  var mapOptions = {
+    center: myLatlng,
+    zoom: 18
+  };
+
+  var map = new google.maps.Map(document.getElementById('map'),
+  mapOptions);
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Kanuti Gildi Saal'
+  });
+
+}
+
+
+/**
+**  Fancybox Gallery
+*/
+function fancyBoxGallery() {
   $(".fancybox").fancybox({
     padding: 0,
     helpers: {
@@ -228,29 +189,38 @@ var currentTitle = "";
           locked: false
         }
       }
-  });
+  }); 
+}
 
-  $(".main-text").shorten({
-    moreText: 'Loe edasi',
-    lessText: 'Loe vähem',
-    showChars: '1000'
-  });
 
-  //$("#datepicker-container").draggable();
-  
+/**
+**  Read More generator
+*/
+function shortenTexts() {
+ $(".main-text").shorten({
+   moreText: 'Loe edasi',
+   lessText: 'Loe vähem',
+   showChars: '1000'
+ }); 
+}
+
+
+
+$(document).ready(function() {
+  datePickerInit();
+  calToolTip();
+  fancyBoxGallery();
+  shortenTexts();
   // eventBannerHeight();
   //initMap();
   categoryDropDown();
 });
 
-$(window).on("load resize",function(){
+$(window).load(function() {
     eventBannerHeight();
+    calToolTip();
+});
 
-    $('.highlight').tooltip({
-      html: true,
-      container: "body",
-      placement: "bottom"
-    });
-
-    $('.highlight').attr("data-toggle", "tooltip");
+$(window).resize(function() {
+    eventBannerHeight();
 });

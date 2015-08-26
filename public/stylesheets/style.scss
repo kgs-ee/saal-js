@@ -351,6 +351,19 @@ a.logo {
 	@extend .badge;
 }
 
+li.on-tour {
+	background-color: $primary-color;
+}
+
+li.in-campo {
+	background-color: #00f;
+}
+
+li.on-tour,
+li.in-campo {
+	padding: 5px;
+}
+
 .ui-datepicker-prev {
 	float: left;
 }

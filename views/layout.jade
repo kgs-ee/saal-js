@@ -54,7 +54,6 @@ html
         script(src='/javascripts/jquery.shorten/jquery.shorten.js')
         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')
         script(src='/javascripts/gradientmaps/gradientmaps.min.js')
-        script(src='/javascripts/scripts.js')
     body
 
         nav.navbar-default.navbar-fixed-top
@@ -152,6 +151,18 @@ style.
         background-color: #{SAAL.main_color};
     }
 
+    .highlight.on-tour a {
+        background-color: #{SAAL.secondary_color};
+    }
+
+    li.on-tour {
+        background-color: #{SAAL.secondary_color};
+    }
+
+    li.in-campo {
+        background-color: #{SAAL.main_color};
+    }
+
     .btn-primary {
         background-color: #{SAAL.secondary_color};
         border-color: #{SAAL.secondary_color};
@@ -226,3 +237,5 @@ script.
 
     GradientMaps.applyGradientMap(target1, gradientMap);
     GradientMaps.applyGradientMap(target2, gradientMap);
+
+script(src='/javascripts/scripts.js')
