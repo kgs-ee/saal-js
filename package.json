@@ -39,6 +39,6 @@
     "sanitize-html": "1.x",
     "serve-favicon": "2.x",
     "stylus": "0.x",
-    "underscore": "1.x"
+    "sift": "2.x"
   }
 }
