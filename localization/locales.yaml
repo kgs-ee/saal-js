@@ -102,6 +102,20 @@ placeholder:
         en: Search…
         et: Otsi…
         lv: Meklē…
+q:
+    query:
+        en: Searched for
+        et: Otsisid
+        lv: Meklējāt
+    results:
+        '0':
+            en: No matching results
+            et: Ei leidnud
+        '1':
+            en: Found one
+            et: Üks oli
+        en: Results
+        et: Leidsin
 weekdays:
     '0':
         en: Monday
