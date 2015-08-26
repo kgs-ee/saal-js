@@ -790,7 +790,7 @@ footer {
 		}
 		
 		input {
-			border: 1px solid #fff;
+			border: 2px solid $primary-color;
 			@include border-top-radius(5px);
 			@include border-bottom-radius(5px);
 			color: $primary-color;
@@ -804,7 +804,7 @@ footer {
 			color: $primary-color;
 			position: absolute;
 			top: -3px;
-			right: 15px;
+			right: 17px;
 		}
 	}
 }
