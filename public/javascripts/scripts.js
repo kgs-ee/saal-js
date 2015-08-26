@@ -2,12 +2,12 @@
 **  Events to datepicker
 */
 function datePickerInit() {
-  var baseHref = document.getElementsByTagName('base')[0].href;
+  var baseHref = document.getElementsByTagName('base')[0].getAttribute("href");
+  locale = ((baseHref == '/et/') ? "et" : "en");
+
   var options = $.extend(
       {},
-      locale = ((baseHref == '/et/') ? "et" : "en");
-      alert(locale);
-      $.datepicker.regional["et"],
+      $.datepicker.regional[locale],
       { dateFormat: "d MM, y" }
   );
   $.datepicker.setDefaults(options);
