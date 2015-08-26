@@ -119,11 +119,12 @@ app
     .use('/:lang',              require('./routes/index'))
     .use('/:lang/dev/',         require('./routes/dev'))
     .use('/:lang/tours/',       require('./routes/tours'))
+    .use('/:lang/search',       require('./routes/search'))
     .use('/:lang/signin',       require('./routes/signin'))
 
     // 404
     .use(function(req, res, next) {
-        debug(req.path)
+        debug('404:' + req.path)
         var err = new Error('Not Found')
         err.status = 404
         next(err)
