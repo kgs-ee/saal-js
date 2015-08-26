@@ -127,7 +127,7 @@ $caret-width-large:         5px !default;
 //## Customizes the `.table` component with basic values, each used across all table variations.
 
 //** Padding for `<th>`s and `<td>`s.
-$table-cell-padding:            6px !default;
+$table-cell-padding:            5px !default;
 //** Padding for cells in `.table-condensed`.
 $table-condensed-cell-padding:  5px !default;
 
@@ -777,7 +777,7 @@ $badge-active-color:          $link-color !default;
 //** Badge background color in active nav link
 $badge-active-bg:             #fff !default;
 
-$badge-font-weight:           bold !default;
+$badge-font-weight:           normal !default;
 $badge-line-height:           1 !default;
 $badge-border-radius:         10px !default;
 
