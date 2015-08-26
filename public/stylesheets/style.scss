@@ -141,8 +141,7 @@ h3,.h3 {
 
 h2,
 .season,
-.select-cat,
-.voulenteer a {
+.select-cat{
 	font-family: flyerblack, sans-serif;
 	text-transform: uppercase;
 }
@@ -690,8 +689,10 @@ a.logo {
 	display: block;
 	padding: 2em 1em;
 	margin: 0 !important;
+	border: 2px solid transparent;
 	background-color: $primary-color;
 	color: white;
+	text-transform: uppercase;
 
 	&:hover {
 		border: 2px solid $primary-color;

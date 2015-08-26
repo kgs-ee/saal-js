@@ -21,6 +21,9 @@ button:
         en: Search
         et: Otsi
         lv: Meklē
+    voulenteer:
+        en: Become a volunteer!
+        et: Tule vabatahtlikuks!
 categories:
     dance:
         en: Dance
