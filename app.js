@@ -19,17 +19,20 @@ var i18n    = require('./helpers/i18n')
 
 debug('Loading Entu web ...')
 
-// global variables (and list of all used environment variables)
-APP_ENTU_ROOT = 1 // institution
-APP_ROOT_REFRESH_MS = 10 * 60 * 1000
-APP_DEBUG     = process.env.DEBUG
-APP_PORT      = process.env.PORT || 3000
-APP_LOG_DIR   = process.env.LOGDIR || __dirname + '/log'
-APP_COOKIE_SECRET = process.env.COOKIE_SECRET || random.generate(16)
-APP_ENTU_URL  = process.env.ENTU_URL
 if (!process.env.ENTU_URL) throw '"ENTU_URL" missing in environment'
-APP_ENTU_USER = process.env.ENTU_USER
-APP_ENTU_KEY  = process.env.ENTU_KEY
+// global variables (and list of all used environment variables)
+APP_ENTU_ROOT       = 1 // institution
+APP_ROOT_REFRESH_MS = 1 * 60 * 1000
+APP_DEBUG           = process.env.DEBUG
+APP_PORT            = process.env.PORT || 3000
+APP_LOG_DIR         = process.env.LOGDIR || __dirname + '/log'
+APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
+APP_ENTU_URL        = process.env.ENTU_URL
+APP_ENTU_USER       = process.env.ENTU_USER
+APP_ENTU_KEY        = process.env.ENTU_KEY
+// Index and cache for all events
+ALL_EVENTS          = []
+EVENT_LOOKUP        = {}
 
 // console.log(process.env)
 

@@ -18,23 +18,15 @@ block content
                         else
                             h2= t('q.results') + ' ' + results.length
 
-                    each eventdate, datestring in results
-                        each eventtime, timestring in eventdate
-                            each p in eventtime
-                                .col-xs-12.col-sm-2.col-lg-2
-                                    p= t('weekdays.' + new Date(datestring).getDay())
-                                    p= (moment(datestring).locale(lang).format('L'))
-                                    p= timestring
-                                .col-xs-12.col-md-6.col-lg-6
-                                    h3.col-xs-12
-                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
-                                .col-xs-6.col-md-2.col-lg-2
-                                    p= op.get(p, 'location')
-                                    p= op.get(p, 'price')
-                                .col-xs-6.col-md-2.col-lg-2.text-right
-                                    a.btn.btn-primary(href='#')= t('button.buy_ticket')
-                                .col-xs-12.col-md-12.col-lg-12
-                                    hr
+                    each event in results
+                        .col-xs-12.col-sm-2.col-lg-2
+                            p= t('weekdays.' + new Date(event['start-times'][0]).getDay())
+                            p= (moment(event['start-times'][0]).locale(lang).format('L'))
+                        .col-xs-12.col-md-6.col-lg-6
+                            h3.col-xs-12
+                                a(href='/' + lang + '/event/' + event.id)= event.name
+                        .col-xs-12.col-md-12.col-lg-12
+                            hr
 
             aside.col-xs-12.col-md-12.col-lg-3
                 .row

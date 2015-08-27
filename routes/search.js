@@ -13,11 +13,14 @@ router.get('/', function(req, res, next) {
     // debug(JSON.stringify(SDC.get('events'), null, '  '))
     res.locals.q = req.query.q
 
-    var results = sift(
-        {
-            id: req.query.q
-        }, SDC.get('events')
-    )
+    var re = new RegExp('(?=.*' + req.query.q.replace(/\s\s+/g, ' ').split(' ').join(')(?=.*') + ')','i')
+    debug('Search regExp: ' + re.toString())
+
+    // fs.createWriteStream('./pagecache/all_events.json').write(JSON.stringify(ALL_EVENTS, null, '  '))
+    // fs.createWriteStream('./pagecache/event_lookup.json').write(JSON.stringify(EVENT_LOOKUP, null, '  '))
+
+    var results = sift({ name: re }, ALL_EVENTS)
+
     // debug(JSON.stringify(SDC.get('events'), null, '  '))
     debug(JSON.stringify(results, null, '  '))
 

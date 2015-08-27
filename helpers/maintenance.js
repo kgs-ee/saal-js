@@ -7,6 +7,7 @@ var fs      = require('fs')
 
 var entu    = require('../helpers/entu')
 
+
 debug('Maintenance Started at ' + Date().toString())
 
 fs.readdir('./pagecache', function(error, files) {
@@ -26,11 +27,14 @@ SDC.set('calendar.min_date', new Date().toLocaleDateString())
 SDC.set('calendar.max_date', new Date().toLocaleDateString())
 
 var cacheRoot = function cacheRoot() {
+    debug(EVENT_LOOKUP)
     debug('Caching root')
     SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
         if (error) {
             debug('Cant cache institution entity', error)
+            setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
+            return
         }
         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
@@ -42,13 +46,13 @@ var cacheRoot = function cacheRoot() {
 cacheRoot()
 
 
-var cacheEntities = function cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f) {
+var cacheEntities = function cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f, finally_f) {
     debug('Caching ' + name)
     var callback = function(error, entities) {
         if (error) {
             if (error.code == 'ENOTFOUND') {
                 debug('Retry in 5 sec', error)
-                setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f)}, 5*1000)
+                setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f, finally_f)}, 5*1000)
                 return
             }
         }
@@ -72,6 +76,9 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                     marked_entities_1[marker].push(one_entity.get())
                     // op.push(marked_entities, marker, one_entity.get())
                 })
+                if (finally_f) {
+                    finally_f(one_entity)
+                }
                 callback()
             })
         }, function (error) {
@@ -90,7 +97,7 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                 SDC.set(name + '_' + marker, marked_entities_2[marker])
             }
             if (delay_ms) {
-                setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f)}, delay_ms)
+                setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f, finally_f)}, delay_ms)
             }
             // fs.createWriteStream('./pagecache/calendar.json').write(JSON.stringify(SDC.get('calendar'), null, '  '))
             debug('Caching ' + name + ' done. Next check in ' + delay_ms/1000 + ' sec.')
@@ -131,13 +138,11 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
                 debug('Event manipulator performance reference', error)
             }
             entity_out.set('performance', performance_manipulator(performance).get())
-            SDC.push('events', entity_out.get())
             // debug(entity_out.get('performance'))
             callback(null, entity_out)
         })
     } else {
         // debug('no performance')
-        SDC.push('events', entity_out.get())
         callback(null, entity_out)
     }
 }
@@ -156,6 +161,15 @@ var performance_manipulator = function manipulator_f(entity_in) {
     return entity_out
 }
 
+
+var event_finally = function event_finally(entity_in) {
+    if (EVENT_LOOKUP[entity_in.get('id')]) {
+        var eveint_idx = EVENT_LOOKUP[entity_in.get('id')]
+        ALL_EVENTS[eveint_idx] = entity_in.get()
+    } else {
+        EVENT_LOOKUP[entity_in.get('id')] = ALL_EVENTS.push(entity_in.get()) - 1
+    }
+}
 
 // Split events into past and future and group by time
 cacheEntities(
@@ -184,7 +198,8 @@ cacheEntities(
         }
         return markers
     },
-    manipulator_f = event_manipulator
+    manipulator_f = event_manipulator,
+    finally_f = event_finally
 )
 
 // Fetch events from under SAAL Biennaal and group by time
@@ -214,7 +229,8 @@ cacheEntities(
         }
         return markers
     },
-    manipulator_f = event_manipulator
+    manipulator_f = event_manipulator,
+    finally_f = event_finally
 )
 
 
@@ -245,7 +261,8 @@ cacheEntities(
         }
         return markers
     },
-    manipulator_f = event_manipulator
+    manipulator_f = event_manipulator,
+    finally_f = event_finally
 )
 
 
@@ -276,7 +293,8 @@ cacheEntities(
         }
         return markers
     },
-    manipulator_f = event_manipulator
+    manipulator_f = event_manipulator,
+    finally_f = event_finally
 )
 
 
@@ -307,7 +325,8 @@ cacheEntities(
         }
         return markers
     },
-    manipulator_f = event_manipulator
+    manipulator_f = event_manipulator,
+    finally_f = event_finally
 )
 
 
