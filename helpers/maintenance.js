@@ -27,7 +27,6 @@ SDC.set('calendar.min_date', new Date().toLocaleDateString())
 SDC.set('calendar.max_date', new Date().toLocaleDateString())
 
 var cacheRoot = function cacheRoot() {
-    debug(EVENT_LOOKUP)
     debug('Caching root')
     SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
