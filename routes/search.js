@@ -5,7 +5,7 @@ var path    = require('path')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var async   = require('async')
 var op      = require('object-path')
-var sift    = require('sift')
+var fuse    = require('fuse.js')
 
 
 router.get('/', function(req, res, next) {
@@ -13,15 +13,19 @@ router.get('/', function(req, res, next) {
     // debug(JSON.stringify(SDC.get('events'), null, '  '))
     res.locals.q = req.query.q
 
-    var re = new RegExp('(?=.*' + req.query.q.replace(/\s\s+/g, ' ').split(' ').join(')(?=.*') + ')','i')
-    debug('Search regExp: ' + re.toString())
+    var options = {
+        caseSensitive: false,
+        includeScore: true,
+        shouldSort: true,
+        threshold: 0.6,
+        location: 0,
+        distance: 100,
+        maxPatternLength: 32,
+        keys: ["name","description"]
+    }
 
-    // fs.createWriteStream('./pagecache/all_events.json').write(JSON.stringify(ALL_EVENTS, null, '  '))
-    // fs.createWriteStream('./pagecache/event_lookup.json').write(JSON.stringify(EVENT_LOOKUP, null, '  '))
+    var results = new fuse(ALL_EVENTS, options).search(req.query.q)
 
-    var results = sift({$or: [{ name: re }, { description: re }]}, ALL_EVENTS)
-
-    // debug(JSON.stringify(SDC.get('events'), null, '  '))
     debug(JSON.stringify(results, null, '  '))
 
     res.render('search', {

@@ -20,14 +20,13 @@ block content
 
                     each event in results
                         .col-xs-12.col-sm-2.col-lg-2
-                            each stime in op.get(event, 'start-times', [])
-                                p= t('weekdays.' + new Date(stime).getDay())
-                                p= (moment(stime).locale(lang).format('L'))
+                            each stime in op.get(event, 'item.start-times', [])
+                                p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
                         .col-xs-12.col-md-6.col-lg-6
                             h3.col-xs-12
-                                a(href='/' + lang + '/event/' + event.id)!= event.name
+                                a(href='/' + lang + '/event/' + event.id)!= event.item.name
                         .col-xs-12.col-md-6.col-lg-6
-                            p.col-xs-12!= event.name
+                            p.col-xs-12!= event.item.name
                         .col-xs-12.col-md-12.col-lg-12
                             hr
 
