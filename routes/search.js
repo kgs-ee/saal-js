@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
     // fs.createWriteStream('./pagecache/all_events.json').write(JSON.stringify(ALL_EVENTS, null, '  '))
     // fs.createWriteStream('./pagecache/event_lookup.json').write(JSON.stringify(EVENT_LOOKUP, null, '  '))
 
-    var results = sift({ name: re }, ALL_EVENTS)
+    var results = sift({$or: [{ name: re }, { description: re }]}, ALL_EVENTS)
 
     // debug(JSON.stringify(SDC.get('events'), null, '  '))
     debug(JSON.stringify(results, null, '  '))
