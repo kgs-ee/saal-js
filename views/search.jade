@@ -24,6 +24,7 @@ block content
                             each stime in op.get(event, 'item.start-times', [])
                                 p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
                             h3
+                                b.matched= event.score
                                 a(href='/' + lang + '/event/' + event.id)!= event.item.name
                             p!= event.item.name
                             hr
@@ -33,9 +34,9 @@ block content
                             each stime in op.get(event, 'original.start-times', [])
                                 p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
                             h3
+                                b.matched= event.score
                                 a(href='/' + lang + '/event/' + event.id)!= event.original.name
                             p!= event.original.name
-                            pre!= event.score
                             p!= event.string
                             hr
 
