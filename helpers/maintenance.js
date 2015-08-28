@@ -10,17 +10,29 @@ var entu    = require('../helpers/entu')
 
 debug('Maintenance Started at ' + Date().toString())
 
+// copy test data for calendar widget
+fs.createReadStream(path.join('public', 'javascripts', 'campo-json.json'))
+    .pipe(fs.createWriteStream(path.join(APP_CACHE_DIR, 'campo_json.json')))
+
+
+// populate cache
 fs.readdir(APP_CACHE_DIR, function(error, files) {
     if (error) {
         debug('0', error)
     }
     files.forEach(function(file) {
-        if (path.extname(file) === '.json') {
+        if (file === 'campo_json.json') {
+            setTimeout(function() {
+                debug('Read campo_json from cache: ' + path.join(APP_CACHE_DIR, file))
+                SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
+            }, 1000);
+        } else if (path.extname(file) === '.json') {
             debug('Read from cache: ' + path.basename(file, '.json'))
             SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
         }
     })
 })
+
 
 
 SDC.set('calendar.min_date', new Date().toLocaleDateString())
@@ -37,7 +49,8 @@ var cacheRoot = function cacheRoot() {
         }
         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-        fs.createWriteStream(path.join(APP_CACHE_DIR, 'rot.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
+        SDC.set(['__', 'campo_json'], require(path.join(APP_CACHE_DIR, 'campo_json.json')))
+        fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
         debug('Root cached')
         setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
     })
