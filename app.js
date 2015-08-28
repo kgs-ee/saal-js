@@ -26,6 +26,7 @@ APP_ROOT_REFRESH_MS = 1 * 60 * 1000
 APP_DEBUG           = process.env.DEBUG
 APP_PORT            = process.env.PORT || 3000
 APP_LOG_DIR         = process.env.LOGDIR || __dirname + '/log'
+APP_CACHE_DIR       = __dirname + '/pagecache'
 APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
 APP_ENTU_URL        = process.env.ENTU_URL
 APP_ENTU_USER       = process.env.ENTU_USER
@@ -36,13 +37,14 @@ EVENT_LOOKUP        = {}
 
 // console.log(process.env)
 
+// ensure required directories
+fs.existsSync(APP_LOG_DIR) || fs.mkdirSync(APP_LOG_DIR)
+fs.existsSync(APP_CACHE_DIR) || fs.mkdirSync(APP_CACHE_DIR)
 
 // Site data cache
 SDC = op({})
 require('./helpers/maintenance')
 
-// ensure log directory exists
-fs.existsSync(APP_LOG_DIR) || fs.mkdirSync(APP_LOG_DIR)
 
 
 

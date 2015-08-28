@@ -9,39 +9,15 @@ var op      = require('object-path')
 
 router.get('/', function(req, res, next) {
 
-    var program = []
-    var upcoming_events = SDC.get('program_upcoming')
-    var upcoming_tours = SDC.get('tours_upcoming')
-    if (!upcoming_events) {next(new Error('"upcoming_events" not cached...'))}
+    if (!SDC.get('program_upcoming')) {next(new Error('"upcoming_events" not cached...'))}
+    if (!SDC.get('tours_upcoming')) {next(new Error('"upcoming_tours" not cached...'))}
 
-            res.render('index', {
-                "program": upcoming_events,
-                "tours": upcoming_tours
-            })
-            res.end()
-            return
-
-    async.each(
-        Object.keys(upcoming_events),
-        function(key, callback) {
-            var event_date = {date:key, events:[]}
-            upcoming_events[key].forEach(function(single_event) {
-                event_date.events.push(single_event)
-            })
-            program.push(event_date)
-            callback()
-        },
-        function(error) {
-            if (error) {
-                debug('2', error)
-            }
-            debug('c',JSON.stringify(program, null, '  '))
-            res.render('index', {
-                "program": program
-            })
-            res.end()
-        }
-    )
+    res.render('index', {
+        "program": SDC.get('program_upcoming'),
+        "tours": SDC.get('tours_upcoming')
+    })
+    res.end()
+    return
 })
 
 

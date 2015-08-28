@@ -10,14 +10,14 @@ var entu    = require('../helpers/entu')
 
 debug('Maintenance Started at ' + Date().toString())
 
-fs.readdir('./pagecache', function(error, files) {
+fs.readdir(APP_CACHE_DIR, function(error, files) {
     if (error) {
         debug('0', error)
     }
     files.forEach(function(file) {
         if (path.extname(file) === '.json') {
             debug('Read from cache: ' + path.basename(file, '.json'))
-            SDC.set(path.basename(file, '.json'), require(path.join('../pagecache', file)))
+            SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
         }
     })
 })
@@ -37,7 +37,7 @@ var cacheRoot = function cacheRoot() {
         }
         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-        fs.createWriteStream('./pagecache/root.json').write(JSON.stringify(SDC.get('__'), null, '  '))
+        fs.createWriteStream(path.join(APP_CACHE_DIR, 'rot.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
         debug('Root cached')
         setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
     })
@@ -91,7 +91,7 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
 
             for (marker in marked_entities_2) {
                 debug('Writing ' + name + '.' + marker + ' to cache.')
-                var ws = fs.createWriteStream('./pagecache/' + name + '_' + marker + '.json')
+                var ws = fs.createWriteStream(path.join(APP_CACHE_DIR, name + '_' + marker + '.json'))
                 ws.write(JSON.stringify(marked_entities_2[marker], null, '  '))
                 SDC.set(name + '_' + marker, marked_entities_2[marker])
             }
@@ -299,7 +299,7 @@ cacheEntities(
 
 // Fetch events from under Residency and group by time
 cacheEntities(
-    name = 'Residency',
+    name = 'residency',
     definition = 'event',
     parent = 1931,
     reset_markers = ['no_date', 'past', 'upcoming'],

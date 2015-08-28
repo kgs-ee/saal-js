@@ -29,13 +29,13 @@ router.get('/', function(req, res, next) {
         post: '</b>',
         extract: function(el) { return el.name + ' ' + el.description; }
     }
-    debug(JSON.stringify(fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options), null, '  '))
 
     var results = {
         "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q),
         "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
     }
 
+    debug(JSON.stringify(results.fuse_js, null, '  '))
 
     res.render('search', {
         results: results
