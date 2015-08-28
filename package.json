@@ -39,6 +39,7 @@
     "sanitize-html": "1.x",
     "serve-favicon": "2.x",
     "stylus": "0.x",
-    "fuse.js": "1.x"
+    "fuse.js": "1.x",
+    "fuzzy": "0.x"
   }
 }

@@ -5,12 +5,10 @@
     KGS_logo:
         en: Kanuti Gildi Saal logo
         et: Kanuti Gildi Saali logo
-        lt: .KGS_logo
         lv: Kanuti Gildi Saal logo
     season:
         en: Season
         et: Hooaeg
-        lt: .season
         lv: Sezona
 button:
     buy_ticket:
@@ -25,8 +23,8 @@ button:
         en: Today!
         et: Täna!
     voulenteer:
-        en: 'Become a volunteer!'
-        et: 'Tule vabatahtlikuks!'
+        en: Become a volunteer!
+        et: Tule vabatahtlikuks!
 categories:
     dance:
         en: Dance
@@ -60,16 +58,11 @@ lang:
     en:
         en: In English
         et: In English
-        lt: lang.en
         lv: In English
     et:
         en: Eesti keeles
         et: Eesti keeles
-        lt: lang.et
         lv: Eesti keeles
-    lt:
-        en: lang.lt
-        et: lang.lt
     lv:
         en: Latviešu
         et: Latviešu
@@ -78,27 +71,22 @@ nav:
     contact:
         en: Contact
         et: Kontakt
-        lt: nav.contact
         lv: Kontakts
     program:
         en: Program
         et: Programm
-        lt: nav.program
         lv: Programma
     projects:
         en: Projects
         et: Projektid
-        lt: nav.projects
         lv: Projekti
     residency:
         en: Residency
         et: Residentuur
-        lt: nav.residency
         lv: Residentuura
     tours:
         en: Tours
         et: Tuurid
-        lt: nav.tours
         lv: nav.tours
 placeholder:
     search:
@@ -106,6 +94,9 @@ placeholder:
         et: Otsi…
         lv: Meklē…
 q:
+    matches:
+        en: matches
+        et: vastet
     query:
         en: Searched for
         et: Otsisid
@@ -127,7 +118,6 @@ weekdays:
     '1':
         en: Tuesday
         et: teisipäev
-        lt: weekdays.1
         lv: otrdiena
     '2':
         en: Wednesday
@@ -136,7 +126,6 @@ weekdays:
     '3':
         en: Thursday
         et: neljapäev
-        lt: weekdays.3
         lv: ceturdiena
     '4':
         en: Friday
@@ -149,5 +138,4 @@ weekdays:
     '6':
         en: Sunday
         et: pühapäev
-        lt: weekdays.6
         lv: svētdiena

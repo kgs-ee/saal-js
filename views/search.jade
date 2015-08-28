@@ -11,23 +11,32 @@ block content
                 .programme.row
                     .col-xs-12.col-md-12.col-lg-12
                         p= t('q.query') + ': ' + q
-                        if results.length == 0
+                        if results.fuse_js.length + results.fuzzy.length == 0
                             h2= t('q.results.0')
-                        else if results.length == 1
+                        else if results.fuse_js.length + results.fuzzy.length == 1
                             h2= t('q.results.1')
                         else
-                            h2= t('q.results') + ' ' + results.length
+                            h2= t('q.results') + ' ' + (results.fuse_js.length + results.fuzzy.length)
 
-                    each event in results
-                        .col-xs-12.col-sm-2.col-lg-2
+                    .col-xs-6.col-md-6.col-lg-6
+                        b.pre= 'fuse_js: ' + results.fuse_js.length + ' ' + t('q.matches')
+                        each event in op.get(results, 'fuse_js', [])
                             each stime in op.get(event, 'item.start-times', [])
                                 p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
-                        .col-xs-12.col-md-6.col-lg-6
-                            h3.col-xs-12
+                            h3
                                 a(href='/' + lang + '/event/' + event.id)!= event.item.name
-                        .col-xs-12.col-md-6.col-lg-6
-                            p.col-xs-12!= event.item.name
-                        .col-xs-12.col-md-12.col-lg-12
+                            p!= event.item.name
+                            hr
+                    .col-xs-6.col-md-6.col-lg-6
+                        b.pre= 'fuzzy: ' + results.fuzzy.length + ' ' + t('q.matches')
+                        each event in op.get(results, 'fuzzy', [])
+                            each stime in op.get(event, 'original.start-times', [])
+                                p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
+                            h3
+                                a(href='/' + lang + '/event/' + event.id)!= event.original.name
+                            p!= event.original.name
+                            pre!= event.score
+                            p!= event.string
                             hr
 
             aside.col-xs-12.col-md-12.col-lg-3

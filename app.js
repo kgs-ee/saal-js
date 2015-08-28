@@ -57,7 +57,7 @@ var access_log_stream = rotator.getStream({
 
 // Configure i18n
 i18n.configure({
-    locales: ['en', 'et', 'lt'],
+    locales: ['en', 'et', 'lv'],
     defaultLocale: 'et',
     redirectWrongLocale: true,
     file: path.join(__dirname, 'localization', 'locales.yaml'),
