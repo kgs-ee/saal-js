@@ -25,6 +25,7 @@ button:
     voulenteer:
         en: 'Become a volunteer!'
         et: 'Tule vabatahtlikuks!'
+        lv: button.voulenteer
 categories:
     dance:
         en: Dance
@@ -72,6 +73,10 @@ lang:
         et: Latviešu
         lv: Latviešu
 nav:
+    about:
+        en: About Us
+        et: Meist
+        lv: Par mums
     contact:
         en: Contact
         et: Kontakt

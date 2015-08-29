@@ -122,12 +122,13 @@ app
 
     // routes mapping
     .use('/:lang',              require('./routes/index'))
+    .use('/:lang/about/',       require('./routes/about'))
     .use('/:lang/dev/',         require('./routes/dev'))
     .use('/:lang/tours/',       require('./routes/tours'))
     .use('/:lang/program/',     require('./routes/program'))
     .use('/:lang/residency/',   require('./routes/residency'))
     .use('/:lang/projects/',    require('./routes/projects'))
-    .use('/:lang/contact/',    require('./routes/contact'))
+    .use('/:lang/contact/',     require('./routes/contact'))
     .use('/:lang/search',       require('./routes/search'))
     .use('/:lang/signin',       require('./routes/signin'))
 
