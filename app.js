@@ -124,6 +124,10 @@ app
     .use('/:lang',              require('./routes/index'))
     .use('/:lang/dev/',         require('./routes/dev'))
     .use('/:lang/tours/',       require('./routes/tours'))
+    .use('/:lang/program/',     require('./routes/program'))
+    .use('/:lang/residency/',   require('./routes/residency'))
+    .use('/:lang/projects/',    require('./routes/projects'))
+    .use('/:lang/contact/',    require('./routes/contact'))
     .use('/:lang/search',       require('./routes/search'))
     .use('/:lang/signin',       require('./routes/signin'))
 
@@ -142,7 +146,7 @@ app
         res.status(status)
         res.render('error', {
             title: status,
-            message: err.message,
+            message: res.locals.t('error.' + err.message),
             error: APP_DEBUG ? err : {}
         })
 
