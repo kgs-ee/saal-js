@@ -20,11 +20,11 @@ button:
         et: Otsi
         lv: Meklē
     today:
-        en: Today!
-        et: Täna!
+        en: 'Today!'
+        et: 'Täna!'
     voulenteer:
-        en: Become a volunteer!
-        et: Tule vabatahtlikuks!
+        en: 'Become a volunteer!'
+        et: 'Tule vabatahtlikuks!'
 categories:
     dance:
         en: Dance
@@ -54,6 +54,10 @@ categories:
         en: Theatre
         et: Teater
         lv: Teātris
+error:
+    Not Found:
+        en: Page not found
+        et: Sellist lehte pole
 lang:
     en:
         en: In English
