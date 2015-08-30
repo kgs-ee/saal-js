@@ -107,7 +107,7 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                     one_event['start-times'].forEach(function(startdatetime) {
                         var starttime = '00:00'
                         if (startdatetime.length == 16) {
-                            starttime = startdatetime.slice(10,16)
+                            starttime = startdatetime.slice(11,16)
                         }
                         one_event.time = starttime
                         op.push(event_calendar, startdatetime.slice(0,10), one_event)
