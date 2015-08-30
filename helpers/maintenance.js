@@ -10,20 +10,15 @@ var entu    = require('../helpers/entu')
 
 debug('Maintenance Started at ' + Date().toString())
 
-// copy test data for calendar widget
-fs.createReadStream(path.join('public', 'javascripts', 'campo-json.json'))
-    .pipe(fs.createWriteStream(path.join(APP_CACHE_DIR, 'campo_json.json')))
-
-
 // populate cache
 fs.readdir(APP_CACHE_DIR, function(error, files) {
     if (error) {
         debug('0', error)
     }
     files.forEach(function(file) {
-        if (file === 'campo_json.json') {
+        if (file === 'calendar.json') {
             setTimeout(function() {
-                debug('Read campo_json from cache: ' + path.join(APP_CACHE_DIR, file))
+                debug('Read calendar from cache: ' + path.join(APP_CACHE_DIR, file))
                 SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
             }, 1000);
         } else if (path.extname(file) === '.json') {
@@ -33,10 +28,6 @@ fs.readdir(APP_CACHE_DIR, function(error, files) {
     })
 })
 
-
-
-SDC.set('calendar.min_date', new Date().toLocaleDateString())
-SDC.set('calendar.max_date', new Date().toLocaleDateString())
 
 var cacheRoot = function cacheRoot() {
     debug('Caching root')
@@ -49,7 +40,7 @@ var cacheRoot = function cacheRoot() {
         }
         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-        SDC.set(['__', 'campo_json'], require(path.join(APP_CACHE_DIR, 'campo_json.json')))
+        // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
         fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
         debug('Root cached')
         setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
@@ -108,6 +99,30 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                 ws.write(JSON.stringify(marked_entities_2[marker], null, '  '))
                 SDC.set(name + '_' + marker, marked_entities_2[marker])
             }
+            fs.createWriteStream(path.join(APP_CACHE_DIR, 'all_events.json')).write(JSON.stringify(ALL_EVENTS, null, '    '))
+
+            var event_calendar = {}
+            async.each(ALL_EVENTS, function(one_event, callback) {
+                if(one_event['start-times']) {
+                    one_event['start-times'].forEach(function(startdatetime) {
+                        var starttime = '00:00'
+                        if (startdatetime.length == 16) {
+                            starttime = startdatetime.slice(10,16)
+                        }
+                        one_event.time = starttime
+                        op.push(event_calendar, startdatetime.slice(0,10), one_event)
+                    })
+                }
+                callback()
+            }, function (error) {
+                if (error) {
+                    debug('12', error)
+                }
+                fs.createWriteStream(path.join(APP_CACHE_DIR, 'calendar.json')).write(JSON.stringify(event_calendar, null, '    '))
+            })
+
+
+
             if (delay_ms) {
                 setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f, finally_f)}, delay_ms)
             }

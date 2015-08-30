@@ -131,6 +131,7 @@ app
     .use('/:lang/contact/',     require('./routes/contact'))
     .use('/:lang/search',       require('./routes/search'))
     .use('/:lang/signin',       require('./routes/signin'))
+    .use('/:lang/calendar_json',require('./routes/calendar_json'))
 
     // 404
     .use(function(req, res, next) {

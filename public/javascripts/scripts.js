@@ -22,8 +22,7 @@ function datePickerInit() {
 
     var arrEvents = {}
     var currentTitle = ""
-    $.getJSON('http://kgs-ee.github.io/saal-js/javascripts/campo-json.json', function(response) {
-    // $.getJSON(window.location.protocol + '//' + window.location.host + '/public/campo_json.json', function(response){
+    $.getJSON('calendar_json', function(response){
 
         for (var key in response) {
             //console.log(key)
@@ -85,8 +84,8 @@ function datePickerInit() {
                         var event = eventsByDate[e]
                         /*console.log(event);*/
                         extraClass += " " + event.extraClasses
-                        var time = (event.time != "00:00") ? (event.time + " uur ") : ""
-                        tooltip += "<li class='" + event.extraClasses + "'>" + time + ": "  + event.name + ((event.short) ? (" - " + event.short) : "") + "</li>"
+                        var time = (event.time != "00:00") ? (event.time) + ' ' : ""
+                        tooltip += "<li class='" + event.extraClasses + "'>" + time + event.name + "</li>"
                         tooltip += "<li class='" + event.extraClasses + "'>"
                             tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
                             tooltip += event.client + ((event.city) ? (" - " + event.city) : "")
