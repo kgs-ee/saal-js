@@ -56,6 +56,19 @@ categories:
         et: Teater
         lv: Teātris
 error:
+    '"upcoming_tours" not cached':
+        '':
+            '':
+                '':
+                    et: 'error."upcoming_tours" not cached...'
+    /Users/rannoait/GitHub/saal-js/views/index:
+        "jade:92\n    90|                         h2= t('nav":
+            "tours')\n    91| \n  > 92|                     each eventdate, datestring in tours\n    93|                         each eventtime, timestring in eventdate\n    94|                             each p in eventtime\n    95|                                 ":
+                col-xs-12:
+                    col-sm-2:
+                        "col-lg-2\n\nCannot read property 'length' of undefined":
+                            en: "error./Users/rannoait/GitHub/saal-js/views/index.jade:92\n    90|                         h2= t('nav.tours')\n    91| \n  > 92|                     each eventdate, datestring in tours\n    93|                         each eventtime, timestring in eventdate\n    94|                             each p in eventtime\n    95|                                 .col-xs-12.col-sm-2.col-lg-2\n\nCannot read property 'length' of undefined"
+                            et: "error./Users/rannoait/GitHub/saal-js/views/index.jade:92\n    90|                         h2= t('nav.tours')\n    91| \n  > 92|                     each eventdate, datestring in tours\n    93|                         each eventtime, timestring in eventdate\n    94|                             each p in eventtime\n    95|                                 .col-xs-12.col-sm-2.col-lg-2\n\nCannot read property 'length' of undefined"
     Not Found:
         en: Page not found
         et: Sellist lehte pole
