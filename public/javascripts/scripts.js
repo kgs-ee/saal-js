@@ -101,6 +101,13 @@ function datePickerInit() {
     })
 }
 
+/*
+** Calendar width fix
+*/
+function calendarWidth() {
+    $('#datepicker').width($('.datepicker-container').width());
+}
+
 
 /**
 **  Calendar tooltip
@@ -216,10 +223,12 @@ $(document).ready(function() {
 })
 
 $(window).load(function() {
-    eventBannerHeight()
+    eventBannerHeight();
     calToolTip()
+    calendarWidth()
 })
 
 $(window).resize(function() {
     eventBannerHeight()
+    calendarWidth()
 })
