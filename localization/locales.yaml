@@ -59,6 +59,12 @@ categories:
         et: Teater
         lv: Teātris
 error:
+    '"upcoming_events" not cached':
+        '':
+            '':
+                '':
+                    en: 'error."upcoming_events" not cached...'
+                    et: 'error."upcoming_events" not cached...'
     '"upcoming_tours" not cached':
         '':
             '':
@@ -86,20 +92,77 @@ error:
                                                 et: >-
                                                     error./Users/rannoait/GitHub/saal-js/views/layout.jade:72
 
+
+
+
+
+
+
                                                         70|                             p.season.visible-lg
+
+
+
                                                      t('.season') + ' ' + SAAL.season
+
+
+
+
+
+
 
                                                         71|                     .collapse.navbar-collapse(id='navbar')
 
+
+
+
+
+
+
                                                       >
+
+
+
                                                     72|                         ul.list-unstyled..col-md-1col-lg-1
+
+
+
+
+
+
 
                                                         73|                             li
 
+
+
+
+
+
+
                                                         74|                                 a(href='/
+
+
+
                                                      + lang + '/about') Saal
 
+
+
+
+
+
+
                                                         75|                             li
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -181,11 +244,14 @@ title:
     news:
         en: News
         et: Uudised
+    no-events:
+        en: No events
+        et: Sündmusi ei toimu
     saal:
         en: Saal
         et: Saal
     sponsors:
-        en: Supporters and networks 
+        en: Supporters and networks
         et: Toetajad ja võrgustikud
     studio:
         en: Studio

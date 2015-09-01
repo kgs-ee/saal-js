@@ -64,48 +64,56 @@ block content
                     .col-xs-12.col-md-12.col-lg-12
                         h2= t('nav.program')
 
-                    each eventdate, datestring in program
-                        each eventtime, timestring in eventdate
-                            each p in eventtime
-                                .col-xs-12.col-sm-2.col-lg-2
-                                    p= (moment(datestring).locale(lang).format('dddd'))
-                                    p= (moment(datestring).locale(lang).format('L'))
-                                    p= timestring
-                                    if (moment(datestring).format('D')) == (moment().date())
-                                        div.today= t('button.today')
+                    if program
+                        each eventdate, datestring in program
+                            each eventtime, timestring in eventdate
+                                each p in eventtime
+                                    .col-xs-12.col-sm-2.col-lg-2
+                                        p= (moment(datestring).locale(lang).format('dddd'))
+                                        p= (moment(datestring).locale(lang).format('L'))
+                                        p= timestring
+                                        if (moment(datestring).format('D')) == (moment().date())
+                                            div.today= t('button.today')
 
-                                .col-xs-12.col-md-6.col-lg-6
-                                    h3
-                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
-                                .col-xs-6.col-md-2.col-lg-2
-                                    p= op.get(p, 'location')
-                                    p= op.get(p, 'price')
-                                .col-xs-6.col-md-2.col-lg-2.text-right
-                                    a.btn.btn-primary(href='#')= t('button.buy_ticket')
-                                .col-xs-12.col-md-12.col-lg-12
-                                    hr
+                                    .col-xs-12.col-md-6.col-lg-6
+                                        h3
+                                            a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
+                                    .col-xs-6.col-md-2.col-lg-2
+                                        p= op.get(p, 'location')
+                                        p= op.get(p, 'price')
+                                    .col-xs-6.col-md-2.col-lg-2.text-right
+                                        a.btn.btn-primary(href='#')= t('button.buy_ticket')
+                                    .col-xs-12.col-md-12.col-lg-12
+                                        hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-events')
 
                 .tour.row
                     .col-xs-12.col-md-12.col-lg-12
                         h2= t('nav.tours')
-
-                    each eventdate, datestring in tours
-                        each eventtime, timestring in eventdate
-                            each p in eventtime
-                                .col-xs-12.col-sm-2.col-lg-2
-                                    p= t('weekdays.' + new Date(datestring).getDay())
-                                    p= (moment(datestring).locale('et').format('L'))
-                                    p= timestring
-                                .col-xs-12.col-md-6.col-lg-6
-                                    h3
-                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
-                                .col-xs-6.col-md-2.col-lg-2
-                                    p= op.get(p, 'location')
-                                    p= op.get(p, 'price')
-                                .col-xs-6.col-md-2.col-lg-2.text-right
-                                    a.btn.btn-primary(href='#')= t('button.buy_ticket')
-                                .col-xs-12.col-md-12.col-lg-12
-                                    hr
+                    
+                    if tours
+                        each eventdate, datestring in tours
+                            each eventtime, timestring in eventdate
+                                each p in eventtime
+                                    .col-xs-12.col-sm-2.col-lg-2
+                                        p= t('weekdays.' + new Date(datestring).getDay())
+                                        p= (moment(datestring).locale('et').format('L'))
+                                        p= timestring
+                                    .col-xs-12.col-md-6.col-lg-6
+                                        h3
+                                            a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
+                                    .col-xs-6.col-md-2.col-lg-2
+                                        p= op.get(p, 'location')
+                                        p= op.get(p, 'price')
+                                    .col-xs-6.col-md-2.col-lg-2.text-right
+                                        a.btn.btn-primary(href='#')= t('button.buy_ticket')
+                                    .col-xs-12.col-md-12.col-lg-12
+                                        hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-tours')
 
                 .tour.row
                     .col-xs-12.col-md-12
