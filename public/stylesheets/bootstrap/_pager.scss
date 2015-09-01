@@ -5,7 +5,7 @@
 
 .pager {
   padding-left: 0;
-  margin: $line-height-computed 0;
+  //margin: $line-height-computed 0;
   list-style: none;
   text-align: center;
   @include clearfix;
@@ -14,7 +14,7 @@
     > a,
     > span {
       display: inline-block;
-      padding: 5px 14px;
+      padding: 6px 12px;
       background-color: $pager-bg;
       border: 1px solid $pager-border;
       border-radius: $pager-border-radius;

@@ -530,8 +530,15 @@ li.in-campo {
 /**	PROGRAMME CHECKBOXES
 ***	- - - - - - - - - - - - - - - - - - - - */
 
-.select-drop {
-	margin-bottom: 2em;
+.archive {
+	
+	&.top {
+		margin-bottom: 2em;
+	}
+
+	&.bottom {
+		margin-top: 2em;
+	}
 }
 
 .select-cat {
@@ -583,6 +590,7 @@ li.in-campo {
 /** BUTTONS
 ***	- - - - - - - - - - - - - - - - - - - - */
 
+.btn,
 .btn-primary {
   color: #fff;
   background-color: $primary-color;
@@ -621,6 +629,11 @@ li.in-campo {
 		border-color: $primary-color;
 		color: #fff;
 	}
+}
+
+.btn-group .btn:focus,
+.btn-group.open .btn:hover {
+	color: #fff;
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */

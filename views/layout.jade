@@ -168,16 +168,19 @@ style.
         color: #{SAAL.main_color};
     }
 
+    .btn,
     .btn-primary {
         background-color: #{SAAL.secondary_color};
         border-color: #{SAAL.secondary_color};
     }
 
+    .btn:hover,
     .btn-primary:hover {
         color: #{SAAL.secondary_color};
         border-color: #{SAAL.secondary_color};
     }
 
+    .btn:focus,
     .btn-primary:focus {
         background-color: #{SAAL.secondary_color};
         border-color: #{SAAL.secondary_color};
@@ -224,6 +227,20 @@ style.
 
     .matched {
         color: red;
+    }
+
+    .pager li > a, 
+    .pager li > span {
+        background-color: #fff;
+        border: 1px solid #{SAAL.secondary_color};
+        color: #{SAAL.secondary_color};
+    }
+
+    .pager li > a:hover, 
+    .pager li > span:hover {
+        background-color: #{SAAL.secondary_color};
+        border: 1px solid #{SAAL.secondary_color};
+        color: #fff;
     }
 
     footer {

@@ -39,9 +39,9 @@ function datePickerInit() {
             nextText : '>',
             onChangeMonthYear: function(year, month, inst) {
                 // hack default behaviour.
-                setTimeout(function(){
-                    toggleTooltip({show:false})
-                }, 0)
+                // setTimeout(function(){
+                //     toggleTooltip({show:false})
+                // }, 0)
             },
             onSelect: function(dateText, inst) {
                 //console.log(dateText)

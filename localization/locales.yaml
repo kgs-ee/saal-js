@@ -15,6 +15,9 @@ button:
         en: Buy ticket
         et: Osta pilet
         lv: Pirkt biļeti
+    category:
+        en: Category
+        et: Kategooria
     load-more:
         en: Load more
         et: Lae veel
@@ -29,6 +32,9 @@ button:
         en: 'Become a volunteer!'
         et: 'Tule vabatahtlikuks!'
         lv: button.voulenteer
+    year:
+        en: Year
+        et: Aasta
 categories:
     dance:
         en: Dance
@@ -59,6 +65,63 @@ categories:
         et: Teater
         lv: Teātris
 error:
+    /Users/rannoait/GitHub/saal-js/views/tours:
+        "jade:36\n    34|                                 li\n    35|                                     a(href='#' data-value='option1' tabIndex=\"-1\")\n  > 36|                                         input(type='checkbox')\n    37|                                             span= t('categories":
+            "theatre')\n    38|                                 li\n    39|                                     a(href='#' data-value='option2' tabIndex=\"-1\")\n\ninput is self closing and should not have content":
+                '':
+                    et: >-
+                        error./Users/rannoait/GitHub/saal-js/views/tours.jade:36
+
+                            34|                                 li
+
+                            35|                                     a(href='#'
+                        data-value='option1' tabIndex="-1")
+
+                          >
+                        36|                                         input(type='checkbox')
+
+                            37|                                             span=
+                        t('categories.theatre')
+
+                            38|                                 li
+
+                            39|                                     a(href='#'
+                        data-value='option2' tabIndex="-1")
+
+
+
+                        input is self closing and should not have content.
+        "jade:36\n    34|                                 li\n    35|                                     a(href='#' data-value='option1' tabIndex=\"-1\")\n  > 36|                                         input(type='checkbox')&nbsp;\n    37|                                         span= t('categories":
+            "theatre')\n    38|                                 li\n    39|                                     a(href='#' data-value='option2' tabIndex=\"-1\")\n\ninput is self closing and should not have content":
+                '':
+                    et: >-
+                        error./Users/rannoait/GitHub/saal-js/views/tours.jade:36
+
+                            34|                                 li
+
+                            35|                                     a(href='#'
+                        data-value='option1' tabIndex="-1")
+
+                          >
+                        36|                                         input(type='checkbox')&nbsp;
+
+                            37|                                         span=
+                        t('categories.theatre')
+
+                            38|                                 li
+
+                            39|                                     a(href='#'
+                        data-value='option2' tabIndex="-1")
+
+
+
+                        input is self closing and should not have content.
+        "jade:47\n    45|                                     a(href='#' data-value='option6' tabIndex=\"-1\")= t('categories":
+            "film')\n    46|                                 li\n  > 47|                                     a(href='#' data-value='option7' tabIndex=\"-1\")= t('categories":
+                "new-circus'))\n    48| \n    49|                     nav":
+                    "col-md-10\n    50|                         ul":
+                        "pager\n\nUnexpected token )":
+                            et: "error./Users/rannoait/GitHub/saal-js/views/tours.jade:47\n    45|                                     a(href='#' data-value='option6' tabIndex=\"-1\")= t('categories.film')\n    46|                                 li\n  > 47|                                     a(href='#' data-value='option7' tabIndex=\"-1\")= t('categories.new-circus'))\n    48| \n    49|                     nav.col-md-10\n    50|                         ul.pager\n\nUnexpected token )"
     Not Found:
         en: Page not found
         et: Sellist lehte pole
