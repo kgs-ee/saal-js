@@ -37,29 +37,29 @@ function datePickerInit() {
             dateFormat : "yy-mm-dd",
             prevText : '<',
             nextText : '>',
-            onChangeMonthYear: function(year, month, inst) {
-                // hack default behaviour.
-                // setTimeout(function(){
-                //     toggleTooltip({show:false})
-                // }, 0)
-            },
-            onSelect: function(dateText, inst) {
-                //console.log(dateText)
-                var parts = dateText.split("-")
-                //console.log(parts)
-                var clickedDate = new Date(parts[0], parts[1] - 1, parts[2])
-                //var clickedDate = new Date(dateText)
-                var dateString = clickedDate.getFullYear() + "-" + (clickedDate.getMonth() + 1) + "-" + clickedDate.getDate()
-                var eventsByDate = arrEvents[dateString]
-                var urlTo = ""
+            // onChangeMonthYear: function(year, month, inst) {
+            //     hack default behaviour.
+            //     setTimeout(function(){
+            //         toggleTooltip({show:false})
+            //     }, 0)
+            // },
+            // onSelect: function(dateText, inst) {
+            //     //console.log(dateText)
+            //     var parts = dateText.split("-")
+            //     //console.log(parts)
+            //     var clickedDate = new Date(parts[0], parts[1] - 1, parts[2])
+            //     //var clickedDate = new Date(dateText)
+            //     var dateString = clickedDate.getFullYear() + "-" + (clickedDate.getMonth() + 1) + "-" + clickedDate.getDate()
+            //     var eventsByDate = arrEvents[dateString]
+            //     var urlTo = ""
 
-                if (eventsByDate.length > 1) {
-                    urlTo = eventsByDate[0].multiUrl
-                } else {
-                    urlTo = eventsByDate[0].url
-                }
-                window.location = urlTo
-            },
+            //     if (eventsByDate.length > 1) {
+            //         urlTo = eventsByDate[0].multiUrl
+            //     } else {
+            //         urlTo = eventsByDate[0].url
+            //     }
+            //     window.location = urlTo
+            // },
             beforeShowDay: function(date) {
 
                 var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
@@ -85,11 +85,11 @@ function datePickerInit() {
                         /*console.log(event);*/
                         extraClass += " " + event.extraClasses
                         var time = (event.time != "00:00") ? (event.time) + ' ' : ""
-                        tooltip += "<li class='" + event.extraClasses + "'>" + time + event.name + "</li>"
-                        tooltip += "<li class='" + event.extraClasses + "'>"
-                            tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
-                            tooltip += event.client + ((event.city) ? (" - " + event.city) : "")
-                            tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
+                        tooltip += "<li class='" + event.extraClasses + "'><a href='/" + locale + "/event/" + event.id + "'>" + time + event.name + "</a></li>"
+                        // tooltip += "<li class='" + event.extraClasses + "'>"
+                        //     tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
+                        //     tooltip += event.client + ((event.city) ? (" - " + event.city) : "")
+                        //     tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
 
                         tooltip += "</li>"
                     }
