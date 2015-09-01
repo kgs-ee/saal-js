@@ -59,7 +59,7 @@ html
         nav.navbar-default.navbar-fixed-top
             .container-fluid
                 .row
-                    .col-lg-1
+                    .col-md-1.col-lg-1
                         button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls="navbar")
                             span.sr-only Toggle navigation
                             span.icon-bar
@@ -69,31 +69,31 @@ html
                             img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
                             p.season.visible-lg= t('.season') + ' ' + SAAL.season
                     .collapse.navbar-collapse(id='navbar')
-                        ul.list-unstyled.col-lg-1
+                        ul.list-unstyled.col-md-1.col-lg-1
                             li
                                 a(href='/' + lang + '/about') Saal
                             li
                                 a(href='/' + lang + '/program')= t('nav.program')
                             li
                                 a(href='/' + lang + '/residency')= t('nav.residency')
-                        ul.list-unstyled.col-lg-2
+                        ul.list-unstyled.col-md-2.col-lg-2
                             li
                                 a(href='/' + lang + '/tours')= t('nav.tours')
                             li
                                 a(href='/' + lang + '/projects')= t('nav.projects')
                             li
                                 a(href='/' + lang + '/contact')= t('nav.contact')
-                        ul.list-unstyled.col-lg-4
+                        ul.list-unstyled.col-md-4.col-lg-4
                             li
                                 a(href='/' + lang + '/festival/1234') NU Performance
                             li
                                 a(href='/' + lang + '/festival/1235') SAAL Bienaal
-                        ul.list-unstyled.col-xs-6.col-lg-2
+                        ul.list-unstyled.col-xs-6.col-md-2.col-lg-2
                             each locale in locales
                                 if lang !== locale
                                     li
                                         a(href='/'+locale+'/'+path)= t('lang.' + locale)
-                        ul.social.list-inline.col-xs-6.col-lg-2.text-right
+                        ul.social.list-inline.col-xs-6.col-md-2.col-lg-2.text-right
                             li
                                 a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
                             li
@@ -102,14 +102,6 @@ html
                                 a.icon-instagram(href='https://instagram.com/kanutigildisaal', target='blank')
                             li
                                 a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
-                            if user
-                                li
-                                    a(href='/' + lang + '/users/me') Me
-                                li
-                                    a(href='/' + lang + '/signin/exit') Sign Out
-                            else
-                                li
-                                    a(href='/' + lang + '/signin') Sign In
 
         block content
 
@@ -124,6 +116,15 @@ html
             form(action='search')
                 input(type='text' name='q' id='search' placeholder=t('placeholder.search') value=(q?q:''))
                 button.icon-search.h4(type='submit')
+
+            //- if user
+            //-     p
+            //-         a(href='/' + lang + '/users/me') Me
+            //-     p 
+            //-         a(href='/' + lang + '/signin/exit') Sign Out
+            //- else
+            //-    p
+            //-         a(href='/' + lang + '/signin') Sign In
 
 style.
     /**

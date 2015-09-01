@@ -69,6 +69,41 @@ error:
                         "col-lg-2\n\nCannot read property 'length' of undefined":
                             en: "error./Users/rannoait/GitHub/saal-js/views/index.jade:92\n    90|                         h2= t('nav.tours')\n    91| \n  > 92|                     each eventdate, datestring in tours\n    93|                         each eventtime, timestring in eventdate\n    94|                             each p in eventtime\n    95|                                 .col-xs-12.col-sm-2.col-lg-2\n\nCannot read property 'length' of undefined"
                             et: "error./Users/rannoait/GitHub/saal-js/views/index.jade:92\n    90|                         h2= t('nav.tours')\n    91| \n  > 92|                     each eventdate, datestring in tours\n    93|                         each eventtime, timestring in eventdate\n    94|                             each p in eventtime\n    95|                                 .col-xs-12.col-sm-2.col-lg-2\n\nCannot read property 'length' of undefined"
+    /Users/rannoait/GitHub/saal-js/views/layout:
+        "jade:72\n    70|                             p":
+            season:
+                "visible-lg= t('":
+                    "season') + ' ' + SAAL":
+                        "season\n    71|                     ":
+                            collapse:
+                                "navbar-collapse(id='navbar')\n  > 72|                         ul":
+                                    list-unstyled:
+                                        '':
+                                            "col-md-1col-lg-1\n    73|                             li\n    74|                                 a(href='/' + lang + '/about') Saal\n    75|                             li\n\nUnexpected token `class` expected `text`, `code`, `:`, `newline` or `eos`":
+                                                et: >-
+                                                    error./Users/rannoait/GitHub/saal-js/views/layout.jade:72
+
+                                                        70|                             p.season.visible-lg
+                                                     t('.season') + ' ' + SAAL.season
+
+                                                        71|                     .collapse.navbar-collapse(id='navbar')
+
+                                                      >
+                                                    72|                         ul.list-unstyled..col-md-1col-lg-1
+
+                                                        73|                             li
+
+                                                        74|                                 a(href='/
+                                                     + lang + '/about') Saal
+
+                                                        75|                             li
+
+
+
+                                                    Unexpected token `class` expected `text`,
+                                                    `code`, `:`, `newline` or `eos`
+    'Failed to lookup view "signin" in views directory "/Users/rannoait/GitHub/saal-js/views"':
+        et: 'error.Failed to lookup view "signin" in views directory "/Users/rannoait/GitHub/saal-js/views"'
     Not Found:
         en: Page not found
         et: Sellist lehte pole

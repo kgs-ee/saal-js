@@ -75,7 +75,7 @@ block content
                                         div.today= t('button.today')
 
                                 .col-xs-12.col-md-6.col-lg-6
-                                    h3.col-xs-12
+                                    h3
                                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
                                 .col-xs-6.col-md-2.col-lg-2
                                     p= op.get(p, 'location')
@@ -123,12 +123,13 @@ block content
 
             aside.col-xs-12.col-md-12.col-lg-3
                 .row
-                    .hidden-xs.col-sm-4.col-md-4(id='datepicker')
+                    .hidden-xs.col-sm-6.col-md-4
+                        div(id='datepicker')
 
-                    .col-xs-12.col-sm-4.col-md-4.col-lg-12.voulenteer
+                    .col-xs-12.col-sm-6.col-md-4.col-lg-12.voulenteer
                         a.text-center.h3(href='mailto:vabatahtlik@saal.ee')= t('button.voulenteer')
 
-                    .col-xs-12.col-sm-4.col-md-4.col-lg-12(id='mailchimp-sign-up')
+                    .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
                         form.validate(action='http://paranoia.us8.list-manage.com/subscribe/post?u=1e1d48fe600fda5c3f6a39b75&amp;id=fdc080b2d5' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' target='_blank' novalidate)
                         .mc-field-group
                             input.required.email(type='text' value='' name='EMAIL' placeholder='Liitu uudiskirjaga' id='mce-EMAIL')

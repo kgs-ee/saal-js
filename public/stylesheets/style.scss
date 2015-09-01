@@ -30,7 +30,7 @@ body {
 	}
 
 	@media (min-width: $screen-md) {
-		padding-top: 92px;
+		padding-top: 95px;
 	}
 
 	@media (min-width: $screen-lg) {
@@ -279,11 +279,18 @@ a.logo {
 	//margin-top: 1em;
 }
 
+.ui-datepicker {
+	//@extend .table-responsive;
+}
+
+// @-moz-document url-prefix() {
+//   fieldset { display: table-cell; }
+// }
+
 .ui-datepicker-calendar {
 	width: auto;
 	@extend .table;
 	//@extend .table-bordered;
-	@extend .table-responsive;
 	@extend .text-center;
 
 	thead th {
@@ -676,7 +683,10 @@ li.in-campo {
 }
 
 #mailchimp-sign-up {
-	margin-top: 2em;
+
+	@media (min-width: $screen-lg) {
+		margin-top: 2em;
+	}
 
 	input[type="text"] {
 		border: 2px solid $primary-color;
