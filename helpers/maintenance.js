@@ -160,13 +160,16 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
 
 
 
-    if (entity_in.get('properties.performance.reference')) {
+    var performance_id = entity_in.get('properties.performance.reference')
+    if (performance_id) {
         // debug('fetch performance')
-        entu.get_entity(id=entity_in.get('properties.performance.reference'), null, null, performanceCB=function(error, performance) {
+        entu.get_entity(id=performance_id, null, null, performanceCB=function(error, performance) {
             if (error) {
-                debug('Event manipulator performance reference', error)
+                debug('Event manipulator performance reference failed for '
+                    + entity_in.get('id') + '->' + performance_id, error)
+            } else {
+                entity_out.set('performance', performance_manipulator(performance).get())
             }
-            entity_out.set('performance', performance_manipulator(performance).get())
             // debug(entity_out.get('performance'))
             callback(null, entity_out)
         })

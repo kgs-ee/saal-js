@@ -9,36 +9,57 @@ block content
             section.col-xs-12.col-md-12.col-lg-9
 
                 .programme.row
-                    .col-xs-12.col-md-12.col-lg-12
-                        p= t('q.query') + ': ' + q
-                        if results.fuse_js.length + results.fuzzy.length == 0
-                            h2= t('q.results.0')
-                        else if results.fuse_js.length + results.fuzzy.length == 1
-                            h2= t('q.results.1')
-                        else
-                            h2= t('q.results') + ' ' + (results.fuse_js.length + results.fuzzy.length)
 
-                    .col-xs-6.col-md-6.col-lg-6
-                        b.pre= 'fuse_js: ' + results.fuse_js.length + ' ' + t('q.matches')
-                        each event in op.get(results, 'fuse_js', [])
-                            each stime in op.get(event, 'item.start-times', [])
-                                p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
-                            h3
-                                b.matched= event.score
-                                a(href='/' + lang + '/event/' + event.id)!= event.item.name
-                            p!= event.item.name
-                            hr
-                    .col-xs-6.col-md-6.col-lg-6
-                        b.pre= 'fuzzy: ' + results.fuzzy.length + ' ' + t('q.matches')
-                        each event in op.get(results, 'fuzzy', [])
-                            each stime in op.get(event, 'original.start-times', [])
-                                p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
-                            h3
-                                b.matched= event.score
-                                a(href='/' + lang + '/event/' + event.id)!= event.original.name
-                            p!= event.original.name
-                            p!= event.string
-                            hr
+                    if results.query_type == 'query'
+                        .col-xs-12.col-md-12.col-lg-12
+                            p= t('q.query') + ': ' + q
+                            if results.fuse_js.length + results.fuzzy.length == 0
+                                h2= t('q.results.0')
+                            else if results.fuse_js.length + results.fuzzy.length == 1
+                                h2= t('q.results.1')
+                            else
+                                h2= t('q.results') + ' ' + (results.fuse_js.length + results.fuzzy.length)
+
+                        .col-xs-6.col-md-6.col-lg-6
+                            b.pre= 'fuse_js: ' + results.fuse_js.length + ' ' + t('q.matches')
+                            each event in op.get(results, 'fuse_js', [])
+                                each stime in op.get(event, 'item.start-times', [])
+                                    p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
+                                h3
+                                    b.matched= event.score
+                                    a(href='/' + lang + '/event/' + event.id)!= event.item.name
+                                p!= event.item.name
+                                hr
+                        .col-xs-6.col-md-6.col-lg-6
+                            b.pre= 'fuzzy: ' + results.fuzzy.length + ' ' + t('q.matches')
+                            each event in op.get(results, 'fuzzy', [])
+                                each stime in op.get(event, 'original.start-times', [])
+                                    p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
+                                h3
+                                    b.matched= event.score
+                                    a(href='/' + lang + '/event/' + event.id)!= event.original.name
+                                p!= event.original.name
+                                p!= event.string
+                                hr
+
+                    if results.query_type == 'date'
+                        .col-xs-12.col-md-12.col-lg-12
+                            p= t('q.date') + ': ' + q_date
+                            if results.length == 0
+                                h2= t('q.results.0')
+                            else if results.length == 1
+                                h2= t('q.results.1')
+                            else
+                                h2= t('q.results') + ' ' + (results.length)
+
+                        .col-xs-6.col-md-6.col-lg-6
+                            //- b.pre= 'fuse_js: ' + results.fuse_js.length + ' ' + t('q.matches')
+                            each event in op.get(results, 'events', [])
+                                p= t('weekdays.' + new Date(q_date).getDay()) + ', ' + (moment(q_date).locale(lang).format('L'))
+                                h3
+                                    a(href='/' + lang + '/event/' + event.id)!= event.name
+                                p!= event.name
+                                hr
 
             aside.col-xs-12.col-md-12.col-lg-3
                 .row

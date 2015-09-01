@@ -64,6 +64,19 @@ error:
             '':
                 '':
                     et: 'error."upcoming_tours" not cached...'
+    /Users/michelek/Documents/github/saal-js/views/search:
+        "jade:60\n    58|                                 p= t('weekdays":
+            "' + new Date(q_date)":
+                "getDay()) + ', ' + (moment(event":
+                    time):
+                        locale(lang):
+                            "format('L'))\n    59|                                 h3\n  > 60|                                     a(href='/' + lang + '/event/' + event":
+                                'id)!= event':
+                                    item:
+                                        "name\n    61|                                 p!= event":
+                                            item:
+                                                "name\n    62|                                 hr\n    63| \n\nCannot read property 'name' of undefined":
+                                                    en: "error./Users/michelek/Documents/github/saal-js/views/search.jade:60\n    58|                                 p= t('weekdays.' + new Date(q_date).getDay()) + ', ' + (moment(event.time).locale(lang).format('L'))\n    59|                                 h3\n  > 60|                                     a(href='/' + lang + '/event/' + event.id)!= event.item.name\n    61|                                 p!= event.item.name\n    62|                                 hr\n    63| \n\nCannot read property 'name' of undefined"
     /Users/rannoait/GitHub/saal-js/views/index:
         "jade:92\n    90|                         h2= t('nav":
             "tours')\n    91| \n  > 92|                     each eventdate, datestring in tours\n    93|                         each eventtime, timestring in eventdate\n    94|                             each p in eventtime\n    95|                                 ":
@@ -86,20 +99,39 @@ error:
                                                 et: >-
                                                     error./Users/rannoait/GitHub/saal-js/views/layout.jade:72
 
+
+
                                                         70|                             p.season.visible-lg
+
                                                      t('.season') + ' ' + SAAL.season
+
+
 
                                                         71|                     .collapse.navbar-collapse(id='navbar')
 
+
+
                                                       >
+
                                                     72|                         ul.list-unstyled..col-md-1col-lg-1
+
+
 
                                                         73|                             li
 
+
+
                                                         74|                                 a(href='/
+
                                                      + lang + '/about') Saal
 
+
+
                                                         75|                             li
+
+
+
+
 
 
 
@@ -155,6 +187,10 @@ placeholder:
         et: Otsi…
         lv: Meklē…
 q:
+    date:
+        en: Date
+        et: Kuupäev
+        lv: Datums
     matches:
         en: matches
         et: vastet
@@ -185,7 +221,7 @@ title:
         en: Saal
         et: Saal
     sponsors:
-        en: Supporters and networks 
+        en: Supporters and networks
         et: Toetajad ja võrgustikud
     studio:
         en: Studio
