@@ -153,7 +153,9 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     entity_out.set('technical-information', entity_in.get('properties.technical-information.md'))
 
     entity_in.get('properties.start-time', []).forEach(function(starttime) {
-        entity_out.push('start-times', starttime.value)
+        var da = starttime.value.split('-')
+        da[0]++
+        entity_out.push('start-times', da.join('-'))
     })
 
 
