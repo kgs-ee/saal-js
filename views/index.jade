@@ -1,0 +1,150 @@
+extends layout
+
+block vars
+
+block content
+
+    .container-fluid
+        .row
+            section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                .carousel-inner(role='listbox')
+                    a.item.active(href='#')
+                        figure(id='slide-01' style='background-image: url(/images/testimage_landscape_full.jpg);')
+                        header.col-md-8
+                            p Eesti Kunstiakadeemia arhitektuuriteaduskonna avatud loengute sari
+                            h1 HENRI HÜTT & TAAVET JANSEN: Kaota mu naine ära, ehk mis tunne on olla mustkunstnik
+                        ul.event-categories
+                            li.text-uppercase.h3.unactive
+                                span= t('categories.theatre')
+                            li.text-uppercase.h3
+                                span= t('categories.dance')
+                            li.text-uppercase.h3
+                                span= t('categories.performance')
+                            li.text-uppercase.h3.unactive
+                                span= t('categories.music')
+                            li.text-uppercase.h3.unactive
+                                span= t('categories.lecture')
+                            li.text-uppercase.h3
+                                span= t('categories.film')
+                            li.text-uppercase.h3
+                                span= t('categories.new-circus')
+
+                    a.item(href='#')
+                        figure(id='slide-02' style='background-image: url(/images/testimage_portrait_full.jpg);')
+                        header.col-md-8
+                            p Saal Biennaal
+                            h1 Taavet JANSEN
+                        ul.event-categories
+                            li.text-uppercase.h3.unactive
+                                span= t('categories.theatre')
+                            li.text-uppercase.h3
+                                span= t('categories.dance')
+                            li.text-uppercase.h3
+                                span= t('categories.performance')
+                            li.text-uppercase.h3.unactive
+                                span= t('categories.music')
+                            li.text-uppercase.h3.unactive
+                                span= t('categories.lecture')
+                            li.text-uppercase.h3
+                                span= t('categories.film')
+                            li.text-uppercase.h3
+                                span= t('categories.new-circus')
+
+                a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
+                    span.icon-prev.arrow-left(aria-hidden='true')
+                    span.sr-only Previous
+                a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
+                    span.icon-next.arrow-right(aria-hidden='true')
+                    span.sr-only Next
+
+        .row.page-margin
+            section.col-xs-12.col-md-12.col-lg-9
+
+                .programme.row
+                    .col-xs-12.col-md-12.col-lg-12
+                        h2= t('nav.program')
+
+                    if program
+                        each eventdate, datestring in program
+                            each eventtime, timestring in eventdate
+                                each p in eventtime
+                                    .col-xs-12.col-sm-2.col-lg-2
+                                        p= (moment(datestring).locale(lang).format('dddd'))
+                                        p= (moment(datestring).locale(lang).format('L'))
+                                        p= timestring
+                                        if (moment(datestring).format('D')) == (moment().date())
+                                            div.today= t('button.today')
+
+                                    .col-xs-12.col-md-6.col-lg-6
+                                        h3
+                                            a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
+                                    .col-xs-6.col-md-2.col-lg-2
+                                        p= op.get(p, 'location')
+                                        p= op.get(p, 'price')
+                                    .col-xs-6.col-md-2.col-lg-2.text-right
+                                        a.btn.btn-primary(href='#')= t('button.buy_ticket')
+                                    .col-xs-12.col-md-12.col-lg-12
+                                        hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-events')
+
+                .tour.row
+                    .col-xs-12.col-md-12.col-lg-12
+                        h2= t('nav.tours')
+                    
+                    if tours
+                        each eventdate, datestring in tours
+                            each eventtime, timestring in eventdate
+                                each p in eventtime
+                                    .col-xs-12.col-sm-2.col-lg-2
+                                        p= t('weekdays.' + new Date(datestring).getDay())
+                                        p= (moment(datestring).locale('et').format('L'))
+                                        p= timestring
+                                    .col-xs-12.col-md-6.col-lg-6
+                                        h3
+                                            a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, 'name')
+                                    .col-xs-6.col-md-2.col-lg-2
+                                        p= op.get(p, 'location')
+                                        p= op.get(p, 'price')
+                                    .col-xs-6.col-md-2.col-lg-2.text-right
+                                        a.btn.btn-primary(href='#')= t('button.buy_ticket')
+                                    .col-xs-12.col-md-12.col-lg-12
+                                        hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-tours')
+
+                .tour.row
+                    .col-xs-12.col-md-12
+                        h2= t('nav.residency')
+
+                    .col-xs-12.col-md-2
+                        p 01.01—31.01.2015
+
+                    .col-xs-12.col-md-10
+                        h3
+                            a(href='#') Henri Hütt & Taavet Jansen
+
+                    .col-xs-12.col-md-12
+                        hr
+
+            aside.col-xs-12.col-md-12.col-lg-3
+                .row
+                    .hidden-xs.col-sm-6.col-md-4
+                        div(id='datepicker')
+
+                    .col-xs-12.col-sm-6.col-md-4.col-lg-12.voulenteer
+                        a.text-center.h3(href='mailto:vabatahtlik@saal.ee')= t('button.voulenteer')
+
+                    .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
+                        form.validate(action='http://paranoia.us8.list-manage.com/subscribe/post?u=1e1d48fe600fda5c3f6a39b75&amp;id=fdc080b2d5' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' target='_blank' novalidate)
+                        .mc-field-group
+                            input.required.email(type='text' value='' name='EMAIL' placeholder='Liitu uudiskirjaga' id='mce-EMAIL')
+                        .clear(id='mce-responses')
+                            .response(id='mce-error-response' style='display:none')
+                            .response(id='mce-success-response' style='display:none')
+                        div(style='position: absolute; left: -5000px;')
+                            input(type='text' name='b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5' tabindex='-1' value='')
+                        .clear
+                            input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')

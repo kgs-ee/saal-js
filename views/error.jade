@@ -1,0 +1,9 @@
+extends layout
+
+block vars
+    - title='Error'
+
+block content
+    .container
+        h2= message
+        pre #{error.stack}

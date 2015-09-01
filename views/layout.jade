@@ -1,0 +1,276 @@
+doctype html
+html
+
+    block vars
+
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1, width=device-width, minimal-ui')
+        if description
+            meta(name='description', content=description)
+        if keywords
+            meta(name='keywords', content=keywords.join(', '))
+
+        title= (title && title !== 'Kanuti Gildi Saal') ? title + ' - Kanuti Gildi Saal' : 'Kanuti Gildi Saal'
+
+        base(href='/' + lang + '/')
+
+        link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+
+        link(rel='apple-touch-icon', sizes='57x57', href='/images/favicons/apple-touch-icon-57x57.png')
+        link(rel='apple-touch-icon', sizes='60x60', href='/images/favicons/apple-touch-icon-60x60.png')
+        link(rel='apple-touch-icon', sizes='72x72', href='/images/favicons/apple-touch-icon-72x72.png')
+        link(rel='apple-touch-icon', sizes='76x76', href='/images/favicons/apple-touch-icon-76x76.png')
+        link(rel='apple-touch-icon', sizes='114x114', href='/images/favicons/apple-touch-icon-114x114.png')
+        link(rel='apple-touch-icon', sizes='120x120', href='/images/favicons/apple-touch-icon-120x120.png')
+        link(rel='apple-touch-icon', sizes='144x144', href='/images/favicons/apple-touch-icon-144x144.png')
+        link(rel='apple-touch-icon', sizes='152x152', href='/images/favicons/apple-touch-icon-152x152.png')
+        link(rel='apple-touch-icon', sizes='180x180', href='/images/favicons/apple-touch-icon-180x180.png')
+        link(rel='icon' type='image/png', href='/images/favicons/favicon-32x32.png' sizes='32x32')
+        link(rel='icon' type='image/png', href='/images/favicons/android-chrome-192x192.png' sizes='192x192')
+        link(rel='icon' type='image/png', href='/images/favicons/favicon-96x96.png' sizes='96x96')
+        link(rel='icon' type='image/png', href='/images/favicons/favicon-16x16.png' sizes='16x16')
+        link(rel='manifest', href='/images/favicons/manifest.json')
+        link(rel='shortcut icon', href='/images/favicons/favicon.ico')
+        meta(name='msapplication-TileColor', content='#ffc40d')
+        meta(name='msapplication-TileImage', content='/images/favicons/mstile-144x144.png')
+        meta(name='msapplication-config', content='/images/favicons/browserconfig.xml')
+        meta(name='theme-color', content='#ffffff')
+
+        script.
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-xxxxxx-xx', 'auto');
+            ga('send', 'pageview');
+
+        script(src='/javascripts/jquery/jquery-2.1.3.min.js')
+        script(src='/javascripts/jquery/jquery-ui.min.js')
+        script(src='/javascripts/jquery/jquery-ui-i18n.min.js')
+        script(src='/javascripts/bootstrap/bootstrap.js')
+        script(src='/javascripts/jquery.shorten/jquery.shorten.js')
+        script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')
+        script(src='/javascripts/gradientmaps/gradientmaps.min.js')
+    body
+
+        nav.navbar-default.navbar-fixed-top
+            .container-fluid
+                .row
+                    .col-md-1.col-lg-1
+                        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls="navbar")
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a.logo(href='/' + lang + '/')
+                            img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
+                            p.season.visible-lg= t('.season') + ' ' + SAAL.season
+                    .collapse.navbar-collapse(id='navbar')
+                        ul.list-unstyled.col-md-1.col-lg-1
+                            li
+                                a(href='/' + lang + '/about') Saal
+                            li
+                                a(href='/' + lang + '/program')= t('nav.program')
+                            li
+                                a(href='/' + lang + '/residency')= t('nav.residency')
+                        ul.list-unstyled.col-md-2.col-lg-2
+                            li
+                                a(href='/' + lang + '/tours')= t('nav.tours')
+                            li
+                                a(href='/' + lang + '/projects')= t('nav.projects')
+                            li
+                                a(href='/' + lang + '/contact')= t('nav.contact')
+                        ul.list-unstyled.col-md-4.col-lg-4
+                            li
+                                a(href='/' + lang + '/festival/1234') NU Performance
+                            li
+                                a(href='/' + lang + '/festival/1235') SAAL Bienaal
+                        ul.list-unstyled.col-xs-6.col-md-2.col-lg-2
+                            each locale in locales
+                                if lang !== locale
+                                    li
+                                        a(href='/'+locale+'/'+path)= t('lang.' + locale)
+                        ul.social.list-inline.col-xs-6.col-md-2.col-lg-2.text-right
+                            li
+                                a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
+                            li
+                                a.icon-twitter3(href='https://twitter.com/kanutigildisaal', target='blank')
+                            li
+                                a.icon-instagram(href='https://instagram.com/kanutigildisaal', target='blank')
+                            li
+                                a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
+
+        block content
+
+.container-fluid
+    footer.row
+        .col-md-4
+            p Kanuti Gildi SAAL
+            p Pikk 20, 10133
+            p Tallinn, Estonia
+
+        .col-md-3.col-md-offset-5.text-right.site-search
+            form(action='search')
+                input(type='text' name='q' id='search' placeholder=t('placeholder.search') value=(q?q:''))
+                button.icon-search.h4(type='submit')
+
+            //- if user
+            //-     p
+            //-         a(href='/' + lang + '/users/me') Me
+            //-     p 
+            //-         a(href='/' + lang + '/signin/exit') Sign Out
+            //- else
+            //-    p
+            //-         a(href='/' + lang + '/signin') Sign In
+
+style.
+    /**
+    ** SAAL COLOR SCHEME
+    ** #00f - primary color
+    ** #A62720 - secondary color
+    */
+    a:hover {
+        color: #{SAAL.secondary_color};
+    }
+
+    .navbar-default .social a {
+        color: #{SAAL.secondary_color};
+    }
+
+    .select-cat .active {
+        color: #{SAAL.secondary_color};
+    }
+
+    .select-cat label:hover {
+        color:#{SAAL.secondary_color};
+    }
+
+    .highlight a {
+        background-color: #{SAAL.main_color};
+    }
+
+    .highlight.on-tour a {
+        background-color: #{SAAL.secondary_color};
+    }
+
+    li.on-tour {
+        background-color: #{SAAL.secondary_color};
+    }
+
+    li.in-campo {
+        background-color: #{SAAL.main_color};
+    }
+
+    .today {
+        color: #{SAAL.main_color};
+    }
+
+    .btn,
+    .btn-primary {
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
+    }
+
+    .btn:hover,
+    .btn-primary:hover {
+        color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
+    }
+
+    .btn:focus,
+    .btn-primary:focus {
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
+    }
+
+    .open>.btn-default.dropdown-toggle {
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
+    }
+
+    .btn-default {
+        color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
+    }
+
+    .btn-default:hover {
+        background-color: #{SAAL.secondary_color};
+        border-color: #{SAAL.secondary_color};
+    }
+
+    .navbar-default .social a {
+        color: #{SAAL.main_color};
+    }
+
+    .navbar-default .social a:hover {
+        color: #{SAAL.secondary_color};
+    }
+
+    .voulenteer a {
+        background-color: #{SAAL.main_color};
+        color: #{SAAL.secondary_color};
+    }
+
+    .voulenteer a:hover {
+        border: 2px solid #{SAAL.secondary_color};
+        color: #{SAAL.secondary_color};
+    }
+
+    .panel h3 a:focus,
+    .panel .select-cat label a:focus,
+    .select-cat .panel label a:focus {
+        color: #{SAAL.secondary_color};
+    }
+
+    #mailchimp-sign-up input[type="text"] {
+        border: 2px solid #{SAAL.secondary_color};
+        color: #{SAAL.secondary_color};
+    }
+
+    #mailchimp-sign-up input[type="submit"] {
+        color: #{SAAL.secondary_color};
+    }
+
+    .matched {
+        color: red;
+    }
+
+    .pager li > a, 
+    .pager li > span {
+        background-color: #fff;
+        border: 1px solid #{SAAL.secondary_color};
+        color: #{SAAL.secondary_color};
+    }
+
+    .pager li > a:hover, 
+    .pager li > span:hover {
+        background-color: #{SAAL.secondary_color};
+        border: 1px solid #{SAAL.secondary_color};
+        color: #fff;
+    }
+
+    footer {
+        background-color: #{SAAL.secondary_color};
+    }
+
+    footer .site-search input {
+        border: 2px solid #{SAAL.secondary_color};
+        color: #{SAAL.secondary_color};
+    }
+
+    footer .site-search button{
+        color: #{SAAL.secondary_color};
+    }
+
+script.
+    var target1 = document.getElementById('slide-01');
+    var target2 = document.getElementById('slide-02');
+    var gradientMap = '#{SAAL.secondary_color}, #{SAAL.main_color}';
+
+    GradientMaps.applyGradientMap(target1, gradientMap);
+    GradientMaps.applyGradientMap(target2, gradientMap);
+
+script(src='/javascripts/scripts.js')

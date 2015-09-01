@@ -1,0 +1,243 @@
+'':
+    KGS:
+        en: Kanuti Gildi Saal
+        et: Kanuti Gildi Saal
+    KGS_logo:
+        en: Kanuti Gildi Saal logo
+        et: Kanuti Gildi Saali logo
+        lv: Kanuti Gildi Saal logo
+    season:
+        en: Season
+        et: Hooaeg
+        lv: Sezona
+button:
+    buy_ticket:
+        en: Buy ticket
+        et: Osta pilet
+        lv: Pirkt biļeti
+    category:
+        en: Category
+        et: Kategooria
+    load-more:
+        en: Load more
+        et: Lae veel
+    search:
+        en: Search
+        et: Otsi
+        lv: Meklē
+    today:
+        en: 'Today!'
+        et: 'Täna!'
+    voulenteer:
+        en: 'Become a volunteer!'
+        et: 'Tule vabatahtlikuks!'
+        lv: button.voulenteer
+    year:
+        en: Year
+        et: Aasta
+categories:
+    dance:
+        en: Dance
+        et: Tants
+        lv: Deja
+    film:
+        en: Film
+        et: Film
+        lv: Filma
+    lecture:
+        en: Lecture
+        et: Loeng
+        lv: Lekcija
+    music:
+        en: Music
+        et: Muusika
+        lv: Mūzika
+    new-circus:
+        en: New Circus
+        et: Uus Tsirkus
+        lv: Cirks
+    performance:
+        en: Performance
+        et: Performance
+        lv: Performance
+    theatre:
+        en: Theatre
+        et: Teater
+        lv: Teātris
+error:
+    /Users/rannoait/GitHub/saal-js/views/tours:
+        "jade:36\n    34|                                 li\n    35|                                     a(href='#' data-value='option1' tabIndex=\"-1\")\n  > 36|                                         input(type='checkbox')\n    37|                                             span= t('categories":
+            "theatre')\n    38|                                 li\n    39|                                     a(href='#' data-value='option2' tabIndex=\"-1\")\n\ninput is self closing and should not have content":
+                '':
+                    et: >-
+                        error./Users/rannoait/GitHub/saal-js/views/tours.jade:36
+
+                            34|                                 li
+
+                            35|                                     a(href='#'
+                        data-value='option1' tabIndex="-1")
+
+                          >
+                        36|                                         input(type='checkbox')
+
+                            37|                                             span=
+                        t('categories.theatre')
+
+                            38|                                 li
+
+                            39|                                     a(href='#'
+                        data-value='option2' tabIndex="-1")
+
+
+
+                        input is self closing and should not have content.
+        "jade:36\n    34|                                 li\n    35|                                     a(href='#' data-value='option1' tabIndex=\"-1\")\n  > 36|                                         input(type='checkbox')&nbsp;\n    37|                                         span= t('categories":
+            "theatre')\n    38|                                 li\n    39|                                     a(href='#' data-value='option2' tabIndex=\"-1\")\n\ninput is self closing and should not have content":
+                '':
+                    et: >-
+                        error./Users/rannoait/GitHub/saal-js/views/tours.jade:36
+
+                            34|                                 li
+
+                            35|                                     a(href='#'
+                        data-value='option1' tabIndex="-1")
+
+                          >
+                        36|                                         input(type='checkbox')&nbsp;
+
+                            37|                                         span=
+                        t('categories.theatre')
+
+                            38|                                 li
+
+                            39|                                     a(href='#'
+                        data-value='option2' tabIndex="-1")
+
+
+
+                        input is self closing and should not have content.
+        "jade:47\n    45|                                     a(href='#' data-value='option6' tabIndex=\"-1\")= t('categories":
+            "film')\n    46|                                 li\n  > 47|                                     a(href='#' data-value='option7' tabIndex=\"-1\")= t('categories":
+                "new-circus'))\n    48| \n    49|                     nav":
+                    "col-md-10\n    50|                         ul":
+                        "pager\n\nUnexpected token )":
+                            et: "error./Users/rannoait/GitHub/saal-js/views/tours.jade:47\n    45|                                     a(href='#' data-value='option6' tabIndex=\"-1\")= t('categories.film')\n    46|                                 li\n  > 47|                                     a(href='#' data-value='option7' tabIndex=\"-1\")= t('categories.new-circus'))\n    48| \n    49|                     nav.col-md-10\n    50|                         ul.pager\n\nUnexpected token )"
+    Not Found:
+        en: Page not found
+        et: Sellist lehte pole
+        lv: Lapa nav atrodama
+lang:
+    en:
+        en: In English
+        et: In English
+        lv: In English
+    et:
+        en: Eesti keeles
+        et: Eesti keeles
+        lv: Eesti keeles
+    lv:
+        en: Latviešu
+        et: Latviešu
+        lv: Latviešu
+nav:
+    about:
+        en: About Us
+        et: Meist
+        lv: Par mums
+    contact:
+        en: Contact
+        et: Kontakt
+        lv: Kontakts
+    program:
+        en: Program
+        et: Programm
+        lv: Programma
+    projects:
+        en: Projects
+        et: Projektid
+        lv: Projekti
+    residency:
+        en: Residency
+        et: Residentuur
+        lv: Residentuura
+    tours:
+        en: Tours
+        et: Tuurid
+        lv: nav.tours
+placeholder:
+    search:
+        en: Search…
+        et: Otsi…
+        lv: Meklē…
+q:
+    date:
+        en: Date
+        et: Kuupäev
+        lv: Datums
+    matches:
+        en: matches
+        et: vastet
+    query:
+        en: Searched for
+        et: Otsisid
+        lv: Meklējāt
+    results:
+        '0':
+            en: No matching results
+            et: Ei leidnud
+        '1':
+            en: Found one
+            et: Üks oli
+        en: Results
+        et: Leidsin
+title:
+    basement:
+        en: Basement
+        et: Kelder
+    floorplans:
+        en: Floorplans
+        et: Saaliplaanid
+    news:
+        en: News
+        et: Uudised
+    no-events:
+        en: No events
+        et: Sündmusi ei toimu
+    saal:
+        en: Saal
+        et: Saal
+    sponsors:
+        en: Supporters and networks
+        et: Toetajad ja võrgustikud
+    studio:
+        en: Studio
+        et: Stuudio
+weekdays:
+    '0':
+        en: Monday
+        et: esmaspäev
+        lv: pirmdiena
+    '1':
+        en: Tuesday
+        et: teisipäev
+        lv: otrdiena
+    '2':
+        en: Wednesday
+        et: kolmapäev
+        lv: trešdiena
+    '3':
+        en: Thursday
+        et: neljapäev
+        lv: ceturdiena
+    '4':
+        en: Friday
+        et: reede
+        lv: piektdiena
+    '5':
+        en: Saturday
+        et: laupäev
+        tv: sestdiena
+    '6':
+        en: Sunday
+        et: pühapäev
+        lv: svētdiena
