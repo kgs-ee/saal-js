@@ -6,28 +6,89 @@ block content
 
     .container-fluid
         .row.page-margin
-            section.col-xs-12.col-md-12.col-lg-9
+            section.col-md-6
+                h2= t('title.saal')
 
-                .about.row
-                    .col-xs-12.col-md-12.col-lg-12
-                        h2= t('nav.about')
+                .carousel.slide(id='about-carousel' data-ride='carousel')
+                    .carousel-inner(role='listbox')
+                        img.img-responsive.item.active(src='http://placehold.it/640x480' alt='Test')
+                        img.img-responsive.item(src='http://placehold.it/640x480' alt='Test')
+                        img.img-responsive.item(src='http://placehold.it/640x480' alt='Test')
 
+                    a.left.carousel-control(href='#about-carousel' role='button' data-slide='prev')
+                        span.icon-prev.arrow-left(aria-hidden='true')
+                    a.right.carousel-control(href='#about-carousel' role='button' data-slide='next')
+                        span.icon-next.arrow-right(aria-hidden='true')
 
-            aside.col-xs-12.col-md-12.col-lg-3
-                .row
-                    .hidden-xs.col-sm-4.col-md-4(id='datepicker')
+                article.h3
+                    p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus ad adipisci, minus natus nostrum? Odio, rerum dolores dolorum et quia nostrum inventore neque veniam incidunt quis officiis placeat, doloribus at velit ratione deserunt ducimus repellendus quaerat quo atque obcaecati aperiam perspiciatis molestiae! Nam sunt excepturi sed, aliquid a temporibus nemo sapiente, ratione culpa adipisci expedita modi laudantium illo perspiciatis molestiae atque pariatur, ea itaque repudiandae eaque maxime natus voluptate dolore dolores! Dignissimos nostrum nam non iste deleniti fugiat fugit eligendi, sapiente perspiciatis maxime ratione molestiae sed doloremque quidem qui possimus corrupti aliquam labore eveniet delectus odio amet commodi similique quo? Quis facilis quae perspiciatis tenetur ut, iure atque nobis ipsum harum ipsa, quos!
 
-                    .col-xs-12.col-sm-4.col-md-4.col-lg-12.voulenteer
-                        a.text-center.h3(href='mailto:vabatahtlik@saal.ee')= t('button.voulenteer')
+            section.news.col-md-6
+                h2= t('title.news')
+                .panel-group(id='accordion' role='tablist' multiselectable='true')
+                    .panel
+                        div(role='tab' id='headingOne')
+                            h3
+                                a(data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne') Pressiteade 23.03 2015: Esietendub kadrinoormetsa ja Diego Agulló lavastus "formlessly yours"
+                        .panel-collapse.collapse.in(id='collapseOne' role='tabpanel' aria-labelledby='headingOne')
+                            div
+                                p Sügisel publikut üllatanud Renate Keerdi ja Maria Ibarretxe tantsulavastus „Pink Flamingos, Crazy Horses" on sel nädalal, 6. ja 7. veebruaril taas Tartu Uue Teatri laval.
+                                p "Pink Flamingos, Crazy Horses" on lavastajate ning koreograafide Renate Keerdi ja Maria Ibarretxe vürtsikas ja mänguline tantsulavastus. Nende koostöö sai alguse rahvusvahelise projekti Fresh Tracks Europe projekti raames Gentis 2012. aastal. Esmakordsel kohtumisel tekkis neil endi sõnul tugev loominguline side ning äratundmine tegemaks koos ühine lavastus. Ja sealt nad nüüd tulevad - roosad flamingod ja pöörased hobused! Sisemine loom saab vabastatud ja stereotüübid pea peale pööratud, võib-olla ka vastupidi. Põhirõhk on sõnal "mäng".
+                    .panel
+                        div(role='tab' id='headingTwo')
+                            h3
+                                a.collapsed(data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo') Pressiteade 11.03.2015: Brüsselis esietendus Pieter De Buysseri ja Maike Londi lavastus “Immerwahr”
+                        .panel-collapse.collapse(id='collapseTwo' role='tabpanel' aria-labelledby='headingTwo')
+                            div
+                                p Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    .panel
+                        div(role='tab' id='headingThree')
+                            h3
+                                a.collapsed(data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='true' aria-controls='collapseThree') Pressiteade 5.02.2015:Renate Keerdi ja Maria Ibarretxe "Pink Flamingos, Crazy horses" taas Tartus!
+                        .panel-collapse.collapse(id='collapseThree' role='tabpanel' aria-labelledby='headingThree')
+                            div
+                                p Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 
-                    .col-xs-12.col-sm-4.col-md-4.col-lg-12(id='mailchimp-sign-up')
-                        form.validate(action='http://paranoia.us8.list-manage.com/subscribe/post?u=1e1d48fe600fda5c3f6a39b75&amp;id=fdc080b2d5' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' target='_blank' novalidate)
-                        .mc-field-group
-                            input.required.email(type='text' value='' name='EMAIL' placeholder='Liitu uudiskirjaga' id='mce-EMAIL')
-                        .clear(id='mce-responses')
-                            .response(id='mce-error-response' style='display:none')
-                            .response(id='mce-success-response' style='display:none')
-                        div(style='position: absolute; left: -5000px;')
-                            input(type='text' name='b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5' tabindex='-1' value='')
-                        .clear
-                            input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')
+                a.load-more.btn.btn-primary(href='#')= t('button.load-more')
+
+                ul.floorplans.list-unstyled.h3
+                    h2= t('title.floorplans')
+
+                    li
+                        a(href='http://files.saal.ee/Kanuti_Gildi_SAAL-stage_20.03.13.pdf' target='_blank')= t('title.saal')
+                    li
+                        a(href='http://www.saal.ee/files/kgs_studio_plan.pdf' target='_blank')= t('title.studio')
+                    li
+                        a(href='http://www.saal.ee/files/kgs_cellar_plan.pdf' target='_blank')= t('title.basement')
+
+    .row.page-margin
+        .supporter.col-md-12
+            h2= t('title.sponsors')
+            ul.list-inline
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')
+                li
+                    a(href='#')
+                        img(src='http://placehold.it/100x50' alt='Test')

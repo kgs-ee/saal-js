@@ -15,6 +15,9 @@ button:
         en: Buy ticket
         et: Osta pilet
         lv: Pirkt biļeti
+    load-more:
+        en: Load more
+        et: Lae veel
     search:
         en: Search
         et: Otsi
@@ -168,6 +171,25 @@ q:
             et: Üks oli
         en: Results
         et: Leidsin
+title:
+    basement:
+        en: Basement
+        et: Kelder
+    floorplans:
+        en: Floorplans
+        et: Saaliplaanid
+    news:
+        en: News
+        et: Uudised
+    saal:
+        en: Saal
+        et: Saal
+    sponsors:
+        en: Supporters and networks 
+        et: Toetajad ja võrgustikud
+    studio:
+        en: Studio
+        et: Stuudio
 weekdays:
     '0':
         en: Monday
