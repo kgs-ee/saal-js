@@ -69,30 +69,35 @@ html
                             img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
                             p.season.visible-lg= t('.season') + ' ' + SAAL.season
                     .collapse.navbar-collapse(id='navbar')
+                        
                         ul.list-unstyled.col-md-1.col-lg-1
-                            li
+                            li(class= path == 'about' ? 'active' : undefined )
                                 a(href='/' + lang + '/about') Saal
-                            li
+                            li(class= path == 'program' ? 'active' : undefined )
                                 a(href='/' + lang + '/program')= t('nav.program')
-                            li
+                            li(class= path == 'residency' ? 'active' : undefined )
                                 a(href='/' + lang + '/residency')= t('nav.residency')
+                        
                         ul.list-unstyled.col-md-2.col-lg-2
-                            li
+                            li(class= path == 'tours' ? 'active' : undefined )
                                 a(href='/' + lang + '/tours')= t('nav.tours')
-                            li
+                            li(class= path == 'projects' ? 'active' : undefined )
                                 a(href='/' + lang + '/projects')= t('nav.projects')
-                            li
+                            li(class= path == 'contact' ? 'active' : undefined )
                                 a(href='/' + lang + '/contact')= t('nav.contact')
+
                         ul.list-unstyled.col-md-4.col-lg-4
                             li
                                 a(href='/' + lang + '/festival/1234') NU Performance
                             li
                                 a(href='/' + lang + '/festival/1235') SAAL Bienaal
+                        
                         ul.list-unstyled.col-xs-6.col-md-2.col-lg-2
                             each locale in locales
                                 if lang !== locale
                                     li
                                         a(href='/'+locale+'/'+path)= t('lang.' + locale)
+                        
                         ul.social.list-inline.col-xs-6.col-md-2.col-lg-2.text-right
                             li
                                 a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')

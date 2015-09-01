@@ -14,7 +14,8 @@ router.get('/', function(req, res, next) {
 
     res.render('index', {
         "program": SDC.get('program_upcoming'),
-        "tours": SDC.get('tours_upcoming')
+        "tours": SDC.get('tours_upcoming'),
+        path: req.path
     })
     res.end()
     return

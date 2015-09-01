@@ -65,6 +65,33 @@ categories:
         et: Teater
         lv: Teātris
 error:
+    /Users/rannoait/GitHub/saal-js/views/layout:
+        "jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery":
+            fancybox:
+                pack:
+                    "js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps":
+                        min:
+                            "js')\n  > 57|     body":
+                                "#{path}\n    58| \n    59|         nav":
+                                    navbar-default:
+                                        "navbar-fixed-top\n    60|             ":
+                                            "container-fluid\n\nUnexpected token `interpolation` expected `text`, `code`, `:`, `newline` or `eos`":
+                                                et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body.#{path}\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token `interpolation` expected `text`, `code`, `:`, `newline` or `eos`"
+                            "js')\n  > 57|     body(id= #{path})\n    58| \n    59|         nav":
+                                navbar-default:
+                                    "navbar-fixed-top\n    60|             ":
+                                        "container-fluid\n\nUnexpected token ILLEGAL":
+                                            et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body(id= #{path})\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token ILLEGAL"
+                            "js')\n  > 57|     body(id=#{nav})\n    58| \n    59|         nav":
+                                navbar-default:
+                                    "navbar-fixed-top\n    60|             ":
+                                        "container-fluid\n\nUnexpected token ILLEGAL":
+                                            et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body(id=#{nav})\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token ILLEGAL"
+                            "js')\n  > 57|     body(id=#{path})\n    58| \n    59|         nav":
+                                navbar-default:
+                                    "navbar-fixed-top\n    60|             ":
+                                        "container-fluid\n\nUnexpected token ILLEGAL":
+                                            et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body(id=#{path})\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token ILLEGAL"
     Not Found:
         en: Page not found
         et: Sellist lehte pole
