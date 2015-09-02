@@ -13,52 +13,25 @@ function datePickerInit() {
     )
     $.datepicker.setDefaults(options)
 
-    // $( "#datepicker").datepicker({
-    //   beforeShowDay: available,
-    //   prevText: '<',
-    //   nextText: '>',
-    //   weekStart: 1
-    // })
-
     var arrEvents = {}
     var currentTitle = ""
     $.getJSON('calendar_json', function(response){
 
         for (var key in response) {
-            //console.log(key)
             var keys = key.split("-")
             var d = new Date(keys[0], keys[1] - 1, keys[2])
             arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response[key]
-            //console.log(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate())
         }
 
-        //$("#datepicker").html("")
         $("#datepicker").datepicker({
             dateFormat : "yy-mm-dd",
             prevText : '<',
             nextText : '>',
             // onChangeMonthYear: function(year, month, inst) {
-            //     hack default behaviour.
+            //     //hack default behaviour.
             //     setTimeout(function(){
             //         toggleTooltip({show:false})
             //     }, 0)
-            // },
-            // onSelect: function(dateText, inst) {
-            //     //console.log(dateText)
-            //     var parts = dateText.split("-")
-            //     //console.log(parts)
-            //     var clickedDate = new Date(parts[0], parts[1] - 1, parts[2])
-            //     //var clickedDate = new Date(dateText)
-            //     var dateString = clickedDate.getFullYear() + "-" + (clickedDate.getMonth() + 1) + "-" + clickedDate.getDate()
-            //     var eventsByDate = arrEvents[dateString]
-            //     var urlTo = ""
-
-            //     if (eventsByDate.length > 1) {
-            //         urlTo = eventsByDate[0].multiUrl
-            //     } else {
-            //         urlTo = eventsByDate[0].url
-            //     }
-            //     window.location = urlTo
             // },
             beforeShowDay: function(date) {
 
@@ -125,21 +98,17 @@ function calToolTip() {
         },
         template: '<div class="popover"><div class="arrow"></div><div class="popover-content"></div></div>'
     })
-}
 
-/**
-**  Calendar popover
-*/
-// function calToolTip() {
-//     $('[data-handler="selectDay"]').popover({
-//         html: true,
-//         container: 'a.ui-state-active',
-//         trigger:'hover',
-//         delay: {hide: 500},
-//         placement: 'bottom',
-//         template: '<div class="popover"><div class="arrow"></div><div class="popover-title"></div><div class="popover-content"></div></div>'
-//     })
-// }
+    // $('[data-handler="selectDay"]').each(function () {
+    //     var $elem = $(this);
+    //     $elem.popover({
+    //         placement: 'top',
+    //         trigger: 'hover',
+    //         html: true,
+    //         container: $elem
+    //     });
+    // });
+}
 
 
 /**
