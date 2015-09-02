@@ -37,9 +37,6 @@ function datePickerInit() {
 
                 var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
 
-                //console.log(dateString)
-                //console.log(arrEvents)
-                //console.log(arrEvents["2012-9-29"])
                 var eventsByDate = arrEvents[dateString]
 
                 var isClickable = false
@@ -86,18 +83,58 @@ function calendarWidth() {
 **  Calendar tooltip
 */
 function calToolTip() {
-    $('body').popover({
-        selector: '[data-handler="selectDay"]',
-        html: true,
-        trigger: 'hover',
-        delay: {hide:500},
-        container: "body",
-        placement: "bottom",
+    var originalLeave = $.fn.popover.Constructor.prototype.leave;
+    $.fn.popover.Constructor.prototype.leave = function(obj){
+      var self = obj instanceof this.constructor ?
+        obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+      var container, timeout;
+
+      originalLeave.call(this, obj);
+
+      if(obj.currentTarget) {
+        if (false === self.options.container) {
+            container = $(obj.currentTarget).siblings('.popover')
+        }
+        else {
+            container = $('.popover', self.options.container);
+        }
+        timeout = self.timeout;
+        container.one('mouseenter', function(){
+          //We entered the actual popover – call off the dogs
+          clearTimeout(timeout);
+          //Let's monitor popover content instead
+          container.one('mouseleave', function(){
+            $.fn.popover.Constructor.prototype.leave.call(self, self);
+          });
+        })
+      }
+    };
+
+
+    $('body').popover({ 
+        selector: '[data-handler="selectDay"]', 
+        html: true, 
+        trigger: 'click hover',
+        container: 'body',
+        placement: 'bottom', 
+        delay: {show: 50, hide: 400},
         content: function() {
             return $(this).attr('data-original-title');
         },
         template: '<div class="popover"><div class="arrow"></div><div class="popover-content"></div></div>'
-    })
+    });
+    // $('body').popover({
+    //     selector: '[data-handler="selectDay"]',
+    //     html: true,
+    //     trigger: 'hover',
+    //     delay: {hide:500},
+    //     container: "body",
+    //     placement: "bottom",
+    //     content: function() {
+    //         return $(this).attr('data-original-title');
+    //     },
+    //     template: '<div class="popover"><div class="arrow"></div><div class="popover-content"></div></div>'
+    // })
 
     // $('[data-handler="selectDay"]').each(function () {
     //     var $elem = $(this);
