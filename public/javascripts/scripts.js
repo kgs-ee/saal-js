@@ -117,7 +117,7 @@ function calToolTip() {
         trigger: 'click hover',
         container: 'body',
         placement: 'bottom', 
-        delay: {show: 50, hide: 400},
+        delay: {show: 50, hide: 100},
         content: function() {
             return $(this).attr('data-original-title');
         },
