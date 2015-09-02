@@ -113,13 +113,33 @@ function calendarWidth() {
 **  Calendar tooltip
 */
 function calToolTip() {
-    $('body').tooltip({
+    $('body').popover({
         selector: '[data-handler="selectDay"]',
         html: true,
+        trigger: 'hover',
+        delay: {hide:500},
         container: "body",
-        placement: "bottom"
+        placement: "bottom",
+        content: function() {
+            return $(this).attr('data-original-title');
+        },
+        template: '<div class="popover"><div class="arrow"></div><div class="popover-content"></div></div>'
     })
 }
+
+/**
+**  Calendar popover
+*/
+// function calToolTip() {
+//     $('[data-handler="selectDay"]').popover({
+//         html: true,
+//         container: 'a.ui-state-active',
+//         trigger:'hover',
+//         delay: {hide: 500},
+//         placement: 'bottom',
+//         template: '<div class="popover"><div class="arrow"></div><div class="popover-title"></div><div class="popover-content"></div></div>'
+//     })
+// }
 
 
 /**
