@@ -4,7 +4,6 @@
 function datePickerInit() {
     var baseHref = document.getElementsByTagName('base')[0].getAttribute("href")
     locale = baseHref.split('/')[1]
-    // locale = ((baseHref == '/et/') ? "et" : "en")
 
     var options = $.extend(
         {},
@@ -27,12 +26,7 @@ function datePickerInit() {
             dateFormat : "yy-mm-dd",
             prevText : '<',
             nextText : '>',
-            // onChangeMonthYear: function(year, month, inst) {
-            //     //hack default behaviour.
-            //     setTimeout(function(){
-            //         toggleTooltip({show:false})
-            //     }, 0)
-            // },
+
             beforeShowDay: function(date) {
 
                 var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
@@ -52,10 +46,10 @@ function datePickerInit() {
                     tooltip = "<ul class='list-unstyled'>"
                     for (var e in eventsByDate) {
                         var event = eventsByDate[e]
-                        /*console.log(event);*/
-                        //extraClass += " " + event.extraClasses
+
+                        extraClass += " " + event.tag
                         var time = (event.time != "00:00") ? (event.time) + ' ' : ""
-                        tooltip += "<li style='background-color:" + event.color + "'><a href='/" + locale + "/event/" + event.id + "'>" + time + event.name + "</a></li>"
+                        tooltip += "<li class='" + event.tag + "'><a href='/" + locale + "/event/" + event.id + "'>" + time + event.name + "</a></li>"
                         // tooltip += "<li class='" + event.extraClasses + "'>"
                         //     tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
                         //     tooltip += event.client + ((event.city) ? (" - " + event.city) : "")
