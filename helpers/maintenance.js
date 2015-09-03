@@ -143,6 +143,7 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     entity_out.set('id', entity_in.get('id'))
     entity_out.set('category', entity_in.get('properties.category'))
     entity_out.set('color', entity_in.get('properties.color.value'))
+    entity_out.set('tag', entity_in.get('properties.tag.value'))
     entity_out.set('name', entity_in.get('properties.name.value'))
     entity_out.set('description', entity_in.get('properties.description.md'))
     entity_out.set('photo', entity_in.get('properties.photo.0'))
