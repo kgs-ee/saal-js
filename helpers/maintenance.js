@@ -142,6 +142,7 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     var entity_out = op({})
     entity_out.set('id', entity_in.get('id'))
     entity_out.set('category', entity_in.get('properties.category'))
+    entity_out.set('color', entity_in.get('properties.color.value'))
     entity_out.set('name', entity_in.get('properties.name.value'))
     entity_out.set('description', entity_in.get('properties.description.md'))
     entity_out.set('photo', entity_in.get('properties.photo.0'))
@@ -207,7 +208,7 @@ var event_finally = function event_finally(entity_in) {
 cacheEntities(
     name = 'program',
     definition = 'event',
-    parent = 597,
+    parent = 597, // Kodulehe mängukava
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 15 * 60 * 1000,
     marker_f = function marker_f(entity) {
@@ -302,7 +303,7 @@ cacheEntities(
 cacheEntities(
     name = 'tours',
     definition = 'event',
-    parent = 1929,
+    parent = 1929, // Tuurid
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 30 * 60 * 1000,
     marker_f = function marker_f(entity) {
@@ -334,7 +335,7 @@ cacheEntities(
 cacheEntities(
     name = 'residency',
     definition = 'event',
-    parent = 1931,
+    parent = 1931, // Residentuur
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 30 * 60 * 1000,
     marker_f = function marker_f(entity) {
@@ -366,7 +367,7 @@ cacheEntities(
 cacheEntities(
     name = 'news',
     definition = 'news',
-    parent = 597,
+    parent = 597, // Kodulehe mängukava
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 10 * 60 * 1000,
     marker_f = function marker_f(entity) {
