@@ -55,7 +55,7 @@ function datePickerInit() {
                         /*console.log(event);*/
                         //extraClass += " " + event.extraClasses
                         var time = (event.time != "00:00") ? (event.time) + ' ' : ""
-                        tooltip += "<li><a style='background-color:" + event.color + "' href='/" + locale + "/event/" + event.id + "'>" + time + event.name + "</a></li>"
+                        tooltip += "<li style='background-color:" + event.color + "'><a href='/" + locale + "/event/" + event.id + "'>" + time + event.name + "</a></li>"
                         // tooltip += "<li class='" + event.extraClasses + "'>"
                         //     tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
                         //     tooltip += event.client + ((event.city) ? (" - " + event.city) : "")
