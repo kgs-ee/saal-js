@@ -153,12 +153,7 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     entity_out.set('price', entity_in.get('properties.price.value'))
     entity_out.set('ticket-api', entity_in.get('properties.ticket-api.value'))
     entity_out.set('technical-information', entity_in.get('properties.technical-information.md'))
-
-    entity_in.get('properties.start-time', []).forEach(function(starttime) {
-        var da = starttime.value.split('-')
-        da[0]++
-        entity_out.push('start-times', da.join('-'))
-    })
+    entity_out.set('start-time', entity_in.get('properties.start-time'))
 
 
 
