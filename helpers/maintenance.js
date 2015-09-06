@@ -23,7 +23,15 @@ fs.readdir(APP_CACHE_DIR, function(error, files) {
             }, 1000);
         } else if (path.extname(file) === '.json') {
             debug('Read from cache: ' + path.basename(file, '.json'))
-            SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
+
+            var readCacheFile = function readCacheFile() {
+                try {
+                    SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
+                } catch(err) {
+                    setTimeout(readCacheFile, 100);
+                }
+            }
+            readCacheFile()
         }
     })
 })
@@ -103,8 +111,9 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
 
             var event_calendar = {}
             async.each(ALL_EVENTS, function(one_event, callback) {
-                if(one_event['start-times']) {
-                    one_event['start-times'].forEach(function(startdatetime) {
+                if(one_event['start-time']) {
+                    one_event['start-time'].forEach(function(startdatetime) {
+                        startdatetime = startdatetime.value
                         var starttime = '00:00'
                         if (startdatetime.length == 16) {
                             starttime = startdatetime.slice(11,16)

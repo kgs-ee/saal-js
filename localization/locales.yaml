@@ -65,56 +65,6 @@ categories:
         et: Teater
         lv: Teātris
 error:
-    /Users/rannoait/GitHub/saal-js/views/index:
-        "jade:132\n    130|                         hr\n    131| \n  > 132|     td(type=\"button\" class=\"btn btn-lg btn-danger\" data-handler=\"selectDay\" title=\"<ul class='list-unstyled'><li class='undefined'><a href='/et/event/1938'>Test Isiku Residentuur</a></li></li></ul>\")a":
-            "ui-state-active(href=\"#\") Open me\n    133|             aside":
-                col-xs-12:
-                    col-md-12:
-                        "col-lg-3\n    134|                 ":
-                            "row\n    135|                     ":
-                                hidden-xs:
-                                    col-sm-6:
-                                        col-md-4:
-                                            col-lg-12:
-                                                "datepicker-container\n\nUnexpected token `tag` expected `text`, `code`, `:`, `newline` or `eos`":
-                                                    et: "error./Users/rannoait/GitHub/saal-js/views/index.jade:132\n    130|                         hr\n    131| \n  > 132|     td(type=\"button\" class=\"btn btn-lg btn-danger\" data-handler=\"selectDay\" title=\"<ul class='list-unstyled'><li class='undefined'><a href='/et/event/1938'>Test Isiku Residentuur</a></li></li></ul>\")a.ui-state-active(href=\"#\") Open me\n    133|             aside.col-xs-12.col-md-12.col-lg-3\n    134|                 .row\n    135|                     .hidden-xs.col-sm-6.col-md-4.col-lg-12.datepicker-container\n\nUnexpected token `tag` expected `text`, `code`, `:`, `newline` or `eos`"
-        "jade:136\n    134|                     ":
-            hidden-xs:
-                col-sm-6:
-                    col-md-4:
-                        col-lg-12:
-                            "datepicker-container\n    135|                         <td type=\"button\" class=\"btn btn-lg btn-danger\" data-handler=\"selectDay\" title=\"<ul class='list-unstyled'><li class='undefined'><a href='/et/event/1938'>Test Isiku Residentuur</a></li></li></ul>\">\n  > 136|                             <a class=\"ui-state-active\" href=\"#\"> Open me</a>\n    137|                         </td>\n    138|                         div(id='datepicker')\n    139| \n\nunexpected token \"indent\"":
-                                et: "error./Users/rannoait/GitHub/saal-js/views/index.jade:136\n    134|                     .hidden-xs.col-sm-6.col-md-4.col-lg-12.datepicker-container\n    135|                         <td type=\"button\" class=\"btn btn-lg btn-danger\" data-handler=\"selectDay\" title=\"<ul class='list-unstyled'><li class='undefined'><a href='/et/event/1938'>Test Isiku Residentuur</a></li></li></ul>\">\n  > 136|                             <a class=\"ui-state-active\" href=\"#\"> Open me</a>\n    137|                         </td>\n    138|                         div(id='datepicker')\n    139| \n\nunexpected token \"indent\""
-                            "datepicker-container\n    135|                         <td type=\"button\" class=\"btn btn-lg btn-danger\" data-handler=\"selectDay\" title=\"<ul class='list-unstyled'><li class='undefined'><a href='/et/event/1938'>Test Isiku Residentuur</a></li></li></ul>\">\n  > 136|                             a":
-                                "ui-state-active(href=\"#\") Open me\n    137|                         </td>\n    138|                         div(id='datepicker')\n    139| \n\nunexpected token \"indent\"":
-                                    et: "error./Users/rannoait/GitHub/saal-js/views/index.jade:136\n    134|                     .hidden-xs.col-sm-6.col-md-4.col-lg-12.datepicker-container\n    135|                         <td type=\"button\" class=\"btn btn-lg btn-danger\" data-handler=\"selectDay\" title=\"<ul class='list-unstyled'><li class='undefined'><a href='/et/event/1938'>Test Isiku Residentuur</a></li></li></ul>\">\n  > 136|                             a.ui-state-active(href=\"#\") Open me\n    137|                         </td>\n    138|                         div(id='datepicker')\n    139| \n\nunexpected token \"indent\""
-    /Users/rannoait/GitHub/saal-js/views/layout:
-        "jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery":
-            fancybox:
-                pack:
-                    "js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps":
-                        min:
-                            "js')\n  > 57|     body":
-                                "#{path}\n    58| \n    59|         nav":
-                                    navbar-default:
-                                        "navbar-fixed-top\n    60|             ":
-                                            "container-fluid\n\nUnexpected token `interpolation` expected `text`, `code`, `:`, `newline` or `eos`":
-                                                et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body.#{path}\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token `interpolation` expected `text`, `code`, `:`, `newline` or `eos`"
-                            "js')\n  > 57|     body(id= #{path})\n    58| \n    59|         nav":
-                                navbar-default:
-                                    "navbar-fixed-top\n    60|             ":
-                                        "container-fluid\n\nUnexpected token ILLEGAL":
-                                            et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body(id= #{path})\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token ILLEGAL"
-                            "js')\n  > 57|     body(id=#{nav})\n    58| \n    59|         nav":
-                                navbar-default:
-                                    "navbar-fixed-top\n    60|             ":
-                                        "container-fluid\n\nUnexpected token ILLEGAL":
-                                            et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body(id=#{nav})\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token ILLEGAL"
-                            "js')\n  > 57|     body(id=#{path})\n    58| \n    59|         nav":
-                                navbar-default:
-                                    "navbar-fixed-top\n    60|             ":
-                                        "container-fluid\n\nUnexpected token ILLEGAL":
-                                            et: "error./Users/rannoait/GitHub/saal-js/views/layout.jade:57\n    55|         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')\n    56|         script(src='/javascripts/gradientmaps/gradientmaps.min.js')\n  > 57|     body(id=#{path})\n    58| \n    59|         nav.navbar-default.navbar-fixed-top\n    60|             .container-fluid\n\nUnexpected token ILLEGAL"
     Not Found:
         en: Page not found
         et: Sellist lehte pole
@@ -196,6 +146,8 @@ title:
     no-events:
         en: No events
         et: Sündmusi ei toimu
+    no-tours:
+        et: title.no-tours
     saal:
         en: Saal
         et: Saal
