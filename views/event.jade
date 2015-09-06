@@ -11,7 +11,8 @@ block content
 
                 .programme.row
                     .col-xs-12.col-md-12.col-lg-12
-                        h2= op.get(event, 'name')
+                        a.text-right(href='https://saal.entu.ee/entity/event/' + op.get(event, 'id')) Vaata intranetis
+                        h2= op.get(event, 'performance.name')
                         p!= op.get(event, 'description')
 
             aside.col-xs-12.col-md-12.col-lg-3
