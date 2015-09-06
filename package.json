@@ -27,6 +27,8 @@
     "express": "4.x",
     "file-stream-rotator": "0.x",
     "fs": "0.x",
+    "fuse.js": "1.x",
+    "fuzzy": "0.x",
     "jade": "1.x",
     "js-yaml": "3.x",
     "marked": "0.x",
@@ -38,8 +40,7 @@
     "request": "2.x",
     "sanitize-html": "1.x",
     "serve-favicon": "2.x",
-    "stylus": "0.x",
-    "fuse.js": "1.x",
-    "fuzzy": "0.x"
+    "sifter": "0.x",
+    "stylus": "0.x"
   }
 }

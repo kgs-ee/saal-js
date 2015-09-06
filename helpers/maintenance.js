@@ -113,7 +113,7 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
             async.each(ALL_EVENTS, function(one_event, callback) {
                 if(one_event['start-time']) {
                     one_event['start-time'].forEach(function(startdatetime) {
-                        startdatetime = startdatetime.value
+                        // startdatetime = startdatetime.value
                         var starttime = '00:00'
                         if (startdatetime.length == 16) {
                             starttime = startdatetime.slice(11,16)
@@ -162,7 +162,12 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     entity_out.set('price', entity_in.get('properties.price.value'))
     entity_out.set('ticket-api', entity_in.get('properties.ticket-api.value'))
     entity_out.set('technical-information', entity_in.get('properties.technical-information.md'))
-    entity_out.set('start-time', entity_in.get('properties.start-time'))
+
+    entity_out.set('start-time', [])
+    entity_in.get('properties.start-time', []).forEach(function stiterator(start_time) {
+        entity_out.push('start-time', start_time.value)
+    })
+    // entity_out.set('start-time', entity_in.get('properties.start-time'))
 
 
 
@@ -217,7 +222,7 @@ cacheEntities(
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 15 * 60 * 1000,
     marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-times')
+        var event_times = entity.get('start-time')
         var markers = []
         if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
             markers.push('no_date')
@@ -248,7 +253,7 @@ cacheEntities(
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 30 * 60 * 1000,
     marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-times')
+        var event_times = entity.get('start-time')
         var markers = []
         if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
             markers.push('no_date')
@@ -280,7 +285,7 @@ cacheEntities(
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 30 * 60 * 1000,
     marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-times')
+        var event_times = entity.get('start-time')
         var markers = []
         if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
             markers.push('no_date')
@@ -312,7 +317,7 @@ cacheEntities(
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 30 * 60 * 1000,
     marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-times')
+        var event_times = entity.get('start-time')
         var markers = []
         if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
             markers.push('no_date')
@@ -344,7 +349,7 @@ cacheEntities(
     reset_markers = ['no_date', 'past', 'upcoming'],
     delay_ms = 30 * 60 * 1000,
     marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-times')
+        var event_times = entity.get('start-time')
         var markers = []
         if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
             markers.push('no_date')
