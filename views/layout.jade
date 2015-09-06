@@ -69,7 +69,7 @@ html
                             img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
                             p.season.visible-lg= t('.season') + ' ' + SAAL.season
                     .collapse.navbar-collapse(id='navbar')
-                        
+
                         ul.list-unstyled.col-md-1.col-lg-1
                             li(class= path == 'about' ? 'active' : undefined )
                                 a(href='/' + lang + '/about') Saal
@@ -77,7 +77,7 @@ html
                                 a(href='/' + lang + '/program')= t('nav.program')
                             li(class= path == 'residency' ? 'active' : undefined )
                                 a(href='/' + lang + '/residency')= t('nav.residency')
-                        
+
                         ul.list-unstyled.col-md-2.col-lg-2
                             li(class= path == 'tours' ? 'active' : undefined )
                                 a(href='/' + lang + '/tours')= t('nav.tours')
@@ -91,13 +91,13 @@ html
                                 a(href='/' + lang + '/festival/1234') NU Performance
                             li
                                 a(href='/' + lang + '/festival/1235') SAAL Bienaal
-                        
+
                         ul.list-unstyled.col-xs-6.col-md-2.col-lg-2
                             each locale in locales
                                 if lang !== locale
                                     li
                                         a(href='/'+locale+'/'+path)= t('lang.' + locale)
-                        
+
                         ul.social.list-inline.col-xs-6.col-md-2.col-lg-2.text-right
                             li
                                 a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
@@ -125,7 +125,7 @@ html
             //- if user
             //-     p
             //-         a(href='/' + lang + '/users/me') Me
-            //-     p 
+            //-     p
             //-         a(href='/' + lang + '/signin/exit') Sign Out
             //- else
             //-    p
@@ -157,29 +157,16 @@ style.
         background-color: #{SAAL.main_color};
     }
 
-    li.residency,
-    .highlight.residency a {
-        background-color: #AC592D;
+    .highlight.on-tour a {
+        background-color: #{SAAL.secondary_color};
     }
 
-    li.event,
-    .highlight.event a {
-        background-color: #ECE31F;
+    li.on-tour {
+        background-color: #{SAAL.secondary_color};
     }
 
-    li.tour,
-    .highlight.tour a {
-        background-color: #3A4EDF;
-    }
-
-
-
-    .popover {
-        border: 1px solid #{SAAL.secondary_color};
-    }
-
-    .popover.bottom>.arrow {
-        border-bottom-color: #{SAAL.secondary_color};
+    li.in-campo {
+        background-color: #{SAAL.main_color};
     }
 
     .today {
@@ -227,12 +214,12 @@ style.
         color: #{SAAL.secondary_color};
     }
 
-    .voulenteer a {
+    .volunteer a {
         background-color: #{SAAL.main_color};
         color: #{SAAL.secondary_color};
     }
 
-    .voulenteer a:hover {
+    .volunteer a:hover {
         border: 2px solid #{SAAL.secondary_color};
         color: #{SAAL.secondary_color};
     }
@@ -256,14 +243,14 @@ style.
         color: red;
     }
 
-    .pager li > a, 
+    .pager li > a,
     .pager li > span {
         background-color: #fff;
         border: 1px solid #{SAAL.secondary_color};
         color: #{SAAL.secondary_color};
     }
 
-    .pager li > a:hover, 
+    .pager li > a:hover,
     .pager li > span:hover {
         background-color: #{SAAL.secondary_color};
         border: 1px solid #{SAAL.secondary_color};

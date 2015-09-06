@@ -28,10 +28,10 @@ button:
     today:
         en: 'Today!'
         et: 'Täna!'
-    voulenteer:
+    volunteer:
         en: 'Become a volunteer!'
         et: 'Tule vabatahtlikuks!'
-        lv: button.voulenteer
+        lv: button.volunteer
     year:
         en: Year
         et: Aasta

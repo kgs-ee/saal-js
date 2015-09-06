@@ -1,6 +1,6 @@
 @charset "UTF-8";
-/*! 
-- - - - - - - - - - - - - - - - - - - - - - - 
+/*!
+- - - - - - - - - - - - - - - - - - - - - - -
 KANUTI GILDI SAAL
 
 Front-end: Ranno Ait
@@ -164,7 +164,7 @@ h3, .h3 {
 	line-height: 1.3em;
 
 	font-size: 1.2em;
-	
+
 	@media (min-width: $screen-tablet) {
 		font-size: 1.6em;
 	}
@@ -233,7 +233,7 @@ a.logo {
 #navbar {
 	margin-top: 1em;
 	padding-top: 1em;
-	
+
 	@media (min-width: $screen-desktop) {
 		padding-top: 0;
 		margin-top: 0;
@@ -512,7 +512,7 @@ li.in-campo {
 		    width: 100%;
 
 
-			
+
 			li {
 			    display: table-cell;
 			    text-align: center;
@@ -531,7 +531,7 @@ li.in-campo {
 ***	- - - - - - - - - - - - - - - - - - - - */
 
 .archive {
-	
+
 	&.top {
 		margin-bottom: 2em;
 	}
@@ -543,7 +543,7 @@ li.in-campo {
 
 .select-cat {
 	margin-bottom: 2em;
-	
+
 	@media (min-width: $screen-desktop) {
 		margin-bottom: 0;
 	}
@@ -551,7 +551,7 @@ li.in-campo {
 	.active {
 		color: $primary-color;
 		@include box-shadow(0px 0px 0px transparent);
-		
+
 		.icon-checkmark2:before {
 			content: "\ea10";
 		}
@@ -744,7 +744,7 @@ li.in-campo {
 	}
 }
 
-.voulenteer a {
+.volunteer a {
 	display: block;
 	padding: 2em 1em;
 	margin: 0 !important;
@@ -848,7 +848,7 @@ footer {
 		@media (min-width: $screen-desktop) {
 			margin-top: 0;
 		}
-		
+
 		input {
 			border: 2px solid $primary-color;
 			@include border-top-radius(5px);
