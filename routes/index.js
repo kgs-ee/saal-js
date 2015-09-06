@@ -9,8 +9,8 @@ var op      = require('object-path')
 
 router.get('/', function(req, res, next) {
 
-    if (!SDC.get('program_upcoming')) {next(new Error('"upcoming_events" not cached...'))}
-    if (!SDC.get('tours_upcoming')) {next(new Error('"upcoming_tours" not cached...'))}
+    if (!SDC.get('program_upcoming')) {next(new Error('cache_missing_upcoming_events'))}
+    if (!SDC.get('tours_upcoming')) {next(new Error('cache_missing_upcoming_tours'))}
 
     res.render('index', {
         "program": SDC.get('program_upcoming'),

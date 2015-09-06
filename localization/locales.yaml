@@ -69,6 +69,8 @@ error:
         en: Page not found
         et: Sellist lehte pole
         lv: Lapa nav atrodama
+    cache_missing_upcoming_events:
+        et: error.cache_missing_upcoming_events
 lang:
     en:
         en: In English

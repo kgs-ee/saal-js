@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
     var tours = []
     var tours = SDC.get('tours_upcoming')
     if (!tours) {
-        next(new Error('"tours_upcoming" not cached...'))
+        next(new Error('cache_missing_upcoming_tours'))
     }
 
     res.render('tours', {
