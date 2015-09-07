@@ -209,6 +209,7 @@ function initMap() {
 */
 function fancyBoxGallery() {
     $(".fancybox").fancybox({
+        type: 'image',
         padding: 0,
         helpers: {
             overlay: {
