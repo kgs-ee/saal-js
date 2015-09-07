@@ -34,13 +34,19 @@ block content
         .row.page-margin
             aside.col-md-4.col-lg-3
                 .row
-                    .col-xs-6.col-md-6
-                        p Laupäev
-                        p 13.02.2015
-                    .col-xs-6.col-md-6.text-right
-                        a.btn.btn-primary Osta pilet
-                    .col-xs-12.col-md-12.col-lg-12
-                        hr
+                    each datestring in op.get(event, 'start-time', [])
+                        if (moment(datestring).format('D')) >= (moment().date())
+                            
+                            .col-xs-6.col-md-6
+                                p= (moment(datestring).locale(lang).format('dddd'))
+                                p= (moment(datestring).locale(lang).format('L'))
+                                p= (moment(datestring).locale(lang).format('HH:mm'))
+
+                            .col-xs-6.col-md-6.text-right
+                                a.btn.btn-primary(href='#') Osta pilet
+
+                            .col-xs-12.col-md-12.col-lg-12
+                                hr
 
                 .meta-info= op.get(event, 'performance.technical-information')
 
