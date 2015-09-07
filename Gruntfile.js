@@ -60,7 +60,8 @@ module.exports = function(grunt) {
           'public/javascripts/scripts.min.js': [
           'public/javascripts/jquery/jquery-2.1.3.min.js',
           'public/javascripts/jquery/jquery-ui.custom.min.js',
-          'public/javascripts/jquery/jquery-ui-i18n.min.js',
+          'public/javascripts/jquery/jquery.ui.datepicker-en-GB.js',
+          'public/javascripts/jquery/jquery.ui.datepicker-et.js',
           'public/javascripts/bootstrap/bootstrap.js',
           'public/javascripts/jquery.shorten/jquery.shorten.js',
           'public/javascripts/fancybox2/source/jquery.fancybox.pack.js',
