@@ -22,6 +22,7 @@
   "dependencies": {
     "async": "1.x",
     "body-parser": "1.x",
+    "cluster": "0.x",
     "cookie-parser": "1.x",
     "debug": "2.x",
     "express": "4.x",
