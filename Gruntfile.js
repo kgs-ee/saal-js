@@ -15,20 +15,20 @@ module.exports = function(grunt) {
         ignore: [
         /ui-datepicker/,
         '.badge',
-        'svg',
+        '.event-banner svg',
         '.collapsed',
         '.collasing',
         '.navbar-toggle',
         '.collapse.in',
         /fancybox/
         ],
-        stylesheets  : ['/public/stylesheets/style.css', '/public/javascripts/fancybox2/source/jquery.fancybox.css'],
+        stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
         urls         : [], //Overwritten in load_sitemap_and_uncss task
         compress:true
       },
       files: [
-        { src: 'frontend sketch/*.html', dest: '../public/stylesheets/compiled.css'}
+        { src: 'frontend sketch/*.html', dest: 'public/stylesheets/compiled.css'}
         ]
       },
     },
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         files: {
           'public/javascripts/scripts.min.js': [
           'public/javascripts/jquery/jquery-2.1.3.min.js',
-          'public/javascripts/jquery/jquery-ui.min.js',
+          'public/javascripts/jquery/jquery-ui.custom.min.js',
           'public/javascripts/jquery/jquery-ui-i18n.min.js',
           'public/javascripts/bootstrap/bootstrap.js',
           'public/javascripts/jquery.shorten/jquery.shorten.js',
