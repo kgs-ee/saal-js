@@ -154,21 +154,25 @@ style.
         color:#{SAAL.secondary_color};
     }
 
-    .highlight a {
+    li.event,
+    .highlight.event a {
         background-color: #{SAAL.main_color};
     }
 
-    .highlight.on-tour a {
+    li.tour,
+    .highlight.tour a {
+        background-color: #DCDF36;
+    }
+
+    li.tour {
+    margin-bottom: 0;
+    }
+
+    li.residency,
+    .highlight.residency a {
         background-color: #{SAAL.secondary_color};
     }
 
-    li.on-tour {
-        background-color: #{SAAL.secondary_color};
-    }
-
-    li.in-campo {
-        background-color: #{SAAL.main_color};
-    }
 
     .today {
         color: #{SAAL.main_color};
