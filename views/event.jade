@@ -35,20 +35,18 @@ block content
             aside.col-md-4.col-lg-3
                 .row
                     each datestring in op.get(event, 'start-time', [])
-                        if (moment(datestring).format('D')) >= (moment().date())
-                            
+                        if datestring >= ((moment(Date.now()).format('YYYY-MM-DD HH:mm')))
                             .col-xs-6.col-md-6
                                 p= (moment(datestring).locale(lang).format('dddd'))
                                 p= (moment(datestring).locale(lang).format('L'))
                                 p= (moment(datestring).locale(lang).format('HH:mm'))
-
                             .col-xs-6.col-md-6.text-right
                                 a.btn.btn-primary(href='#') Osta pilet
 
                             .col-xs-12.col-md-12.col-lg-12
                                 hr
 
-                .meta-info= op.get(event, 'performance.technical-information')
+                .meta-info!= op.get(event, 'performance.technical-information')
 
                     a.text-right(href='https://saal.entu.ee/entity/event/' + op.get(event, 'id')) Vaata intranetis
 
@@ -62,8 +60,9 @@ block content
 
                 div
                     h2= t('title.video')
-                    != op.get(event, 'video')
+                    div!= op.get(event, 'video')
 
+        .row.page-margin
             .press.col-md-6
                 h2= t('title.press')
                 
@@ -78,11 +77,12 @@ block content
                 h2= t('title.gallery')
 
                 .row
-                    each photo in event.photos
+                    each photo in op.get(event, 'photos', [])
                         .single-image.col-xs-6.col-sm-3.col-md-4
                             a.fancybox(rel='gallery' href=''+ photo.file + '')
                                 img(src=''+ photo.file +'' class='img-responsive' alt='Pildi allkiri')
-            
+        
+        .row.page-margin    
             .past.col-md-6
                 h2= t('title.past')
                 .row
