@@ -359,23 +359,18 @@ a.logo {
 	@extend .badge;
 }
 
-li.residency {
+li.on-tour {
 	background-color: $primary-color;
 }
 
-li.tour {
+li.in-campo {
 	background-color: #00f;
-	margin-bottom: 0;
 }
 
-li.event {
-	background-color: #DFCC2C;
+li.on-tour,
+li.in-campo {
+	padding: 5px;
 }
-
-// li.on-tour,
-// li.in-campo {
-// 	padding: 5px;
-// }
 
 .ui-datepicker-prev {
 	float: left;
