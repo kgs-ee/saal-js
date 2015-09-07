@@ -16,23 +16,16 @@ fs.readdir(APP_CACHE_DIR, function(error, files) {
         debug('0', error)
     }
     files.forEach(function(file) {
-        if (file === 'calendar.json') {
-            setTimeout(function() {
-                debug('Read calendar from cache: ' + path.join(APP_CACHE_DIR, file))
-                SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
-            }, 1000);
-        } else if (path.extname(file) === '.json') {
-            debug('Read from cache: ' + path.basename(file, '.json'))
+        debug('Read from cache: ' + path.basename(file, '.json'))
 
-            var readCacheFile = function readCacheFile() {
-                try {
-                    SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
-                } catch(err) {
-                    setTimeout(readCacheFile, 100);
-                }
+        var readCacheFile = function readCacheFile() {
+            try {
+                SDC.set(path.basename(file, '.json'), require(path.join(APP_CACHE_DIR, file)))
+            } catch(err) {
+                setTimeout(readCacheFile, 100);
             }
-            readCacheFile()
         }
+        readCacheFile()
     })
 })
 

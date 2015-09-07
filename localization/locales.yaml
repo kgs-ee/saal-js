@@ -70,7 +70,9 @@ error:
         et: Sellist lehte pole
         lv: Lapa nav atrodama
     cache_missing_upcoming_events:
-        et: error.cache_missing_upcoming_events
+        en: No upcoming events
+        et: Tulevasi sündmusi pole
+        lv: error.cache_missing_upcoming_events
 lang:
     en:
         en: In English
@@ -148,6 +150,7 @@ title:
     no-events:
         en: No events
         et: Sündmusi ei toimu
+        lv: Pasākumu nav
     no-tours:
         et: title.no-tours
     saal:
