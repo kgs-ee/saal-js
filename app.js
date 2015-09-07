@@ -20,7 +20,7 @@ var i18n    = require('./helpers/i18n')
 
 debug('Loading Entu web ...')
 
-if (!process.env.ENTU_URL) throw '"ENTU_URL" missing in environment'
+if (!process.env.ENTU_USER) throw '"ENTU_USER" missing in environment'
 // global variables (and list of all used environment variables)
 APP_ENTU_ROOT       = 1 // institution
 APP_ROOT_REFRESH_MS = 1 * 60 * 1000
@@ -29,7 +29,7 @@ APP_PORT            = process.env.PORT || 3000
 APP_LOG_DIR         = process.env.LOGDIR || __dirname + '/log'
 APP_CACHE_DIR       = __dirname + '/pagecache'
 APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
-APP_ENTU_URL        = process.env.ENTU_URL
+APP_ENTU_URL        = process.env.ENTU_URL || "https://saal.entu.ee/api2"
 APP_ENTU_USER       = process.env.ENTU_USER
 APP_ENTU_KEY        = process.env.ENTU_KEY
 // Index and cache for all events
