@@ -1,6 +1,6 @@
-FROM node:slim
+FROM node:0.12-slim
 
-ADD ./ /usr/src/wwwentu
-RUN cd /usr/src/wwwentu && npm install
+ADD ./ /usr/src/saal
+RUN cd /usr/src/saal && npm install
 
-CMD ["node", "/usr/src/wwwentu/app.js"]
+CMD ["node", "/usr/src/saal/app.js"]
