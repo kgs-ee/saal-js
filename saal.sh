@@ -3,7 +3,7 @@
 mkdir -p /data/saal/code /data/saal/log /data/saal/ssl
 cd /data/saal/code
 
-git clone https://github.com/argoroots/saal.git ./
+git clone https://github.com/kgs-ee/saal-js.git ./
 git checkout master
 git pull
 
