@@ -144,6 +144,9 @@ title:
     floorplans:
         en: Floorplans
         et: Saaliplaanid
+    gallery:
+        en: Gallery
+        et: Galerii
     news:
         en: News
         et: Uudised
@@ -153,15 +156,27 @@ title:
         lv: Pasākumu nav
     no-tours:
         et: title.no-tours
+    press:
+        en: Press
+        et: Pressikajastus
     saal:
         en: Saal
         et: Saal
+    sound:
+        en: Sound
+        et: Heli
     sponsors:
         en: Supporters and networks
         et: Toetajad ja võrgustikud
     studio:
         en: Studio
         et: Stuudio
+    upcoming:
+        en: Upcoming
+        et: Tulekul
+    video:
+        en: Video
+        et: Video
 weekdays:
     '0':
         en: Monday
