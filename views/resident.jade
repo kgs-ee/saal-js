@@ -1,0 +1,45 @@
+extends layout
+
+block vars
+
+block content
+
+    .container-fluid
+
+        .row
+            .event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                .carousel-inner(role='listbox')
+                    figure(id='slide-01' style='background-image: url(' + op.get(event, 'performance.photo.file') + ');')
+                    header.col-md-8
+                        p September 2015—Oktoober 2015
+                        h1= op.get(event, 'name')
+
+                    - categoryNames = op.get(event, 'category').map(function(c){return c.value});    
+                    ul.event-categories
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
+                            span= t('categories.theatre')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
+                            span= t('categories.dance')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
+                            span= t('categories.performance')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
+                            span= t('categories.music')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
+                            span= t('categories.lecture')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
+                            span= t('categories.film')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Uus Tsirkus") > -1 ? "" : "unactive"))
+                            span= t('categories.new-circus')          
+
+        .row.page-margin
+            article.main-text.col-md-12.col-lg-9.h3
+                p!= op.get(event, 'description')
+
+            aside.video-sound.col-md-12.col-lg-3
+                div
+                    h2= t('title.sound')
+                    <iframe width="100%" height="100" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/187215405&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
+
+                div
+                    h2= t('title.video')
+                    div!= op.get(event, 'video')
