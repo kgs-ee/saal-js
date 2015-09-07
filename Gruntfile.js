@@ -20,7 +20,8 @@ module.exports = function(grunt) {
         '.collasing',
         '.navbar-toggle',
         '.collapse.in',
-        /fancybox/
+        /fancybox/,
+        /popover/
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
