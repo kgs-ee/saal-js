@@ -20,7 +20,9 @@ var i18n    = require('./helpers/i18n')
 
 debug('Loading Entu web ...')
 
-// if (!process.env.ENTU_USER) throw '"ENTU_USER" missing in environment'
+if (!process.env.ENTU_USER) {
+    throw '"ENTU_USER" missing in environment'
+}
 // global variables (and list of all used environment variables)
 APP_ENTU_ROOT       = 1 // institution
 APP_ROOT_REFRESH_MS = 1 * 60 * 1000
