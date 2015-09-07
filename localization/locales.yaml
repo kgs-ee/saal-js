@@ -65,26 +65,6 @@ categories:
         et: Teater
         lv: Teātris
 error:
-    /Users/rannoait/GitHub/saal-js/views/event:
-        "jade:17\n    15|                         h1= op":
-            "get(event, 'performance":
-                "name')\n    16| \n  > 17|                     - categoryNames = category":
-                    'map(function(c){return c':
-                        "value});    \n    18|                     ul":
-                            "event-categories\n    19|                         li":
-                                text-uppercase:
-                                    "h3\n    20|                             span= t('categories":
-                                        "theatre')\n\nCannot read property 'map' of undefined":
-                                            et: "error./Users/rannoait/GitHub/saal-js/views/event.jade:17\n    15|                         h1= op.get(event, 'performance.name')\n    16| \n  > 17|                     - categoryNames = category.map(function(c){return c.value});    \n    18|                     ul.event-categories\n    19|                         li.text-uppercase.h3\n    20|                             span= t('categories.theatre')\n\nCannot read property 'map' of undefined"
-        "jade:30\n    28|                             span= t('categories":
-            "lecture')\n    29|                         li":
-                text-uppercase:
-                    "h3\n  > 30|                             span= t('categories":
-                        "film')m\n    31|                         li":
-                            text-uppercase:
-                                "h3\n    32|                             span= t('categories":
-                                    "new-circus')          \n    33| \n\nUnexpected identifier":
-                                        et: "error./Users/rannoait/GitHub/saal-js/views/event.jade:30\n    28|                             span= t('categories.lecture')\n    29|                         li.text-uppercase.h3\n  > 30|                             span= t('categories.film')m\n    31|                         li.text-uppercase.h3\n    32|                             span= t('categories.new-circus')          \n    33| \n\nUnexpected identifier"
     Not Found:
         en: Page not found
         et: Sellist lehte pole
