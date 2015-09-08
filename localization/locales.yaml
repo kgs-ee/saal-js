@@ -141,6 +141,9 @@ title:
     basement:
         en: Basement
         et: Kelder
+    event:
+        en: Event
+        et: Etendus
     floorplans:
         en: Floorplans
         et: Saaliplaanid
@@ -162,6 +165,9 @@ title:
     press:
         en: Press
         et: Pressikajastus
+    residency:
+        en: Residency
+        et: Residentuur
     saal:
         en: Saal
         et: Saal
@@ -174,6 +180,9 @@ title:
     studio:
         en: Studio
         et: Stuudio
+    tour:
+        en: Tour
+        et: Tuur
     upcoming:
         en: Upcoming
         et: Tulekul
