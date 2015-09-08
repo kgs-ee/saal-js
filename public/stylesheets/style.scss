@@ -292,7 +292,7 @@ a.logo {
 	@extend .table;
 	//@extend .table-bordered;
 	@extend .text-center;
-	margin-bottom: 1em;
+	margin-bottom: .5em;
 
 	thead th {
 		@extend .text-center;
@@ -389,10 +389,9 @@ a.logo {
 }
 
 .legend {
-	margin-bottom: 3em;
+	margin-bottom: 2em;
 
 	li {
-
 		padding-right: 1em;
 
 		&:before {
