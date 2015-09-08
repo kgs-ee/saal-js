@@ -155,25 +155,36 @@ style.
         color:#{SAAL.secondary_color};
     }
 
-    li.event,
-    .highlight.event a {
+    #datepicker li.event,
+    #datepicker .highlight.event a {
         background-color: #{SAAL.main_color};
     }
 
-    li.tour,
-    .highlight.tour a {
-        background-color: #DCDF36;
+    #datepicker li.tour,
+    #datepicker .highlight.tour a {
+        background-color: #28DF24;
     }
 
     li.tour {
     margin-bottom: 0;
     }
 
-    li.residency,
-    .highlight.residency a {
+    #datepicker li.residency,
+    #datepicker .highlight.residency a {
         background-color: #{SAAL.secondary_color};
     }
 
+    .legend li.event:before {
+        color: #{SAAL.main_color};
+    }
+
+    .legend li.residency:before {
+        color: #{SAAL.secondary_color};
+    }
+
+    .legend li.tour:before {
+        color: #28DF24;
+    }
 
     .today {
         color: #{SAAL.main_color};

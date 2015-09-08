@@ -132,6 +132,10 @@ block content
                 .row
                     .hidden-xs.col-sm-6.col-md-4.col-lg-12.datepicker-container
                         div(id='datepicker')
+                        ul.list-inline.legend
+                            li.event Etendus
+                            li.residency Residentuur
+                            li.tour Tuur
 
                     .col-xs-12.col-sm-6.col-md-4.col-lg-12.volunteer
                         a.text-center.h3(href='mailto:vabatahtlik@saal.ee')= t('button.volunteer')
@@ -147,3 +151,8 @@ block content
                             input(type='text' name='b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5' tabindex='-1' value='')
                         .clear
                             input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')
+                        
+                        .site-search
+                            form(action='search')
+                                input(type='text' name='q' id='search' placeholder=t('placeholder.search') value=(q?q:''))
+                                button.icon-search.h4(type='submit')

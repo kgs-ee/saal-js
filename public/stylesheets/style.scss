@@ -292,6 +292,7 @@ a.logo {
 	@extend .table;
 	//@extend .table-bordered;
 	@extend .text-center;
+	margin-bottom: 1em;
 
 	thead th {
 		@extend .text-center;
@@ -385,6 +386,23 @@ a.logo {
 
 .ui-datepicker-next:before {
 	content: url(../images/cal-arrow-right.svg);
+}
+
+.legend {
+	margin-bottom: 3em;
+
+	li {
+
+		padding-right: 1em;
+
+		&:before {
+			content: '●';
+			padding-right: .2em;
+			font-size: 2em;
+			line-height: 0;
+			vertical-align: middle;
+		}
+	}
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
@@ -827,34 +845,33 @@ footer {
 	padding: 2em 0;
 	//border-top: 2px solid $primary-color;
 	background-color: $primary-color;
+}
 
-	.site-search {
+.site-search {
+	position: relative;
+	margin-top: 1em;
 
-		margin-top: 1em;
+	@media (min-width: $screen-desktop) {
+		margin-top: 0;
+	}
 
-		@media (min-width: $screen-desktop) {
-			margin-top: 0;
-		}
+	input {
+		border: 2px solid $primary-color;
+		@include border-top-radius(5px);
+		@include border-bottom-radius(5px);
+		color: $primary-color;
+		padding: .5em;
+		width: 100%;
+	}
 
-		input {
-			border: 2px solid $primary-color;
-			@include border-top-radius(5px);
-			@include border-bottom-radius(5px);
-			color: $primary-color;
-			padding: .5em;
-			width: 100%;
-		}
-
-		button {
-			background-color: #fff;
-			border: 0;
-			color: $primary-color;
-			position: absolute;
-			top: -3px;
-			right: 17px;
-		}
+	button {
+		background-color: #fff;
+		border: 0;
+		color: $primary-color;
+		position: absolute;
+		top: -3px;
+		right: 17px;
 	}
 }
 
-.test{}
 /**	- - - - - - - - - - - - - - - - - - - - */
