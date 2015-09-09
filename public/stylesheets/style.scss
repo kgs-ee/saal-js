@@ -493,6 +493,7 @@ a.logo {
 	    padding: 0;
 	    list-style-type: none;
 	    position: absolute;
+	    left: 1em;
 	    bottom: 1.3em;
 
 	    li {
@@ -504,7 +505,7 @@ a.logo {
 	    }
 
 	    .h3 {
-	    	font-size: 1.5em;
+	    	font-size: 1.2em;
 	    }
 	}
 
@@ -514,6 +515,7 @@ a.logo {
 		    display: table;
 		    table-layout: fixed;
 		    width: 100%;
+		    left: 0;
 
 
 
@@ -524,6 +526,11 @@ a.logo {
 			    &.unactive span {
 			    	background-color: white;
 			    }
+			}
+
+
+			.h3 {
+				font-size: 1.5em;
 			}
 		}
 	}
