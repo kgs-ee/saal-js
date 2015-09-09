@@ -65,6 +65,8 @@ categories:
         et: Teater
         lv: Teātris
 error:
+    "Cannot read property 'id' of undefined":
+        et: "error.Cannot read property 'id' of undefined"
     Not Found:
         en: Page not found
         et: Sellist lehte pole
