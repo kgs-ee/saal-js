@@ -255,6 +255,7 @@ var performance_manipulator = function performance_manipulator_f(entity_in) {
     entity_out.set('id', entity_in.get('id'))
     entity_out.set('category', entity_in.get('properties.category'))
     entity_out.set('name', entity_in.get('properties.name.value'))
+    entity_out.set('subtitle', entity_in.get('properties.subtitle.value'))
     entity_out.set('description', entity_in.get('properties.description.md'))
     entity_out.set('photo', entity_in.get('properties.photo.0'))
     entity_out.set('photos', entity_in.get('properties.photo'))
