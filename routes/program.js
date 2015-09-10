@@ -8,7 +8,7 @@ var op      = require('object-path')
 
 
 router.get('/', function(req, res, next) {
-    debug('Loading "' + req.url + '"', req.params.lang)
+    debug('Loading "' + req.url + '"')
 
     // res.locals.lang = req.params.lang
     res.render('program', {
