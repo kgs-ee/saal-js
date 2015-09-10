@@ -6,30 +6,31 @@ block content
 
     .container-fluid
 
-        .row
-            .event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
-                .carousel-inner(role='listbox')
-                    figure(id='slide-01' style='background-image: url(' + op.get(event, 'performance.photo.file') + ');')
-                    header.col-md-8
-                        p Siia peaks tulema miski alapealkiri, väli ka Entusse
-                        h1= op.get(event, 'performance.name')
+        if op.get(event, 'performance.photo.file')
+            .row
+                .event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                    .carousel-inner(role='listbox')
+                        figure(id='slide-01' style='background-image: url(' + op.get(event, 'performance.photo.file') + ');')
+                        header.col-md-8
+                            p Siia peaks tulema miski alapealkiri, väli ka Entusse
+                            h1= op.get(event, 'performance.name')
 
-                    - categoryNames = op.get(event, 'category', []).map(function(c){return c.value});
-                    ul.event-categories
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
-                            span= t('categories.theatre')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
-                            span= t('categories.dance')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
-                            span= t('categories.performance')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
-                            span= t('categories.music')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
-                            span= t('categories.lecture')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
-                            span= t('categories.film')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
-                            span= t('categories.new-circus')
+                        - categoryNames = op.get(event, 'category', []).map(function(c){return c.value});
+                        ul.event-categories
+                            li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
+                                span= t('categories.theatre')
+                            li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
+                                span= t('categories.dance')
+                            li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
+                                span= t('categories.performance')
+                            li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
+                                span= t('categories.music')
+                            li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
+                                span= t('categories.lecture')
+                            li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
+                                span= t('categories.film')
+                            li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
+                                span= t('categories.new-circus')
 
         .row.page-margin
             aside.col-md-4.col-lg-3
