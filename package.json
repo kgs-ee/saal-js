@@ -7,27 +7,25 @@
   "author": "Mihkel Putrinš <mihkel@entu.ee>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mitselek/www-entu"
+    "url": "https://github.com/kgs/saal-js"
   },
   "bugs": {
     "email": "mihkel@entu.ee",
-    "url": "https://github.com/mitselek/www-entu/issues"
+    "url": "https://github.com/kgs/saal-js/issues"
   },
   "scripts": {
     "start": "node ./app.js"
   },
   "engines": {
-    "node": "0.x"
+    "node": "4.x"
   },
   "dependencies": {
     "async": "1.x",
     "body-parser": "1.x",
-    "cluster": "0.x",
     "cookie-parser": "1.x",
     "debug": "2.x",
     "express": "4.x",
     "file-stream-rotator": "0.x",
-    "fs": "0.x",
     "fuse.js": "1.x",
     "fuzzy": "0.x",
     "jade": "1.x",
