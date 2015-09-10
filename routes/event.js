@@ -15,7 +15,7 @@ router.get('/:id', function(req, res, next) {
         fields: ['id'],
         limit: 2
     })
-    debug(ALL_EVENTS[result.items[0].id])
+    // debug(ALL_EVENTS[result.items[0].id])
     res.render('event', {
         "event": ALL_EVENTS[result.items[0].id]
     })
