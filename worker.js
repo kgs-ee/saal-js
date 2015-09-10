@@ -12,7 +12,6 @@ var random  = require('randomstring')
 var bparser = require('body-parser')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var op      = require('object-path')
-var Sifter  = require('sifter')
 
 
 var i18n    = require('./helpers/i18n')
@@ -36,7 +35,6 @@ APP_ENTU_USER       = process.env.ENTU_USER
 APP_ENTU_KEY        = process.env.ENTU_KEY
 // Index and cache for all events
 ALL_EVENTS          = []
-ALL_EVENTS_SIFTER   = new Sifter(ALL_EVENTS)
 EVENT_LOOKUP        = {}
 
 // console.log(process.env)

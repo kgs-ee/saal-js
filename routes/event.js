@@ -11,13 +11,8 @@ router.get('/:id', function(req, res, next) {
     debug('Looking for', req.query)
     debug('Looking for', req.path)
 
-    var result = ALL_EVENTS_SIFTER.search(req.path.split('/')[1], {
-        fields: ['id'],
-        limit: 2
-    })
-    // debug(ALL_EVENTS[result.items[0].id])
     res.render('event', {
-        "event": ALL_EVENTS[result.items[0].id]
+        "event": EVENT_LOOKUP[req.path.split('/')[1]]
     })
     res.end()
     return
