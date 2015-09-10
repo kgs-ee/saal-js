@@ -85,7 +85,7 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                 }
                 callback()
             })
-        }, function (error) {
+        }, function(error) {
             if (error) {
                 debug('2', error)
             }
@@ -116,7 +116,7 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                     })
                 }
                 callback()
-            }, function (error) {
+            }, function(error) {
                 if (error) {
                     debug('12', error)
                 }
@@ -140,9 +140,10 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
 }
 
 
-var event_manipulator = function manipulator_f(entity_in, callback) {
+var event_manipulator = function event_manipulator_f(entity_in, callback) {
     var entity_out = op({})
-    entity_out.set('id', entity_in.get('id'))
+    var event_id = entity_in.get('id')
+    entity_out.set('id', event_id)
     entity_out.set('category', entity_in.get('properties.category'))
     entity_out.set('color', entity_in.get('properties.color.value', '').split('; '))
     entity_out.set('tag', entity_in.get('properties.tag.value', '').split('; '))
@@ -163,28 +164,93 @@ var event_manipulator = function manipulator_f(entity_in, callback) {
     // entity_out.set('start-time', entity_in.get('properties.start-time'))
 
 
+    var parallelf = []
+    parallelf.push(function(callback) {
+        // debug('First parallelf for event ' + event_id)
+        callback()
+    })
 
     var performance_id = entity_in.get('properties.performance.reference')
     if (performance_id) {
-        // debug('fetch performance')
-        entu.get_entity(id=performance_id, null, null, performanceCB=function(error, performance) {
-            if (error) {
-                debug('Event manipulator performance reference failed for '
-                    + entity_in.get('id') + '->' + performance_id, error)
-            } else {
-                entity_out.set('performance', performance_manipulator(performance).get())
-            }
-            // debug(entity_out.get('performance'))
-            callback(null, entity_out)
+        parallelf.push(function(callback) {
+            // debug('fetch performance')
+            entu.get_entity(id=performance_id, null, null, performanceCB=function(error, performance) {
+                if (error) {
+                    debug('Event manipulator performance reference failed for '
+                        + event_id + '->' + performance_id, error)
+                } else {
+                    entity_out.set('performance', performance_manipulator(performance).get())
+                }
+                // debug(entity_out.get('performance'))
+                callback()
+            })
         })
-    } else {
-        // debug('no performance')
-        callback(null, entity_out)
+        parallelf.push(function(callback) {
+            entu.get_childs(parent=performance_id, definition='coverage', auth_id=null, auth_token=null, function(error, entities) {
+                if (error) {
+                    // debug('GetEventCoverage error for performance ' + performance_id, error)
+                    callback()
+                    return
+                }
+                // debug('GetEventCoverage for performance ' + performance_id + ', coverages: ' + entities.length)
+                entity_out.set('performance.coverage', [])
+                async.each(
+                    entities,
+                    function iterateEntities(coverage, iteratorCB) {
+                        // debug('performance ' + performance_id + ', coverage', coverage.get('id'))
+                        entity_out.push('performance.coverage', coverage_manipulator(coverage).get())
+                        iteratorCB()
+                    },
+                    function finallyEntities() {
+                        // debug('finallyEntities')
+                        callback()
+                    }
+                )
+            })
+        })
     }
+
+    parallelf.push(function(callback) {
+        entu.get_childs(parent=event_id, definition='coverage', auth_id=null, auth_token=null, function(error, entities) {
+            if (error) {
+                // debug('GetEventCoverage error for event ' + event_id, error)
+                callback()
+                return
+            }
+            // debug('GetEventCoverage for event ' + event_id + ', coverages: ' + entities.length)
+            entity_out.set('coverage', [])
+            async.each(
+                entities,
+                function iterateEntities(coverage, iteratorCB) {
+                    // debug('event ' + event_id + ', coverage', coverage.get('id'))
+                    entity_out.push('coverage', coverage_manipulator(coverage).get())
+                    iteratorCB()
+                },
+                function finallyEntities() {
+                    // debug('finallyEntities')
+                    callback()
+                }
+            )
+        })
+    })
+
+    parallelf.push(function(callback) {
+        // debug('Last parallelf for event ' + event_id)
+        callback()
+    })
+
+    async.parallel(
+        parallelf,
+        function() {
+            // debug('ENDOF PARALLELF')
+            callback(null, entity_out)
+        }
+    )
+
 }
 
 
-var performance_manipulator = function manipulator_f(entity_in) {
+var performance_manipulator = function performance_manipulator_f(entity_in) {
     var entity_out = op({})
     entity_out.set('id', entity_in.get('id'))
     entity_out.set('category', entity_in.get('properties.category'))
@@ -194,6 +260,17 @@ var performance_manipulator = function manipulator_f(entity_in) {
     entity_out.set('photos', entity_in.get('properties.photo'))
     entity_out.set('video', entity_in.get('properties.video.value'))
     entity_out.set('technical-information', entity_in.get('properties.technical-information.md'))
+    return entity_out
+}
+
+var coverage_manipulator = function coverage_manipulator_f(entity_in) {
+    var entity_out = op({})
+    entity_out.set('id', entity_in.get('id'))
+    entity_out.set('title', entity_in.get('properties.title.value'))
+    entity_out.set('date', entity_in.get('properties.date.value'))
+    entity_out.set('text', entity_in.get('properties.text.md'))
+    entity_out.set('url', entity_in.get('properties.url.value'))
+    entity_out.set('source', entity_in.get('properties.source.value'))
     return entity_out
 }
 
