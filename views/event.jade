@@ -64,14 +64,15 @@ block content
 
         .row.page-margin
             .press.col-md-6
-                h2= t('title.press')
-                
-                .row
-                    .col-md-12.h3
-                        a(href='#') 28.02.2015 EPL: Kadri Noormetsa uus lavastus Kanuti Gildi SAAL'is
 
-                    .col-xs-12.col-md-12
-                        hr
+                h2= t('title.press')
+                .row
+                    each press in op.get(event, 'performance.coverage', [])    
+                        .col-md-12.h3
+                            a(href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
+
+                        .col-xs-12.col-md-12
+                            hr
 
             if photos
             .gallery.col-md-6
