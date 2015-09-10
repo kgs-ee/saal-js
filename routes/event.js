@@ -8,13 +8,18 @@ var op      = require('object-path')
 
 
 router.get('/:id', function(req, res, next) {
-    debug('Looking for', req.query)
-    debug('Looking for', req.path)
+    // debug('Looking for', req.query)
+    // debug('Looking for', req.path)
 
-    debug(EVENT_LOOKUP)
-    debug(ALL_EVENTS[EVENT_LOOKUP[req.path.split('/')[1]]])
+    // debug(EVENT_LOOKUP)
+    var event = ALL_EVENTS[EVENT_LOOKUP[req.path.split('/')[1]]]
+    var coverage = op.get(event, 'coverage', []).concat(op.get(event, 'performance.coverage', []))
+    // debug('coverage:', op.get(event, 'coverage', 'N/A'))
+    // debug('performance.coverage:', op.get(event, 'performance.coverage', 'N/A'))
+    // debug('full coverage:', coverage)
     res.render('event', {
-        "event": ALL_EVENTS[EVENT_LOOKUP[req.path.split('/')[1]]]
+        "event": event,
+        "coverage": coverage
     })
     res.end()
     return
