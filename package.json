@@ -1,9 +1,9 @@
 {
   "private": false,
-  "name": "www-entu",
+  "name": "saal.ee-at-entu",
   "version": "0.1.0",
-  "description": "entu.ee webpage engine",
-  "homepage": "https://github.com/mitselek/www-entu",
+  "description": "saal.ee on entu.ee webpage engine",
+  "homepage": "https://github.com/kgs/saal-js",
   "author": "Mihkel Putrinš <mihkel@entu.ee>",
   "repository": {
     "type": "git",
