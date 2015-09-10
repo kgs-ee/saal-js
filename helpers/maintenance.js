@@ -282,6 +282,7 @@ var event_finally = function event_finally(entity_in) {
     } else {
         EVENT_LOOKUP[entity_in.get('id')] = ALL_EVENTS.push(entity_in.get()) - 1
     }
+    // debug(EVENT_LOOKUP)
 }
 
 // Split events into past and future and group by time

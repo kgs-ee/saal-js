@@ -14,7 +14,7 @@ block content
                         p Siia peaks tulema miski alapealkiri, väli ka Entusse
                         h1= op.get(event, 'performance.name')
 
-                    - categoryNames = op.get(event, 'category').map(function(c){return c.value});
+                    - categoryNames = op.get(event, 'category', []).map(function(c){return c.value});
                     ul.event-categories
                         li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
                             span= t('categories.theatre')

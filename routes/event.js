@@ -11,8 +11,10 @@ router.get('/:id', function(req, res, next) {
     debug('Looking for', req.query)
     debug('Looking for', req.path)
 
+    debug(EVENT_LOOKUP)
+    debug(ALL_EVENTS[EVENT_LOOKUP[req.path.split('/')[1]]])
     res.render('event', {
-        "event": EVENT_LOOKUP[req.path.split('/')[1]]
+        "event": ALL_EVENTS[EVENT_LOOKUP[req.path.split('/')[1]]]
     })
     res.end()
     return
