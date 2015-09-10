@@ -14,7 +14,7 @@ block content
                         p Siia peaks tulema miski alapealkiri, väli ka Entusse
                         h1= op.get(event, 'performance.name')
 
-                    - categoryNames = op.get(event, 'category').map(function(c){return c.value});    
+                    - categoryNames = op.get(event, 'category').map(function(c){return c.value});
                     ul.event-categories
                         li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
                             span= t('categories.theatre')
@@ -29,7 +29,7 @@ block content
                         li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
                             span= t('categories.film')
                         li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
-                            span= t('categories.new-circus')          
+                            span= t('categories.new-circus')
 
         .row.page-margin
             aside.col-md-4.col-lg-3
@@ -65,11 +65,17 @@ block content
         .row.page-margin
             .press.col-md-6
                 h2= t('title.press')
-                
-                .row
-                    .col-md-12.h3
-                        a(href='#') 28.02.2015 EPL: Kadri Noormetsa uus lavastus Kanuti Gildi SAAL'is
 
+                each coverage in op.get(event, 'coverage', [])
+                    .row
+                        .col-md-12.h3=  op.get(coverage, 'date') + ' ' + op.get(coverage, 'title')
+                        .col-md-12.div!=  op.get(coverage, 'text')
+                    .col-xs-12.col-md-12
+                        hr
+                each coverage in op.get(event, 'performance.coverage', [])
+                    .row
+                        .col-md-12.h3=  op.get(coverage, 'date') + ' ' + op.get(coverage, 'title')
+                        .col-md-12.div!=  op.get(coverage, 'text')
                     .col-xs-12.col-md-12
                         hr
 
@@ -82,8 +88,8 @@ block content
                     .single-image.col-xs-6.col-sm-3.col-md-4
                         a.fancybox(rel='gallery' href=''+ photo.file + '')
                             img(src=''+ photo.file +'' class='img-responsive' alt='Pildi allkiri')
-        
-        .row.page-margin    
+
+        .row.page-margin
             .past.col-md-6
                 h2= t('title.past')
                 .row
