@@ -58,7 +58,7 @@ block content
                 if op.get(event, 'performance.audio')
                     div
                         h2= t('title.sound')
-                        iframe(width='100%' height='100' scrolling='no' frameborder='no' src=op.get(event, 'performance.audio'))
+                        div!= op.get(event, 'performance.audio')
                 if op.get(event, 'performance.video')
                     div
                         h2= t('title.video')
