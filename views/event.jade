@@ -12,8 +12,8 @@ block content
                     .carousel-inner(role='listbox')
                         figure(id='slide-01' style='background-image: url(' + op.get(event, 'performance.photo.file') + ');')
                         header.col-md-8
-                            p= op.get(event, 'performance.subtitle', '')
-                            h1= op.get(event, 'performance.name', '')
+                            p= op.get(event, 'performance.' + lang + '-subtitle', '')
+                            h1= op.get(event, 'performance.' + lang + '-name', '')
 
                         - categoryNames = op.get(event, 'category', []).map(function(c){return c.value});
                         ul.event-categories
@@ -47,12 +47,12 @@ block content
                             .col-xs-12.col-md-12.col-lg-12
                                 hr
 
-                .meta-info!= op.get(event, 'performance.technical-information')
+                .meta-info!= op.get(event, 'performance.' + lang + '-technical-information')
 
                     a.text-right(href='https://saal.entu.ee/entity/event/' + op.get(event, 'id')) Vaata intranetis
 
             article.main-text.col-md-8.col-lg-6.h3
-                p!= op.get(event, 'performance.description')
+                p!= op.get(event, 'performance.' + lang + '-description')
 
             aside.video-sound.col-md-12.col-lg-3
                 if op.get(event, 'performance.audio')
