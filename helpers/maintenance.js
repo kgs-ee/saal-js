@@ -30,43 +30,76 @@ fs.readdir(APP_CACHE_DIR, function(error, files) {
 })
 
 
-var cacheRoot = function cacheRoot() {
-    debug('Caching root')
-    SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
-    entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
-        if (error) {
-            debug('Cant cache institution entity', error)
-            setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
+// var cacheRoot = function cacheRoot() {
+//     debug('Caching root')
+//     SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
+//     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
+//         if (error) {
+//             debug('Cant cache institution entity', error)
+//             setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
+//             return
+//         }
+//         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
+//         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
+//         // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
+//         fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
+//         debug('Root cached')
+//         setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
+//     })
+// }
+// cacheRoot()
+
+
+// var syncFromPL = function syncFromPL() {
+//     debug('Caching root')
+//     SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
+//     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
+//         if (error) {
+//             debug('Cant cache institution entity', error)
+//             setTimeout(syncFromPL, APP_ROOT_REFRESH_MS)
+//             return
+//         }
+//         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
+//         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
+//         // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
+//         fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
+//         debug('Root cached')
+//         setTimeout(syncFromPL, APP_ROOT_REFRESH_MS)
+//     })
+// }
+// syncFromPL()
+var CB_id = 0
+
+var cacheEntities = function cacheEntities(
+    name,
+    definition,
+    parent,
+    reset_markers,
+    marker_f,
+    manipulator_f,
+    finally_f,
+    callback
+) {
+    debug('Caching ' + name)
+    CB_id ++
+    var entuCB = function(err, entities) {
+        if (err) {
+            debug('entuCB[' + CB_id + '] for ' + name + ' stumbled', err)
+            callback(err)
             return
         }
-        SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
-        SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-        // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
-        fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
-        debug('Root cached')
-        setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
-    })
-}
-cacheRoot()
-
-
-var cacheEntities = function cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f, finally_f) {
-    debug('Caching ' + name)
-    var callback = function(error, entities) {
-        if (error) {
-            if (error.code == 'ENOTFOUND') {
-                debug('Retry in 5 sec', error)
-                setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f, finally_f)}, 5*1000)
-                return
-            }
+        if (entities === undefined) {
+            callback(new Error('entuCB[' + CB_id + '] for ' + name + ' called without entities'))
+            return
         }
+        debug( 'entuCB[' + CB_id + '] for ' + name + '; parent:' + parent + '; definition:' + definition)
         var marked_entities_1 = {}
         var marked_entities_2 = {}
-        async.each(entities, function(one_entity, callback) {
+        async.each(entities, function(one_entity, eachCB) {
             var markers = []
-            manipulator_f(one_entity, function(error, processed_entity) {
-                if (error) {
-                    debug('4', error)
+            manipulator_f(one_entity, function(err, processed_entity) {
+                if (err) {
+                    debug('4', err)
                 }
                 one_entity = processed_entity
                 markers = marker_f(one_entity)
@@ -78,19 +111,19 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                         marked_entities_1[marker] = []
                     }
                     marked_entities_1[marker].push(one_entity.get())
-                    // op.push(marked_entities, marker, one_entity.get())
                 })
                 if (finally_f) {
                     finally_f(one_entity)
                 }
-                callback()
+                eachCB()
             })
-        }, function(error) {
-            if (error) {
-                debug('2', error)
+        }, function afterEachEntity(err) {
+            if (err) {
+                debug('entuCB stumbled on each entities', err)
+                callback(err)
+                return
             }
             Object.keys(marked_entities_1).sort().forEach(function(marker) {
-                // debug('pushing to ' + marker, JSON.stringify(marked_entities_1[marker], null, '  '))
                 op.set(marked_entities_2, marker, marked_entities_1[marker])
             })
 
@@ -101,41 +134,14 @@ var cacheEntities = function cacheEntities(name, definition, parent, reset_marke
                 SDC.set(name + '_' + marker, marked_entities_2[marker])
             }
             fs.createWriteStream(path.join(APP_CACHE_DIR, 'all_events.json')).write(JSON.stringify(ALL_EVENTS, null, '    '))
-
-            var event_calendar = {}
-            async.each(ALL_EVENTS, function(one_event, callback) {
-                if(one_event['start-time']) {
-                    one_event['start-time'].forEach(function(startdatetime) {
-                        // startdatetime = startdatetime.value
-                        var starttime = '00:00'
-                        if (startdatetime.length == 16) {
-                            starttime = startdatetime.slice(11,16)
-                        }
-                        one_event.time = starttime
-                        op.push(event_calendar, startdatetime.slice(0,10), one_event)
-                    })
-                }
-                callback()
-            }, function(error) {
-                if (error) {
-                    debug('12', error)
-                }
-                fs.createWriteStream(path.join(APP_CACHE_DIR, 'calendar.json')).write(JSON.stringify(event_calendar, null, '    '))
-            })
-
-
-
-            if (delay_ms) {
-                setTimeout(function() {cacheEntities(name, definition, parent, reset_markers, delay_ms, marker_f, manipulator_f, finally_f)}, delay_ms)
-            }
-            // fs.createWriteStream('./pagecache/calendar.json').write(JSON.stringify(SDC.get('calendar'), null, '  '))
-            debug('Caching ' + name + ' done. Next check in ' + delay_ms/1000 + ' sec.')
+            debug('Caching ' + name + ' done.')
+            callback()
         })
     }
     if (parent) {
-        entu.get_childs(parent=parent, definition=definition, auth_id=null, auth_token=null, callback=callback)
+        entu.get_childs(parent, definition, null, null, entuCB)
     } else {
-        entu.get_entities(definition=definition, limit=null, auth_id=null, auth_token=null, callback=callback)
+        entu.get_entities(definition, null, null, null, entuCB)
     }
 }
 
@@ -147,15 +153,18 @@ var event_manipulator = function event_manipulator_f(entity_in, callback) {
     entity_out.set('category', entity_in.get('properties.category'))
     entity_out.set('color', entity_in.get('properties.color.value', '').split('; '))
     entity_out.set('tag', entity_in.get('properties.tag.value', '').split('; '))
-    entity_out.set('name', entity_in.get('properties.name.value'))
-    entity_out.set('description', entity_in.get('properties.description.md'))
+    entity_out.set('en-name', entity_in.get('properties.en-name.value'))
+    entity_out.set('et-name', entity_in.get('properties.et-name.value'))
+    entity_out.set('en-description', entity_in.get('properties.en-description.md'))
+    entity_out.set('et-description', entity_in.get('properties.et-description.md'))
     entity_out.set('photo', entity_in.get('properties.photo.0'))
     entity_out.set('photos', entity_in.get('properties.photo'))
     entity_out.set('video', entity_in.get('properties.video.value'))
     entity_out.set('location', entity_in.get('properties.location.value'))
     entity_out.set('price', entity_in.get('properties.price.value'))
     entity_out.set('ticket-api', entity_in.get('properties.ticket-api.value'))
-    entity_out.set('technical-information', entity_in.get('properties.technical-information.md'))
+    entity_out.set('en-technical-information', entity_in.get('properties.en-technical-information.md'))
+    entity_out.set('et-technical-information', entity_in.get('properties.et-technical-information.md'))
 
     entity_out.set('start-time', [])
     entity_in.get('properties.start-time', []).forEach(function stiterator(start_time) {
@@ -174,10 +183,10 @@ var event_manipulator = function event_manipulator_f(entity_in, callback) {
     if (performance_id) {
         parallelf.push(function(callback) {
             // debug('fetch performance')
-            entu.get_entity(id=performance_id, null, null, performanceCB=function(error, performance) {
-                if (error) {
+            entu.get_entity(performance_id, null, null, function performanceCB(err, performance) {
+                if (err) {
                     debug('Event manipulator performance reference failed for '
-                        + event_id + '->' + performance_id, error)
+                        + event_id + '->' + performance_id, err)
                 } else {
                     entity_out.set('performance', performance_manipulator(performance).get())
                 }
@@ -186,9 +195,9 @@ var event_manipulator = function event_manipulator_f(entity_in, callback) {
             })
         })
         parallelf.push(function(callback) {
-            entu.get_childs(parent=performance_id, definition='coverage', auth_id=null, auth_token=null, function(error, entities) {
-                if (error) {
-                    // debug('GetEventCoverage error for performance ' + performance_id, error)
+            entu.get_childs(performance_id, 'coverage', null, null, function(err, entities) {
+                if (err) {
+                    // debug('GetEventCoverage err for performance ' + performance_id, err)
                     callback()
                     return
                 }
@@ -211,9 +220,9 @@ var event_manipulator = function event_manipulator_f(entity_in, callback) {
     }
 
     parallelf.push(function(callback) {
-        entu.get_childs(parent=event_id, definition='coverage', auth_id=null, auth_token=null, function(error, entities) {
-            if (error) {
-                // debug('GetEventCoverage error for event ' + event_id, error)
+        entu.get_childs(event_id, 'coverage', null, null, function(err, entities) {
+            if (err) {
+                // debug('GetEventCoverage err for event ' + event_id, err)
                 callback()
                 return
             }
@@ -246,22 +255,24 @@ var event_manipulator = function event_manipulator_f(entity_in, callback) {
             callback(null, entity_out)
         }
     )
-
 }
-
 
 var performance_manipulator = function performance_manipulator_f(entity_in) {
     var entity_out = op({})
     entity_out.set('id', entity_in.get('id'))
     entity_out.set('category', entity_in.get('properties.category'))
-    entity_out.set('name', entity_in.get('properties.name.value'))
-    entity_out.set('subtitle', entity_in.get('properties.subtitle.value'))
-    entity_out.set('description', entity_in.get('properties.description.md'))
+    entity_out.set('en-name', entity_in.get('properties.en_name.value'))
+    entity_out.set('et-name', entity_in.get('properties.et_name.value'))
+    entity_out.set('en-subtitle', entity_in.get('properties.en_subtitle.value'))
+    entity_out.set('et-subtitle', entity_in.get('properties.et_subtitle.value'))
+    entity_out.set('en-description', entity_in.get('properties.en-description.md'))
+    entity_out.set('et-description', entity_in.get('properties.et-description.md'))
     entity_out.set('photo', entity_in.get('properties.photo.0'))
     entity_out.set('photos', entity_in.get('properties.photo'))
     entity_out.set('audio', entity_in.get('properties.audio.value'))
     entity_out.set('video', entity_in.get('properties.video.value'))
-    entity_out.set('technical-information', entity_in.get('properties.technical-information.md'))
+    entity_out.set('et-technical-information', entity_in.get('properties.et-technical-information.md'))
+    entity_out.set('en-technical-information', entity_in.get('properties.en-technical-information.md'))
     return entity_out
 }
 
@@ -276,7 +287,6 @@ var coverage_manipulator = function coverage_manipulator_f(entity_in) {
     return entity_out
 }
 
-
 var event_finally = function event_finally(entity_in) {
     if (EVENT_LOOKUP[entity_in.get('id')]) {
         var eveint_idx = EVENT_LOOKUP[entity_in.get('id')]
@@ -287,211 +297,285 @@ var event_finally = function event_finally(entity_in) {
     // debug(EVENT_LOOKUP)
 }
 
+// Sync from Entu object by object and relax in between
+var cacheSeries = []
+
+cacheSeries.push(function cacheRoot(callback) {
+    debug('Caching root')
+    SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
+    entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(err, institution) {
+        if (err) {
+            debug('Caching root failed', err)
+            callback()
+            // setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
+            return
+        }
+        SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
+        SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
+        // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
+        fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
+        debug('Root cached')
+        callback()
+        // setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
+    })
+})
+
+cacheSeries.push(function popCalendar(callback) {
+    var event_calendar = {}
+    async.each(ALL_EVENTS, function(one_event, callback) {
+        if(one_event['start-time']) {
+            one_event['start-time'].forEach(function(startdatetime) {
+                var starttime = '00:00'
+                if (startdatetime.length == 16) {
+                    starttime = startdatetime.slice(11,16)
+                }
+                one_event.time = starttime
+                op.push(event_calendar, startdatetime.slice(0,10), one_event)
+            })
+        }
+        callback()
+    }, function(err) {
+        if (err) {
+            debug('popCalendar failed', err)
+            callback(err)
+            return
+        }
+        fs.createWriteStream(path.join(APP_CACHE_DIR, 'calendar.json')).write(JSON.stringify(event_calendar, null, '    '))
+        callback()
+    })
+})
+
 // Split events into past and future and group by time
-cacheEntities(
-    name = 'program',
-    definition = 'event',
-    parent = 597, // Kodulehe mängukava
-    reset_markers = ['no_date', 'past', 'upcoming'],
-    delay_ms = 15 * 60 * 1000,
-    marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-time')
-        var markers = []
-        if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
-            markers.push('no_date')
-        } else {
-            for (i in event_times) {
-                var ms = Date.parse(event_times[i])
-                var event_date = (event_times[i]).slice(0,10)
-                var event_time = (event_times[i]).slice(11,16)
-                // var event_date = (new Date(ms)).toJSON().slice(0,10)
-                if (ms < Date.now()) {
-                    markers.push('past.' + event_date + '.' + event_time)
-                } else if (ms >= Date.now()) {
-                    markers.push('upcoming.' + event_date + '.' + event_time)
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'program',
+        definition = 'event',
+        parent = 597, // Kodulehe mängukava
+        reset_markers = ['no_date', 'past', 'upcoming'],
+        marker_f = function marker_f(entity) {
+            var event_times = entity.get('start-time')
+            var markers = []
+            if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
+                markers.push('no_date')
+            } else {
+                for (i in event_times) {
+                    var ms = Date.parse(event_times[i])
+                    var event_date = (event_times[i]).slice(0,10)
+                    var event_time = (event_times[i]).slice(11,16)
+                    // var event_date = (new Date(ms)).toJSON().slice(0,10)
+                    if (ms < Date.now()) {
+                        markers.push('past.' + event_date + '.' + event_time)
+                    } else if (ms >= Date.now()) {
+                        markers.push('upcoming.' + event_date + '.' + event_time)
+                    }
                 }
             }
-        }
-        return markers
-    },
-    manipulator_f = event_manipulator,
-    finally_f = event_finally
-)
+            return markers
+        },
+        manipulator_f = event_manipulator,
+        finally_f = event_finally,
+        callback
+    )
+})
+
 
 // Fetch events from under SAAL Biennaal and group by time
-cacheEntities(
-    name = 'SAAL_Biennaal',
-    definition = 'event',
-    parent = 1932,
-    reset_markers = ['no_date', 'past', 'upcoming'],
-    delay_ms = 30 * 60 * 1000,
-    marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-time')
-        var markers = []
-        if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
-            markers.push('no_date')
-        } else {
-            for (i in event_times.sort()) {
-                var ms = Date.parse(event_times[i])
-                var event_date = (event_times[i]).slice(0,10)
-                var event_time = (event_times[i]).slice(11,16)
-                // var event_date = (new Date(ms)).toJSON().slice(0,10)
-                if (ms < Date.now()) {
-                    markers.push('past.' + event_date + '.' + event_time)
-                } else if (ms >= Date.now()) {
-                    markers.push('upcoming.' + event_date + '.' + event_time)
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'SAAL_Biennaal',
+        definition = 'event',
+        parent = 1932,
+        reset_markers = ['no_date', 'past', 'upcoming'],
+        marker_f = function marker_f(entity) {
+            var event_times = entity.get('start-time')
+            var markers = []
+            if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
+                markers.push('no_date')
+            } else {
+                for (i in event_times.sort()) {
+                    var ms = Date.parse(event_times[i])
+                    var event_date = (event_times[i]).slice(0,10)
+                    var event_time = (event_times[i]).slice(11,16)
+                    // var event_date = (new Date(ms)).toJSON().slice(0,10)
+                    if (ms < Date.now()) {
+                        markers.push('past.' + event_date + '.' + event_time)
+                    } else if (ms >= Date.now()) {
+                        markers.push('upcoming.' + event_date + '.' + event_time)
+                    }
                 }
             }
-        }
-        return markers
-    },
-    manipulator_f = event_manipulator,
-    finally_f = event_finally
-)
+            return markers
+        },
+        manipulator_f = event_manipulator,
+        finally_f = event_finally,
+        callback
+    )
+})
 
 
 // Fetch events from under NU Performance and group by time
-cacheEntities(
-    name = 'NU_Performance',
-    definition = 'event',
-    parent = 1933,
-    reset_markers = ['no_date', 'past', 'upcoming'],
-    delay_ms = 30 * 60 * 1000,
-    marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-time')
-        var markers = []
-        if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
-            markers.push('no_date')
-        } else {
-            for (i in event_times.sort()) {
-                var ms = Date.parse(event_times[i])
-                var event_date = (event_times[i]).slice(0,10)
-                var event_time = (event_times[i]).slice(11,16)
-                // var event_date = (new Date(ms)).toJSON().slice(0,10)
-                if (ms < Date.now()) {
-                    markers.push('past.' + event_date + '.' + event_time)
-                } else if (ms >= Date.now()) {
-                    markers.push('upcoming.' + event_date + '.' + event_time)
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'NU_Performance',
+        definition = 'event',
+        parent = 1933,
+        reset_markers = ['no_date', 'past', 'upcoming'],
+        marker_f = function marker_f(entity) {
+            var event_times = entity.get('start-time')
+            var markers = []
+            if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
+                markers.push('no_date')
+            } else {
+                for (i in event_times.sort()) {
+                    var ms = Date.parse(event_times[i])
+                    var event_date = (event_times[i]).slice(0,10)
+                    var event_time = (event_times[i]).slice(11,16)
+                    // var event_date = (new Date(ms)).toJSON().slice(0,10)
+                    if (ms < Date.now()) {
+                        markers.push('past.' + event_date + '.' + event_time)
+                    } else if (ms >= Date.now()) {
+                        markers.push('upcoming.' + event_date + '.' + event_time)
+                    }
                 }
             }
-        }
-        return markers
-    },
-    manipulator_f = event_manipulator,
-    finally_f = event_finally
-)
-
+            return markers
+        },
+        manipulator_f = event_manipulator,
+        finally_f = event_finally,
+        callback
+    )
+})
 
 // Fetch events from under Tours and group by time
-cacheEntities(
-    name = 'tours',
-    definition = 'event',
-    parent = 1929, // Tuurid
-    reset_markers = ['no_date', 'past', 'upcoming'],
-    delay_ms = 30 * 60 * 1000,
-    marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-time')
-        var markers = []
-        if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
-            markers.push('no_date')
-        } else {
-            for (i in event_times.sort()) {
-                var ms = Date.parse(event_times[i])
-                var event_date = (event_times[i]).slice(0,10)
-                var event_time = (event_times[i]).slice(11,16)
-                // var event_date = (new Date(ms)).toJSON().slice(0,10)
-                if (ms < Date.now()) {
-                    markers.push('past.' + event_date + '.' + event_time)
-                } else if (ms >= Date.now()) {
-                    markers.push('upcoming.' + event_date + '.' + event_time)
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'tours',
+        definition = 'event',
+        parent = 1929, // Tuurid
+        reset_markers = ['no_date', 'past', 'upcoming'],
+        marker_f = function marker_f(entity) {
+            var event_times = entity.get('start-time')
+            var markers = []
+            if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
+                markers.push('no_date')
+            } else {
+                for (i in event_times.sort()) {
+                    var ms = Date.parse(event_times[i])
+                    var event_date = (event_times[i]).slice(0,10)
+                    var event_time = (event_times[i]).slice(11,16)
+                    // var event_date = (new Date(ms)).toJSON().slice(0,10)
+                    if (ms < Date.now()) {
+                        markers.push('past.' + event_date + '.' + event_time)
+                    } else if (ms >= Date.now()) {
+                        markers.push('upcoming.' + event_date + '.' + event_time)
+                    }
                 }
             }
-        }
-        return markers
-    },
-    manipulator_f = event_manipulator,
-    finally_f = event_finally
-)
-
+            return markers
+        },
+        manipulator_f = event_manipulator,
+        finally_f = event_finally,
+        callback
+    )
+})
 
 // Fetch events from under Residency and group by time
-cacheEntities(
-    name = 'residency',
-    definition = 'event',
-    parent = 1931, // Residentuur
-    reset_markers = ['no_date', 'past', 'upcoming'],
-    delay_ms = 30 * 60 * 1000,
-    marker_f = function marker_f(entity) {
-        var event_times = entity.get('start-time')
-        var markers = []
-        if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
-            markers.push('no_date')
-        } else {
-            for (i in event_times.sort()) {
-                var ms = Date.parse(event_times[i])
-                var event_date = (event_times[i]).slice(0,10)
-                var event_time = (event_times[i]).slice(11,16)
-                // var event_date = (new Date(ms)).toJSON().slice(0,10)
-                if (ms < Date.now()) {
-                    markers.push('past.' + event_date + '.' + event_time)
-                } else if (ms >= Date.now()) {
-                    markers.push('upcoming.' + event_date + '.' + event_time)
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'residency',
+        definition = 'event',
+        parent = 1931, // Residentuur
+        reset_markers = ['no_date', 'past', 'upcoming'],
+        marker_f = function marker_f(entity) {
+            var event_times = entity.get('start-time')
+            var markers = []
+            if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
+                markers.push('no_date')
+            } else {
+                for (i in event_times.sort()) {
+                    var ms = Date.parse(event_times[i])
+                    var event_date = (event_times[i]).slice(0,10)
+                    var event_time = (event_times[i]).slice(11,16)
+                    // var event_date = (new Date(ms)).toJSON().slice(0,10)
+                    if (ms < Date.now()) {
+                        markers.push('past.' + event_date + '.' + event_time)
+                    } else if (ms >= Date.now()) {
+                        markers.push('upcoming.' + event_date + '.' + event_time)
+                    }
                 }
             }
-        }
-        return markers
-    },
-    manipulator_f = event_manipulator,
-    finally_f = event_finally
-)
-
+            return markers
+        },
+        manipulator_f = event_manipulator,
+        finally_f = event_finally,
+        callback
+    )
+})
 
 // Split news into old and new and group by time
-cacheEntities(
-    name = 'news',
-    definition = 'news',
-    parent = 597, // Kodulehe mängukava
-    reset_markers = ['no_date', 'past', 'upcoming'],
-    delay_ms = 10 * 60 * 1000,
-    marker_f = function marker_f(entity) {
-        var news_time = entity.get(['properties','time','value'])
-        var markers = []
-        var ms = Date.parse(news_time)
-        var news_date = news_time.slice(0,10)
-        // var news_date = (new Date(ms)).toJSON().slice(0,10)
-        if (ms < Date.now()) {
-            markers.push('past.' + news_date)
-        } else if (ms >= Date.now()) {
-            markers.push('upcoming.' + news_date)
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'news',
+        definition = 'news',
+        parent = 597, // Kodulehe mängukava
+        reset_markers = ['no_date', 'past', 'upcoming'],
+        marker_f = function marker_f(entity) {
+            var news_time = entity.get(['properties','time','value'])
+            var markers = []
+            var ms = Date.parse(news_time)
+            var news_date = news_time.slice(0,10)
+            // var news_date = (new Date(ms)).toJSON().slice(0,10)
+            if (ms < Date.now()) {
+                markers.push('past.' + news_date)
+            } else if (ms >= Date.now()) {
+                markers.push('upcoming.' + news_date)
+            }
+            return markers
+        },
+        manipulator_f = function manipulator_f(entity) {
+            return entity
+        },
+        finally_f = null,
+        callback
+    )
+})
+
+
+var routine = function routine() {
+    async.series(cacheSeries, function routineFinally(err) {
+        if (err) {
+            debug('Routine stumbled', err)
         }
-        return markers
-    },
-    manipulator_f = function manipulator_f(entity) {
-        return entity
-    }
-)
+        debug('restarting routine in ' + APP_ROOT_REFRESH_MS/1000 + ' sec.')
+        setTimeout(routine, APP_ROOT_REFRESH_MS)
+    })
+}
+routine()
 
 
 // Example markers on person
-cacheEntities(
-    name = 'users',
-    definition = 'person',
-    parent = null,
-    reset_markers = ['entusiastid', 'others'],
-    delay_ms = 60 * 60 * 1000,
-    marker_f = function marker_f(entity) {
-        if (entity.get('name') == 'Mihkel-Mikelis Putrinš')
-            return ['entusiastid.mihkel']
-        else if (entity.get('name') == 'Argo Roots')
-            return ['entusiastid.argo']
-        else
-            return ['others']
-    },
-    manipulator_f = function manipulator_f(entity_in) {
-        var entity_out = op({})
-        entity_out.set('id', entity_in.get('id'))
-        entity_out.set('name', entity_in.get('displayname'))
-        entity_out.set('entity', entity_in.get())
-        return entity_out
-    }
-)
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'users',
+        definition = 'person',
+        parent = null,
+        reset_markers = ['entusiastid', 'others'],
+        marker_f = function marker_f(entity) {
+            if (entity.get('name') == 'Mihkel-Mikelis Putrinš')
+                return ['entusiastid.mihkel']
+            else if (entity.get('name') == 'Argo Roots')
+                return ['entusiastid.argo']
+            else
+                return ['others']
+        },
+        manipulator_f = function manipulator_f(entity_in) {
+            var entity_out = op({})
+            entity_out.set('id', entity_in.get('id'))
+            entity_out.set('name', entity_in.get('displayname'))
+            entity_out.set('entity', entity_in.get())
+            return entity_out
+        }
+    )
+})
+
+

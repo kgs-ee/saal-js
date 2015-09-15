@@ -24,7 +24,7 @@ if (!process.env.ENTU_USER) {
 }
 // global variables (and list of all used environment variables)
 APP_ENTU_ROOT       = 1 // institution
-APP_ROOT_REFRESH_MS = 1 * 60 * 1000
+APP_ROOT_REFRESH_MS = 30 * 60 * 1000
 APP_DEBUG           = process.env.DEBUG
 APP_PORT            = process.env.PORT || 3000
 APP_LOG_DIR         = process.env.LOGDIR || __dirname + '/log'

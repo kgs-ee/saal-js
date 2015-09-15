@@ -146,8 +146,11 @@ var get_entities = function get_entities(definitions, limit, auth_id, auth_token
 
 //Get childs by parent entity id and optionally by definition
 var get_childs = function get_childs(parent_entity_id, definition, auth_id, auth_token, callback) {
-    if (!parent_entity_id) callback(new Error('Missing "parent_entity_id"'))
-
+    if (!parent_entity_id) {
+        callback(new Error('Missing "parent_entity_id"'))
+        return
+    }
+    // debug('get childs for ' + parent_entity_id)
     var qs = {}
     if (definition) {
         qs = {definition: definition}
@@ -161,39 +164,54 @@ var get_childs = function get_childs(parent_entity_id, definition, auth_id, auth
     }
     var url = '/entity-' + parent_entity_id + '/childs'
     // debug('get_childs: ' + APP_ENTU_URL + url)
-    request.get({url: APP_ENTU_URL + url, headers: headers, qs: qs, strictSSL: true, json: true}, function(error, response, body) {
+    var options = {
+        url: APP_ENTU_URL + url,
+        headers: headers,
+        qs: qs,
+        strictSSL: true,
+        json: true
+    }
+    request.get(options, function(error, response, body) {
         if (error) {
-            return callback(error)
+            callback(error)
+            return
         }
-        if (response.statusCode !== 200 || !body.result) return callback(new Error(op.get(body, 'error', body)))
+        if (response.statusCode !== 200 || !body.result) {
+            callback(new Error(op.get(body, 'error', body)))
+            return
+        }
 
         var definitions = Object.keys(body.result)
         var childs = []
         async.eachLimit(
             definitions,
             LIMIT_PARALLEL,
-            function doLoop(definition, callback) {
+            function doLoop(definition, doLoopCB) {
                 var loop = ['result', definition, 'entities']
-                async.each(op.get(body, loop, []), function(e, callback) {
+                async.each(op.get(body, loop, []), function(e, eachCB) {
                     get_entity(e.id, auth_id, auth_token, function(error, child_e) {
                         if (error) {
-                            return callback(error)
+                            eachCB(error)
+                            return
                         }
                         child_e.set('_display', {name: e.name, info: e.info})
                         childs.push(child_e)
-                        callback()
+                        eachCB()
                     })
                 }, function gotByDef(error) {
                     if (error) {
-                        return callback(error)
+                        doLoopCB(error)
+                        return
                     }
-                    callback(null)
+                    doLoopCB(null)
                 })
             },
             function endLoop(error) {
                 if (error) {
-                    return callback(error)
+                    callback(error)
+                    return
                 }
+                // debug(parent_entity_id + ' has ' +  childs.length + ' childs.')
                 callback(null, childs)
             }
         )
