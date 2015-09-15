@@ -746,6 +746,10 @@ a.logo {
 	@media (min-width: $screen-desktop) {
 		margin-top: 0;
 	}
+
+	p {
+		margin-bottom: 1em;
+	}
 }
 
 .banner {
