@@ -73,6 +73,8 @@ error:
         en: No upcoming events
         et: Tulevasi sündmusi pole
         lv: error.cache_missing_upcoming_events
+    cache_missing_upcoming_tours:
+        et: error.cache_missing_upcoming_tours
 lang:
     en:
         en: In English
