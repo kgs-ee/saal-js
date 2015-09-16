@@ -320,30 +320,6 @@ cacheSeries.push(function cacheRoot(callback) {
     })
 })
 
-cacheSeries.push(function popCalendar(callback) {
-    var event_calendar = {}
-    async.each(ALL_EVENTS, function(one_event, callback) {
-        if(one_event['start-time']) {
-            one_event['start-time'].forEach(function(startdatetime) {
-                var starttime = '00:00'
-                if (startdatetime.length == 16) {
-                    starttime = startdatetime.slice(11,16)
-                }
-                one_event.time = starttime
-                op.push(event_calendar, startdatetime.slice(0,10), one_event)
-            })
-        }
-        callback()
-    }, function(err) {
-        if (err) {
-            debug('popCalendar failed', err)
-            callback(err)
-            return
-        }
-        fs.createWriteStream(path.join(APP_CACHE_DIR, 'calendar.json')).write(JSON.stringify(event_calendar, null, '    '))
-        callback()
-    })
-})
 
 // Split events into past and future and group by time
 cacheSeries.push(function (callback) {
@@ -513,31 +489,57 @@ cacheSeries.push(function (callback) {
 })
 
 // Split news into old and new and group by time
-cacheSeries.push(function (callback) {
-    cacheEntities(
-        name = 'news',
-        definition = 'news',
-        parent = 597, // Kodulehe mängukava
-        reset_markers = ['no_date', 'past', 'upcoming'],
-        marker_f = function marker_f(entity) {
-            var news_time = entity.get(['properties','time','value'])
-            var markers = []
-            var ms = Date.parse(news_time)
-            var news_date = news_time.slice(0,10)
-            // var news_date = (new Date(ms)).toJSON().slice(0,10)
-            if (ms < Date.now()) {
-                markers.push('past.' + news_date)
-            } else if (ms >= Date.now()) {
-                markers.push('upcoming.' + news_date)
-            }
-            return markers
-        },
-        manipulator_f = function manipulator_f(entity) {
-            return entity
-        },
-        finally_f = null,
-        callback
-    )
+// cacheSeries.push(function (callback) {
+//     cacheEntities(
+//         name = 'news',
+//         definition = 'news',
+//         parent = 1953, // Uudised
+//         reset_markers = ['no_date', 'past', 'upcoming'],
+//         marker_f = function marker_f(entity) {
+//             var news_time = entity.get(['properties','time','value'])
+//             var markers = []
+//             var ms = Date.parse(news_time)
+//             var news_date = news_time.slice(0,10)
+//             // var news_date = (new Date(ms)).toJSON().slice(0,10)
+//             if (ms < Date.now()) {
+//                 markers.push('past.' + news_date)
+//             } else if (ms >= Date.now()) {
+//                 markers.push('upcoming.' + news_date)
+//             }
+//             return markers
+//         },
+//         manipulator_f = function manipulator_f(entity) {
+//             return entity
+//         },
+//         finally_f = null,
+//         callback
+//     )
+// })
+
+
+cacheSeries.push(function popCalendar(callback) {
+    var event_calendar = {}
+    async.each(ALL_EVENTS, function(one_event, callback) {
+        if(one_event['start-time']) {
+            one_event['start-time'].forEach(function(startdatetime) {
+                var starttime = '00:00'
+                if (startdatetime.length == 16) {
+                    starttime = startdatetime.slice(11,16)
+                }
+                one_event.time = starttime
+                op.push(event_calendar, startdatetime.slice(0,10), one_event)
+            })
+        }
+        callback()
+    }, function(err) {
+        if (err) {
+            debug('popCalendar failed', err)
+            callback(err)
+            return
+        }
+        fs.createWriteStream(path.join(APP_CACHE_DIR, 'calendar.json')).write(JSON.stringify(event_calendar, null, '    '))
+        callback()
+    })
 })
 
 
@@ -545,6 +547,8 @@ var routine = function routine() {
     async.series(cacheSeries, function routineFinally(err) {
         if (err) {
             debug('Routine stumbled', err)
+            setTimeout(routine, 5*1000)
+            return
         }
         debug('restarting routine in ' + APP_ROOT_REFRESH_MS/1000 + ' sec.')
         setTimeout(routine, APP_ROOT_REFRESH_MS)
