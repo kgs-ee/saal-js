@@ -74,6 +74,7 @@ error:
         et: Tulevasi sündmusi pole
         lv: error.cache_missing_upcoming_events
     cache_missing_upcoming_tours:
+        en: error.cache_missing_upcoming_tours
         et: error.cache_missing_upcoming_tours
 lang:
     en:
@@ -160,6 +161,7 @@ title:
         et: Sündmusi ei toimu
         lv: Pasākumu nav
     no-tours:
+        en: title.no-tours
         et: Tuuril ei ole hetkel ühtki lavastust
     past:
         en: Past
