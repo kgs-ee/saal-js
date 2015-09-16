@@ -552,11 +552,11 @@ cacheSeries.push(function (callback) {
         ['entusiastid', 'others'],  // reset_markers
         function marker_f(entity) {  // marker_f
             if (entity.get('name') == 'Mihkel-Mikelis Putrinš')
-                return ['entusiastid.mihkel']
+                return ['entusiastid.mihkel', 'all']
             else if (entity.get('name') == 'Argo Roots')
-                return ['entusiastid.argo']
+                return ['entusiastid.argo', 'all']
             else
-                return ['others']
+                return ['others', 'all']
         },
         manipulator_f = function manipulator_f(entity_in, callback) {
             var entity_out = op({})

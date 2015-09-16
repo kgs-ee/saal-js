@@ -17,7 +17,6 @@ router.get('/', function(req, res, next) {
     res.locals.q = query
 
     if (query.split(':')[0] === 'date') {
-        results['query_type'] = 'date'
         var date = query.split(':')
         date.shift()
         date = date.join(':')
@@ -28,7 +27,6 @@ router.get('/', function(req, res, next) {
             , "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[date]
         }
     } else if (query.split(':')[0] === 'category') {
-        results['query_type'] = 'category'
         var category = query.split(':')
         category.shift()
         category = category.join(':')
@@ -44,6 +42,24 @@ router.get('/', function(req, res, next) {
             "query_type": 'category'
             , "query_category": category
             , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(category)
+        }
+    } else if (query.split(':')[0] === 'person') {
+        var person = query.split(':')
+        person.shift()
+        person = person.join(':')
+        debug('Looking for person "' + person + '"')
+        var fuse_options = {
+            includeScore: true,
+            keys: [
+                'name',
+                'email',
+                'phone'
+                ]
+        }
+        results = {
+            "query_type": 'person'
+            , "query_person": person
+            , "fuse_js": new fuse(require(path.join(APP_CACHE_DIR, 'users_all.json')), fuse_options).search(person)
         }
         // debug(JSON.stringify(results, null, '  '))
     } else if (query) {
