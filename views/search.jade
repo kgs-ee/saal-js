@@ -10,36 +10,38 @@ block content
 
                 .programme.row
 
-                    if results.query_type == 'query'
-                        .col-xs-12.col-md-12.col-lg-12
-                            if results.fuse_js.length == 0
-                                h2= t('q.query') + ': ' + q + ' • ' + t('q.results.0')
-                            else if results.fuse_js.length == 1
-                                h2= t('q.query') + ': ' + q + ' • ' + t('q.results.1')
-                            else
-                                h2= t('q.query') + ': ' + q + ' • ' + t('q.results') + ' ' + (results.fuse_js.length)
+                    case results.query_type
+                        when 'query'
+                        when 'category'
+                            .col-xs-12.col-md-12.col-lg-12
+                                if results.fuse_js.length == 0
+                                    h2= t('q.query') + ': ' + q + ' • ' + t('q.results.0')
+                                else if results.fuse_js.length == 1
+                                    h2= t('q.query') + ': ' + q + ' • ' + t('q.results.1')
+                                else
+                                    h2= t('q.query') + ': ' + q + ' • ' + t('q.results') + ' ' + (results.fuse_js.length)
 
-                        .col-xs-12.col-md-12.col-lg-12
-                            //-b.pre= 'fuse_js: ' + results.fuse_js.length + ' ' + t('q.matches')
-                            each event in op.get(results, 'fuse_js', [])
-                                each stime in op.get(event, 'item.start-times', [])
-                                    p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
-                                h3(score=op.get(event, 'score'))
-                                    a(href='/' + lang + '/event/' + op.get(event,'item.id'))!= op.get(event, 'item.' + lang + '-name')
-                                hr
+                            .col-xs-12.col-md-12.col-lg-12
+                                //-b.pre= 'fuse_js: ' + results.fuse_js.length + ' ' + t('q.matches')
+                                each event in op.get(results, 'fuse_js', [])
+                                    each stime in op.get(event, 'item.start-times', [])
+                                        p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
+                                    h3(score=op.get(event, 'score'))
+                                        a(href='/' + lang + '/event/' + op.get(event,'item.id'))!= op.get(event, 'item.' + lang + '-name')
+                                    hr
 
-                    if results.query_type == 'date'
-                        .col-xs-12.col-md-12.col-lg-12
-                            if results.length == 0
-                                h2= t('q.query') + ': ' + q_date + ' • ' + t('q.results.0')
-                            else if results.length == 1
-                                h2= t('q.query') + ': ' + q_date + ' • ' + t('q.results.1')
-                            else
-                                h2= t('q.query') + ': ' + q_date + ' • ' + t('q.results') + ' ' + (results.events.length)
+                        when 'date'
+                            .col-xs-12.col-md-12.col-lg-12
+                                if results.length == 0
+                                    h2= t('q.query') + ': ' + q_date + ' • ' + t('q.results.0')
+                                else if results.length == 1
+                                    h2= t('q.query') + ': ' + q_date + ' • ' + t('q.results.1')
+                                else
+                                    h2= t('q.query') + ': ' + q_date + ' • ' + t('q.results') + ' ' + (results.events.length)
 
-                        .col-xs-12.col-md-12.col-lg-12
-                            each event in op.get(results, 'events', [])
-                                p= t('weekdays.' + new Date(q_date).getDay()) + ', ' + (moment(q_date).locale(lang).format('L'))
-                                h3
-                                    a(href='/' + lang + '/event/' + event.id)!= op.get(event, lang + '-name')
-                                hr
+                            .col-xs-12.col-md-12.col-lg-12
+                                each event in op.get(results, 'events', [])
+                                    p= t('weekdays.' + new Date(q_date).getDay()) + ', ' + (moment(q_date).locale(lang).format('L'))
+                                    h3
+                                        a(href='/' + lang + '/event/' + event.id)!= op.get(event, lang + '-name')
+                                    hr

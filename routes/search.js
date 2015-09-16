@@ -21,6 +21,21 @@ router.get('/', function(req, res, next) {
             "query_type": 'date',
             "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[req.query.date]
         }
+    } else if (req.query.category) {
+        debug('Looking for category "' + req.query.category + '"')
+        var fuse_options = {
+            keys: [
+                "id",
+                'category.id',
+                'performance.category.id'
+                ]
+        }
+        results = {
+            "query_type": 'category'
+            , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.category)
+            // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
+        }
+        debug(JSON.stringify(results.fuse_js, null, '  '))
     } else if (req.query.q) {
         res.locals.q = req.query.q
         debug('Looking for "' + req.query.q + '"')
@@ -38,7 +53,7 @@ router.get('/', function(req, res, next) {
                 res.locals.lang + '-technical-information',
                 'performance.' + res.locals.lang + '-name',
                 'performance.' + res.locals.lang + '-description',
-                'performance.' + res.locals.lang + '-technical-information',
+                'performance.' + res.locals.lang + '-technical-information'
                 ]
         }
         // var fuzzy_options = {
