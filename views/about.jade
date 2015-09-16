@@ -25,37 +25,40 @@ block content
 
             section.news.col-md-6
                 h2= t('title.news')
-                .panel-group(id='accordion' role='tablist' multiselectable='true')
-                    .panel
-                        div(role='tab' id='headingOne')
-                            h3
-                                a(data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne') Pressiteade 23.03 2015: Esietendub kadrinoormetsa ja Diego Agulló lavastus "formlessly yours"
-                        .panel-collapse.collapse.in(id='collapseOne' role='tabpanel' aria-labelledby='headingOne')
-                            div
-                                p Sügisel publikut üllatanud Renate Keerdi ja Maria Ibarretxe tantsulavastus „Pink Flamingos, Crazy Horses" on sel nädalal, 6. ja 7. veebruaril taas Tartu Uue Teatri laval.
-                                p "Pink Flamingos, Crazy Horses" on lavastajate ning koreograafide Renate Keerdi ja Maria Ibarretxe vürtsikas ja mänguline tantsulavastus. Nende koostöö sai alguse rahvusvahelise projekti Fresh Tracks Europe projekti raames Gentis 2012. aastal. Esmakordsel kohtumisel tekkis neil endi sõnul tugev loominguline side ning äratundmine tegemaks koos ühine lavastus. Ja sealt nad nüüd tulevad - roosad flamingod ja pöörased hobused! Sisemine loom saab vabastatud ja stereotüübid pea peale pööratud, võib-olla ka vastupidi. Põhirõhk on sõnal "mäng".
-                    .panel
-                        div(role='tab' id='headingTwo')
-                            h3
-                                a.collapsed(data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo') Pressiteade 11.03.2015: Brüsselis esietendus Pieter De Buysseri ja Maike Londi lavastus “Immerwahr”
-                        .panel-collapse.collapse(id='collapseTwo' role='tabpanel' aria-labelledby='headingTwo')
-                            div
-                                p Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    .panel
-                        div(role='tab' id='headingThree')
-                            h3
-                                a.collapsed(data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='true' aria-controls='collapseThree') Pressiteade 5.02.2015:Renate Keerdi ja Maria Ibarretxe "Pink Flamingos, Crazy horses" taas Tartus!
-                        .panel-collapse.collapse(id='collapseThree' role='tabpanel' aria-labelledby='headingThree')
-                            div
-                                p Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 
-                each bulletin, datestring in news
-                    each p in bulletin
-                        - var klass = (datestring === 0 ? 'esimene' : 'ülejäänud')
-                        p= klass
-                        p= op.get(p, 'id')
-                        p= op.get(p, 'displayname')
-                        p= op.get(p, 'properties.body.value')
+                .panel-group(id='accordion' role='tablist' multiselectable='true')
+                    
+                    - var index = 0
+                    each bulletin, datestring in news
+                        each p in bulletin
+                            - var inClass = (++index === 1 ? 'in' : ' ')
+                            //- - var colClass = (++index === 1 ? 'collapsed' : ' ')
+                            p= colClass
+                            .panel
+                                div(role="tab" id="heading-"+op.get(p, 'id')+"")
+                                    h3
+                                        a(class=(++index === 1 ? '' : 'collapsed') data-toggle="collapse" data-parent="#accordion" href="#collapse-"+op.get(p, 'id')+"" aria-expanded="true" aria-controls="collapse-"+op.get(p, 'id')+"")= op.get(p, 'displayname')
+
+                                .panel-collapse.collapse(class=(++index === 1 ? 'in' : ' ') id="collapse-"+op.get(p, 'id')+"" role="tabpanel" aria-labelledby="heading-"+op.get(p, 'id')+"")
+                                    div
+                                        p= op.get(p, 'properties.body.value')
+                            //- .panel
+                            //-     div(role='tab' id='headingTwo')
+                            //-         h3
+                            //-             a.collapsed(data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo') Pressiteade 11.03.2015: Brüsselis esietendus Pieter De Buysseri ja Maike Londi lavastus “Immerwahr”
+                            //-     .panel-collapse.collapse(id='collapseTwo' role='tabpanel' aria-labelledby='headingTwo')
+                            //-         div
+                            //-             p= op.get(p, 'properties.body.value')
+                
+                //- - var index = 0
+                //- each bulletin, datestring in news
+                //-     each p in bulletin
+                //-         - var inClass = (++index === 1 ? 'in' : '')
+                //-         - var colClass= (++index === 1 ? '' : 'collapsed')
+                //-         p= inClass
+                //-         p= op.get(p, 'id')
+                //-         p= op.get(p, 'displayname')
+                //-         p= op.get(p, 'properties.body.value')
 
                 a.load-more.btn.btn-primary(href='#')= t('button.load-more')
 
