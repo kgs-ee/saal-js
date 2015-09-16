@@ -85,7 +85,7 @@ block content
                         each photo in op.get(event, 'photos', [])
                             .single-image.col-xs-6.col-sm-3.col-md-4
                                 a.fancybox(rel='gallery' href=''+ photo.file + '')
-                                    img(src=''+ photo.file +'' class='img-responsive' alt='Pildi allkiri')
+                                    img(src=''+ photo.file +'' class='img-responsive')
 
         .row.page-margin
             .past.col-md-6
