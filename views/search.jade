@@ -15,11 +15,11 @@ block content
                         when 'category'
                             .col-xs-12.col-md-12.col-lg-12
                                 if results.fuse_js.length == 0
-                                    h2= t('q.query') + ': ' + q + ' • ' + t('q.results.0')
+                                    h2= t('q.query') + ': ' + results.query + ' • ' + t('q.results.0')
                                 else if results.fuse_js.length == 1
-                                    h2= t('q.query') + ': ' + q + ' • ' + t('q.results.1')
+                                    h2= t('q.query') + ': ' + results.query + ' • ' + t('q.results.1')
                                 else
-                                    h2= t('q.query') + ': ' + q + ' • ' + t('q.results') + ' ' + (results.fuse_js.length)
+                                    h2= t('q.query') + ': ' + results.query + ' • ' + t('q.results') + ' ' + (results.fuse_js.length)
 
                             .col-xs-12.col-md-12.col-lg-12
                                 //-b.pre= 'fuse_js: ' + results.fuse_js.length + ' ' + t('q.matches')

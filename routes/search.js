@@ -18,24 +18,28 @@ router.get('/', function(req, res, next) {
         res.locals.q_date = req.query.date
         debug('Looking for date "' + req.query.date + '"')
         results = {
-            "query_type": 'date',
-            "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[req.query.date]
+            "query_type": 'date'
+            , "query": req.query.date
+            , "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[req.query.date]
         }
     } else if (req.query.category) {
         debug('Looking for category "' + req.query.category + '"')
         var fuse_options = {
             keys: [
-                "id",
                 'category.id',
-                'performance.category.id'
+                'category.value',
+                'performance.category.id',
+                'performance.category.value'
                 ]
         }
         results = {
             "query_type": 'category'
+            , "query": req.query.category
             , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.category)
             // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
         }
-        debug(JSON.stringify(results.fuse_js, null, '  '))
+        debug(JSON.stringify(results, null, '  '))
+        debug(JSON.stringify(ALL_EVENTS, null, '  '))
     } else if (req.query.q) {
         res.locals.q = req.query.q
         debug('Looking for "' + req.query.q + '"')
@@ -64,6 +68,7 @@ router.get('/', function(req, res, next) {
 
         results = {
             "query_type": 'query'
+            , "query": req.query.q
             , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q)
             // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
         }
