@@ -562,6 +562,8 @@ cacheSeries.push(function (callback) {
             var entity_out = op({})
             entity_out.set('id', entity_in.get('id'))
             entity_out.set('name', entity_in.get('displayname'))
+            entity_out.set('phone', entity_in.get('properties.phone.value'))
+            entity_out.set('email', entity_in.get('properties.email.value'))
             entity_out.set('entity', entity_in.get())
             callback(null, entity_out)
             // return entity_out
