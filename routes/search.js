@@ -32,7 +32,14 @@ router.get('/', function(req, res, next) {
             location: 0,
             distance: 100,
             maxPatternLength: 32,
-            keys: [res.locals.lang + '-name', res.locals.lang + '-description']
+            keys: [
+                res.locals.lang + '-name',
+                res.locals.lang + '-description',
+                res.locals.lang + '-technical-information',
+                'performance.' + res.locals.lang + '-name',
+                'performance.' + res.locals.lang + '-description',
+                'performance.' + res.locals.lang + '-technical-information',
+                ]
         }
         // var fuzzy_options = {
         //     pre: '<b class="matched">',
@@ -45,7 +52,7 @@ router.get('/', function(req, res, next) {
             , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q)
             // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
         }
-        // debug(JSON.stringify(results.fuse_js, null, '  '))
+        debug(JSON.stringify(results.fuse_js, null, '  '))
     } else {
         return next()
     }

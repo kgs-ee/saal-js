@@ -24,7 +24,7 @@ block content
                             each event in op.get(results, 'fuse_js', [])
                                 each stime in op.get(event, 'item.start-times', [])
                                     p= t('weekdays.' + new Date(stime).getDay()) + ', ' + (moment(stime).locale(lang).format('L'))
-                                h3
+                                h3(score=op.get(event, 'score'))
                                     a(href='/' + lang + '/event/' + op.get(event,'item.id'))!= op.get(event, 'item.' + lang + '-name')
                                 hr
 
