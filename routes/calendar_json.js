@@ -8,11 +8,11 @@ var op      = require('object-path')
 
 
 router.get('/', function(req, res, next) {
-    debug('Loading "' + req.url + '"', op.get(req, 'query.date', 'No date'))
+    // debug('Loading "' + req.url + '" with ' + op.get(req, 'query.date', 'no date'))
     res.setHeader('Content-Type', 'application/json');
     var date = op.get(req, 'query.date')
     if (date) {
-        debug('Looking for "' + date + '"')
+        // debug('Looking for "' + date + '"')
         res.send(require(path.join(APP_CACHE_DIR, 'calendar.json'))[date])
     } else {
         res.send(require(path.join(APP_CACHE_DIR, 'calendar.json')))

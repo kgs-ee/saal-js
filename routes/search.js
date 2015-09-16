@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 
     if (req.query.date) {
         res.locals.q_date = req.query.date
-        debug('Looking for "' + req.query.date + '"')
+        debug('Looking for date "' + req.query.date + '"')
         results = {
             "query_type": 'date',
             "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[req.query.date]
