@@ -31,9 +31,6 @@ block content
                     - var index = 0
                     each bulletin, datestring in news
                         each p in bulletin
-                            - var inClass = (++index === 1 ? 'in' : ' ')
-                            //- - var colClass = (++index === 1 ? 'collapsed' : ' ')
-                            p= colClass
                             .panel
                                 div(role="tab" id="heading-"+op.get(p, 'id')+"")
                                     h3
