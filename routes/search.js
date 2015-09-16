@@ -6,7 +6,7 @@ var debug   = require('debug')('app:' + path.basename(__filename).replace('.js',
 var async   = require('async')
 var op      = require('object-path')
 var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
-var fuzzy   = require('fuzzy')                  // https://github.com/mattyork/fuzzy
+// var fuzzy   = require('fuzzy')                  // https://github.com/mattyork/fuzzy
 
 
 router.get('/', function(req, res, next) {
@@ -32,18 +32,18 @@ router.get('/', function(req, res, next) {
             location: 0,
             distance: 100,
             maxPatternLength: 32,
-            keys: ["name","description"]
+            keys: [res.locals.lang + '-name', res.locals.lang + '-description']
         }
-        var fuzzy_options = {
-            pre: '<b class="matched">',
-            post: '</b>',
-            extract: function(el) { return el.name + ' ' + el.description; }
-        }
+        // var fuzzy_options = {
+        //     pre: '<b class="matched">',
+        //     post: '</b>',
+        //     extract: function(el) { return el.name + ' ' + el.description; }
+        // }
 
         results = {
-            "query_type": 'query',
-            "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q),
-            "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
+            "query_type": 'query'
+            , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q)
+            // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
         }
         // debug(JSON.stringify(results.fuse_js, null, '  '))
     } else {
