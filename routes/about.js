@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
     debug('Loading "' + req.url + '"', req.params.lang)
 
     res.render('about', {
+    	"news": SDC.get('news_past')
     })
     res.end()
 })

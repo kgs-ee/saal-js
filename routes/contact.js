@@ -11,9 +11,8 @@ router.get('/', function(req, res, next) {
     debug('Loading "' + req.url + '"', req.params.lang)
 
     // res.locals.lang = req.params.lang
-    res.render('index', {
-        "program": SDC.get('program_upcoming'),
-        "tours": SDC.get('tours_upcoming')
+    res.render('contact', {
+        "users": SDC.get('users_others')
     })
     res.end()
 })

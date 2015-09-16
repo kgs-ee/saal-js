@@ -115,6 +115,9 @@ nav:
         et: Tuurid
         lv: nav.tours
 placeholder:
+    newsletter:
+        en: Sign-up for newsletter
+        et: Liitu uudiskirjaga
     search:
         en: Search…
         et: Otsi…
@@ -144,6 +147,9 @@ title:
     basement:
         en: Basement
         et: Kelder
+    contact:
+        en: Contact
+        et: Kontakt
     event:
         en: Event
         et: Etendus
