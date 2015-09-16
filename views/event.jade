@@ -12,8 +12,8 @@ block content
                     .carousel-inner(role='listbox')
                         figure(id='slide-01' style='background-image: url(' + op.get(event, 'performance.photo.file') + ');')
                         header.col-md-8
-                            p= op.get(event, 'performance.' + lang + '-subtitle', '')
-                            h1= op.get(event, 'performance.' + lang + '-name', '')
+                            p= op.get(event, lang + '-subtitle', '')
+                            h1= op.get(event, lang + '-name', '')
 
                         - categoryNames = op.get(event, 'category', []).map(function(c){return c.value});
                         ul.event-categories

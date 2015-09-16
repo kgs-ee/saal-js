@@ -28,15 +28,16 @@ block content
                 
                 .panel-group(id='accordion' role='tablist' multiselectable='true')
                     
-                    - var index = 0
+                    - var indexCollapse = 0
+                    - var indexIn = 0
                     each bulletin, datestring in news
                         each p in bulletin
                             .panel
                                 div(role="tab" id="heading-"+op.get(p, 'id')+"")
                                     h3
-                                        a(class=(++index === 1 ? '' : 'collapsed') data-toggle="collapse" data-parent="#accordion" href="#collapse-"+op.get(p, 'id')+"" aria-expanded="true" aria-controls="collapse-"+op.get(p, 'id')+"")= op.get(p, 'displayname')
+                                        a(class=(++indexCollapse === 1 ? '' : 'collapsed') data-toggle="collapse" data-parent="#accordion" href="#collapse-"+op.get(p, 'id')+"" aria-expanded="true" aria-controls="collapse-"+op.get(p, 'id')+"")= op.get(p, 'displayname')
 
-                                .panel-collapse.collapse(class=(++index === 1 ? 'in' : ' ') id="collapse-"+op.get(p, 'id')+"" role="tabpanel" aria-labelledby="heading-"+op.get(p, 'id')+"")
+                                .panel-collapse.collapse(class=(++indexIn === 1 ? 'in' : ' ') id="collapse-"+op.get(p, 'id')+"" role="tabpanel" aria-labelledby="heading-"+op.get(p, 'id')+"")
                                     div
                                         p= op.get(p, 'properties.body.value')
                             //- .panel
