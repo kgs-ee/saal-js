@@ -10,39 +10,44 @@ var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
 
 
 router.get('/', function(req, res, next) {
-    // debug(JSON.stringify(SDC.get('events'), null, '  '))
+    debug('querystring ', req.query)
 
-    var results = {}
+    var results = { "query": req.query.q, "query_type": 'query' }
+    var query = req.query.q
+    res.locals.q = query
 
-    if (req.query.date) {
-        res.locals.q_date = req.query.date
-        debug('Looking for date "' + req.query.date + '"')
+    if (query.split(':')[0] === 'date') {
+        results['query_type'] = 'date'
+        var date = query.split(':')
+        date.shift()
+        date = date.join(':')
+        debug('Looking for date "' + date + '"')
         results = {
             "query_type": 'date'
-            , "query": req.query.date
-            , "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[req.query.date]
+            , "query_date": date
+            , "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[date]
         }
-    } else if (req.query.category) {
-        debug('Looking for category "' + req.query.category + '"')
+    } else if (query.split(':')[0] === 'category') {
+        results['query_type'] = 'category'
+        var category = query.split(':')
+        category.shift()
+        category = category.join(':')
+        debug('Looking for category "' + category + '"')
         var fuse_options = {
+            includeScore: true,
             keys: [
-                'category.id',
                 'category.value',
-                'performance.category.id',
                 'performance.category.value'
                 ]
         }
         results = {
             "query_type": 'category'
-            , "query": req.query.category
-            , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.category)
-            // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
+            , "query_category": category
+            , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(category)
         }
-        debug(JSON.stringify(results, null, '  '))
-        debug(JSON.stringify(ALL_EVENTS, null, '  '))
-    } else if (req.query.q) {
-        res.locals.q = req.query.q
-        debug('Looking for "' + req.query.q + '"')
+        // debug(JSON.stringify(results, null, '  '))
+    } else if (query) {
+        debug('Looking for "' + query + '"')
         var fuse_options = {
             caseSensitive: false,
             includeScore: true,
@@ -72,10 +77,10 @@ router.get('/', function(req, res, next) {
             , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q)
             // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
         }
-        debug(JSON.stringify(results.fuse_js, null, '  '))
     } else {
         return next()
     }
+    debug(JSON.stringify(results, null, '  '))
     res.render('search', {
         results: results
     })

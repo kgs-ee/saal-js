@@ -18,19 +18,26 @@ block content
                         - categoryNames = op.get(event, 'category', []).map(function(c){return c.value});
                         ul.event-categories
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
-                                span= t('categories.theatre')
+                                span
+                                    a(href='search?q=category:Teater')= t('categories.theatre')
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
-                                span= t('categories.dance')
+                                span
+                                    a(href='search?q=category:Tants')= t('categories.dance')
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
-                                span= t('categories.performance')
+                                span
+                                    a(href='search?q=category:Performance')= t('categories.performance')
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
-                                span= t('categories.music')
+                                span
+                                    a(href='search?q=category:Muusika')= t('categories.music')
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
-                                span= t('categories.lecture')
+                                span
+                                    a(href='search?q=category:Loeng')= t('categories.lecture')
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
-                                span= t('categories.film')
+                                span
+                                    a(href='search?q=category:Film')= t('categories.film')
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
-                                span= t('categories.new-circus')
+                                span
+                                    a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
 
         .row.page-margin
             aside.col-md-4.col-lg-3
