@@ -493,9 +493,12 @@ cacheSeries.push(function (callback) {
         marker_f = function marker_f(entity) {
             var news_time = entity.get(['properties','time','value'])
             var markers = []
+            if (!news_time) {
+                markers.push('no_date')
+                return markers
+            }
             var ms = Date.parse(news_time)
             var news_date = news_time.slice(0,10)
-            // var news_date = (new Date(ms)).toJSON().slice(0,10)
             if (ms < Date.now()) {
                 markers.push('past.' + news_date)
             } else if (ms >= Date.now()) {
