@@ -98,7 +98,7 @@ var get_entity = function get_entity(id, auth_id, auth_token, callback) {
 
 
 //Get entities by definition
-var get_entities = function get_entities(definitions, limit, auth_id, auth_token, callback) {
+var get_entities = function get_entities(definition, limit, auth_id, auth_token, callback) {
     if (!definition) {
         callback(new Error('Missing "definition"'))
         return
@@ -138,6 +138,7 @@ var get_entities = function get_entities(definitions, limit, auth_id, auth_token
             if (error) {
                 return callback(error)
             }
+            // debug(definition + ' returned ' +  entities.length + ' entities.')
             callback(null, entities)
         })
     })

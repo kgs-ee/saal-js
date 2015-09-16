@@ -112,9 +112,7 @@ var cacheEntities = function cacheEntities(
                     }
                     marked_entities_1[marker].push(one_entity.get())
                 })
-                if (finally_f) {
-                    finally_f(one_entity)
-                }
+                finally_f(one_entity)
                 eachCB()
             })
         }, function afterEachEntity(err) {
@@ -320,7 +318,7 @@ cacheSeries.push(function cacheRoot(callback) {
     })
 })
 
-
+// _cacheSeries = []
 // Split events into past and future and group by time
 cacheSeries.push(function (callback) {
     cacheEntities(
@@ -354,7 +352,6 @@ cacheSeries.push(function (callback) {
     )
 })
 
-
 // Fetch events from under SAAL Biennaal and group by time
 cacheSeries.push(function (callback) {
     cacheEntities(
@@ -387,7 +384,6 @@ cacheSeries.push(function (callback) {
         callback
     )
 })
-
 
 // Fetch events from under NU Performance and group by time
 cacheSeries.push(function (callback) {
@@ -458,11 +454,11 @@ cacheSeries.push(function (callback) {
 // Fetch events from under Residency and group by time
 cacheSeries.push(function (callback) {
     cacheEntities(
-        name = 'residency',
-        definition = 'event',
-        parent = 1931, // Residentuur
-        reset_markers = ['no_date', 'past', 'upcoming'],
-        marker_f = function marker_f(entity) {
+        'residency',  // name
+        'event',  // definition
+        1931,  // parent = Residentuur
+        ['no_date', 'past', 'upcoming'],  // reset_markers
+        function marker_f(entity) {  // marker_f
             var event_times = entity.get('start-time')
             var markers = []
             if (!event_times || !Array.isArray(event_times) || event_times.length == 0) {
@@ -472,7 +468,6 @@ cacheSeries.push(function (callback) {
                     var ms = Date.parse(event_times[i])
                     var event_date = (event_times[i]).slice(0,10)
                     var event_time = (event_times[i]).slice(11,16)
-                    // var event_date = (new Date(ms)).toJSON().slice(0,10)
                     if (ms < Date.now()) {
                         markers.push('past.' + event_date + '.' + event_time)
                     } else if (ms >= Date.now()) {
@@ -489,32 +484,34 @@ cacheSeries.push(function (callback) {
 })
 
 // Split news into old and new and group by time
-// cacheSeries.push(function (callback) {
-//     cacheEntities(
-//         name = 'news',
-//         definition = 'news',
-//         parent = 1953, // Uudised
-//         reset_markers = ['no_date', 'past', 'upcoming'],
-//         marker_f = function marker_f(entity) {
-//             var news_time = entity.get(['properties','time','value'])
-//             var markers = []
-//             var ms = Date.parse(news_time)
-//             var news_date = news_time.slice(0,10)
-//             // var news_date = (new Date(ms)).toJSON().slice(0,10)
-//             if (ms < Date.now()) {
-//                 markers.push('past.' + news_date)
-//             } else if (ms >= Date.now()) {
-//                 markers.push('upcoming.' + news_date)
-//             }
-//             return markers
-//         },
-//         manipulator_f = function manipulator_f(entity) {
-//             return entity
-//         },
-//         finally_f = null,
-//         callback
-//     )
-// })
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        name = 'news',
+        definition = 'news',
+        parent = 1953, // Uudised
+        reset_markers = ['no_date', 'past', 'upcoming'],
+        marker_f = function marker_f(entity) {
+            var news_time = entity.get(['properties','time','value'])
+            var markers = []
+            var ms = Date.parse(news_time)
+            var news_date = news_time.slice(0,10)
+            // var news_date = (new Date(ms)).toJSON().slice(0,10)
+            if (ms < Date.now()) {
+                markers.push('past.' + news_date)
+            } else if (ms >= Date.now()) {
+                markers.push('upcoming.' + news_date)
+            }
+            return markers
+        },
+        manipulator_f = function manipulator_f(entity_in, callback) {
+            callback(null, entity_in)
+        },
+        function newsFinally(entity_in) {
+            // debug('newsFinally: ' + entity_in.get('id'))
+        },
+        callback
+    )
+})
 
 
 cacheSeries.push(function popCalendar(callback) {
@@ -543,6 +540,37 @@ cacheSeries.push(function popCalendar(callback) {
 })
 
 
+// Example markers on person
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        'users',  // name
+        'person',  // definition
+        null,  // parent
+        ['entusiastid', 'others'],  // reset_markers
+        function marker_f(entity) {  // marker_f
+            if (entity.get('name') == 'Mihkel-Mikelis Putrinš')
+                return ['entusiastid.mihkel']
+            else if (entity.get('name') == 'Argo Roots')
+                return ['entusiastid.argo']
+            else
+                return ['others']
+        },
+        manipulator_f = function manipulator_f(entity_in, callback) {
+            var entity_out = op({})
+            entity_out.set('id', entity_in.get('id'))
+            entity_out.set('name', entity_in.get('displayname'))
+            entity_out.set('entity', entity_in.get())
+            callback(null, entity_out)
+            // return entity_out
+        },
+        function personFinally(entity_in) {
+            // debug('personFinally: ' + entity_in.get('id'))
+        },
+        callback
+    )
+})
+
+
 var routine = function routine() {
     async.series(cacheSeries, function routineFinally(err) {
         if (err) {
@@ -555,31 +583,5 @@ var routine = function routine() {
     })
 }
 routine()
-
-
-// Example markers on person
-cacheSeries.push(function (callback) {
-    cacheEntities(
-        name = 'users',
-        definition = 'person',
-        parent = null,
-        reset_markers = ['entusiastid', 'others'],
-        marker_f = function marker_f(entity) {
-            if (entity.get('name') == 'Mihkel-Mikelis Putrinš')
-                return ['entusiastid.mihkel']
-            else if (entity.get('name') == 'Argo Roots')
-                return ['entusiastid.argo']
-            else
-                return ['others']
-        },
-        manipulator_f = function manipulator_f(entity_in) {
-            var entity_out = op({})
-            entity_out.set('id', entity_in.get('id'))
-            entity_out.set('name', entity_in.get('displayname'))
-            entity_out.set('entity', entity_in.get())
-            return entity_out
-        }
-    )
-})
 
 
