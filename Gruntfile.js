@@ -89,7 +89,10 @@ module.exports = function(grunt) {
           '.h4',
           '.today',
           /legend/,
-          '.main-text p'
+          '.main-text p',
+          '.team',
+          '.member',
+          '.address'
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
