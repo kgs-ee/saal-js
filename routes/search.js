@@ -1,5 +1,6 @@
 var fs      = require('fs')
 var express = require('express')
+var request = require('request')
 var router  = express.Router()
 var path    = require('path')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
@@ -12,7 +13,7 @@ var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
 router.get('/', function(req, res, next) {
     debug('querystring ', req.query)
 
-    var results = { "query": req.query.q, "query_type": 'query' }
+    var results = {}
     var query = req.query.q
     res.locals.q = query
 
@@ -26,6 +27,11 @@ router.get('/', function(req, res, next) {
             , "query_date": date
             , "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[date]
         }
+        debug(JSON.stringify(results, null, '  '))
+        res.render('search', {
+            results: results
+        })
+        res.end()
     } else if (query.split(':')[0] === 'category') {
         var category = query.split(':')
         category.shift()
@@ -43,6 +49,11 @@ router.get('/', function(req, res, next) {
             , "query_category": category
             , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(category)
         }
+        debug(JSON.stringify(results, null, '  '))
+        res.render('search', {
+            results: results
+        })
+        res.end()
     } else if (query.split(':')[0] === 'person') {
         var person = query.split(':')
         person.shift()
@@ -61,7 +72,35 @@ router.get('/', function(req, res, next) {
             , "query_person": person
             , "fuse_js": new fuse(require(path.join(APP_CACHE_DIR, 'users_all.json')), fuse_options).search(person)
         }
-        // debug(JSON.stringify(results, null, '  '))
+        debug(JSON.stringify(results, null, '  '))
+        res.render('search', {
+            results: results
+        })
+        res.end()
+    } else if (query.split(':')[0] === 'giphy') {
+        var giphy = query.split(':')
+        giphy.shift()
+        giphy = giphy.join(':')
+        debug('Looking for giphy "' + giphy + '"')
+
+        request({
+            url: 'http://api.giphy.com/v1/gifs/search?q=' + giphy + '&api_key=dc6zaTOxFJmzC',
+            json: true
+        }, function (error, response, body) {
+            if (!error && response.statusCode === 200) {
+                console.log(body) // Print the json response
+                results = {
+                    "query_type": 'giphy'
+                    , "query_giphy": giphy
+                    , "giphy": body
+                }
+                debug(JSON.stringify(results, null, '  '))
+                res.render('search', {
+                    results: results
+                })
+                res.end()
+            }
+        })
     } else if (query) {
         debug('Looking for "' + query + '"')
         var fuse_options = {
@@ -93,14 +132,14 @@ router.get('/', function(req, res, next) {
             , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q)
             // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
         }
+        debug(JSON.stringify(results, null, '  '))
+        res.render('search', {
+            results: results
+        })
+        res.end()
     } else {
         return next()
     }
-    debug(JSON.stringify(results, null, '  '))
-    res.render('search', {
-        results: results
-    })
-    res.end()
 })
 
 

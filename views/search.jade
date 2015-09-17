@@ -43,6 +43,14 @@ block content
                                     h2= t('q.query') + ': ' + results.query_person + ' • ' + t('q.results.1')
                                 else
                                     h2= t('q.query') + ': ' + results.query_person + ' • ' + t('q.results') + ' ' + (results.fuse_js.length)
+                        when 'giphy'
+                            .col-xs-12.col-md-12.col-lg-12
+                                if results.giphy.pagination.total_count == 0
+                                    h2= t('q.query') + ': ' + results.query_giphy + ' • ' + t('q.results.0')
+                                else if results.giphy.pagination.total_count == 1
+                                    h2= t('q.query') + ': ' + results.query_giphy + ' • ' + t('q.results.1')
+                                else
+                                    h2= t('q.query') + ': ' + results.query_giphy + ' • ' + t('q.results') + ' ' + (results.giphy.pagination.total_count)
 
                     case results.query_type
                         when 'query'
@@ -64,11 +72,17 @@ block content
                         when 'person'
                             .col-xs-12.col-md-12.col-lg-12
                                 each person in op.get(results, 'fuse_js', [])
+                                    if op.get(person, 'score') < 0.6
+                                        div(score=op.get(person, 'score'), style='clear:both;')
+                                            a(href='https://saal.entu.ee/entity/person/' + op.get(person, 'item.id'))
+                                                img(src=op.get(person, 'item.entity.picture'), style='float:left;')
+                                                h3= op.get(person, 'item.name')
+                                                p= op.get(person, 'item.email')
+                                                p= op.get(person, 'item.phone')
+                        when 'giphy'
+                            .col-xs-12.col-md-12.col-lg-12
+                                each giphy in op.get(results, 'giphy.data', [])
                                     div(style='clear:both;')
-                                        a(href='https://saal.entu.ee/entity/person/' + op.get(person, 'item.id'))
-                                            img(src=op.get(person, 'item.entity.picture'), style='float:left;')
-                                            h3(score=op.get(person, 'score'))= op.get(person, 'item.name')
-                                            p= op.get(person, 'item.email')
-                                            p= op.get(person, 'item.phone')
+                                        img(src=op.get(giphy, 'images.fixed_height.url'), style='float:left;')
 
 
