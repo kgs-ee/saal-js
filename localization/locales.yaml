@@ -21,6 +21,9 @@ button:
     load-more:
         en: Load more
         et: Lae veel
+    premiere:
+        en: Premiere!
+        et: Esietendus!
     search:
         en: Search
         et: Otsi
