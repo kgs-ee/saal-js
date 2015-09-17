@@ -4198,6 +4198,8 @@ a.logo:hover {
   bottom: 1.3em; }
   .event-banner .event-categories li {
     text-align: left; }
+    .event-banner .event-categories li a {
+      color: white; }
     .event-banner .event-categories li.unactive span {
       background-color: white; }
   .event-banner .event-categories .h3, .event-banner .event-categories .ui-datepicker-title {
@@ -4399,6 +4401,10 @@ a.logo:hover {
   @media (min-width: 992px) {
     .video-sound {
       margin-top: 0; } }
+  .video-sound iframe {
+    margin-bottom: 1em; }
+    .video-sound iframe:last-child {
+      margin-bottom: 0; }
 
 .load-more,
 .morelink {

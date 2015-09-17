@@ -499,8 +499,13 @@ a.logo {
 	    li {
 	        text-align: left;
 
+	        a {
+	        	color: white;
+	        }
+
 	        &.unactive span {
 	        	background-color: white;
+
 	        }
 	    }
 
@@ -787,6 +792,14 @@ a.logo {
 	margin-top: 5em;
 	@media (min-width: $screen-desktop) {
 		margin-top: 0;
+	}
+
+	iframe {
+		margin-bottom: 1em;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 }
 
