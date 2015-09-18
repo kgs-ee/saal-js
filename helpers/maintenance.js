@@ -271,6 +271,7 @@ var performance_manipulator = function performance_manipulator_f(entity_in) {
     entity_out.set('video', entity_in.get('properties.video.value'))
     entity_out.set('et-technical-information', entity_in.get('properties.et-technical-information.md'))
     entity_out.set('en-technical-information', entity_in.get('properties.en-technical-information.md'))
+    entity_out.set('premiere.start-time', entity_in.get('properties.premiere-time.value'))
     return entity_out
 }
 

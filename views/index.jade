@@ -67,20 +67,21 @@ block content
                     if program
                         each eventdate, datestring in program
                             each eventtime, timestring in eventdate
-                                
+
                                 each p in eventtime
                                     .col-xs-12.col-sm-2.col-lg-2
                                         p= (moment(datestring).locale(lang).format('dddd'))
                                         p= (moment(datestring).locale(lang).format('L'))
                                         p= timestring
-                                        
+
                                         //- Premiere
-                                        //- if (moment(datestring).locale(lang).format('L')) === (moment(p["start-time"][0]).locale(lang).format('L'))
-                                        //-     p.today= t('button.premiere')
+                                        if op.get(p, 'performance.premiere.start-time')
+                                            if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                                p.today= t('button.premiere')
 
                                         //- Today
                                         if (moment(datestring).format('D')) == (moment().date())
-                                            div.today= t('button.today')    
+                                            div.today= t('button.today')
 
                                     .col-xs-12.col-md-6.col-lg-6
                                         h3
