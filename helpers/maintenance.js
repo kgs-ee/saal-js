@@ -30,44 +30,6 @@ fs.readdir(APP_CACHE_DIR, function(error, files) {
 })
 
 
-// var cacheRoot = function cacheRoot() {
-//     debug('Caching root')
-//     SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
-//     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
-//         if (error) {
-//             debug('Cant cache institution entity', error)
-//             setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
-//             return
-//         }
-//         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
-//         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-//         // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
-//         fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
-//         debug('Root cached')
-//         setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
-//     })
-// }
-// cacheRoot()
-
-
-// var syncFromPL = function syncFromPL() {
-//     debug('Caching root')
-//     SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
-//     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(error, institution) {
-//         if (error) {
-//             debug('Cant cache institution entity', error)
-//             setTimeout(syncFromPL, APP_ROOT_REFRESH_MS)
-//             return
-//         }
-//         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
-//         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-//         // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
-//         fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
-//         debug('Root cached')
-//         setTimeout(syncFromPL, APP_ROOT_REFRESH_MS)
-//     })
-// }
-// syncFromPL()
 var CB_id = 0
 
 var cacheEntities = function cacheEntities(
@@ -104,7 +66,7 @@ var cacheEntities = function cacheEntities(
                 one_entity = processed_entity
                 markers = marker_f(one_entity)
                 if (markers.length == 0) {
-                    markers.push('_')
+                    markers.push('')
                 }
                 markers.forEach(function(marker) {
                     if (!marked_entities_1[marker]) {
@@ -298,7 +260,9 @@ var event_finally = function event_finally(entity_in) {
 
 // Sync from Entu object by object and relax in between
 var cacheSeries = []
+// var _cacheSeries = []
 
+// Cache root elements
 cacheSeries.push(function cacheRoot(callback) {
     debug('Caching root')
     SDC.set(['__', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
@@ -306,20 +270,16 @@ cacheSeries.push(function cacheRoot(callback) {
         if (err) {
             debug('Caching root failed', err)
             callback()
-            // setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
             return
         }
         SDC.set(['__', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['__', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-        // SDC.set(['__', 'calendar_json'], require(path.join(APP_CACHE_DIR, 'calendar_json.json')))
         fs.createWriteStream(path.join(APP_CACHE_DIR, 'root.json')).write(JSON.stringify(SDC.get('__'), null, '  '))
         debug('Root cached')
         callback()
-        // setTimeout(cacheRoot, APP_ROOT_REFRESH_MS)
     })
 })
 
-// _cacheSeries = []
 // Split events into past and future and group by time
 cacheSeries.push(function (callback) {
     cacheEntities(
@@ -517,7 +477,7 @@ cacheSeries.push(function (callback) {
     )
 })
 
-
+// Calendar from ALL_EVENTS
 cacheSeries.push(function popCalendar(callback) {
     var event_calendar = {}
     async.each(ALL_EVENTS, function(one_event, callback) {
@@ -542,7 +502,6 @@ cacheSeries.push(function popCalendar(callback) {
         callback()
     })
 })
-
 
 // Example markers on person
 cacheSeries.push(function (callback) {
@@ -574,6 +533,132 @@ cacheSeries.push(function (callback) {
         },
         callback
     )
+})
+
+
+// Categories
+cacheSeries.push(function (callback) {
+    cacheEntities(
+        'category',  // name
+        'category',  // definition
+        null,  // parent
+        [],  // reset_markers
+        function marker_f(entity) {  // marker_f
+            return ['all']
+        },
+        manipulator_f = function manipulator_f(entity_in, callback) {
+            var entity_out = op({})
+            entity_out.set('id', entity_in.get('id'))
+            entity_out.set('name.est', entity_in.get('properties.et-name.value'))
+            entity_out.set('name.eng', entity_in.get('properties.en-name.value'))
+            entity_out.set('pl-id', entity_in.get('properties.pl-id.value'))
+            entity_out.set('entity', entity_in.get())
+            callback(null, entity_out)
+            // return entity_out
+        },
+        function categoryFinally(entity_in) {
+            // debug('categoryFinally: ' + op.get(SDC, 'category_all', 'none'))
+        },
+        callback
+    )
+})
+
+// cacheSeries.push(function suncFromPL(callback) {
+//     debug('---- >> categoryFromSDC: ' + JSON.stringify(SDC.get('category_all', 'none'), null, 2))
+//     callback()
+// })
+
+// Sync events and performances from Piletilevi
+cacheSeries.push(function suncFromPL(callback) {
+    debug('Sync events and performances from Piletilevi')
+    var PL_data = {}
+    var PL_categories = {}
+    var url = 'http://www.piletilevi.ee/api/action/filter/?types=category,show,concert,promoter,venue,price,priceClass&export=venue&order=date,desc&filter=venueId/245;concertActive&limit=10000&start=0&language='
+    var PL_languages = ['est', 'eng']
+    async.each(PL_languages, function(PL_language, callback) {
+        request({
+            url: url + PL_language,
+            json: true
+        }, function (error, response, body) {
+            if (error) {
+                callback(error)
+            } else if (response.statusCode !== 200) {
+                callback(new Error('Response status: ' + response.statusCode))
+            } else {
+                // gather categories from PL
+                async.each(op.get(body, 'responseData.category', []), function(category, callback) {
+                    if (!PL_categories[category.id]) PL_categories[category.id] = {}
+                    op.set(PL_categories[category.id], 'id', category.id)
+                    op.set(PL_categories[category.id], 'parent', category.parentCategoryId)
+                    op.set(PL_categories[category.id], 'title.' + PL_language, category.title)
+                    callback()
+                }, function(err) {
+                    if (err) {
+                        debug('Each failed for PL category ' + PL_language, err)
+                        callback(err)
+                        return
+                    }
+                    debug('Each succeeded for PL category ' + PL_language)
+                    callback()
+                })
+            }
+        })
+    }, function(err) {
+        if (err) {
+            debug('Each failed for PL languages')
+            callback(err)
+            return
+        }
+        debug('Each succeeded for PL languages')
+        // fs.createWriteStream(path.join(APP_CACHE_DIR, 'PL_category.json')).write(JSON.stringify(PL_categories, null, 4))
+        async.each(PL_categories, function(PL_category, callback) {
+            // debug(PL_category)
+            var cat_exists = false
+            // debug(JSON.stringify(SDC.get('category_all', []), null, 2))
+            async.each(SDC.get('category_all', []), function(E_category, callback) {
+                if (PL_category['id'] === E_category['pl-id']) {
+                    cat_exists = true
+                }
+                // debug(PL_category['id'] + ' ==? ' + E_category['pl-id'] + ' -> ', cat_exists)
+                callback()
+            }, function(err) {
+                if (err) {
+                    debug('Each failed for compare categories', err)
+                    callback(err)
+                    return
+                }
+                // debug('Each succeeded for compare categories')
+                if (cat_exists) {
+                    callback()
+                } else {
+                    // callback()
+                    // return
+                    properties = {
+                        "pl-id": PL_category.id,
+                        "et-name": op.get(PL_category, 'title.est'),
+                        "en-name": op.get(PL_category, 'title.eng')
+                    }
+                    entu.add(ENTU_CATEGORY_PARENT, 'category', properties, null, null, function categoryAddedCB(err, new_id) {
+                        if (err) {
+                            debug('Entu failed to add category', err)
+                            callback(err)
+                            return
+                        }
+                        debug('Entu managed to add category ' + new_id, err)
+                        callback()
+                    })
+                }
+            })
+        }, function(err) {
+            if (err) {
+                debug('Each failed for PL categories', err)
+                callback(err)
+                return
+            }
+            debug('Each succeeded for PL categories')
+            callback()
+        })
+    })
 })
 
 

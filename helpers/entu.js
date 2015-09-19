@@ -219,6 +219,70 @@ var get_childs = function get_childs(parent_entity_id, definition, auth_id, auth
     })
 }
 
-exports.get_entity   = get_entity
-exports.get_childs   = get_childs
-exports.get_entities = get_entities
+
+//Add entity
+var add = function add(parent_entity_id, definition, properties, auth_id, auth_token, callback) {
+    var data = {
+        definition: definition
+    }
+
+    for (p in properties) {
+        data[definition + '-' + p] = properties[p]
+    }
+
+    if (auth_id && auth_token) {
+        var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
+        var qb = data
+    } else {
+        var headers = {}
+        var qb = sign_data(data)
+    }
+
+    var options = {
+        url: APP_ENTU_URL + '/entity-' + parent_entity_id,
+        headers: headers,
+        body: qb,
+        strictSSL: true,
+        json: true
+    }
+    request.post(options, function(error, response, body) {
+        if (error) return callback(error)
+        if (response.statusCode !== 201 || !body.result) {
+            return callback(new Error(op.get(body, 'error', body)))
+        }
+
+        callback(null, op.get(body, 'result.id', null))
+    })
+}
+
+
+
+//Share entity
+var rights = function rights(id, person_id, right, auth_id, auth_token, callback) {
+    var body = {
+        entity: person_id,
+        right: right
+    }
+    if(auth_id && auth_token) {
+        var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
+        var qb = body
+    } else {
+        var headers = {}
+        var qb = sign_data(body)
+    }
+
+    request.post({url: APP_ENTU_URL + '/entity-' + id + '/rights', headers: headers, body: qb, strictSSL: true, json: true}, function(error, response, body) {
+        if(error) return callback(error)
+        if(response.statusCode !== 200) return callback(new Error(op.get(body, 'error', body)))
+
+        callback(null, id)
+    })
+}
+
+
+
+exports.get_entity      = get_entity
+exports.get_childs      = get_childs
+exports.get_entities    = get_entities
+exports.add             = add
+exports.rights          = rights

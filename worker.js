@@ -37,6 +37,8 @@ APP_ENTU_KEY        = process.env.ENTU_KEY
 ALL_EVENTS          = []
 EVENT_LOOKUP        = {}
 
+ENTU_CATEGORY_PARENT = 1976
+
 // console.log(process.env)
 
 // ensure required directories

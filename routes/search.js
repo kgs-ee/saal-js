@@ -88,7 +88,7 @@ router.get('/', function(req, res, next) {
             json: true
         }, function (error, response, body) {
             if (!error && response.statusCode === 200) {
-                console.log(body) // Print the json response
+                debug(body) // Print the json response
                 results = {
                     "query_type": 'giphy'
                     , "query_giphy": giphy
