@@ -58,8 +58,7 @@ block content
 
                     a.text-right(href='https://saal.entu.ee/entity/event/' + op.get(event, 'id')) Vaata intranetis
 
-            article.main-text.col-md-8.col-lg-6.h3
-                p!= op.get(event, 'performance.' + lang + '-description')
+            article.main-text.col-md-8.col-lg-6.h3!= op.get(event, 'performance.' + lang + '-description')
 
             aside.video-sound.col-md-12.col-lg-3
                 if op.get(event, 'performance.audio')
