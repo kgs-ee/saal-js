@@ -15,7 +15,6 @@ router.get('/', function(req, res, next) {
         "residencies": SDC.get('residency_past')
     })
     res.end()
-    return
 })
 
 

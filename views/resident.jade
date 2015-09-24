@@ -35,11 +35,11 @@ block content
             article.main-text.col-md-12.col-lg-9.h3!= op.get(event, lang + '-description')
 
             aside.video-sound.col-md-12.col-lg-3
-                if op.get(event, 'performance.audio')
+                if op.get(event, 'audio')
                     div
                         h2= t('title.sound')
-                        div!= op.get(event, 'performance.audio')
-                if op.get(event, 'performance.video')
+                        div!= op.get(event, 'audio')
+                if op.get(event, 'video')
                     div
                         h2= t('title.video')
-                        div!= op.get(event, 'performance.video')
+                        div!= op.get(event, 'video')

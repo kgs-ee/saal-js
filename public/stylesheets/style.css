@@ -4372,6 +4372,8 @@ a.logo:hover {
       margin-top: 0; } }
   .main-text p {
     margin-bottom: 1em; }
+  .main-text a {
+    border-bottom: 2px solid; }
 
 .banner {
   margin-top: 5em; }
