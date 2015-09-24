@@ -22,8 +22,8 @@ button:
         en: Load more
         et: Lae veel
     premiere:
-        en: Premiere!
-        et: Esietendus!
+        en: 'Premiere!'
+        et: 'Esietendus!'
     search:
         en: Search
         et: Otsi
@@ -162,6 +162,9 @@ title:
     gallery:
         en: Gallery
         et: Galerii
+    kanut-residency:
+        en: Residents of Kanuti Gildi SAAL
+        et: Kanuti Gildi SAALi residendid
     news:
         en: News
         et: Uudised
@@ -169,6 +172,9 @@ title:
         en: No events
         et: Sündmusi ei toimu
         lv: Pasākumu nav
+    no-residencies:
+        en: No Residencies
+        et: Residente ei ole
     no-tours:
         en: No tours
         et: Tuuril ei ole hetkel ühtki lavastust
@@ -178,6 +184,9 @@ title:
     press:
         en: Press
         et: Pressikajastus
+    pyhavaimu-residency:
+        en: Residents of Pühavaimu SAAL
+        et: Pühavaimu SAALi residendid
     residency:
         en: Residency
         et: Residentuur

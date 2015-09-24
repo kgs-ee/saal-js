@@ -15,10 +15,14 @@ router.get('/', function(req, res, next) {
     if (!SDC.get('tours_upcoming')) {
         debug(res.locals.t('error.cache_missing_upcoming_tours'))
     }
+    if (!SDC.get('residency_past')) {
+        debug(res.locals.t('error.cache_missing_residency_past'))
+    }
 
     res.render('index', {
         "program": SDC.get('program_upcoming'),
         "tours": SDC.get('tours_upcoming'),
+        "residencies": SDC.get('residency_past'),
         path: req.path
     })
     res.end()

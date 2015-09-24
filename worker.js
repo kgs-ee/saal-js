@@ -132,6 +132,7 @@ app
     .use('/:lang/tours/',       require('./routes/tours'))
     .use('/:lang/program/',     require('./routes/program'))
     .use('/:lang/residency/',   require('./routes/residency'))
+    .use('/:lang/resident/',   require('./routes/resident'))
     .use('/:lang/projects/',    require('./routes/projects'))
     .use('/:lang/contact/',     require('./routes/contact'))
     .use('/:lang/search',       require('./routes/search'))
