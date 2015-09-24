@@ -4375,6 +4375,11 @@ a.logo:hover {
   .main-text a {
     border-bottom: 2px solid; }
 
+.intranet {
+  display: inline-block;
+  margin-top: 2em;
+  border-bottom: 2px solid; }
+
 .banner {
   margin-top: 5em; }
   @media (min-width: 992px) {
