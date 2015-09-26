@@ -33,11 +33,8 @@ APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
 APP_ENTU_URL        = process.env.ENTU_URL || "https://saal.entu.ee/api2"
 APP_ENTU_USER       = process.env.ENTU_USER
 APP_ENTU_KEY        = process.env.ENTU_KEY
-// Index and cache for all events
-ALL_EVENTS          = []
-EVENT_LOOKUP        = {}
 
-ENTU_CATEGORY_PARENT = 1976
+// Index and cache for entities and relationshipd
 
 // console.log(process.env)
 
@@ -46,10 +43,12 @@ fs.existsSync(APP_LOG_DIR) || fs.mkdirSync(APP_LOG_DIR)
 fs.existsSync(APP_CACHE_DIR) || fs.mkdirSync(APP_CACHE_DIR)
 
 // Site data cache
-SDC = op({})
-require('./helpers/maintenance')
-
-
+SDC = op({
+    "root": {},
+    "local_entities": {},
+    "relationships": {},
+})
+require('./helpers/cache')
 
 
 // create a rotating write stream
@@ -101,7 +100,7 @@ app
         // debug(JSON.stringify(req.path, null, '    '))
         // res.locals.lang = 'et'
         res.locals.op = op
-        res.locals.SAAL = SDC.get('__')
+        res.locals.SAAL = SDC.get('root')
         var p = req.path.split('/')
         p.shift()
         p.shift()

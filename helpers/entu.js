@@ -127,11 +127,11 @@ var get_entities = function get_entities(definition, limit, auth_id, auth_token,
 
         var entities = []
         async.eachLimit(op.get(body, loop, []), LIMIT_PARALLEL, function(e, callback) {
-            get_entity(e.id, auth_id, auth_token, function(error, entity) {
+            get_entity(e.id, auth_id, auth_token, function(error, op_entity) {
                 if (error) {
                     return callback(error)
                 }
-                entities.push(entity)
+                entities.push(op_entity)
                 callback()
             })
         }, function(error) {
@@ -245,12 +245,18 @@ var add = function add(parent_entity_id, definition, properties, auth_id, auth_t
         strictSSL: true,
         json: true
     }
+    // debug(JSON.stringify(options, null, 4))
     request.post(options, function(error, response, body) {
-        if (error) return callback(error)
-        if (response.statusCode !== 201 || !body.result) {
-            return callback(new Error(op.get(body, 'error', body)))
+        if (error) {
+            debug('E:', error)
+            callback(error)
+            return
         }
-
+        if (response.statusCode !== 201 || !body.result) {
+            debug('E:' + response.statusCode, body)
+            callback(new Error(op.get(body, 'error', body)))
+            return
+        }
         callback(null, op.get(body, 'result.id', null))
     })
 }
