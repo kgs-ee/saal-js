@@ -80,7 +80,7 @@ block content
                                                 p.today= t('button.premiere')
 
                                         //- Today
-                                        if (moment(datestring).format('D')) == (moment().date())
+                                        if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
                                             div.today= t('button.today')
 
                                     .col-xs-12.col-md-6.col-lg-6
@@ -122,12 +122,12 @@ block content
                     else
                         .col-lg-12
                             h2= t('title.no-tours')
-                
+
 
                 .tour.row
                     .col-xs-12.col-md-12
                         h2= t('nav.residency')
-                
+
                     if residencies
                         each eventdate, datestring in residencies
                             each eventtime, timestring in eventdate
@@ -143,8 +143,8 @@ block content
                                         hr
                     else
                         .col-lg-12
-                            h2= t('title.no-residencies')                
-            
+                            h2= t('title.no-residencies')
+
 
             aside.col-xs-12.col-md-12.col-lg-3
                 .row
