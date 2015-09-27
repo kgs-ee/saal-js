@@ -25,9 +25,9 @@ block content
 
             section.news.col-md-6
                 h2= t('title.news')
-                
+
                 .panel-group(id='accordion' role='tablist' multiselectable='true')
-                    
+
                     - var indexCollapse = 0
                     - var indexIn = 0
                     each bulletin, datestring in news
@@ -35,19 +35,19 @@ block content
                             .panel
                                 div(role="tab" id="heading-"+op.get(p, 'id')+"")
                                     h3
-                                        a(class=(++indexCollapse === 1 ? '' : 'collapsed') data-toggle="collapse" data-parent="#accordion" href="#collapse-"+op.get(p, 'id')+"" aria-expanded="true" aria-controls="collapse-"+op.get(p, 'id')+"")= op.get(p, 'displayname')
+                                        a(class=(++indexCollapse === 1 ? '' : 'collapsed') data-toggle="collapse" data-parent="#accordion" href="#collapse-"+op.get(p, 'id')+"" aria-expanded="true" aria-controls="collapse-"+op.get(p, 'id')+"")= op.get(p, lang + '-title')
 
                                 .panel-collapse.collapse(class=(++indexIn === 1 ? 'in' : ' ') id="collapse-"+op.get(p, 'id')+"" role="tabpanel" aria-labelledby="heading-"+op.get(p, 'id')+"")
                                     div
-                                        p= op.get(p, 'properties.body.value')
+                                        p!= op.get(p, lang + '-body')
                             //- .panel
                             //-     div(role='tab' id='headingTwo')
                             //-         h3
                             //-             a.collapsed(data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo') Pressiteade 11.03.2015: Brüsselis esietendus Pieter De Buysseri ja Maike Londi lavastus “Immerwahr”
                             //-     .panel-collapse.collapse(id='collapseTwo' role='tabpanel' aria-labelledby='headingTwo')
                             //-         div
-                            //-             p= op.get(p, 'properties.body.value')
-                
+                            //-             p= op.get(p, lang + '-body')
+
                 //- - var index = 0
                 //- each bulletin, datestring in news
                 //-     each p in bulletin

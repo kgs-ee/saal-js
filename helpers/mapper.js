@@ -80,18 +80,35 @@ var mapPerformance = function mapPerformance(eid) {
     return entity_out.get()
 }
 
-var mapCoverage = function mapCoverage(entity_in) {
+var mapCoverage = function mapCoverage(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    var op_entity = op(entity)
     var entity_out = op({})
-    entity_out.set('id', entity_in.get('id'))
-    entity_out.set('title', entity_in.get('properties.title.value'))
-    entity_out.set('date', entity_in.get('properties.date.value'))
-    entity_out.set('text', entity_in.get('properties.text.md'))
-    entity_out.set('url', entity_in.get('properties.url.value'))
-    entity_out.set('source', entity_in.get('properties.source.value'))
+    entity_out.set('id', op_entity.get('id'))
+    entity_out.set('title', op_entity.get('properties.title.value'))
+    entity_out.set('date', op_entity.get('properties.date.value'))
+    entity_out.set('text', op_entity.get('properties.text.md'))
+    entity_out.set('url', op_entity.get('properties.url.value'))
+    entity_out.set('source', op_entity.get('properties.source.value'))
+    return entity_out.get()
+}
+
+var mapNews = function mapNews(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    var op_entity = op(entity)
+    var entity_out = op({})
+    entity_out.set('id', op_entity.get('id'))
+    entity_out.set('et-title', op_entity.get('properties.et-title.value'))
+    entity_out.set('en-title', op_entity.get('properties.en-title.value'))
+    entity_out.set('time', op_entity.get('properties.time.value'))
+    entity_out.set('et-body', op_entity.get('properties.et-body.md'))
+    entity_out.set('en-body', op_entity.get('properties.en-body.md'))
+    entity_out.set('media', op_entity.get('properties.media.value'))
     return entity_out.get()
 }
 
 
 exports.event = mapEvent
+exports.news = mapNews
 exports.performance = mapPerformance
 exports.coverage = mapCoverage
