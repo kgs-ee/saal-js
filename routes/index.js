@@ -69,7 +69,7 @@ var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
             callback(err)
             return
         }
-        debug('Past residency prepared.', JSON.stringify(program_upcoming, null, 2))
+        debug('Past residency prepared.')
         callback()
     })
 }
@@ -93,7 +93,7 @@ var prepareUpcomingTours = function prepareUpcomingTours(callback) {
             callback(err)
             return
         }
-        debug('Upcoming tours prepared.', JSON.stringify(program_upcoming, null, 2))
+        debug('Upcoming tours prepared.')
         callback()
     })
 }
@@ -117,7 +117,7 @@ var preparePastResidency = function preparePastResidency(callback) {
             callback(err)
             return
         }
-        debug('Upcoming events prepared.', JSON.stringify(program_upcoming, null, 2))
+        debug('Upcoming events prepared.')
         callback()
     })
 }

@@ -24,6 +24,7 @@ var mapEvent = function event(eid) {
     var op_entity = op(entity)
     var entity_out = op({})
     entity_out.set('id', eid)
+    entity_out.set('pl-id', op_entity.get('properties.pl-id.value'))
     entity_out.set('category', op_entity.get('properties.category'))
     entity_out.set('color', op_entity.get('properties.color.value', '').split('; '))
     entity_out.set('tag', op_entity.get('properties.tag.value', '').split('; '))
@@ -49,7 +50,7 @@ var mapEvent = function event(eid) {
         entity_out.set('performance', mapPerformance(performance_id))
     }
 
-    debug(entity_out.get())
+    // debug(entity_out.get())
     return entity_out.get()
 }
 
