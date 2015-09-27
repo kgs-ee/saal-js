@@ -100,16 +100,16 @@ var prepareUpcomingTours = function prepareUpcomingTours(callback) {
 
 // Past residency
 var preparePastResidency = function preparePastResidency(callback) {
-    async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
-        // var event = mapper.event(entity.id)
-        // // debug(JSON.stringify(event, null, 2))
-        // event['start-time'].forEach(function(sttime) {
-        //     var event_date = (sttime).slice(0,10)
-        //     var event_time = (sttime).slice(11,16)
-        //     op.set(event, 'event-date', event_date)
-        //     op.set(event, 'event-time', event_time)
-        //     // op.push(residency_past, [event_date, event_time], event)
-        // })
+    async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
+        var event = mapper.event(entity.id)
+        // debug(JSON.stringify(event, null, 2))
+        event['start-time'].forEach(function(sttime) {
+            var event_date = (sttime).slice(0,10)
+            var event_time = (sttime).slice(11,16)
+            op.set(event, 'event-date', event_date)
+            op.set(event, 'event-time', event_time)
+            op.push(residency_past, [event_date, event_time], event)
+        })
         callback()
     }, function(err) {
         if (err) {
