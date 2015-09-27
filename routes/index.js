@@ -38,11 +38,8 @@ router.get('/', function(req, res, next) {
 router.prepare = function prepare(callback) {
     debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
-    program_upcoming = {}
     parallelf.push(prepareUpcomingEvents)
-    tours_upcoming = {}
     parallelf.push(prepareUpcomingTours)
-    residency_past = {}
     parallelf.push(preparePastResidency)
     async.parallel(parallelf, function(err) {
         debug('Prepared ' + path.basename(__filename).replace('.js', ''))
@@ -52,6 +49,7 @@ router.prepare = function prepare(callback) {
 
 // Upcoming events
 var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
+    program_upcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
@@ -65,17 +63,18 @@ var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
         callback()
     }, function(err) {
         if (err) {
-            debug('Failed to prepare past residency.', err)
+            debug('Failed to prepare upcoming events.', err)
             callback(err)
             return
         }
-        debug('Past residency prepared.')
+        debug('Upcoming events prepared.')
         callback()
     })
 }
 
 // Upcoming tours
 var prepareUpcomingTours = function prepareUpcomingTours(callback) {
+    tours_upcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'tour']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
@@ -100,6 +99,7 @@ var prepareUpcomingTours = function prepareUpcomingTours(callback) {
 
 // Past residency
 var preparePastResidency = function preparePastResidency(callback) {
+    residency_past = {}
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
@@ -113,11 +113,11 @@ var preparePastResidency = function preparePastResidency(callback) {
         callback()
     }, function(err) {
         if (err) {
-            debug('Failed to prepare upcoming events.', err)
+            debug('Failed to prepare past residency.', err)
             callback(err)
             return
         }
-        debug('Upcoming events prepared.')
+        debug('Past residency prepared.')
         callback()
     })
 }
