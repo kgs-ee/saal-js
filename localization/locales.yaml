@@ -15,6 +15,10 @@ button:
         en: Buy ticket
         et: Osta pilet
         lv: Pirkt biļeti
+        regular_presale:
+            en: Buy ticket
+            et: Osta pilet
+            lv: Pirkt biļeti
     category:
         en: Category
         et: Kategooria
@@ -72,6 +76,8 @@ error:
         en: Page not found
         et: Sellist lehte pole
         lv: Lapa nav atrodama
+    cache_missing_residency_past:
+        et: error.cache_missing_residency_past
     cache_missing_upcoming_events:
         en: No upcoming events
         et: Tulevasi sündmusi pole

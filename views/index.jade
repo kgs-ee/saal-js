@@ -92,9 +92,9 @@ block content
                                             .col-xs-6.col-md-2.col-lg-2
                                                 p= op.get(p, 'location')
                                                 p= op.get(p, 'price')
-                                            if op.get(p, 'pl-id')
+                                            if op.get(p, 'sales-status')
                                                 .col-xs-6.col-md-2.col-lg-2.text-right
-                                                    a.btn.btn-primary(href=op.get(p, 'ticket-api'))= t('button.buy_ticket')
+                                                    a.btn.btn-primary(href=op.get(p, 'ticket-api'))= t('button.buy_ticket.' + op.get(p, 'sales-status'))
                                             .col-xs-12.col-md-12.col-lg-12
                                                 hr
                     else
