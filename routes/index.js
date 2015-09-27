@@ -49,7 +49,7 @@ router.prepare = function prepare(callback) {
             var event_time = (sttime).slice(11,16)
             op.set(event, 'event-date', event_date)
             op.set(event, 'event-time', event_time)
-            op.push(program_upcoming, event_date, event)
+            op.push(program_upcoming, [event_date, event_time], event)
         })
         callback()
     }, function(err) {
