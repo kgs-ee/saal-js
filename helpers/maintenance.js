@@ -248,6 +248,9 @@ var coverage_manipulator = function coverage_manipulator_f(entity_in) {
     return entity_out
 }
 
+ALL_EVENTS = []
+EVENT_LOOKUP = []
+
 var event_finally = function event_finally(entity_in) {
     if (EVENT_LOOKUP[entity_in.get('id')]) {
         var eveint_idx = EVENT_LOOKUP[entity_in.get('id')]
@@ -674,5 +677,3 @@ var routine = function routine() {
     })
 }
 routine()
-
-
