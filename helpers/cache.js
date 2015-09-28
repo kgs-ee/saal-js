@@ -71,8 +71,7 @@ cache_series.push(function loadCache(callback) {
 })
 
 
-// Preparing cache for controllers
-cache_series.push(function prepareControllers(callback) {
+var prepareControllers = function prepareControllers(callback) {
     debug('Preparing data for controllers.')
     var controllers = fs.readdirSync(path.join(__dirname, '..', 'routes')).map(function(filename) {
         return filename.split('.js')[0]
@@ -94,6 +93,19 @@ cache_series.push(function prepareControllers(callback) {
         debug('Controllers prepared.')
         callback()
     })
+}
+
+// Preparing cache for controllers
+// On first run we cache _before_ fetching new data
+var first_run = true
+cache_series.push(function (callback) {
+    if (first_run) {
+        debug('Preparing data for controllers based on loaded cache.')
+        first_run = false
+        prepareControllers(callback)
+    } else {
+        callback()
+    }
 })
 
 
@@ -496,28 +508,7 @@ cache_series.push(function saveCache(callback) {
 })
 
 // Preparing cache for controllers
-cache_series.push(function prepareControllers(callback) {
-    debug('Preparing data for controllers.')
-    var controllers = fs.readdirSync(path.join(__dirname, '..', 'routes')).map(function(filename) {
-        return filename.split('.js')[0]
-    })
-    async.each(controllers, function(controller, callback) {
-        var c = require('../routes/' + controller)
-        if (c.prepare !== undefined) {
-            c.prepare(callback)
-        } else {
-            callback()
-        }
-    }, function(err) {
-        if (err) {
-            debug('Failed to prepare controllers.', err)
-            callback(err)
-            return
-        }
-        debug('Controllers prepared.')
-        callback()
-    })
-})
+cache_series.push(prepareControllers)
 
 // Final cleanup
 cache_series.push(function cleanup(callback) {
