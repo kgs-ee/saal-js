@@ -76,6 +76,7 @@ error:
         en: Page not found
         et: Sellist lehte pole
         lv: Lapa nav atrodama
+<<<<<<< Updated upstream
     cache_missing_residency_past:
         en: error.cache_missing_residency_past
         et: error.cache_missing_residency_past
@@ -87,6 +88,8 @@ error:
         et: error.cache_missing_upcoming_tours
     calendar_json is not defined:
         et: error.calendar_json is not defined
+=======
+>>>>>>> Stashed changes
 lang:
     en:
         en: In English
