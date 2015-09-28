@@ -24,7 +24,7 @@ if (!process.env.ENTU_USER) {
     throw '"ENTU_USER" missing in environment'
 }
 // global variables (and list of all used environment variables)
-APP_VERSION        = process.env.VERSION || require('./package').version
+APP_VERSION         = process.env.VERSION || require('./package').version
 APP_ENTU_ROOT       = 1 // institution
 APP_ROOT_REFRESH_MS = 30 * 60 * 1000
 APP_DEBUG           = process.env.DEBUG

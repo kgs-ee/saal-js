@@ -77,14 +77,16 @@ error:
         et: Sellist lehte pole
         lv: Lapa nav atrodama
     cache_missing_residency_past:
-        et: error.cache_missing_residency_past
         en: error.cache_missing_residency_past
+        et: error.cache_missing_residency_past
     cache_missing_upcoming_events:
         en: No upcoming events
         et: Tulevasi sündmusi pole
     cache_missing_upcoming_tours:
         en: error.cache_missing_upcoming_tours
         et: error.cache_missing_upcoming_tours
+    calendar_json is not defined:
+        et: error.calendar_json is not defined
 lang:
     en:
         en: In English
