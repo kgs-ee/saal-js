@@ -498,7 +498,7 @@ cache_series.push(function saveCache(callback) {
 // Preparing cache for controllers
 cache_series.push(function prepareControllers(callback) {
     debug('Preparing data for controllers.')
-    var controllers = fs.readdirSync('./routes').map(function(filename) {
+    var controllers = fs.readdirSync(path.join(__dirname, '..', 'routes')).map(function(filename) {
         return filename.split('.js')[0]
     })
     async.each(controllers, function(controller, callback) {
