@@ -50,7 +50,7 @@ var prepareNews = function prepareNews(callback) {
             callback(err)
             return
         }
-        debug('News prepared.', prepped_news)
+        debug('News prepared.')
         callback()
     })
 }
