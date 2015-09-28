@@ -12,6 +12,7 @@ var random  = require('randomstring')
 var bparser = require('body-parser')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var op      = require('object-path')
+var raven   = require('raven')
 
 
 var i18n    = require('./helpers/i18n')
@@ -23,6 +24,7 @@ if (!process.env.ENTU_USER) {
     throw '"ENTU_USER" missing in environment'
 }
 // global variables (and list of all used environment variables)
+APP_VERSION        = process.env.VERSION || require('./package').version
 APP_ENTU_ROOT       = 1 // institution
 APP_ROOT_REFRESH_MS = 30 * 60 * 1000
 APP_DEBUG           = process.env.DEBUG
@@ -48,6 +50,7 @@ SDC = op({
     "local_entities": {},
     "relationships": {},
 })
+// require('./helpers/maintenance')
 require('./helpers/cache')
 
 
@@ -70,12 +73,25 @@ i18n.configure({
 })
 
 
+// initialize getsentry.com client
+var raven_client = new raven.Client({
+    release: APP_VERSION,
+    dataCallback: function(data) {
+        delete data.request.env
+        return data
+    }
+})
+
+
 var app     = express()
 
 app
     // jade view engine
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'jade')
+
+    // logs to getsentry.com - start
+    .use(raven.middleware.express.requestHandler(raven_client))
 
     // cookies
     .use(cookie(APP_COOKIE_SECRET))
@@ -137,6 +153,9 @@ app
     .use('/:lang/search',       require('./routes/search'))
     .use('/:lang/signin',       require('./routes/signin'))
     .use('/:lang/calendar_json',require('./routes/calendar_json'))
+
+    // logs to getsentry.com - error
+    .use(raven.middleware.express.errorHandler(raven_client))
 
     // 404
     .use(function(req, res, next) {

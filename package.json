@@ -37,6 +37,7 @@
     "newrelic": "1.x",
     "object-path": "0.x",
     "randomstring": "1.x",
+    "raven": "0.x",
     "request": "2.x",
     "sanitize-html": "1.x",
     "serve-favicon": "2.x",

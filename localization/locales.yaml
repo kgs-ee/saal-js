@@ -78,10 +78,10 @@ error:
         lv: Lapa nav atrodama
     cache_missing_residency_past:
         et: error.cache_missing_residency_past
+        en: error.cache_missing_residency_past
     cache_missing_upcoming_events:
         en: No upcoming events
         et: Tulevasi sündmusi pole
-        lv: error.cache_missing_upcoming_events
     cache_missing_upcoming_tours:
         en: error.cache_missing_upcoming_tours
         et: error.cache_missing_upcoming_tours
