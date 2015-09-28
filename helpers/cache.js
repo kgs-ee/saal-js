@@ -571,7 +571,7 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
         }
         async.each(entities, function(op_entity, callback) {
             var entity = op_entity.get()
-            relate(entity.id, 'parent', parent_eid, 'child')
+            relate(entity.id, 'parent', parent_eid, entity.definition)
             add2cache(entity)
         }, function(err) {
             if (err) {
@@ -606,7 +606,7 @@ var cacheEvent = function cacheEvent(e_class, op_entity, callback) {
         var e_class = op.get(festivals, String(parent_eid))
         async.each(entities, function(op_entity, callback) {
             var entity = op_entity.get()
-            relate(entity.id, 'parent', parent_eid, 'child')
+            relate(entity.id, 'parent', parent_eid, entity.definition)
 
             add2cache(entity, e_class)
             if (op_entity.get('definition') === 'event') {
