@@ -558,21 +558,17 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
         relate(op_entity.get('id'), 'premiere', perf_ref, 'performance')
     }
     var parent_eid = op_entity.get('id')
-    var definitions = ['coverage']
     entu.get_childs(parent_eid, null, null, null, function(err, entities) {
         if (err) {
             // debug('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
             callback(err)
             return
         }
-        if (definitions.indexOf(op_entity.get('definition')) === -1) {
-            callback()
-            return
-        }
         async.each(entities, function(op_entity, callback) {
             var entity = op_entity.get()
             relate(entity.id, 'parent', parent_eid, entity.definition)
             add2cache(entity)
+            callback()
         }, function(err) {
             if (err) {
                 debug('Each failed for childs of ' + parent_eid)
@@ -592,15 +588,10 @@ var cacheEvent = function cacheEvent(e_class, op_entity, callback) {
         relate(op_entity.get('id'), 'performance', op_entity.get('properties.performance.reference'), 'event')
     }
     var parent_eid = op_entity.get('id')
-    var definitions = ['event', 'coverage']
     entu.get_childs(parent_eid, null, null, null, function(err, entities) {
         if (err) {
             // debug('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
             callback(err)
-            return
-        }
-        if (definitions.indexOf(op_entity.get('definition')) === -1) {
-            callback()
             return
         }
         var e_class = op.get(festivals, String(parent_eid))

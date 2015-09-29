@@ -15,8 +15,11 @@ router.get('/:id', function(req, res, next) {
     var coverages = SDC.get(['relationships', event_eid, 'coverage'], []).map(function(eid) {
         return mapper.coverage(eid)
     })
-
-    // debug('relationships', event_eid, 'coverage', coverages)
+    if ( performance_id = parseInt(SDC.get(['relationships', event_eid, 'performance', 0]))) {
+        coverages = coverages.concat(SDC.get(['relationships', performance_id, 'coverage'], []).map(function(eid) {
+            return mapper.coverage(eid)
+        }))
+    }
     res.render('event', {
         "event": event,
         "coverage": coverages
