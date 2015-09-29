@@ -12,7 +12,7 @@ router.get('/:id', function(req, res, next) {
 
     var event_eid = req.path.split('/')[1]
     var event = mapper.event(event_eid)
-    var coverages = SDC.get(['relationships', event_eid, 'coverage']).map(function(eid) {
+    var coverages = SDC.get(['relationships', event_eid, 'coverage'], []).map(function(eid) {
         return mapper.coverage(eid)
     })
 
