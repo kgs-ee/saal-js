@@ -23,7 +23,7 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 
-var prepped_users = {}
+var prepped_users = []
 
 router.get('/', function(req, res, next) {
     debug('Loading "' + req.url + '"', req.params.lang)
@@ -46,17 +46,9 @@ router.prepare = function prepare(callback) {
 
 // Users
 var prepareUsers = function prepareUsers(callback) {
-    prepped_users = {}
+    prepped_users = []
     async.each(SDC.get(['local_entities', 'by_definition', 'person'], []), function(entity, callback) {
-        var users = mapper.user(entity.id)
-        // if (!users.time) {
-        //     callback()
-        //     return
-        // }
-        debug(JSON.stringify(users, null, 2))
-        // var users_date = users.time.slice(0,10)
-        // // var users_time = users.time.slice(11,16)
-        // op.push(prepped_users, users_date, users)
+        prepped_users.push(mapper.user(entity.id))
         callback()
     }, function(err) {
         if (err) {
