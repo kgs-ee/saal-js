@@ -591,6 +591,12 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
 }
 var cacheEvent = function cacheEvent(e_class, op_entity, callback) {
     if (pl_id = op_entity.get('properties.pl-id.value', false)) {
+        // TODO: Merge ticket information from PL_concert ...
+        //       sales-time
+        //       sales-status
+        //       min-price
+        //       max-price
+        // ... and remove from PL
         op.del(PL_concerts, pl_id)
     }
     if (perf_ref = op_entity.get('properties.performance.reference', false)) {
