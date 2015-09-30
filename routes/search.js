@@ -9,6 +9,10 @@ var op      = require('object-path')
 var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
 // var fuzzy   = require('fuzzy')                  // https://github.com/mattyork/fuzzy
 
+var mapper  = require('../helpers/mapper')
+
+var all_events = []
+
 
 router.get('/', function(req, res, next) {
     debug('querystring ', req.query)
@@ -47,7 +51,7 @@ router.get('/', function(req, res, next) {
         results = {
             "query_type": 'category'
             , "query_category": category
-            , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(category)
+            , "fuse_js": new fuse(all_events, fuse_options).search(category)
         }
         debug(JSON.stringify(results, null, '  '))
         res.render('search', {
@@ -129,8 +133,8 @@ router.get('/', function(req, res, next) {
         results = {
             "query_type": 'query'
             , "query": req.query.q
-            , "fuse_js": new fuse(ALL_EVENTS, fuse_options).search(req.query.q)
-            // , "fuzzy": fuzzy.filter(req.query.q, ALL_EVENTS, fuzzy_options)
+            , "fuse_js": new fuse(all_events, fuse_options).search(req.query.q)
+            // , "fuzzy": fuzzy.filter(req.query.q, all_events, fuzzy_options)
         }
         debug(JSON.stringify(results, null, '  '))
         res.render('search', {
@@ -141,6 +145,24 @@ router.get('/', function(req, res, next) {
         return next()
     }
 })
+
+
+router.prepare = function prepare(callback) {
+    all_events = []
+    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    async.each(SDC.get(['local_entities', 'by_definition', 'event']), function(event, callback) {
+        all_events.push(mapper.event(event.id))
+        callback()
+    }, function(err) {
+        if (err) {
+            debug('Failed to prepare events forsearch.', err)
+            callback(err)
+            return
+        }
+        debug('Events prepared for searching.')
+        callback()
+    })
+}
 
 
 module.exports = router
