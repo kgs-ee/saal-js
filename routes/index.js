@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
         debug(res.locals.t('error.cache_missing_residency_past'))
     }
 
-    debug(JSON.stringify(featured, null, 2))
+    // debug(JSON.stringify(featured, null, 2))
     res.render('index', {
         "featured": featured,
         "program": program_upcoming,
@@ -73,8 +73,12 @@ var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
     program_upcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
-        // debug(JSON.stringify(event, null, 2))
         event['start-time'].forEach(function(sttime) {
+            // Show only future events
+            if (new Date() > new Date(sttime)) {
+                return
+            }
+            // debug(new Date().toJSON(), sttime, new Date(sttime).toJSON())
             var event_date = (sttime).slice(0,10)
             var event_time = (sttime).slice(11,16)
             op.set(event, 'event-date', event_date)
