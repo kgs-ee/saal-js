@@ -9,6 +9,7 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 
+var featured = {}
 var program_upcoming = {}
 var tours_upcoming = {}
 var residency_past = {}
@@ -26,6 +27,7 @@ router.get('/', function(req, res, next) {
     }
 
     res.render('index', {
+        "featured": featured,
         "program": program_upcoming,
         "tours": tours_upcoming,
         "residencies": residency_past,
@@ -38,11 +40,29 @@ router.get('/', function(req, res, next) {
 router.prepare = function prepare(callback) {
     debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
+    parallelf.push(prepareFeatured)
     parallelf.push(prepareUpcomingEvents)
     parallelf.push(prepareUpcomingTours)
     parallelf.push(preparePastResidency)
     async.parallel(parallelf, function(err) {
         debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        callback()
+    })
+}
+
+// Featured performamces
+var prepareFeatured = function prepareFeatured(callback) {
+    featured = []
+    async.each(SDC.get(['local_entities', 'featured']), function(entity, callback) {
+        featured.push(mapper.performance(entity.id))
+        callback()
+    }, function(err) {
+        if (err) {
+            debug('Failed to prepare featured performances.', err)
+            callback(err)
+            return
+        }
+        debug('Featured performances prepared.')
         callback()
     })
 }

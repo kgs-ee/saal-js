@@ -314,7 +314,7 @@ cache_series.push(function fetchFromEntu(callback) {
                 _process_entities(parent_eid, e_class, definition, op_entities, callback)
             })
         } else {
-            debug('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
+            // debug('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
             entu.get_entities(definition, null, null, null, function(err, op_entities) {
                 if (err) {
                     debug('Fetch ' + definition + ' from Entu failed.', err)
@@ -531,6 +531,11 @@ var add2cache = function add2cache(entity, e_class) {
     if (pl_id = op.get(entity, 'properties.pl-id.value', false)) {
         op.set(temp_local_entities, ['by_plid', String(pl_id)], entity)
     }
+
+    if (op.get(entity, ['properties', 'featured', 'value']) === "True") {
+        // debug('found featured')
+        op.set(temp_local_entities, ['featured', String(pl_id)], entity)
+    }
     return
 }
 
@@ -567,6 +572,10 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
         async.each(entities, function(op_entity, callback) {
             var entity = op_entity.get()
             relate(entity.id, 'parent', parent_eid, entity.definition)
+
+            debug('found performance ' + entity.id + ' ' + op.get(entity, 'properties.featured.value', false))
+            debug (op.get(entity, 'properties.featured.value') === "true")
+
             add2cache(entity)
             callback()
         }, function(err) {
