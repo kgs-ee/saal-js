@@ -51,6 +51,27 @@ var mapEvent = function event(eid) {
 
     if (performance_id = op_entity.get('properties.performance.reference')) {
         entity_out.set('performance', mapPerformance(performance_id))
+        // debug('1: ' + JSON.stringify(entity_out.get('et-name'), null, 2))
+        // debug('2: ' + JSON.stringify(entity_out.get(['performance', 'et-name']), null, 2))
+        if (entity_out.get('en-name') === undefined) {
+            entity_out.set('en-name', entity_out.get(['performance', 'en-name']))
+        }
+        if (entity_out.get('et-name') === undefined) {
+            entity_out.set('et-name', entity_out.get(['performance', 'et-name']))
+        }
+        if (entity_out.get('en-description') === undefined) {
+            entity_out.set('en-description', entity_out.get(['performance', 'en-description']))
+        }
+        if (entity_out.get('et-description') === undefined) {
+            entity_out.set('et-description', entity_out.get(['performance', 'et-description']))
+        }
+        if (entity_out.get('en-subtitle') === undefined) {
+            entity_out.set('en-subtitle', entity_out.get(['performance', 'en-subtitle']))
+        }
+        if (entity_out.get('et-subtitle') === undefined) {
+            entity_out.set('et-subtitle', entity_out.get(['performance', 'et-subtitle']))
+        }
+        // debug('3: ' + JSON.stringify(entity_out.get('et-name'), null, 2))
     }
 
     // debug(entity_out.get())
@@ -64,10 +85,10 @@ var mapPerformance = function mapPerformance(eid) {
     entity_out.set('id', op_entity.get('id'))
     entity_out.set('category', op_entity.get('properties.category'))
     entity_out.set('pl-id', op_entity.get('properties.pl-id.value'))
-    entity_out.set('en-name', op_entity.get('properties.en_name.value'))
-    entity_out.set('et-name', op_entity.get('properties.et_name.value'))
-    entity_out.set('en-subtitle', op_entity.get('properties.en_subtitle.value'))
-    entity_out.set('et-subtitle', op_entity.get('properties.et_subtitle.value'))
+    entity_out.set('en-name', op_entity.get('properties.en-name.value'))
+    entity_out.set('et-name', op_entity.get('properties.et-name.value'))
+    entity_out.set('en-subtitle', op_entity.get('properties.en-subtitle.value'))
+    entity_out.set('et-subtitle', op_entity.get('properties.et-subtitle.value'))
     entity_out.set('en-description', op_entity.get('properties.en-description.md'))
     entity_out.set('et-description', op_entity.get('properties.et-description.md'))
     entity_out.set('photo', op_entity.get('properties.photo.0'))
