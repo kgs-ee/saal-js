@@ -26,6 +26,7 @@ router.get('/', function(req, res, next) {
         debug(res.locals.t('error.cache_missing_residency_past'))
     }
 
+    debug(JSON.stringify(featured, null, 2))
     res.render('index', {
         "featured": featured,
         "program": program_upcoming,
