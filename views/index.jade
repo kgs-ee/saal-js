@@ -6,56 +6,62 @@ block content
 
     .container-fluid
         .row
-            section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
-                .carousel-inner(role='listbox')
-                    a.item.active(href='#')
-                        figure(id='slide-01' style='background-image: url(/images/testimage_landscape_full.jpg);')
-                        header.col-md-8
-                            p Eesti Kunstiakadeemia arhitektuuriteaduskonna avatud loengute sari
-                            h1 HENRI HÜTT & TAAVET JANSEN: Kaota mu naine ära, ehk mis tunne on olla mustkunstnik
-                        ul.event-categories
-                            li.text-uppercase.h3.unactive
-                                span= t('categories.theatre')
-                            li.text-uppercase.h3
-                                span= t('categories.dance')
-                            li.text-uppercase.h3
-                                span= t('categories.performance')
-                            li.text-uppercase.h3.unactive
-                                span= t('categories.music')
-                            li.text-uppercase.h3.unactive
-                                span= t('categories.lecture')
-                            li.text-uppercase.h3
-                                span= t('categories.film')
-                            li.text-uppercase.h3
-                                span= t('categories.new-circus')
+            if featured
+                section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                    .carousel-inner(role='listbox')
 
-                    a.item(href='#')
-                        figure(id='slide-02' style='background-image: url(/images/testimage_portrait_full.jpg);')
-                        header.col-md-8
-                            p Saal Biennaal
-                            h1 Taavet JANSEN
-                        ul.event-categories
-                            li.text-uppercase.h3.unactive
-                                span= t('categories.theatre')
-                            li.text-uppercase.h3
-                                span= t('categories.dance')
-                            li.text-uppercase.h3
-                                span= t('categories.performance')
-                            li.text-uppercase.h3.unactive
-                                span= t('categories.music')
-                            li.text-uppercase.h3.unactive
-                                span= t('categories.lecture')
-                            li.text-uppercase.h3
-                                span= t('categories.film')
-                            li.text-uppercase.h3
-                                span= t('categories.new-circus')
+                    each feature in featured
+                        p= op.get(feature, 'id')
+                        P= op.get(feature, 'displayname')
 
-                a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
-                    span.icon-prev.arrow-left(aria-hidden='true')
-                    span.sr-only Previous
-                a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
-                    span.icon-next.arrow-right(aria-hidden='true')
-                    span.sr-only Next
+                //-         a.item.active(href='/' + lang + '/event/' + op.get(feature,'id'))
+                //-             figure(id='slide-01' style='background-image: url(' + op.get(feature, 'performance.photo.file') + ');')
+                //-             header.col-md-8
+                //-                 p Eesti Kunstiakadeemia arhitektuuriteaduskonna avatud loengute sari
+                //-                 h1 HENRI HÜTT & TAAVET JANSEN: Kaota mu naine ära, ehk mis tunne on olla mustkunstnik
+                //-             ul.event-categories
+                //-                 li.text-uppercase.h3.unactive
+                //-                     span= t('categories.theatre')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.dance')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.performance')
+                //-                 li.text-uppercase.h3.unactive
+                //-                     span= t('categories.music')
+                //-                 li.text-uppercase.h3.unactive
+                //-                     span= t('categories.lecture')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.film')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.new-circus')
+
+                //-         a.item(href='#')
+                //-             figure(id='slide-02' style='background-image: url(/images/testimage_portrait_full.jpg);')
+                //-             header.col-md-8
+                //-                 p Saal Biennaal
+                //-                 h1 Taavet JANSEN
+                //-             ul.event-categories
+                //-                 li.text-uppercase.h3.unactive
+                //-                     span= t('categories.theatre')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.dance')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.performance')
+                //-                 li.text-uppercase.h3.unactive
+                //-                     span= t('categories.music')
+                //-                 li.text-uppercase.h3.unactive
+                //-                     span= t('categories.lecture')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.film')
+                //-                 li.text-uppercase.h3
+                //-                     span= t('categories.new-circus')
+
+                //- a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
+                //-     span.icon-prev.arrow-left(aria-hidden='true')
+                //-     span.sr-only Previous
+                //- a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
+                //-     span.icon-next.arrow-right(aria-hidden='true')
+                //-     span.sr-only Next
 
         .row.page-margin
             section.col-xs-12.col-md-12.col-lg-9
