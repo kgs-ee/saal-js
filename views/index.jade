@@ -88,18 +88,21 @@ block content
                                             .col-xs-12.col-md-6.col-lg-6
                                                 h3= op.get(p, lang + '-name')
                                                 p= 'foo' + op.get(p, 'pl-id')
-                                                p= op.get(p, 'ticket-api')
+                                            
                                             .col-xs-6.col-md-2.col-lg-2
                                                 p= op.get(p, 'location')
-                                                p= op.get(p, 'price')
+                                                //-p= op.get(p, 'price')
+                                                
+                                                if op.get(p, 'min-price')
+                                                    if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                                        p= op.get(p, 'min-price')
+                                                    else
+                                                        p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+
                                             if op.get(p, 'sales-status')
                                                 .col-xs-6.col-md-2.col-lg-2.text-right
-                                                    a.btn.btn-primary(href=op.get(p, 'ticket-api'))= t('button.buy_ticket.' + op.get(p, 'sales-status'))
-                                                        if op.get(p, 'min-price')
-                                                            if op.get(p, 'min-price') == op.get(p, 'max-price')
-                                                                p= op.get(p, 'min-price')
-                                                            else
-                                                                p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                                    a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                                        
                                             .col-xs-12.col-md-12.col-lg-12
                                                 hr
                     else

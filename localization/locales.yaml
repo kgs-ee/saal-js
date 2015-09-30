@@ -15,10 +15,16 @@ button:
         en: Buy ticket
         et: Osta pilet
         lv: Pirkt biļeti
+        presale_at_boxoffices:
+            en: button.buy_ticket.presale_at_boxoffices
+            et: button.buy_ticket.presale_at_boxoffices
         regular_presale:
             en: Buy ticket
             et: Osta pilet
             lv: Pirkt biļeti
+        sold_out:
+            en: Sold out
+            et: Väljamüüdud
     category:
         en: Category
         et: Kategooria
@@ -89,6 +95,8 @@ error:
         et: error.cache_missing_upcoming_tours
     calendar_json is not defined:
         et: error.calendar_json is not defined
+    program_upcoming is not defined:
+        et: error.program_upcoming is not defined
 lang:
     en:
         en: In English
