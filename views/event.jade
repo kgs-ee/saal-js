@@ -48,15 +48,16 @@ block content
                                 p= (moment(datestring).locale(lang).format('dddd'))
                                 p= (moment(datestring).locale(lang).format('L'))
                                 p= (moment(datestring).locale(lang).format('HH:mm'))
-                            .col-xs-6.col-md-6.text-right
-                                a.btn.btn-primary(href='#') Osta pilet
+                            if op.get(event, ['sales-status'])
+                                .col-xs-6.col-md-2.col-lg-2.text-right
+                                    a.btn.btn-primary(href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
                             .col-xs-12.col-md-12.col-lg-12
                                 hr
 
                 .meta-info!= op.get(event, 'performance.' + lang + '-technical-information')
 
-                    a.intranet(href='https://saal.entu.ee/entity/event/' + op.get(event, 'id')) Vaata intranetis
+                    a.intranet(href='https://saal.entu.ee/entity/event/' + op.get(event, 'id'))= t('linkto.intranet')
 
             article.main-text.col-md-8.col-lg-6.h3!= op.get(event, lang + '-description')
 
