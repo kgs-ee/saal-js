@@ -47,8 +47,8 @@ router.prepare = function prepare(callback) {
 // Users
 var prepareUsers = function prepareUsers(callback) {
     prepped_users = {}
-    async.each(SDC.get(['local_entities', 'by_eid', 'person']), function(entity, callback) {
-        var users = mapper.users(entity.id)
+    async.each(SDC.get(['local_entities', 'by_definition', 'person'], []), function(entity, callback) {
+        var users = mapper.user(entity.id)
         // if (!users.time) {
         //     callback()
         //     return

@@ -129,8 +129,21 @@ var mapNews = function mapNews(eid) {
     return entity_out.get()
 }
 
+var mapUser = function mapUser(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    var op_entity = op(entity)
+    var entity_out = op({})
+    entity_out.set('id', op_entity.get('id'))
+    entity_out.set('name', op_entity.get('displayname'))
+    entity_out.set('phone', op_entity.get('properties.phone.value'))
+    entity_out.set('email', op_entity.get('properties.email.value'))
+    entity_out.set('entity', op_entity.get())
+    return entity_out.get()
+}
+
 
 exports.event = mapEvent
 exports.news = mapNews
 exports.performance = mapPerformance
 exports.coverage = mapCoverage
+exports.user = mapUser
