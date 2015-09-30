@@ -534,7 +534,7 @@ var add2cache = function add2cache(entity, e_class) {
 
     if (op.get(entity, ['properties', 'featured', 'value']) === "True") {
         // debug('found featured')
-        op.set(temp_local_entities, ['featured', String(pl_id)], entity)
+        op.set(temp_local_entities, ['featured', String(entity.id)], entity)
     }
     return
 }
