@@ -4,10 +4,13 @@ var path    = require('path')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var op      = require('object-path')
 
+var mapper  = require('../helpers/mapper')
+
 
 router.get('/:id', function(req, res, next) {
 
-    var event = ALL_EVENTS[EVENT_LOOKUP[req.path.split('/')[1]]]
+    var event_eid = req.path.split('/')[1]
+    var event = mapper.event(event_eid)
 
     res.render('resident', {
         "event": event
@@ -15,6 +18,5 @@ router.get('/:id', function(req, res, next) {
     res.end()
     return
 })
-
 
 module.exports = router
