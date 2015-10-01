@@ -575,10 +575,6 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
         async.each(entities, function(op_entity, callback) {
             var entity = op_entity.get()
             relate(entity.id, 'parent', parent_eid, entity.definition)
-
-            debug('found performance ' + entity.id + ' ' + op.get(entity, 'properties.featured.value', false))
-            debug (op.get(entity, 'properties.featured.value') === "true")
-
             add2cache(entity)
             callback()
         }, function(err) {
