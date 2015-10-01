@@ -242,7 +242,7 @@ $(document).ready(function() {
     shortenTexts()
     // eventBannerHeight()
     //initMap()
-    categoryDropDown()
+    //categoryDropDown()
 })
 
 $(window).load(function() {

@@ -4188,7 +4188,8 @@ a.logo:hover {
       font-size: 5em;
       letter-spacing: -2px;
       line-height: .8em; } }
-.event-banner .event-categories {
+
+.event-categories {
   color: white;
   margin: 0 0 0 16px;
   padding: 0;
@@ -4196,29 +4197,29 @@ a.logo:hover {
   position: absolute;
   left: 1em;
   bottom: 1.3em; }
-  .event-banner .event-categories li {
+  .event-categories li {
     text-align: left; }
-    .event-banner .event-categories li a {
+    .event-categories li a {
       color: white; }
-    .event-banner .event-categories li.unactive span {
+    .event-categories li.unactive span {
       background-color: white; }
-  .event-banner .event-categories .h3, .event-banner .event-categories .ui-datepicker-title {
+  .event-categories .h3, .event-categories .ui-datepicker-title {
     font-size: 1.2em; }
+
 @media (min-width: 992px) {
-  .event-banner .event-categories {
+  .event-categories {
     margin: 0;
     display: table;
     table-layout: fixed;
     width: 100%;
     left: 0; }
-    .event-banner .event-categories li {
+    .event-categories li {
       display: table-cell;
       text-align: center; }
-      .event-banner .event-categories li.unactive span {
+      .event-categories li.unactive span {
         background-color: white; }
-    .event-banner .event-categories .h3, .event-banner .event-categories .ui-datepicker-title {
+    .event-categories .h3, .event-categories .ui-datepicker-title {
       font-size: 1.5em; } }
-
 /**	- - - - - - - - - - - - - - - - - - - - */
 /**	PROGRAMME CHECKBOXES
 ***	- - - - - - - - - - - - - - - - - - - - */
@@ -4226,6 +4227,34 @@ a.logo:hover {
   margin-bottom: 2em; }
 .archive.bottom {
   margin-top: 2em; }
+.archive .event-categories {
+  color: black;
+  margin-bottom: 1.5em; }
+  .archive .event-categories li {
+    text-align: left; }
+    .archive .event-categories li a {
+      color: black; }
+      .archive .event-categories li a:hover {
+        background-color: black;
+        color: white; }
+    .archive .event-categories li.active a {
+      background-color: black;
+      color: white; }
+@media (min-width: 992px) {
+  .archive .event-categories {
+    margin: 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    left: 0;
+    position: relative; }
+    .archive .event-categories li {
+      display: table-cell;
+      text-align: center; }
+      .archive .event-categories li.unactive span {
+        background-color: black; }
+    .archive .event-categories .h3, .archive .event-categories .ui-datepicker-title {
+      font-size: 1.5em; } }
 
 .select-cat {
   margin-bottom: 2em; }

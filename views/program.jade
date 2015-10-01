@@ -9,58 +9,82 @@ block content
             
             nav.archive.top.col-md-12
                 .row
-                    .hidden-xs.col-sm-6.col-md-1.col-lg-1
-                        .btn-group
-                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
-                                    span.caret
-                            ul.dropdown-menu(role='menu')
-                                li
-                                    a(href='#') 2015
-                                li
-                                    a(href='#') 2014
-                                li
-                                    a(href='#') 2013
-                                li
-                                    a(href='#') 2012
-                                li
-                                    a(href='#') 2011
-                                li
-                                    a(href='#') 2010
-                    .hidden-xs.col-sm-6.col-md-2.col-lg-2
-                        .btn-group
-                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
-                                    span.caret
-                            ul.dropdown-menu(role='menu')
-                                li
-                                    a(href='#' data-value='option1' tabIndex="-1")
-                                        input(type='checkbox')
-                                        span= t('categories.theatre')
-                                li
-                                    a(href='#' data-value='option2' tabIndex="-1")
-                                        input(type='checkbox')
-                                        span= t('categories.dance')
-                                li
-                                    a(href='#' data-value='option3' tabIndex="-1")
-                                        input(type='checkbox')
-                                        span= t('categories.performance')
-                                li
-                                    a(href='#' data-value='option4' tabIndex="-1")
-                                        input(type='checkbox')
-                                        span= t('categories.music')
-                                li
-                                    a(href='#' data-value='option5' tabIndex="-1")
-                                        input(type='checkbox')
-                                        span= t('categories.lecture')
-                                li
-                                    a(href='#' data-value='option6' tabIndex="-1")
-                                        input(type='checkbox')
-                                        span= t('categories.film')
-                                li
-                                    a(href='#' data-value='option7' tabIndex="-1")
-                                        input(type='checkbox')
-                                        span= t('categories.new-circus')
+                    ul.event-categories
+                        li.text-uppercase.h3
+                            span
+                               a(href='#')= t('categories.theatre') 
+                        li.text-uppercase.h3
+                            span
+                                a(href='#')= t('categories.dance')
+                        li.text-uppercase.h3
+                            span
+                                a(href='#')= t('categories.performance')
+                        li.text-uppercase.h3
+                            span
+                                a(href='#')= t('categories.music')
+                        li.text-uppercase.h3
+                            span
+                                a(href='#')= t('categories.lecture')
+                        li.text-uppercase.h3
+                            span
+                                a(href='#')= t('categories.film')
+                        li.text-uppercase.h3
+                            span
+                                a(href='#')= t('categories.new-circus')
 
-                    .col-sm-12.col-md-9.col-lg-9
+                .row
+                    //- .hidden-xs.col-sm-6.col-md-1.col-lg-1
+                    //-     .btn-group
+                    //-         button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
+                    //-                 span.caret
+                    //-         ul.dropdown-menu(role='menu')
+                    //-             li
+                    //-                 a(href='#') 2015
+                    //-             li
+                    //-                 a(href='#') 2014
+                    //-             li
+                    //-                 a(href='#') 2013
+                    //-             li
+                    //-                 a(href='#') 2012
+                    //-             li
+                    //-                 a(href='#') 2011
+                    //-             li
+                    //-                 a(href='#') 2010
+                    //- .hidden-xs.col-sm-6.col-md-2.col-lg-2
+                    //-     .btn-group
+                    //-         button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
+                    //-                 span.caret
+                    //-         ul.dropdown-menu(role='menu')
+                    //-             li
+                    //-                 a(href='#' data-value='option1' tabIndex="-1")
+                    //-                     input(type='checkbox')
+                    //-                     span= t('categories.theatre')
+                    //-             li
+                    //-                 a(href='#' data-value='option2' tabIndex="-1")
+                    //-                     input(type='checkbox')
+                    //-                     span= t('categories.dance')
+                    //-             li
+                    //-                 a(href='#' data-value='option3' tabIndex="-1")
+                    //-                     input(type='checkbox')
+                    //-                     span= t('categories.performance')
+                    //-             li
+                    //-                 a(href='#' data-value='option4' tabIndex="-1")
+                    //-                     input(type='checkbox')
+                    //-                     span= t('categories.music')
+                    //-             li
+                    //-                 a(href='#' data-value='option5' tabIndex="-1")
+                    //-                     input(type='checkbox')
+                    //-                     span= t('categories.lecture')
+                    //-             li
+                    //-                 a(href='#' data-value='option6' tabIndex="-1")
+                    //-                     input(type='checkbox')
+                    //-                     span= t('categories.film')
+                    //-             li
+                    //-                 a(href='#' data-value='option7' tabIndex="-1")
+                    //-                     input(type='checkbox')
+                    //-                     span= t('categories.new-circus')
+
+                    .col-sm-12.col-md-12.col-lg-12
                         ul.pager
                             li.previous
                                 a(href='#')

@@ -79,25 +79,29 @@ html
 
                         ul.list-unstyled.col-md-1.col-lg-1
                             li(class= path == 'about' ? 'active' : undefined )
-                                a(href='/' + lang + '/about') Saal
+                                a(href='/' + lang + '/about') SAAL
                             li(class= path == 'program' ? 'active' : undefined )
-                                a(href='/' + lang + '/program')= t('nav.program')
-                            li(class= path == 'residency' ? 'active' : undefined )
-                                a(href='/' + lang + '/residency')= t('nav.residency')
+                                a(href='/' + lang + '/program')= t('nav.schedule')
+                            li(class= path == 'contact' ? 'active' : undefined )
+                                a(href='/' + lang + '/contact')= t('nav.contact')        
+                            
 
-                        ul.list-unstyled.col-md-2.col-lg-2
+                        ul.list-unstyled.col-md-1.col-lg-1
+                            li(class= path == 'productions' ? 'active' : undefined )
+                                a(href='/' + lang + '/productions')= t('nav.coproductions')
                             li(class= path == 'tours' ? 'active' : undefined )
                                 a(href='/' + lang + '/tours')= t('nav.tours')
-                            li(class= path == 'projects' ? 'active' : undefined )
-                                a(href='/' + lang + '/projects')= t('nav.projects')
-                            li(class= path == 'contact' ? 'active' : undefined )
-                                a(href='/' + lang + '/contact')= t('nav.contact')
+                            li(class= path == 'residency' ? 'active' : undefined )
+                                a(href='/' + lang + '/residency')= t('nav.residency')        
+                            
 
-                        ul.list-unstyled.col-md-4.col-lg-4
+                        ul.list-unstyled.col-md-5.col-lg-5
                             li
-                                a(href='/' + lang + '/festival/1234') NU Performance
+                                a(href='/' + lang + '/festival/1234') NU Performance Festivsl
                             li
                                 a(href='/' + lang + '/festival/1235') SAAL Bienaal
+                            li(class= path == 'projects' ? 'active' : undefined )
+                                a(href='/' + lang + '/projects')= t('nav.projects')    
 
                         ul.list-unstyled.col-xs-6.col-md-2.col-lg-2
                             each locale in locales

@@ -486,57 +486,57 @@ a.logo {
 	// 		background-color: white;
 	// 	}
 	// }
+}
 
+.event-categories {
+	color: white;
+    margin: 0 0 0 16px;
+    padding: 0;
+    list-style-type: none;
+    position: absolute;
+    left: 1em;
+    bottom: 1.3em;
+
+    li {
+        text-align: left;
+
+        a {
+        	color: white;
+        }
+
+        &.unactive span {
+        	background-color: white;
+
+        }
+    }
+
+    .h3 {
+    	font-size: 1.2em;
+    }
+}
+
+@media (min-width: $screen-desktop) {
 	.event-categories {
-		color: white;
-	    margin: 0 0 0 16px;
-	    padding: 0;
-	    list-style-type: none;
-	    position: absolute;
-	    left: 1em;
-	    bottom: 1.3em;
-
-	    li {
-	        text-align: left;
-
-	        a {
-	        	color: white;
-	        }
-
-	        &.unactive span {
-	        	background-color: white;
-
-	        }
-	    }
-
-	    .h3 {
-	    	font-size: 1.2em;
-	    }
-	}
-
-	@media (min-width: $screen-desktop) {
-		.event-categories {
-			margin: 0;
-		    display: table;
-		    table-layout: fixed;
-		    width: 100%;
-		    left: 0;
+		margin: 0;
+	    display: table;
+	    table-layout: fixed;
+	    width: 100%;
+	    left: 0;
 
 
 
-			li {
-			    display: table-cell;
-			    text-align: center;
+		li {
+		    display: table-cell;
+		    text-align: center;
 
-			    &.unactive span {
-			    	background-color: white;
-			    }
-			}
+		    &.unactive span {
+		    	background-color: white;
+		    }
+		}
 
 
-			.h3 {
-				font-size: 1.5em;
-			}
+		.h3 {
+			font-size: 1.5em;
 		}
 	}
 }
@@ -554,6 +554,56 @@ a.logo {
 
 	&.bottom {
 		margin-top: 2em;
+	}
+
+	.event-categories {
+		color: black;
+		margin-bottom: 1.5em;
+
+	    li {
+	        text-align: left;
+
+			a {
+				color: black;
+
+				&:hover {
+					background-color: black;
+					color: white;
+				}
+			}	
+
+	        &.active a {
+	        	background-color: black;
+	        	color: white;
+
+	        }
+	    }
+
+	}
+
+	@media (min-width: $screen-desktop) {
+		.event-categories {
+			margin: 0;
+		    display: table;
+		    table-layout: fixed;
+		    width: 100%;
+		    left: 0;
+		    position: relative;
+
+			li {
+			    display: table-cell;
+			    text-align: center;
+
+			    &.unactive span {
+			    	background-color: black;
+			    }
+			}
+
+
+			.h3 {
+				font-size: 1.5em;
+			}
+		}
 	}
 }
 

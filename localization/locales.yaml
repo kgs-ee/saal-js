@@ -121,6 +121,9 @@ nav:
         en: Contact
         et: Kontakt
         lv: Kontakts
+    coproductions:
+        en: Co-Productions
+        et: Kaasproduktsioonid
     program:
         en: Program
         et: Programm
@@ -133,6 +136,9 @@ nav:
         en: Residency
         et: Residentuur
         lv: Residentūra
+    schedule:
+        en: Schedule
+        et: Kava
     tours:
         en: Tours
         et: Tuurid
@@ -168,8 +174,8 @@ q:
         et: Leidsin
 title:
     archive:
-        en: Archive
-        et: Arhiiv
+        en: title.archive
+        et: title.archive
     basement:
         en: Basement
         et: Kelder
