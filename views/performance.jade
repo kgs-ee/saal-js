@@ -47,12 +47,12 @@ block content
                             p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('dddd'))
                             p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('L'))
                             p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('HH:mm'))
-                            if op.get(event, ['sales-status'])
-                                .col-xs-6.col-md-2.col-lg-2.text-right
-                                    a.btn.btn-primary(href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
+                        if op.get(event, ['sales-status'])
+                            .col-xs-6.col-md-6.text-right
+                                a.btn.btn-primary(class=(op.get(event, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
-                            .col-xs-12.col-md-12.col-lg-12
-                                hr
+                        .col-xs-12.col-md-12.col-lg-12
+                            hr
 
                 .meta-info!= op.get(performance, lang + '-technical-information')
 
