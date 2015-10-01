@@ -35,6 +35,11 @@ var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
         event['start-time'].forEach(function(sttime) {
+            // Show only future events
+            if (new Date() > new Date(sttime)) {
+                return
+            }
+            
             var event_date = (sttime).slice(0,10)
             var event_time = (sttime).slice(11,16)
             op.set(event, 'event-date', event_date)
