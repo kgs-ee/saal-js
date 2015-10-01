@@ -9,7 +9,24 @@ block content
             
             nav.archive.top.col-md-12
                 .row
-                    .hidden-xs.col-sm-12.col-md-2.col-lg-2
+                    .hidden-xs.col-sm-6.col-md-1.col-lg-1
+                        .btn-group
+                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
+                                    span.caret
+                            ul.dropdown-menu(role='menu')
+                                li
+                                    a(href='#') 2015
+                                li
+                                    a(href='#') 2014
+                                li
+                                    a(href='#') 2013
+                                li
+                                    a(href='#') 2012
+                                li
+                                    a(href='#') 2011
+                                li
+                                    a(href='#') 2010
+                    .hidden-xs.col-sm-6.col-md-2.col-lg-2
                         .btn-group
                             button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
                                     span.caret
@@ -29,7 +46,7 @@ block content
                                 li
                                     a(href='#')= t('categories.new-circus')
 
-                    .col-sm-12.col-md-10.col-lg-10
+                    .col-sm-12.col-md-9.col-lg-9
                         ul.pager
                             li.previous
                                 a(href='#')
@@ -88,7 +105,24 @@ block content
 
             nav.archive.bottom.col-md-12
                 .row
-                    .hidden-xs.col-sm-12.col-md-2.col-lg-2
+                    .hidden-xs.col-sm-6.col-md-1.col-lg-1
+                        .btn-group
+                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
+                                    span.caret
+                            ul.dropdown-menu(role='menu')
+                                li
+                                    a(href='#') 2015
+                                li
+                                    a(href='#') 2014
+                                li
+                                    a(href='#') 2013
+                                li
+                                    a(href='#') 2012
+                                li
+                                    a(href='#') 2011
+                                li
+                                    a(href='#') 2010
+                    .hidden-xs.col-sm-6.col-md-2.col-lg-2
                         .btn-group
                             button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
                                     span.caret
@@ -108,7 +142,7 @@ block content
                                 li
                                     a(href='#')= t('categories.new-circus')
 
-                    .col-sm-12.col-md-10.col-lg-10
+                    .col-sm-12.col-md-9.col-lg-9
                         ul.pager
                             li.previous
                                 a(href='#')
