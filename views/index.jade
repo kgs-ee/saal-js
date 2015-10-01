@@ -75,7 +75,7 @@ block content
                             each eventtime, timestring in eventdate
 
                                 each p in eventtime
-                                    a(href='/' + lang + '/event/' + op.get(p,'id'))
+                                    a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
                                         .col-xs-12.col-sm-2.col-lg-2
                                             p= (moment(datestring).locale(lang).format('dddd'))
                                             p= (moment(datestring).locale(lang).format('L'))

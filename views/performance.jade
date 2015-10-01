@@ -6,16 +6,16 @@ block content
 
     .container-fluid
 
-        if op.get(event, 'performance.photo.file')
+        if op.get(performance, 'photo.file')
             .row
                 .event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
                     .carousel-inner(role='listbox')
-                        figure(id='slide-01' style='background-image: url(' + op.get(event, 'performance.photo.file') + ');')
+                        figure(id='slide-01' style='background-image: url(' + op.get(performance, 'photo.file') + ');')
                         header.col-md-8
-                            p= op.get(event, lang + '-subtitle', '')
-                            h1= op.get(event, lang + '-name', '')
+                            p= op.get(performance, lang + '-subtitle', '')
+                            h1= op.get(performance, lang + '-name', '')
 
-                        - categoryNames = op.get(event, 'category', []).map(function(c){return c.value});
+                        - categoryNames = op.get(performance, 'category', []).map(function(c){return c.value});
                         ul.event-categories
                             li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
                                 span
@@ -42,12 +42,11 @@ block content
         .row.page-margin
             aside.col-md-4.col-lg-3
                 .row
-                    each datestring in op.get(event, 'start-time', [])
-                        if datestring >= ((moment(Date.now()).format('YYYY-MM-DD HH:mm')))
-                            .col-xs-6.col-md-6
-                                p= (moment(datestring).locale(lang).format('dddd'))
-                                p= (moment(datestring).locale(lang).format('L'))
-                                p= (moment(datestring).locale(lang).format('HH:mm'))
+                    each event in events
+                        .col-xs-6.col-md-6
+                            p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('dddd'))
+                            p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('L'))
+                            p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('HH:mm'))
                             if op.get(event, ['sales-status'])
                                 .col-xs-6.col-md-2.col-lg-2.text-right
                                     a.btn.btn-primary(href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
@@ -55,24 +54,23 @@ block content
                             .col-xs-12.col-md-12.col-lg-12
                                 hr
 
-                .meta-info!= op.get(event, 'performance.' + lang + '-technical-information')
+                .meta-info!= op.get(performance, lang + '-technical-information')
 
-                    a.intranet(href='https://saal.entu.ee/entity/event/' + op.get(event, 'id'))= t('linkto.intranet')
+                    a.intranet(href='https://saal.entu.ee/entity/performance/' + op.get(performance, 'id'))= t('linkto.intranet')
 
             article.main-text.col-md-8.col-lg-6.h3!= op.get(event, lang + '-description')
 
             aside.video-sound.col-md-12.col-lg-3
-                if op.get(event, 'performance.audio')
+                if op.get(performance, 'audio')
                     div
                         h2= t('title.sound')
-                        div!= op.get(event, 'performance.audio')
-                if op.get(event, 'performance.video')
+                        div!= op.get(performance, 'audio')
+                if op.get(performance, 'video')
                     div
                         h2= t('title.video')
-                        div!= op.get(event, 'performance.video')
+                        div!= op.get(performance, 'video')
 
         .row.page-margin
-
             if coverage.length
                 .press.col-md-6
                     h2= t('title.press')

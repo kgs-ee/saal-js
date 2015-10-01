@@ -110,6 +110,7 @@ var mapCoverage = function mapCoverage(eid) {
     entity_out.set('title', op_entity.get('properties.title.value'))
     entity_out.set('date', op_entity.get('properties.date.value'))
     entity_out.set('text', op_entity.get('properties.text.md'))
+    // TODO: make sure URL starts with http://
     entity_out.set('url', op_entity.get('properties.url.value'))
     entity_out.set('source', op_entity.get('properties.source.value'))
     return entity_out.get()

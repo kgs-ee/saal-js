@@ -110,6 +110,9 @@ lang:
         en: Latviešu
         et: Latviešu
         lv: Latviešu
+linkto:
+    intranet:
+        et: linkto.intranet
 nav:
     about:
         en: About Us

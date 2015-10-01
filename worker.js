@@ -140,19 +140,19 @@ app
 app
 
     // routes mapping
-    .use('/:lang',              require('./routes/index'))
-    .use('/:lang/about/',       require('./routes/about'))
-    .use('/:lang/dev/',         require('./routes/dev'))
-    .use('/:lang/event/',       require('./routes/event'))
-    .use('/:lang/tours/',       require('./routes/tours'))
-    .use('/:lang/program/',     require('./routes/program'))
-    .use('/:lang/residency/',   require('./routes/residency'))
-    .use('/:lang/resident/',   require('./routes/resident'))
-    .use('/:lang/projects/',    require('./routes/projects'))
-    .use('/:lang/contact/',     require('./routes/contact'))
-    .use('/:lang/search',       require('./routes/search'))
-    .use('/:lang/signin',       require('./routes/signin'))
-    .use('/:lang/calendar_json',require('./routes/calendar_json'))
+    .use('/:lang',               require('./routes/index'))
+    .use('/:lang/about/',        require('./routes/about'))
+    .use('/:lang/dev/',          require('./routes/dev'))
+    .use('/:lang/performance/',  require('./routes/performance'))
+    .use('/:lang/tours/',        require('./routes/tours'))
+    .use('/:lang/program/',      require('./routes/program'))
+    .use('/:lang/residency/',    require('./routes/residency'))
+    .use('/:lang/resident/',     require('./routes/resident'))
+    .use('/:lang/projects/',     require('./routes/projects'))
+    .use('/:lang/contact/',      require('./routes/contact'))
+    .use('/:lang/search',        require('./routes/search'))
+    .use('/:lang/signin',        require('./routes/signin'))
+    .use('/:lang/calendar_json', require('./routes/calendar_json'))
 
     // logs to getsentry.com - error
     .use(raven.middleware.express.errorHandler(raven_client))
