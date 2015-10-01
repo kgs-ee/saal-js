@@ -4373,6 +4373,11 @@ a.logo:hover {
   @include border-bottom-radius(5px);
   padding: 6px 12px;*/ }
 
+.resident {
+  margin-bottom: 1.5em; }
+  .resident img {
+    margin-bottom: 1em; }
+
 @media (min-width: 1200px) {
   #mailchimp-sign-up {
     margin-top: 2em; } }

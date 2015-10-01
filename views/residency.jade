@@ -16,15 +16,12 @@ block content
 						each eventdate, datestring in residencies
 							each eventtime, timestring in eventdate
 								each p in eventtime
-									.col-xs-12.col-md-2
+
+									a.col-xs-12.col-md-4.resident(href='/' + lang + '/resident/' + op.get(p,'id'))
+										img.img-responsive(src=''+ op.get(p, 'photo.file') +'')
 										p= (moment(datestring).locale('et').format('L')) + "—"
+										p= op.get(p, lang + '-name')
 
-									.col-xs-12.col-md-10
-										h3
-											a(href='/' + lang + '/resident/' + op.get(p,'id'))= op.get(p, lang + '-name')
-
-									.col-xs-12.col-md-12
-										hr
 					else
 						.col-lg-12
 							h2= t('title.no-residencies')

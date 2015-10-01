@@ -93,7 +93,8 @@ module.exports = function(grunt) {
           '.team',
           '.member',
           '.address',
-          '.intranet'
+          '.intranet',
+          '.resident'
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
