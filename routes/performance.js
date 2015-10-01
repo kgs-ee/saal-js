@@ -34,7 +34,8 @@ router.get('/:id', function(req, res, next) {
     res.render('performance', {
         "performance": performance,
         "events": events,
-        "coverage": coverages
+        "coverage": coverages,
+        "id": performance.id
     })
     res.end()
     return

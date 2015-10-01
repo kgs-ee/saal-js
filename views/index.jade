@@ -13,7 +13,7 @@ block content
                         each feature in featured
 
                             a.item(class=(++featureActive === 1 ? 'active' : '') href='/' + lang + '/performance/' + op.get(feature,'id'))
-                                figure(id='slide-'+op.get(p, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
+                                figure(id='slide-'+op.get(feature, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
                                 header.col-md-8
                                     p= op.get(feature, lang + '-subtitle', '')
                                     h1= op.get(feature, lang + '-name', '')
@@ -42,12 +42,19 @@ block content
                                         span
                                             a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
 
+
                     a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
                         span.icon-prev.arrow-left(aria-hidden='true')
                         span.sr-only Previous
                     a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
                         span.icon-next.arrow-right(aria-hidden='true')
                         span.sr-only Next
+                    
+                    //- Gradient Map for images
+                    each feature in featured
+                        script.
+                            var slide#{feature.id} = document.getElementById('slide-#{feature.id}');
+                            GradientMaps.applyGradientMap(slide#{feature.id}, '#{SAAL.secondary_color}, #{SAAL.main_color}'); 
 
         .row.page-margin
             section.col-xs-12.col-md-12.col-lg-9

@@ -32,6 +32,7 @@ router.get('/', function(req, res, next) {
         "program": program_upcoming,
         "tours": tours_upcoming,
         "residencies": residency_past,
+        "id": featured.id,
         path: req.path
     })
     res.end()
