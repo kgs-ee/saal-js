@@ -78,48 +78,48 @@ block content
                         div!= op.get(performance, 'video')
 
         .row.page-margin
-            if coverage.length
-                .press.col-md-6
-                    h2= t('title.press')
-                    .row
-                        each press in coverage
-                            .col-md-12.h3
-                                a(target='_blank' href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
+                .col-md-6
+                    if photos
+                        .gallery
+                            h2= t('title.gallery')
+                            .row
+                                each photo in op.get(event, 'photos', [])
+                                    .single-image.col-xs-6.col-sm-3.col-md-4
+                                        a.fancybox(rel='gallery' href=''+ photo.file + '')
+                                            img(src=''+ photo.file +'' class='img-responsive')
 
-                            .col-xs-12.col-md-12
+                    if coverage.length
+                        .press
+                            h2= t('title.press')
+                            .row
+                                each press in coverage
+                                    .col-md-12.h3
+                                        a(target='_blank' href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
+
+                                    .col-xs-12.col-md-12
+                                        hr
+
+                .col-md-6
+                    .upcoming
+                        h2= t('title.upcoming')
+                        .row
+                            .col-md-3
+                                p Laupäev
+                                p 24.01
+                                p 19:30
+                            .col-md-9
+                                p Kaas Stuudio, Ghent
+                            .col-md-12
                                 hr
 
-            if photos
-                .gallery.col-md-6
-                    h2= t('title.gallery')
-
-                    .row
-                        each photo in op.get(event, 'photos', [])
-                            .single-image.col-xs-6.col-sm-3.col-md-4
-                                a.fancybox(rel='gallery' href=''+ photo.file + '')
-                                    img(src=''+ photo.file +'' class='img-responsive')
-
-        .row.page-margin
-            .past.col-md-6
-                h2= t('title.past')
-                .row
-                    .col-md-3
-                        p Laupäev
-                        p 24.01
-                        p 19:30
-                    .col-md-9
-                        p Kanuti Gildi SAAL
-                    .col-md-12
-                        hr    
-
-            .upcoming.col-md-6
-                h2= t('title.upcoming')
-                .row
-                    .col-md-3
-                        p Laupäev
-                        p 24.01
-                        p 19:30
-                    .col-md-9
-                        p Kaas Stuudio, Ghent
-                    .col-md-12
-                        hr
+                    .past
+                        h2= t('title.past')
+                        .row
+                            .col-md-3
+                                p Laupäev
+                                p 24.01
+                                p 19:30
+                            .col-md-9
+                                p Kanuti Gildi SAAL
+                            .col-md-12
+                                hr 
