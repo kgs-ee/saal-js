@@ -16,8 +16,8 @@ button:
         et: Osta pilet
         lv: Pirkt biļeti
         presale_at_boxoffices:
-            en: button.buy_ticket.presale_at_boxoffices
-            et: button.buy_ticket.presale_at_boxoffices
+            en: From box office
+            et: Müügipunktist
         regular_presale:
             en: Buy ticket
             et: Osta pilet
