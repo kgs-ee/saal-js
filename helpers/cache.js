@@ -454,9 +454,9 @@ cache_series.push(function add2Entu(callback) {
         var properties = {
             "pl-id": parseInt(PL_concert.id),
             "performance": op.get(temp_local_entities, ['by_plid', op.get(PL_concert, 'showId'), 'id']),
-            "start-time": start_time.toLocaleDateString() + ' ' + start_time.toLocaleTimeString()
-            "end-time": end_time.toLocaleDateString() + ' ' + end_time.toLocaleTimeString()
-            "sales-time": sales_time.toLocaleDateString() + ' ' + sales_time.toLocaleTimeString()
+            "start-time": start_time.toLocaleDateString() + ' ' + start_time.toLocaleTimeString(),
+            "end-time": end_time.toLocaleDateString() + ' ' + end_time.toLocaleTimeString(),
+            "sales-time": sales_time.toLocaleDateString() + ' ' + sales_time.toLocaleTimeString(),
             "sales-status": op.get(PL_concert, 'salesStatus'),
             "min-price": op.get(PL_concert, 'minPrice'),
             "max-price": op.get(PL_concert, 'maxPrice'),
