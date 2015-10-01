@@ -56,7 +56,7 @@ block content
                             p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('HH:mm'))
                         if op.get(event, ['sales-status'])
                             .col-xs-6.col-md-6.text-right
-                                a.btn.btn-primary(class=(op.get(event, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
+                                a.btn.btn-primary(target='_blank' class=(op.get(event, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
                         .col-xs-12.col-md-12.col-lg-12
                             hr
@@ -84,7 +84,7 @@ block content
                     .row
                         each press in coverage
                             .col-md-12.h3
-                                a(href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
+                                a(target='_blank' href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
 
                             .col-xs-12.col-md-12
                                 hr
@@ -103,25 +103,23 @@ block content
             .past.col-md-6
                 h2= t('title.past')
                 .row
-                    .col-md-2
+                    .col-md-3
                         p Laupäev
                         p 24.01
                         p 19:30
-                    .col-md-10
-                        p
-                            a(href='#') RESIDENDID Püha Vaimu SAALis JAANUAR 2015: HENRI HÜTT & TAAVET JANSEN SHOWING: LIIS VARES
+                    .col-md-9
+                        p Kanuti Gildi SAAL
                     .col-md-12
-                        hr
+                        hr    
 
             .upcoming.col-md-6
                 h2= t('title.upcoming')
                 .row
-                    .col-md-2
+                    .col-md-3
                         p Laupäev
                         p 24.01
                         p 19:30
-                    .col-md-10
-                        p
-                            a(href='#') RESIDENDID Püha Vaimu SAALis JAANUAR 2015: HENRI HÜTT & TAAVET JANSEN SHOWING: LIIS VARES
+                    .col-md-9
+                        p Kaas Stuudio, Ghent
                     .col-md-12
                         hr
