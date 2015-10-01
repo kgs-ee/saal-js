@@ -112,7 +112,8 @@ lang:
         lv: Latviešu
 linkto:
     intranet:
-        et: linkto.intranet
+        en: View in Entu
+        et: Vaata Entus
 nav:
     about:
         en: About Us
