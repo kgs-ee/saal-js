@@ -952,11 +952,7 @@ footer {
 
 .site-search {
 	position: relative;
-	margin-top: 1em;
-
-	@media (min-width: $screen-desktop) {
-		margin-top: 0;
-	}
+	margin-top: 1.5em;
 
 	input {
 		border: 2px solid $primary-color;
@@ -973,7 +969,7 @@ footer {
 		color: $primary-color;
 		position: absolute;
 		top: -3px;
-		right: 17px;
+		right: 5px;
 	}
 }
 

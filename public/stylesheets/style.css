@@ -4523,10 +4523,7 @@ footer {
 
 .site-search {
   position: relative;
-  margin-top: 1em; }
-  @media (min-width: 992px) {
-    .site-search {
-      margin-top: 0; } }
+  margin-top: 1.5em; }
   .site-search input {
     border: 2px solid #0A2A6B;
     border-top-right-radius: 5px;
@@ -4542,7 +4539,7 @@ footer {
     color: #0A2A6B;
     position: absolute;
     top: -3px;
-    right: 17px; }
+    right: 5px; }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
 

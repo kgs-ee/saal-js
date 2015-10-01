@@ -181,3 +181,9 @@ block content
                             input(type='text' name='b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5' tabindex='-1' value='')
                         .clear
                             input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')
+
+
+                        .site-search
+                            form(action='search')
+                                input(type='text' name='q' id='search' placeholder=t('placeholder.search') value=(q?q:''))
+                                button.icon-search.h4(type='submit')
