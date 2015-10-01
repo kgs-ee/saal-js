@@ -20,5 +20,6 @@ block content
                     each user in users
                         .col-xs-12.col-sm-3.col-md-4.col-lg-4.member
                             p= op.get(user, 'name')
+                            p= op.get(user, 'occupation')
                             a(href="mailto:" + op.get(user, 'email') + "")= op.get(user, 'email')
                             p= op.get(user, 'phone')

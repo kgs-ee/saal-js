@@ -110,6 +110,10 @@ lang:
         en: Latviešu
         et: Latviešu
         lv: Latviešu
+linkto:
+    intranet:
+        en: View in Entu
+        et: Vaata Entus
 nav:
     about:
         en: About Us

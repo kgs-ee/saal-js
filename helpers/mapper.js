@@ -137,6 +137,7 @@ var mapUser = function mapUser(eid) {
     entity_out.set('name', op_entity.get('displayname'))
     entity_out.set('phone', op_entity.get('properties.phone.value'))
     entity_out.set('email', op_entity.get('properties.email.value'))
+    entity_out.set('occupation', op_entity.get('properties.occupation.value'))
     entity_out.set('entity', op_entity.get())
     return entity_out.get()
 }
