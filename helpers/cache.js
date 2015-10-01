@@ -448,12 +448,15 @@ cache_series.push(function add2Entu(callback) {
     // return
 
     async.eachLimit(PL_concerts, 1, function(PL_concert, callback) {
+        var start_time = new Date(op.get(PL_concert, 'startTimestamp')*1000)
+        var end_time = new Date(op.get(PL_concert, 'endTimestamp')*1000)
+        var sales_time = new Date(op.get(PL_concert, 'salesTimestamp')*1000)
         var properties = {
             "pl-id": parseInt(PL_concert.id),
             "performance": op.get(temp_local_entities, ['by_plid', op.get(PL_concert, 'showId'), 'id']),
-            "start-time": new Date(op.get(PL_concert, 'startTimestamp')*1000).toISOString().replace('T', ' ').slice(0,19),
-            "end-time": new Date(op.get(PL_concert, 'endTimestamp')*1000).toISOString().replace('T', ' ').slice(0,19),
-            "sales-time": new Date(op.get(PL_concert, 'salesTimestamp')*1000).toISOString().replace('T', ' ').slice(0,19),
+            "start-time": start_time.toLocaleDateString() + ' ' + start_time.toLocaleTimeString()
+            "end-time": end_time.toLocaleDateString() + ' ' + end_time.toLocaleTimeString()
+            "sales-time": sales_time.toLocaleDateString() + ' ' + sales_time.toLocaleTimeString()
             "sales-status": op.get(PL_concert, 'salesStatus'),
             "min-price": op.get(PL_concert, 'minPrice'),
             "max-price": op.get(PL_concert, 'maxPrice'),
