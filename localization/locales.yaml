@@ -78,8 +78,6 @@ categories:
         et: Teater
         lv: Teātris
 error:
-    ALL_EVENTS is not defined:
-        et: error.ALL_EVENTS is not defined
     Not Found:
         en: Page not found
         et: Sellist lehte pole
