@@ -90,7 +90,13 @@ block content
 
 										.col-xs-6.col-md-2.col-lg-2
 											p= op.get(p, 'location')
-											//-p= op.get(p, 'price')
+											
+											//- Conditional for free event
+											if op.get(p, 'price')
+												if op.get(p, 'price') == 0
+													p= t('title.free')
+												else
+													p= p.get(p, 'price')
 
 											if op.get(p, 'min-price')
 												if op.get(p, 'min-price') == op.get(p, 'max-price')
