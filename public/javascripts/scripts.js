@@ -51,7 +51,7 @@ function datePickerInit() {
                         var time = (event.time != "00:00") ? (event.time) + ' ' : ""
                         var name = (locale == "et") ? event['et-name'] : event['en-name']
 
-                        tooltip += "<li class='" + event.tag + "'><a href='/" + locale + "/performance/" + event.id + "'>" + time + name + " / " + event.location + "</a></li>"
+                        tooltip += "<li class='" + event.tag + "'><a href='/" + locale + "/performance/" + event.performance.id + "'>" + time + name + " / " + event.location + "</a></li>"
                         // tooltip += "<li class='" + event.extraClasses + "'>"
                         //     tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
                         //     tooltip += event.client + ((event.city) ? (" - " + event.city) : "")
