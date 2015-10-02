@@ -41,7 +41,13 @@ var mapEvent = function event(eid) {
     var entity_out = op({})
     entity_out.set('id', eid)
     entity_out.set('pl-id', op_entity.get('properties.pl-id.value'))
-    entity_out.set('category', op_entity.get('properties.category'))
+
+    var categories = []
+    op_entity.get('properties.category', []).forEach(function catiterator(category) {
+        categories.push(mapCategory(category.reference))
+    })
+    entity_out.set('category', categories.filter(function(category) {if (category) return 1}))
+
     entity_out.set('color', op_entity.get('properties.color.value', '').split('; '))
     entity_out.set('tag', op_entity.get('properties.tag.value', '').split('; '))
     entity_out.set('en-name', op_entity.get('properties.en-name.value'))
@@ -99,7 +105,13 @@ var mapPerformance = function mapPerformance(eid) {
     var op_entity = op(entity)
     var entity_out = op({})
     entity_out.set('id', op_entity.get('id'))
-    entity_out.set('category', op_entity.get('properties.category'))
+
+    var categories = []
+    op_entity.get('properties.category', []).forEach(function catiterator(category) {
+        categories.push(mapCategory(category.reference))
+    })
+    entity_out.set('category', categories.filter(function(category) {if (category) return 1}))
+
     entity_out.set('pl-id', op_entity.get('properties.pl-id.value'))
     entity_out.set('en-name', op_entity.get('properties.en-name.value'))
     entity_out.set('et-name', op_entity.get('properties.et-name.value'))
@@ -137,12 +149,27 @@ var mapNews = function mapNews(eid) {
     var op_entity = op(entity)
     var entity_out = op({})
     entity_out.set('id', op_entity.get('id'))
-    entity_out.set('et-title', op_entity.get('properties.et-title.value'))
-    entity_out.set('en-title', op_entity.get('properties.en-title.value'))
-    entity_out.set('time', op_entity.get('properties.time.value'))
-    entity_out.set('et-body', op_entity.get('properties.et-body.md'))
-    entity_out.set('en-body', op_entity.get('properties.en-body.md'))
-    entity_out.set('media', op_entity.get('properties.media.value'))
+    entity_out.set('et-title', op_entity.get(['properties', 'et-title', 'value']))
+    entity_out.set('en-title', op_entity.get(['properties', 'en-title', 'value']))
+    entity_out.set('time',     op_entity.get(['properties', 'time',     'value']))
+    entity_out.set('et-body',  op_entity.get(['properties', 'et-body',  'md']))
+    entity_out.set('en-body',  op_entity.get(['properties', 'en-body',  'md']))
+    entity_out.set('media',    op_entity.get(['properties', 'media',    'value']))
+    return entity_out.get()
+}
+
+var mapCategory = function mapCategory(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    if (!entity) {
+        // debug( 'Category ' + eid + ' not cached.')
+        return
+    }
+    var op_entity = op(entity)
+    var entity_out = op({})
+    entity_out.set('id', op_entity.get('id'))
+    entity_out.set('et-name', op_entity.get(['properties', 'et-name', 'value']))
+    entity_out.set('en-name', op_entity.get(['properties', 'en-name', 'value']))
+    entity_out.set('pl-id',   op_entity.get(['properties', 'pl-id',   'value']))
     return entity_out.get()
 }
 
@@ -162,10 +189,12 @@ var mapUser = function mapUser(eid) {
 }
 
 
-exports.event = mapEvent
-exports.news = mapNews
+exports.category    = mapCategory
+exports.coverage    = mapCoverage
+exports.event       = mapEvent
+exports.news        = mapNews
 exports.performance = mapPerformance
-exports.coverage = mapCoverage
-exports.user = mapUser
+exports.user        = mapUser
+
 exports.coverageByPerformanceSync = coverageByPerformanceSync
-exports.coverageByEventSync = coverageByEventSync
+exports.coverageByEventSync       = coverageByEventSync

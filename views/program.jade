@@ -31,20 +31,23 @@ block content
                             button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
                                     span.caret
                             ul.dropdown-menu(role='menu')
-                                li
-                                    a(href='#')= t('categories.theatre')
-                                li
-                                    a(href='#')= t('categories.dance')
-                                li
-                                    a(href='#')= t('categories.performance')
-                                li
-                                    a(href='#')= t('categories.music')
-                                li
-                                    a(href='#')= t('categories.lecture')
-                                li
-                                    a(href='#')= t('categories.film')
-                                li
-                                    a(href='#')= t('categories.new-circus')
+                                each cat in all_categories
+                                    li
+                                        a(href='program/'+year+'/'+month+'/'+cat.id)= op.get(cat, ['properties', lang + '-name', 'value'])
+                                    //- li
+                                    //-     a(href='#')= t('categories.theatre')
+                                    //- li
+                                    //-     a(href='#')= t('categories.dance')
+                                    //- li
+                                    //-     a(href='#')= t('categories.performance')
+                                    //- li
+                                    //-     a(href='#')= t('categories.music')
+                                    //- li
+                                    //-     a(href='#')= t('categories.lecture')
+                                    //- li
+                                    //-     a(href='#')= t('categories.film')
+                                    //- li
+                                    //-     a(href='#')= t('categories.new-circus')
 
                     .col-sm-12.col-md-9.col-lg-9
                         ul.pager
@@ -58,8 +61,9 @@ block content
             .col-md-12
                 .tours.row
                     .col-xs-12.col-md-12.col-lg-12
-                        h2 Aasta: 2015 / Kategooria: Tants
-                        h2 Aprill 2015
+                        each cat in categories
+                            p= op.get(all_categories, [cat, 'properties', lang + '-name', 'value'], 'foo')
+                        h2= year + ' ' + t('month.' + month)
 
                     if program
                         each eventdate, datestring in program

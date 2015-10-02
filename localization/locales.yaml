@@ -115,6 +115,13 @@ linkto:
     intranet:
         en: View in Entu
         et: Vaata Entus
+month:
+    '9':
+        et: September
+    '10':
+        et: Oktoober
+    '11':
+        et: November
 nav:
     about:
         en: About Us
