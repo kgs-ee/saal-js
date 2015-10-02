@@ -12,56 +12,37 @@ block content
                         - var featureActive = 0
                         each feature in featured
 
-                            a.item(class=(++featureActive === 1 ? 'active' : '') href='/' + lang + '/performance/' + op.get(feature,'id'))
-                                figure(id='slide-'+op.get(feature, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
-                                header.col-md-8
-                                    p= op.get(feature, lang + '-subtitle', '')
-                                    h1= op.get(feature, lang + '-name', '')
-                                
-                                //- Ikka tekib error ja indentib selle a tagiga ühele tasemele, mitte sisse
-                                ul.event-categories
-                                    li.text-uppercase.h3
-                                        span
-                                            a(href='#') Test
-                                    li.text-uppercase.h3
-                                        span
-                                            a(href='#') Test
-                                    li.text-uppercase.h3
-                                        span
-                                            a(href='#') Test
-                                    li.text-uppercase.h3
-                                        span
-                                            a(href='#') Test
-                                    li.text-uppercase.h3
-                                        span
-                                            a(href='#') Test
-                                    li.text-uppercase.h3
-                                        span
-                                            a(href='#') Test
+                            .item(class=(++featureActive === 1 ? 'active' : ''))
+                                a(href='/' + lang + '/performance/' + op.get(feature,'id'))
+                                    figure(id='slide-'+op.get(feature, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
+                                    header.col-md-8
+                                        p= op.get(feature, lang + '-subtitle', '')
+                                        h1= op.get(feature, lang + '-name', '')
 
-                            //- - categoryNames = op.get(feature, 'category', []).map(function(c){return c.value})
-                            //-     ul.event-categories
-                            //-         li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
-                            //-             span
-                            //-                 a(href='search?q=category:Teater')= t('categories.theatre')
-                            //-         li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
-                            //-             span
-                            //-                 a(href='search?q=category:Tants')= t('categories.dance')
-                            //-         li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
-                            //-             span
-                            //-                 a(href='search?q=category:Performance')= t('categories.performance')
-                            //-         li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
-                            //-             span
-                            //-                 a(href='search?q=category:Muusika')= t('categories.music')
-                            //-         li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
-                            //-             span
-                            //-                 a(href='search?q=category:Loeng')= t('categories.lecture')
-                            //-         li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
-                            //-             span
-                            //-                 a(href='search?q=category:Film')= t('categories.film')
-                            //-         li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
-                            //-             span
-                            //-                 a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
+
+                                - categoryNames = op.get(feature, 'category', []).map(function(c){return c.value})
+                                    ul.event-categories
+                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
+                                            span
+                                                a(href='search?q=category:Teater')= t('categories.theatre')
+                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
+                                            span
+                                                a(href='search?q=category:Tants')= t('categories.dance')
+                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
+                                            span
+                                                a(href='search?q=category:Performance')= t('categories.performance')
+                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
+                                            span
+                                                a(href='search?q=category:Muusika')= t('categories.music')
+                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
+                                            span
+                                                a(href='search?q=category:Loeng')= t('categories.lecture')
+                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
+                                            span
+                                                a(href='search?q=category:Film')= t('categories.film')
+                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
+                                            span
+                                                a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
 
 
                     a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
