@@ -31,6 +31,9 @@ button:
     load-more:
         en: Load more
         et: Lae veel
+    on_tour:
+        en: button.on_tour
+        et: button.on_tour
     premiere:
         en: 'Premiere!'
         et: 'Esietendus!'
