@@ -4,193 +4,192 @@ block vars
 
 block content
 
-	.container-fluid
-		.row
-			if featured
-				section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
-					.carousel-inner(role='listbox')
-						- var featureActive = 0
-						each feature in featured
+    .container-fluid
+        .row
+            if featured
+                section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                    .carousel-inner(role='listbox')
+                        - var featureActive = 0
+                        each feature in featured
 
-							a.item(class=(++featureActive === 1 ? 'active' : '') href='/' + lang + '/performance/' + op.get(feature,'id'))
-								figure(id='slide-'+op.get(feature, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
-								header.col-md-8
-									p= op.get(feature, lang + '-subtitle', '')
-									h1= op.get(feature, lang + '-name', '')
-							
-								- categoryNames = op.get(feature, 'category', []).map(function(c){return c.value})
-								ul.event-categories
-									li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
-										span
-											a(href='search?q=category:Teater')= t('categories.theatre')
-									li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
-										span
-											a(href='search?q=category:Tants')= t('categories.dance')
-									li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
-										span
-											a(href='search?q=category:Performance')= t('categories.performance')
-									li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
-										span
-											a(href='search?q=category:Muusika')= t('categories.music')
-									li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
-										span
-											a(href='search?q=category:Loeng')= t('categories.lecture')
-									li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
-										span
-											a(href='search?q=category:Film')= t('categories.film')
-									li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
-										span
-											a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
-										
+                            a.item(class=(++featureActive === 1 ? 'active' : '') href='/' + lang + '/performance/' + op.get(feature,'id'))
+                                figure(id='slide-'+op.get(feature, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
+                                header.col-md-8
+                                    p= op.get(feature, lang + '-subtitle', '')
+                                    h1= op.get(feature, lang + '-name', '')
 
-
-					a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
-						span.icon-prev.arrow-left(aria-hidden='true')
-						span.sr-only Previous
-					a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
-						span.icon-next.arrow-right(aria-hidden='true')
-						span.sr-only Next
-
-					//- Gradient Map for images
-					each feature in featured
-						script.
-							var slide#{feature.id} = document.getElementById('slide-#{feature.id}');
-							GradientMaps.applyGradientMap(slide#{feature.id}, '#{SAAL.secondary_color}, #{SAAL.main_color}'); 
-
-		.row.page-margin
-			section.col-xs-12.col-md-12.col-lg-9
-
-				.programme.row
-					.col-xs-12.col-md-12.col-lg-12
-						h2= t('nav.schedule')
-
-					if program
-						each eventdate, datestring in program
-							each eventtime, timestring in eventdate
-
-								each p in eventtime
-									a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-										.col-xs-12.col-sm-2.col-lg-2
-											p= (moment(datestring).locale(lang).format('dddd'))
-											p= (moment(datestring).locale(lang).format('L'))
-											p= timestring
-
-											//- Premiere
-											if op.get(p, 'performance.premiere.start-time')
-												if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
-													p.today= t('button.premiere')
-
-											//- Today
-											if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
-												div.today= t('button.today')
-
-										.col-xs-12.col-md-6.col-lg-6
-											h3= op.get(p, lang + '-name')
-											//-p= 'foo' + op.get(p, 'pl-id')
-
-										.col-xs-6.col-md-2.col-lg-2
-											p= op.get(p, 'location')
-											
-											//- Conditional for free event
-											if op.get(p, 'price')
-												if op.get(p, 'price') == 0
-													p= t('title.free')
-												else
-													p= p.get(p, 'price')
-
-											if op.get(p, 'min-price')
-												if op.get(p, 'min-price') == op.get(p, 'max-price')
-													p= op.get(p, 'min-price') + '€'
-												else
-													p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
-
-										if op.get(p, 'sales-status')
-											.col-xs-6.col-md-2.col-lg-2.text-right
-												a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
-
-										.col-xs-12.col-md-12.col-lg-12
-											hr
-					else
-						.col-lg-12
-							h2= t('title.no-events')
-
-				.tour.row
-					.col-xs-12.col-md-12.col-lg-12
-						h2= t('nav.tours')
-
-					if tours
-						each eventdate, datestring in tours
-							each eventtime, timestring in eventdate
-								each p in eventtime
-									if op.get(p, lang + '-name')
-										a(href='/' + lang + '/performance/' + op.get(p,'id'))
-											.col-xs-12.col-sm-2.col-lg-2
-												p= t('weekdays.' + new Date(datestring).getDay())
-												p= (moment(datestring).locale('et').format('L'))
-												p= timestring
-											.col-xs-12.col-md-6.col-lg-6
-												h3= op.get(p, lang + '-name')
-											.col-xs-6.col-md-2.col-lg-2
-												p= op.get(p, 'location')
-												p= op.get(p, 'price')
-											if op.get(p, 'sales-status')
-												.col-xs-6.col-md-2.col-lg-2.text-right
-													a.btn.btn-primary(target='_blank' href=op.get(p, 'ticket-api'))= t('button.buy_ticket.' + op.get(p, 'sales-status'))
-											.col-xs-12.col-md-12.col-lg-12
-												hr
-					else
-						.col-lg-12
-							h2= t('title.no-tours')
+                                - categoryNames = op.get(feature, 'category', []).map(function(c){return c.value})
+                                ul.event-categories
+                                    li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
+                                        span
+                                            a(href='search?q=category:Teater')= t('categories.theatre')
+                                    li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
+                                        span
+                                            a(href='search?q=category:Tants')= t('categories.dance')
+                                    li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
+                                        span
+                                            a(href='search?q=category:Performance')= t('categories.performance')
+                                    li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
+                                        span
+                                            a(href='search?q=category:Muusika')= t('categories.music')
+                                    li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
+                                        span
+                                            a(href='search?q=category:Loeng')= t('categories.lecture')
+                                    li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
+                                        span
+                                            a(href='search?q=category:Film')= t('categories.film')
+                                    li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
+                                        span
+                                            a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
 
 
-				.tour.row
-					.col-xs-12.col-md-12
-						h2= t('nav.residency')
+                    a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
+                        span.icon-prev.arrow-left(aria-hidden='true')
+                        span.sr-only Previous
+                    a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
+                        span.icon-next.arrow-right(aria-hidden='true')
+                        span.sr-only Next
 
-					if residencies
-						each eventdate, datestring in residencies
-							each eventtime, timestring in eventdate
-								each p in eventtime
-									.col-xs-12.col-md-2
-										p= (moment(datestring).locale('et').format('L')) + "—"
+                    //- Gradient Map for images
+                    each feature in featured
+                        script.
+                            var slide#{feature.id} = document.getElementById('slide-#{feature.id}');
+                            GradientMaps.applyGradientMap(slide#{feature.id}, '#{SAAL.secondary_color}, #{SAAL.main_color}'); 
 
-									.col-xs-12.col-md-10
-										h3
-											a(href='/' + lang + '/resident/' + op.get(p,'id'))= op.get(p, lang + '-name')
+        .row.page-margin
+            section.col-xs-12.col-md-12.col-lg-9
 
-									.col-xs-12.col-md-12
-										hr
-					else
-						.col-lg-12
-							h2= t('title.no-residencies')
+                .programme.row
+                    .col-xs-12.col-md-12.col-lg-12
+                        h2= t('nav.schedule')
+
+                    if program
+                        each eventdate, datestring in program
+                            each eventtime, timestring in eventdate
+
+                                each p in eventtime
+                                    a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                        .col-xs-12.col-sm-2.col-lg-2
+                                            p= (moment(datestring).locale(lang).format('dddd'))
+                                            p= (moment(datestring).locale(lang).format('L'))
+                                            p= timestring
+
+                                            //- Premiere
+                                            if op.get(p, 'performance.premiere.start-time')
+                                                if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                                    p.today= t('button.premiere')
+
+                                            //- Today
+                                            if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
+                                                div.today= t('button.today')
+
+                                        .col-xs-12.col-md-6.col-lg-6
+                                            h3= op.get(p, lang + '-name')
+                                            //-p= 'foo' + op.get(p, 'pl-id')
+
+                                        .col-xs-6.col-md-2.col-lg-2
+                                            p= op.get(p, 'location')
+                                            
+                                            //- Conditional for free event
+                                            if op.get(p, 'price')
+                                                if op.get(p, 'price') == 0
+                                                    p= t('title.free')
+                                                else
+                                                    p= p.get(p, 'price')
+
+                                            if op.get(p, 'min-price')
+                                                if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                                    p= op.get(p, 'min-price') + '€'
+                                                else
+                                                    p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+
+                                        if op.get(p, 'sales-status')
+                                            .col-xs-6.col-md-2.col-lg-2.text-right
+                                                a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+
+                                        .col-xs-12.col-md-12.col-lg-12
+                                            hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-events')
+
+                .tour.row
+                    .col-xs-12.col-md-12.col-lg-12
+                        h2= t('nav.tours')
+
+                    if tours
+                    each eventdate, datestring in tours
+                            each eventtime, timestring in eventdate
+                                each p in eventtime
+                                    if op.get(p, lang + '-name')
+                                        a(href='/' + lang + '/performance/' + op.get(p,'id'))
+                                            .col-xs-12.col-sm-2.col-lg-2
+                                                p= t('weekdays.' + new Date(datestring).getDay())
+                                                p= (moment(datestring).locale('et').format('L'))
+                                                p= timestring
+                                            .col-xs-12.col-md-6.col-lg-6
+                                                h3= op.get(p, lang + '-name')
+                                            .col-xs-6.col-md-2.col-lg-2
+                                                p= op.get(p, 'location')
+                                                p= op.get(p, 'price')
+                                            if op.get(p, 'sales-status')
+                                                .col-xs-6.col-md-2.col-lg-2.text-right
+                                                    a.btn.btn-primary(target='_blank' href=op.get(p, 'ticket-api'))= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                            .col-xs-12.col-md-12.col-lg-12
+                                                hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-tours')
 
 
-			aside.col-xs-12.col-md-12.col-lg-3
-				.row
-					.hidden-xs.col-sm-6.col-md-4.col-lg-12.datepicker-container
-						div(id='datepicker')
-						ul.list-inline.legend
-							li.event= t('title.event')
-							li.residency= t('title.residency')
-							li.tour= t('title.tour')
+                .tour.row
+                    .col-xs-12.col-md-12
+                        h2= t('nav.residency')
 
-					.col-xs-12.col-sm-6.col-md-4.col-lg-12.volunteer
-						a.text-center.h3(href='mailto:vabatahtlik@saal.ee')= t('button.volunteer')
+                    if residencies
+                        each eventdate, datestring in residencies
+                            each eventtime, timestring in eventdate
+                                each p in eventtime
+                                    .col-xs-12.col-md-2
+                                        p= (moment(datestring).locale('et').format('L')) + "—"
 
-					.col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
-						form.validate(action='http://paranoia.us8.list-manage.com/subscribe/post?u=1e1d48fe600fda5c3f6a39b75&amp;id=fdc080b2d5' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' target='_blank' novalidate)
-						.mc-field-group
-							input.required.email(type='text' value='' name='EMAIL' placeholder=t('placeholder.newsletter') id='mce-EMAIL')
-						.clear(id='mce-responses')
-							.response(id='mce-error-response' style='display:none')
-							.response(id='mce-success-response' style='display:none')
-						div(style='position: absolute; left: -5000px;')
-							input(type='text' name='b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5' tabindex='-1' value='')
-						.clear
-							input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')
+                                    .col-xs-12.col-md-10
+                                        h3
+                                            a(href='/' + lang + '/resident/' + op.get(p,'id'))= op.get(p, lang + '-name')
+
+                                    .col-xs-12.col-md-12
+                                        hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-residencies')
 
 
-						.site-search
-							form(action='search')
-								input(type='text' name='q' id='search' placeholder=t('placeholder.search') value=(q?q:''))
-								button.icon-search.h4(type='submit')
+            aside.col-xs-12.col-md-12.col-lg-3
+                .row
+                    .hidden-xs.col-sm-6.col-md-4.col-lg-12.datepicker-container
+                        div(id='datepicker')
+                        ul.list-inline.legend
+                            li.event= t('title.event')
+                            li.residency= t('title.residency')
+                            li.tour= t('title.tour')
+
+                    .col-xs-12.col-sm-6.col-md-4.col-lg-12.volunteer
+                        a.text-center.h3(href='mailto:vabatahtlik@saal.ee')= t('button.volunteer')
+
+                    .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
+                        form.validate(action='http://paranoia.us8.list-manage.com/subscribe/post?u=1e1d48fe600fda5c3f6a39b75&amp;id=fdc080b2d5' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' target='_blank' novalidate)
+                        .mc-field-group
+                            input.required.email(type='text' value='' name='EMAIL' placeholder=t('placeholder.newsletter') id='mce-EMAIL')
+                        .clear(id='mce-responses')
+                            .response(id='mce-error-response' style='display:none')
+                            .response(id='mce-success-response' style='display:none')
+                        div(style='position: absolute; left: -5000px;')
+                            input(type='text' name='b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5' tabindex='-1' value='')
+                        .clear
+                            input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')
+
+
+                        .site-search
+                            form(action='search')
+                                input(type='text' name='q' id='search' placeholder=t('placeholder.search') value=(q?q:''))
+                                button.icon-search.h4(type='submit')
