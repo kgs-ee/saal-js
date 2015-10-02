@@ -70,47 +70,46 @@ block content
                             each eventtime, timestring in eventdate
 
                                 each p in eventtime
-                                    a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                        .col-xs-12.col-sm-2.col-lg-2
-                                            p= (moment(datestring).locale(lang).format('dddd'))
-                                            p= (moment(datestring).locale(lang).format('L'))
-                                            p= timestring
+                                    .col-xs-12.col-sm-2.col-lg-2
+                                        p= (moment(datestring).locale(lang).format('dddd'))
+                                        p= (moment(datestring).locale(lang).format('L'))
+                                        p= timestring
 
-                                            //- Premiere
-                                            if op.get(p, 'performance.premiere.start-time')
-                                                if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
-                                                    p.today= t('button.premiere')
+                                        //- Premiere
+                                        if op.get(p, 'performance.premiere.start-time')
+                                            if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                                p.today= t('button.premiere')
 
-                                            //- Today
-                                            if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
-                                                div.today= t('button.today')
+                                        //- Today
+                                        if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
+                                            div.today= t('button.today')
 
-                                        .col-xs-12.col-md-6.col-lg-6
-                                            h3= op.get(p, lang + '-name')
-                                            //-p= 'foo' + op.get(p, 'pl-id')
+                                    .col-xs-12.col-md-6.col-lg-6
+                                        h3
+                                            a(href='/' + lang + '/performance/' + op.get(p,'id'))= op.get(p, lang + '-name')
 
-                                        .col-xs-6.col-md-2.col-lg-2
-                                            p= op.get(p, 'location')
-                                            
-                                            //- Conditional for free event
-                                            if op.get(p, 'price')
-                                                if op.get(p, 'price') == 0
-                                                    p= t('title.free')
-                                                else
-                                                    p= p.get(p, 'price')
+                                    .col-xs-6.col-md-2.col-lg-2
+                                        p= op.get(p, 'location')
+                                        
+                                        //- Conditional for free event
+                                        if op.get(p, 'price')
+                                            if op.get(p, 'price') == 0
+                                                p= t('title.free')
+                                            else
+                                                p= p.get(p, 'price')
 
-                                            if op.get(p, 'min-price')
-                                                if op.get(p, 'min-price') == op.get(p, 'max-price')
-                                                    p= op.get(p, 'min-price') + '€'
-                                                else
-                                                    p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                        if op.get(p, 'min-price')
+                                            if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                                p= op.get(p, 'min-price') + '€'
+                                            else
+                                                p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
 
-                                        if op.get(p, 'sales-status')
-                                            .col-xs-6.col-md-2.col-lg-2.text-right
-                                                a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                    if op.get(p, 'sales-status')
+                                        .col-xs-6.col-md-2.col-lg-2.text-right
+                                            a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
-                                        .col-xs-12.col-md-12.col-lg-12
-                                            hr
+                                    .col-xs-12.col-md-12.col-lg-12
+                                        hr
                     else
                         .col-lg-12
                             h2= t('title.no-events')
