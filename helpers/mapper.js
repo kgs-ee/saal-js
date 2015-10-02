@@ -18,6 +18,22 @@ var getByParent = function getByParent(parent, definition, callback) {
 var getByDefinition = function getByDefinition(definition, callback) {
     callback(null, SDC.get('local_entities', ['by_definition', definition]))
 }
+var coverageByEventSync = function coverageByEventSync(event_eid) {
+    return coverageByPerformanceSync(SDC.get(['local_entities', 'by_eid', event_eid, 'properties', 'performance', 'id']))
+}
+var coverageByPerformanceSync = function coverageByPerformanceSync(performance_eid) {
+    var coverages = SDC.get(['relationships', performance_eid, 'coverage'], []).map(function(eid) {
+        return mapCoverage(eid)
+    })
+    SDC.get(['relationships', performance_eid, 'event'], []).forEach(function(event_eid) {
+        coverages = coverages.concat(
+            SDC.get(['relationships', event_eid, 'coverage'], []).map(function(eid) {
+                return mapCoverage(eid)
+            })
+        )
+    })
+    return coverages
+}
 
 var mapEvent = function event(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
@@ -151,3 +167,5 @@ exports.news = mapNews
 exports.performance = mapPerformance
 exports.coverage = mapCoverage
 exports.user = mapUser
+exports.coverageByPerformanceSync = coverageByPerformanceSync
+exports.coverageByEventSync = coverageByEventSync

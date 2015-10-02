@@ -100,26 +100,25 @@ block content
                                         hr
 
                 .col-md-6
-                    .upcoming
-                        h2= t('title.upcoming')
-                        .row
-                            .col-md-3
-                                p Laupäev
-                                p 24.01
-                                p 19:30
-                            .col-md-9
-                                p Kaas Stuudio, Ghent
-                            .col-md-12
-                                hr
+                    //- .upcoming
+                    //-     h2= t('title.upcoming')
+                    //-     .row
+                    //-         .col-md-3
+                    //-             p Laupäev
+                    //-             p 24.01
+                    //-             p 19:30
+                    //-         .col-md-9
+                    //-             p Kaas Stuudio, Ghent
+                    //-         .col-md-12
+                    //-             hr
 
                     .past
                         h2= t('title.past')
                         .row
-                            .col-md-3
-                                p Laupäev
-                                p 24.01
-                                p 19:30
-                            .col-md-9
-                                p Kanuti Gildi SAAL
-                            .col-md-12
-                                hr 
+                            each event in past_events
+                                .col-xs-6.col-md-6
+                                    p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('dddd'))
+                                    p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('L'))
+                                    p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('HH:mm'))
+                                .col-xs-12.col-md-12.col-lg-12
+                                    hr
