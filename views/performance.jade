@@ -8,7 +8,7 @@ block content
 
         if op.get(performance, 'photo.file')
             .row
-                .event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                .event-banner.carousel.slide(id='front-carousel')
                     .carousel-inner(role='listbox')
                         figure(id='slide-'+op.get(performance, 'id')+'' style='background-image: url(' + op.get(performance, 'photo.file') + ');')
                         header.col-md-8
