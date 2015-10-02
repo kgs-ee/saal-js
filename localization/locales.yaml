@@ -116,12 +116,12 @@ linkto:
         en: View in Entu
         et: Vaata Entus
 month:
-    '9':
-        et: September
     '10':
         et: Oktoober
     '11':
         et: November
+    '9':
+        et: September
 nav:
     about:
         en: About Us
@@ -134,6 +134,7 @@ nav:
     coproductions:
         en: Co-Productions
         et: Kaasproduktsioonid
+        lv: nav.coproductions
     program:
         en: Program
         et: Programm
@@ -149,6 +150,7 @@ nav:
     schedule:
         en: Schedule
         et: Kava
+        lv: nav.schedule
     tours:
         en: Tours
         et: Tuurid
@@ -192,6 +194,7 @@ title:
     contact:
         en: Contact
         et: Kontakt
+        lv: title.contact
     event:
         en: Event
         et: Etendus

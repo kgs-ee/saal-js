@@ -178,6 +178,7 @@ var mapUser = function mapUser(eid) {
     var op_entity = op(entity)
     var entity_out = op({})
     entity_out.set('id', op_entity.get('id'))
+    entity_out.set('picture', op_entity.get('picture'))
     entity_out.set('name', op_entity.get('displayname'))
     entity_out.set('phone', op_entity.get('properties.phone.value'))
     entity_out.set('email', op_entity.get('properties.email.value'))
