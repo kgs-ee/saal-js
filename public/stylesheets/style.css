@@ -287,7 +287,7 @@ hr {
 [role="button"] {
   cursor: pointer; }
 
-h1, h2, h3, .select-cat label, h4, .navbar-default .social, h5, h6,
+h1, h2, h3, .select-cat label, h4, h5, h6,
 .h1, .h2, .h3, .ui-datepicker-title, .h4, .today, .h5, .h6 {
   font-family: inherit;
   font-weight: 500;
@@ -297,9 +297,8 @@ h1, h2, h3, .select-cat label, h4, .navbar-default .social, h5, h6,
   h1 .small, h2 small,
   h2 .small, h3 small, .select-cat label small,
   h3 .small,
-  .select-cat label .small, h4 small, .navbar-default .social small,
-  h4 .small,
-  .navbar-default .social .small, h5 small,
+  .select-cat label .small, h4 small,
+  h4 .small, h5 small,
   h5 .small, h6 small,
   h6 .small,
   .h1 small,
@@ -335,14 +334,13 @@ h3,
   .ui-datepicker-title .small {
     font-size: 65%; }
 
-h4, .navbar-default .social, .h4, .today,
+h4, .h4, .today,
 h5, .h5,
 h6, .h6 {
   margin-top: 10px;
   margin-bottom: 10px; }
-  h4 small, .navbar-default .social small,
-  h4 .small,
-  .navbar-default .social .small, .h4 small, .today small,
+  h4 small,
+  h4 .small, .h4 small, .today small,
   .h4 .small,
   .today .small,
   h5 small,
@@ -362,7 +360,7 @@ h2, .h2 {
 h3, .select-cat label, .h3, .ui-datepicker-title {
   font-size: 24px; }
 
-h4, .navbar-default .social, .h4, .today {
+h4, .h4, .today {
   font-size: 18px; }
 
 h5, .h5 {
@@ -3946,16 +3944,8 @@ a.badge:hover, .highlight a:hover, a.badge:focus, .highlight a:focus {
 body {
   color: #000;
   padding-top: 63px;
-  -webkit-font-smoothing: subpixel-antialiased; }
-  @media (min-width: 768px) {
-    body {
-      padding-top: 91px; } }
-  @media (min-width: 992px) {
-    body {
-      padding-top: 95px; } }
-  @media (min-width: 1200px) {
-    body {
-      padding-top: 108px; } }
+  -webkit-font-smoothing: subpixel-antialiased;
+  padding-top: 79px; }
 
 .page-margin {
   margin: 3em 0; }
@@ -4034,9 +4024,13 @@ h3,
 h2,
 .today,
 .season,
+.main-nav,
 .select-cat {
   font-family: flyerblack, sans-serif;
   text-transform: uppercase; }
+
+.main-nav {
+  font-size: 1.1em; }
 
 h2 {
   margin-bottom: .5em; }
@@ -4086,23 +4080,6 @@ a.logo:hover {
   -moz-box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.35);
   -webkit-box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.35);
   padding: 1em 0; }
-  .navbar-default .social {
-    margin: 0; }
-    .navbar-default .social a {
-      color: #0A2A6B; }
-
-#navbar {
-  margin-top: 1em;
-  padding-top: 1em; }
-  @media (min-width: 992px) {
-    #navbar {
-      padding-top: 0;
-      margin-top: 0; } }
-  #navbar ul li {
-    margin-bottom: 1em; }
-    @media (min-width: 992px) {
-      #navbar ul li {
-        margin-bottom: 0; } }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
 /**	DATEPICKER
@@ -4113,6 +4090,9 @@ a.logo:hover {
 .ui-datepicker-calendar {
   width: auto;
   margin-bottom: .5em; }
+
+.ui-datepicker-title {
+  margin-bottom: .3em; }
 
 .badge, .highlight a {
   background-color: red; }
@@ -4328,11 +4308,9 @@ a.logo:hover {
 /**	- - - - - - - - - - - - - - - - - - - - */
 /**	LAYOUT
 ***	- - - - - - - - - - - - - - - - - - - - */
-.logo img {
-  max-width: 12%; }
-  @media (min-width: 768px) {
-    .logo img {
-      max-width: 100%; } }
+@media (min-width: 768px) {
+  .logo img {
+    max-width: 100%; } }
 
 .supporter img {
   margin-bottom: 1em; }
