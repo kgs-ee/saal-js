@@ -82,11 +82,12 @@ block content
 
         .row.page-margin
                 .col-md-6
-                    if photos
+                    
+                    if op.get(performance, 'photos')
                         .gallery
                             h2= t('title.gallery')
                             .row
-                                each photo in op.get(event, 'photos', [])
+                                each photo in op.get(performance, 'photos')
                                     .single-image.col-xs-6.col-sm-3.col-md-4
                                         a.fancybox(rel='gallery' href=''+ photo.file + '')
                                             img(src=''+ photo.file +'' class='img-responsive')

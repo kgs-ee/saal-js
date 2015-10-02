@@ -29,6 +29,7 @@ router.prepare = function prepare(callback) {
 
     async.each(events, function(event, callback) {
         var one_event = mapper.event(event.id)
+        //debug(JSON.stringify(one_event, null, 2))
         if(one_event['start-time']) {
             one_event['start-time'].forEach(function(startdatetime) {
                 var starttime = '00:00'

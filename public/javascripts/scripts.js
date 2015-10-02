@@ -48,7 +48,7 @@ function datePickerInit() {
                         var event = eventsByDate[e]
 
                         extraClass += " " + event.tag
-                        var time = (event.time != "00:00") ? (event.time) + ' ' : ""
+                        var time = (event['start-time'] != "00:00") ? (event['start-time']) + ' ' : ""
                         var name = (locale == "et") ? event['et-name'] : event['en-name']
 
                         var controller = "/event/"
