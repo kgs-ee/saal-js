@@ -55,7 +55,7 @@ var mapEvent = function event(eid) {
     entity_out.set('en-description', op_entity.get('properties.en-description.md'))
     entity_out.set('et-description', op_entity.get('properties.et-description.md'))
     entity_out.set('photo', op_entity.get('properties.photo.0'))
-    entity_out.set('photos', op_entity.get('properties.photos'))
+    entity_out.set('photos', op_entity.get('properties.photo'))
     entity_out.set('video', op_entity.get('properties.video.value'))
     entity_out.set('location', op_entity.get('properties.location.value'))
     entity_out.set('price', op_entity.get('properties.price.value'))
