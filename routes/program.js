@@ -8,7 +8,6 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 // var program_upcoming = []
-var all_categories = SDC.get(['local_entities', 'by_class', 'category'])
 
 router
     .get('/', function(req, res, next) {
@@ -24,6 +23,7 @@ router
     })
 
 var renderProgram = function renderProgram(res, year, month, categories) {
+    var all_categories = SDC.get(['local_entities', 'by_class', 'category'])
     if (!categories) {
         categories = Object.keys(all_categories).map( function(key) { return parseInt(key) })
     } else {

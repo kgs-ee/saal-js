@@ -149,8 +149,8 @@ block content
                     .col-sm-12.col-md-9.col-lg-9
                         ul.pager
                             li.previous
-                                a(href='#')
-                                    span &larr; August 2015
+                                a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month)
+                                    span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
                             li.next
-                                a(href='#')
-                                    span September 2015 &rarr;
+                                a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month)
+                                    span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
