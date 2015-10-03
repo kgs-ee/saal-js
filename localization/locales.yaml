@@ -116,11 +116,41 @@ linkto:
         en: View in Entu
         et: Vaata Entus
 month:
+    '1':
+        en: January
+        et: Jaanuar
     '10':
+        en: October
         et: Oktoober
     '11':
+        en: November
         et: November
+    '12':
+        en: December
+        et: Detsember
+    '2':
+        en: February
+        et: Veebruar
+    '3':
+        en: March
+        et: Märts
+    '4':
+        en: April
+        et: Aprill
+    '5':
+        en: May
+        et: Mai
+    '6':
+        en: June
+        et: Juuni
+    '7':
+        en: July
+        et: Juuli
+    '8':
+        en: August
+        et: August
     '9':
+        en: September
         et: September
 nav:
     about:

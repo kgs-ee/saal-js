@@ -90,6 +90,8 @@ var renderProgram = function renderProgram(res, year, month, categories) {
 }
 
 var monthNav = function monthNav(year, month) {
+    month = parseInt(month)
+    year = parseInt(year)
     return {
         "prev": {
             "year": month > 1 ? year : year - 1,
