@@ -208,7 +208,7 @@ a {
 }
 
 .active a {
-	border-bottom: 1px solid;
+	border-bottom: 2px solid;
 }
 
 a.logo {
@@ -433,6 +433,17 @@ a.logo {
 #front-carousel {
 	color: white;
 
+	.item {
+
+		a {
+			border-bottom: 0;
+			
+			&:hover {
+				color: #000;
+			}
+		}
+	}
+
 	figure {
 		background-size: cover;
 		-moz-background-size: cover;
@@ -522,6 +533,14 @@ a.logo {
 
         a {
         	color: white;
+
+        	&:hover {
+        		color: #000;
+        	}
+
+        	&:hover span {
+        		background-color: transparent;
+        	}
         }
 
         &.unactive span {
@@ -736,11 +755,7 @@ a.logo {
 ***	- - - - - - - - - - - - - - - - - - - - */
 
 .logo img {
-	//max-width: 19%;
-
-	@media (min-width: $screen-tablet) {
-		max-width: 80%;
-	}
+	max-width: 80%;
 }
 
 .supporter img {

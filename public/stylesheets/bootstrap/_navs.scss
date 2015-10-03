@@ -15,11 +15,12 @@
   > li {
     position: relative;
     display: block;
+    padding: $nav-link-padding;
 
     > a {
       position: relative;
       display: block;
-      padding: $nav-link-padding;
+      //padding: $nav-link-padding;
       &:hover,
       &:focus {
         text-decoration: none;
