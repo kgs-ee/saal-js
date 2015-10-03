@@ -100,17 +100,17 @@ error:
         et: error.program_upcoming is not defined
 lang:
     en:
-        en: In English
-        et: In English
-        lv: In English
+        en: EN
+        et: EN
+        lv: EN
     et:
-        en: Eesti keeles
-        et: Eesti keeles
-        lv: Eesti keeles
+        en: EE
+        et: EE
+        lv: EE
     lv:
-        en: Latviešu
-        et: Latviešu
-        lv: Latviešu
+        en: LT
+        et: LT
+        lv: LT
 linkto:
     intranet:
         en: View in Entu

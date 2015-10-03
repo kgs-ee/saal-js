@@ -157,6 +157,10 @@ h2,
 	font-size: 1.1em;
 }
 
+.festivals {
+	padding-left: 3em;
+}
+
 h2 {
 	margin-bottom: .5em;
 }
@@ -256,6 +260,15 @@ a.logo {
 // 		}
 // 	}
 // }
+
+.social {
+	@extend h4;
+	margin: 0;
+
+	a {
+		color: $primary-color;
+	}
+}
 
 /**	- - - - - - - - - - - - - - - - - - - - */
 
@@ -726,7 +739,7 @@ a.logo {
 	//max-width: 19%;
 
 	@media (min-width: $screen-tablet) {
-		max-width: 100%;
+		max-width: 80%;
 	}
 }
 

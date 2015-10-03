@@ -287,7 +287,7 @@ hr {
 [role="button"] {
   cursor: pointer; }
 
-h1, h2, h3, .select-cat label, h4, h5, h6,
+h1, h2, h3, .select-cat label, h4, .social, h5, h6,
 .h1, .h2, .h3, .ui-datepicker-title, .h4, .today, .h5, .h6 {
   font-family: inherit;
   font-weight: 500;
@@ -297,8 +297,9 @@ h1, h2, h3, .select-cat label, h4, h5, h6,
   h1 .small, h2 small,
   h2 .small, h3 small, .select-cat label small,
   h3 .small,
-  .select-cat label .small, h4 small,
-  h4 .small, h5 small,
+  .select-cat label .small, h4 small, .social small,
+  h4 .small,
+  .social .small, h5 small,
   h5 .small, h6 small,
   h6 .small,
   .h1 small,
@@ -334,13 +335,14 @@ h3,
   .ui-datepicker-title .small {
     font-size: 65%; }
 
-h4, .h4, .today,
+h4, .social, .h4, .today,
 h5, .h5,
 h6, .h6 {
   margin-top: 10px;
   margin-bottom: 10px; }
-  h4 small,
-  h4 .small, .h4 small, .today small,
+  h4 small, .social small,
+  h4 .small,
+  .social .small, .h4 small, .today small,
   .h4 .small,
   .today .small,
   h5 small,
@@ -360,7 +362,7 @@ h2, .h2 {
 h3, .select-cat label, .h3, .ui-datepicker-title {
   font-size: 24px; }
 
-h4, .h4, .today {
+h4, .social, .h4, .today {
   font-size: 18px; }
 
 h5, .h5 {
@@ -2503,7 +2505,7 @@ tbody.collapse.in {
     .nav > li > a {
       position: relative;
       display: block;
-      padding: 10px 15px; }
+      padding: 0 10px; }
       .nav > li > a:hover, .nav > li > a:focus {
         text-decoration: none;
         background-color: #eeeeee; }
@@ -2713,7 +2715,7 @@ tbody.collapse.in {
 
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
+  padding: 0 15px;
   font-size: 18px;
   line-height: 20px;
   height: 50px; }
@@ -2749,8 +2751,6 @@ tbody.collapse.in {
 .navbar-nav {
   margin: 7.5px -15px; }
   .navbar-nav > li > a {
-    padding-top: 10px;
-    padding-bottom: 10px;
     line-height: 20px; }
   @media (max-width: 990px) {
     .navbar-nav .open .dropdown-menu {
@@ -2775,7 +2775,6 @@ tbody.collapse.in {
       .navbar-nav > li {
         float: left; }
         .navbar-nav > li > a {
-          padding-top: 15px;
           padding-bottom: 15px; } }
 
 .navbar-form {
@@ -2886,14 +2885,14 @@ tbody.collapse.in {
   background-color: #f8f8f8;
   border-color: #e7e7e7; }
   .navbar-default .navbar-brand {
-    color: #777; }
+    color: #000; }
     .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-      color: #5e5e5e;
+      color: black;
       background-color: transparent; }
   .navbar-default .navbar-text {
     color: #777; }
   .navbar-default .navbar-nav > li > a {
-    color: #777; }
+    color: #000; }
     .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
       color: #333;
       background-color: transparent; }
@@ -2917,7 +2916,7 @@ tbody.collapse.in {
     color: #555; }
   @media (max-width: 990px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-      color: #777; }
+      color: #000; }
       .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
         color: #333;
         background-color: transparent; }
@@ -2928,11 +2927,11 @@ tbody.collapse.in {
       color: #ccc;
       background-color: transparent; } }
   .navbar-default .navbar-link {
-    color: #777; }
+    color: #000; }
     .navbar-default .navbar-link:hover {
       color: #333; }
   .navbar-default .btn-link {
-    color: #777; }
+    color: #000; }
     .navbar-default .btn-link:hover, .navbar-default .btn-link:focus {
       color: #333; }
     .navbar-default .btn-link[disabled]:hover, .navbar-default .btn-link[disabled]:focus, fieldset[disabled] .navbar-default .btn-link:hover, fieldset[disabled] .navbar-default .btn-link:focus {
@@ -4032,6 +4031,9 @@ h2,
 .main-nav {
   font-size: 1.1em; }
 
+.festivals {
+  padding-left: 3em; }
+
 h2 {
   margin-bottom: .5em; }
 
@@ -4080,6 +4082,11 @@ a.logo:hover {
   -moz-box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.35);
   -webkit-box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.35);
   padding: 1em 0; }
+
+.social {
+  margin: 0; }
+  .social a {
+    color: #0A2A6B; }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
 /**	DATEPICKER
@@ -4310,7 +4317,7 @@ a.logo:hover {
 ***	- - - - - - - - - - - - - - - - - - - - */
 @media (min-width: 768px) {
   .logo img {
-    max-width: 100%; } }
+    max-width: 80%; } }
 
 .supporter img {
   margin-bottom: 1em; }
