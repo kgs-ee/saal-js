@@ -83,7 +83,7 @@ categories:
 error:
     Not Found:
         en: Page not found
-        et: Sellist lehte pole
+        et: Seda lehte pole veel valmis tehtud või siis on heaks arvatud ta kustutada.
         lv: Lapa nav atrodama
     cache_missing_residency_past:
         en: error.cache_missing_residency_past
