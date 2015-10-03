@@ -79,10 +79,8 @@ var renderProgram = function renderProgram(res, year, month, categories) {
             callback(err)
             return
         }
-        // debug(program_a)
         res.render('program', {
-            "year": year,
-            "month": month,
+            "monthNav": monthNav(year, month),
             "categories": categories,
             "all_categories": all_categories,
             "program": program_a,
@@ -91,4 +89,20 @@ var renderProgram = function renderProgram(res, year, month, categories) {
     })
 }
 
+var monthNav = function monthNav(year, month) {
+    return {
+        "prev": {
+            "year": month > 1 ? year : year - 1,
+            "month": month > 1 ? month - 1 : 12
+        },
+        "current": {
+            "year": year,
+            "month": month
+        },
+        "next": {
+            "year": month < 12 ? year : year + 1,
+            "month": month < 12 ? month + 1 : 1
+        }
+    }
+}
 module.exports = router
