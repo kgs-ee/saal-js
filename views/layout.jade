@@ -76,23 +76,23 @@ html
 
                 .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
                     ul.nav.navbar-nav.main-nav.h3
-                        li(class= path == 'about' ? 'active' : undefined )
+                        li(class= route == 'about' ? 'active' : undefined )
                             a(href='/' + lang + '/about') SAAL
-                        li(class= path == 'program' ? 'active' : undefined )
+                        li(class= route == 'program' ? 'active' : undefined )
                             a(href='/' + lang + '/program')= t('nav.schedule')
-                        li(class= path == 'tours' ? 'active' : undefined )
+                        li(class= route == 'tours' ? 'active' : undefined )
                             a(href='/' + lang + '/tours')= t('nav.tours')
-                        li(class= path == 'residency' ? 'active' : undefined )
+                        li(class= route == 'residency' ? 'active' : undefined )
                             a(href='/' + lang + '/residency')= t('nav.residency')
-                        li(class= path == 'co-productions' ? 'active' : undefined )
+                        li(class= route == 'co-productions' ? 'active' : undefined )
                             a(href='/' + lang + '/co-productions')= t('nav.coproductions')
                         //- li
                         //-     a(href='/' + lang + '/festival/1234') NU Performance Festivsl
                         //- li
                         //-     a(href='/' + lang + '/festival/1235') SAAL Bienaal
-                        li(class= path == 'projects' ? 'active' : undefined )
+                        li(class= route == 'projects' ? 'active' : undefined )
                             a(href='/' + lang + '/projects')= t('nav.projects')
-                        li(class= path == 'contact' ? 'active' : undefined )
+                        li(class= route == 'contact' ? 'active' : undefined )
                             a(href='/' + lang + '/contact')= t('nav.contact')
                         li.dropdown.festivals
                             a(href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Festivalid

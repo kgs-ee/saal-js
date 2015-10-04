@@ -121,6 +121,7 @@ app
         p.shift()
         p.shift()
         res.locals.path = p.join('/')
+        res.locals.route = p[0]
         if(req.signedCookies.auth_id && req.signedCookies.auth_token) {
             res.locals.user = {
                 id: req.signedCookies.auth_id,
