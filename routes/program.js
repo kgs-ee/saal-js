@@ -27,7 +27,7 @@ var renderProgram = function renderProgram(res, year, month, categories) {
     if (!categories) {
         categories = Object.keys(all_categories).map( function(key) { return parseInt(key) })
     } else {
-        categories = categories.split(',')
+        categories = categories.split(',').map(function(eid){return parseInt(eid)})
     }
     categories.sort(function(a,b){return a-b})
 

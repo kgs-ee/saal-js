@@ -28,7 +28,7 @@ block content
                             ul.dropdown-menu(role='menu')
                                 each cat in all_categories
                                     li
-                                        if categories.indexOf(String(cat.id)) == -1
+                                        if categories.indexOf(cat.id) == -1
                                             a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
                                                 = op.get(cat, ['properties', lang + '-name', 'value'])
                                         else
@@ -62,8 +62,9 @@ block content
             .col-md-12
                 .tours.row
                     .col-xs-12.col-md-12.col-lg-12
-                        each cat in categories
-                            p= op.get(all_categories, [cat, 'properties', lang + '-name', 'value'], 'foo')
+                        //- pre= JSON.stringify(categories, null, 2)
+                        //- each cat in categories
+                        //-     p= op.get(all_categories, [cat, 'properties', lang + '-name', 'value'], 'foo')
                         h2= monthNav.current.year + ' ' + t('month.' + monthNav.current.month)
 
                     if program
@@ -125,11 +126,11 @@ block content
                     .hidden-xs.col-sm-6.col-md-2.col-lg-2
                         .btn-group
                             button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
-                                    span.caret
+                                span.caret
                             ul.dropdown-menu(role='menu')
                                 each cat in all_categories
                                     li
-                                        if categories.indexOf(String(cat.id)) == -1
+                                        if categories.indexOf(cat.id) == -1
                                             a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
                                                 = op.get(cat, ['properties', lang + '-name', 'value'])
                                         else
