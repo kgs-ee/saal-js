@@ -1271,8 +1271,8 @@ table {
   background-color: transparent; }
 
 caption {
-  padding-top: 7px;
-  padding-bottom: 7px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   color: #777777;
   text-align: left; }
 
@@ -1294,13 +1294,11 @@ th {
   .ui-datepicker-calendar > tfoot > tr > th,
   .table > tfoot > tr > td,
   .ui-datepicker-calendar > tfoot > tr > td {
-    padding: 7px;
+    padding: 10px;
     line-height: 1.42857;
-    vertical-align: top;
-    border-top: 1px solid #000; }
+    vertical-align: top; }
   .table > thead > tr > th, .ui-datepicker-calendar > thead > tr > th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #000; }
+    vertical-align: bottom; }
   .table > caption + thead > tr:first-child > th, .ui-datepicker-calendar > caption + thead > tr:first-child > th,
   .table > caption + thead > tr:first-child > td,
   .ui-datepicker-calendar > caption + thead > tr:first-child > td,
@@ -2036,7 +2034,7 @@ select[multiple].input-lg {
   .btn-default.disabled, .btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled.focus, .btn-default.disabled:active, .btn-default.disabled.active, .btn-default[disabled], .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled].focus, .btn-default[disabled]:active, .btn-default[disabled].active, fieldset[disabled] .btn-default, fieldset[disabled] .btn-default:hover, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default.focus, fieldset[disabled] .btn-default:active, fieldset[disabled] .btn-default.active {
     background-color: #fff;
     border-color: #ccc; }
-  .btn-default .badge, .btn-default .highlight a, .highlight .btn-default a {
+  .btn-default .badge {
     color: #fff;
     background-color: #333; }
 
@@ -2053,7 +2051,7 @@ select[multiple].input-lg {
   .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
     background-color: #337ab7;
     border-color: #2e6da4; }
-  .btn-primary .badge, .btn-primary .highlight a, .highlight .btn-primary a {
+  .btn-primary .badge {
     color: #337ab7;
     background-color: #fff; }
 
@@ -2070,7 +2068,7 @@ select[multiple].input-lg {
   .btn-success.disabled, .btn-success.disabled:hover, .btn-success.disabled:focus, .btn-success.disabled.focus, .btn-success.disabled:active, .btn-success.disabled.active, .btn-success[disabled], .btn-success[disabled]:hover, .btn-success[disabled]:focus, .btn-success[disabled].focus, .btn-success[disabled]:active, .btn-success[disabled].active, fieldset[disabled] .btn-success, fieldset[disabled] .btn-success:hover, fieldset[disabled] .btn-success:focus, fieldset[disabled] .btn-success.focus, fieldset[disabled] .btn-success:active, fieldset[disabled] .btn-success.active {
     background-color: #5cb85c;
     border-color: #4cae4c; }
-  .btn-success .badge, .btn-success .highlight a, .highlight .btn-success a {
+  .btn-success .badge {
     color: #5cb85c;
     background-color: #fff; }
 
@@ -2087,7 +2085,7 @@ select[multiple].input-lg {
   .btn-info.disabled, .btn-info.disabled:hover, .btn-info.disabled:focus, .btn-info.disabled.focus, .btn-info.disabled:active, .btn-info.disabled.active, .btn-info[disabled], .btn-info[disabled]:hover, .btn-info[disabled]:focus, .btn-info[disabled].focus, .btn-info[disabled]:active, .btn-info[disabled].active, fieldset[disabled] .btn-info, fieldset[disabled] .btn-info:hover, fieldset[disabled] .btn-info:focus, fieldset[disabled] .btn-info.focus, fieldset[disabled] .btn-info:active, fieldset[disabled] .btn-info.active {
     background-color: #5bc0de;
     border-color: #46b8da; }
-  .btn-info .badge, .btn-info .highlight a, .highlight .btn-info a {
+  .btn-info .badge {
     color: #5bc0de;
     background-color: #fff; }
 
@@ -2104,7 +2102,7 @@ select[multiple].input-lg {
   .btn-warning.disabled, .btn-warning.disabled:hover, .btn-warning.disabled:focus, .btn-warning.disabled.focus, .btn-warning.disabled:active, .btn-warning.disabled.active, .btn-warning[disabled], .btn-warning[disabled]:hover, .btn-warning[disabled]:focus, .btn-warning[disabled].focus, .btn-warning[disabled]:active, .btn-warning[disabled].active, fieldset[disabled] .btn-warning, fieldset[disabled] .btn-warning:hover, fieldset[disabled] .btn-warning:focus, fieldset[disabled] .btn-warning.focus, fieldset[disabled] .btn-warning:active, fieldset[disabled] .btn-warning.active {
     background-color: #f0ad4e;
     border-color: #eea236; }
-  .btn-warning .badge, .btn-warning .highlight a, .highlight .btn-warning a {
+  .btn-warning .badge {
     color: #f0ad4e;
     background-color: #fff; }
 
@@ -2121,7 +2119,7 @@ select[multiple].input-lg {
   .btn-danger.disabled, .btn-danger.disabled:hover, .btn-danger.disabled:focus, .btn-danger.disabled.focus, .btn-danger.disabled:active, .btn-danger.disabled.active, .btn-danger[disabled], .btn-danger[disabled]:hover, .btn-danger[disabled]:focus, .btn-danger[disabled].focus, .btn-danger[disabled]:active, .btn-danger[disabled].active, fieldset[disabled] .btn-danger, fieldset[disabled] .btn-danger:hover, fieldset[disabled] .btn-danger:focus, fieldset[disabled] .btn-danger.focus, fieldset[disabled] .btn-danger:active, fieldset[disabled] .btn-danger.active {
     background-color: #d9534f;
     border-color: #d43f3a; }
-  .btn-danger .badge, .btn-danger .highlight a, .highlight .btn-danger a {
+  .btn-danger .badge {
     color: #d9534f;
     background-color: #fff; }
 
@@ -3164,7 +3162,7 @@ a.label:hover, a.label:focus {
   .label-danger[href]:hover, .label-danger[href]:focus {
     background-color: #c9302c; }
 
-.badge, .highlight a {
+.badge {
   display: inline-block;
   min-width: 10px;
   padding: 3px 7px;
@@ -3177,25 +3175,25 @@ a.label:hover, a.label:focus {
   text-align: center;
   background-color: #777777;
   border-radius: 10px; }
-  .badge:empty, .highlight a:empty {
+  .badge:empty {
     display: none; }
-  .btn .badge, .btn .highlight a, .highlight .btn a {
+  .btn .badge {
     position: relative;
     top: -1px; }
-  .btn-xs .badge, .btn-group-xs > .btn .badge, .btn-xs .highlight a, .highlight .btn-xs a, .btn-group-xs > .btn .highlight a, .highlight .btn-group-xs > .btn a, .btn-group-xs > .btn .badge, .btn-group-xs > .btn .highlight a, .highlight .btn-group-xs > .btn a {
+  .btn-xs .badge, .btn-group-xs > .btn .badge, .btn-group-xs > .btn .badge {
     top: 0;
     padding: 1px 5px; }
-  .list-group-item.active > .badge, .highlight .list-group-item.active > a, .nav-pills > .active > a > .badge, .highlight .nav-pills > .active > a > a {
+  .list-group-item.active > .badge, .nav-pills > .active > a > .badge {
     color: #337ab7;
     background-color: #fff; }
-  .list-group-item > .badge, .highlight .list-group-item > a {
+  .list-group-item > .badge {
     float: right; }
-  .list-group-item > .badge + .badge, .highlight .list-group-item > a + .badge, .highlight .list-group-item > .badge + a, .highlight .list-group-item > a + a {
+  .list-group-item > .badge + .badge {
     margin-right: 5px; }
-  .nav-pills > li > a > .badge, .highlight .nav-pills > li > a > a {
+  .nav-pills > li > a > .badge {
     margin-left: 3px; }
 
-a.badge:hover, .highlight a:hover, a.badge:focus, .highlight a:focus {
+a.badge:hover, a.badge:focus {
   color: #fff;
   text-decoration: none;
   cursor: pointer; }
@@ -4021,6 +4019,7 @@ h3,
   margin: 0; }
 
 h2,
+.lang,
 .today,
 .season,
 .main-nav,
@@ -4035,7 +4034,8 @@ h2,
   padding-left: 3em; }
 
 h2 {
-  margin-bottom: .5em; }
+  font-size: 1.7em;
+  margin-bottom: 1em; }
 
 p {
   font-size: 1em;
@@ -4101,8 +4101,31 @@ a.logo:hover {
 .ui-datepicker-title {
   margin-bottom: .3em; }
 
-.badge, .highlight a {
+.badge {
   background-color: red; }
+
+.highlight {
+  padding-top: 11px;
+  background: none;
+  border: none;
+  text-align: center;
+  line-height: 5px;
+  width: 5px;
+  height: 5px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+  padding: .3em;
+  border-radius: 50%;
+  position: relative;
+  background-color: red;
+  color: #000; }
+  .highlight:hover {
+    color: #000; }
+
+.highlight.residency a {
+  color: #fff; }
+  .highlight.residency a:hover {
+    color: #fff; }
 
 .ui-datepicker-prev {
   float: left; }
@@ -4173,7 +4196,7 @@ a.logo:hover {
     padding-top: .2em; }
   @media (min-width: 768px) {
     .event-banner header p {
-      font-size: 2em; }
+      font-size: 1.7em; }
     .event-banner header h1,
     .event-banner header h2 {
       font-size: 5em;

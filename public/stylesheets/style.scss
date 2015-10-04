@@ -145,6 +145,7 @@ h3,.h3 {
 }
 
 h2,
+.lang,
 .today,
 .season,
 .main-nav,
@@ -162,7 +163,8 @@ h2,
 }
 
 h2 {
-	margin-bottom: .5em;
+	font-size: 1.7em;
+	margin-bottom: 1em;
 }
 
 p {
@@ -376,8 +378,35 @@ a.logo {
 //   border-top-color: #221f1f !important;
 // }
 
-.highlight a {
-	@extend .badge;
+.highlight {
+	padding-top: 11px;
+    background: none;
+    border: none;
+    //font-size: 14px;
+    text-align: center;
+    line-height: 5px;
+    width: 5px;
+    height: 5px;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    padding: .3em;
+    border-radius: 50%;
+    position: relative;
+    background-color: red;
+	//@extend .badge;
+	color: #000;
+
+	&:hover {
+		color: #000;
+	}
+}
+
+.highlight.residency a {
+	color: #fff;
+
+	&:hover {
+		color: #fff;
+	}
 }
 
 .ui-datepicker-prev {
@@ -488,7 +517,7 @@ a.logo {
 		}
 		@media (min-width: $screen-tablet) {
 			p {
-				font-size: 2em;
+				font-size: 1.7em;
 			}
 
 			h1,

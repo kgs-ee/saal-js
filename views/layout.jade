@@ -84,8 +84,8 @@ html
                             a(href='/' + lang + '/tours')= t('nav.tours')
                         li(class= path == 'residency' ? 'active' : undefined )
                             a(href='/' + lang + '/residency')= t('nav.residency')
-                        li(class= path == 'productions' ? 'active' : undefined )
-                            a(href='/' + lang + '/productions')= t('nav.coproductions')
+                        li(class= path == 'co-productions' ? 'active' : undefined )
+                            a(href='/' + lang + '/co-productions')= t('nav.coproductions')
                         //- li
                         //-     a(href='/' + lang + '/festival/1234') NU Performance Festivsl
                         //- li
@@ -114,7 +114,7 @@ html
                             a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
                         each locale in locales
                             if lang !== locale
-                                li
+                                li.lang.h3
                                     a(href='/'+locale+'/'+path)= t('lang.' + locale)
 
 
@@ -218,12 +218,12 @@ style.
     }
 
     li.event,
-    .highlight.event a {
+    .highlight.event {
         background-color: #{SAAL.main_color};
     }
 
     li.tour,
-    .highlight.tour a {
+    .highlight.tour {
         background-color: #28DF24;
     }
 
@@ -232,7 +232,7 @@ style.
     }
 
     li.residency,
-    .highlight.residency a {
+    .highlight.residency {
         background-color: #{SAAL.secondary_color};
     }
 
