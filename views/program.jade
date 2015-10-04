@@ -28,7 +28,13 @@ block content
                             ul.dropdown-menu(role='menu')
                                 each cat in all_categories
                                     li
-                                        a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+cat.id)= op.get(cat, ['properties', lang + '-name', 'value'])
+                                        if categories.indexOf(String(cat.id)) == -1
+                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
+                                                = op.get(cat, ['properties', lang + '-name', 'value'])
+                                        else
+                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+subtractCategory(cat.id).join(','))
+                                                b= op.get(cat, ['properties', lang + '-name', 'value'])
+                                                    
                                     //- li
                                     //-     a(href='#')= t('categories.theatre')
                                     //- li
@@ -123,7 +129,12 @@ block content
                             ul.dropdown-menu(role='menu')
                                 each cat in all_categories
                                     li
-                                        a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+cat.id)= op.get(cat, ['properties', lang + '-name', 'value'])
+                                        if categories.indexOf(String(cat.id)) == -1
+                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
+                                                = op.get(cat, ['properties', lang + '-name', 'value'])
+                                        else
+                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+subtractCategory(cat.id).join(','))
+                                                b= op.get(cat, ['properties', lang + '-name', 'value'])
 
                     .col-sm-12.col-md-9.col-lg-9
                         ul.pager

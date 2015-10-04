@@ -79,11 +79,21 @@ var renderProgram = function renderProgram(res, year, month, categories) {
             callback(err)
             return
         }
+        var subtractCategory = function(val) {
+            var ret_arr = []
+            categories.forEach(function(category) {
+                if (String(val) != String(category)) {
+                    ret_arr.push(category)
+                }
+            })
+            return ret_arr
+        }
         res.render('program', {
             "monthNav": monthNav(year, month),
             "categories": categories,
             "all_categories": all_categories,
             "program": program_a,
+            "subtractCategory": subtractCategory,
         })
         res.end()
     })
