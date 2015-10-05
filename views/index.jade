@@ -20,29 +20,34 @@ block content
                                         h1= op.get(feature, lang + '-name', '')
 
 
-                                - categoryNames = op.get(feature, 'category', []).map(function(c){return c.value})
+                                - categoryEIDs = op.get(feature, 'category', []).map(function(c){return c.id})
                                     ul.event-categories
-                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
-                                            span
-                                                a(href='search?q=category:Teater')= t('categories.theatre')
-                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
-                                            span
-                                                a(href='search?q=category:Tants')= t('categories.dance')
-                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
-                                            span
-                                                a(href='search?q=category:Performance')= t('categories.performance')
-                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
-                                            span
-                                                a(href='search?q=category:Muusika')= t('categories.music')
-                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
-                                            span
-                                                a(href='search?q=category:Loeng')= t('categories.lecture')
-                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
-                                            span
-                                                a(href='search?q=category:Film')= t('categories.film')
-                                        li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
-                                            span
-                                                a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
+                                        each category in SDC.get(['local_entities', 'by_class', 'category'])
+                                            if op.get(category, ['properties', 'featured', 'value'], false) == 'True'
+                                                li.text-uppercase.h3(class=(categoryEIDs.indexOf(op.get(category, ['id'])) > -1 ? "" : "unactive"))
+                                                    span
+                                                        a(href='search?q=category:' + op.get(category, ['properties', lang+'-name', 'value']))= op.get(category, ['properties', lang+'-name', 'value'])
+                                        //- li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
+                                        //-     span
+                                        //-         a(href='search?q=category:Teater')= t('categories.theatre')
+                                        //- li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
+                                        //-     span
+                                        //-         a(href='search?q=category:Tants')= t('categories.dance')
+                                        //- li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
+                                        //-     span
+                                        //-         a(href='search?q=category:Performance')= t('categories.performance')
+                                        //- li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
+                                        //-     span
+                                        //-         a(href='search?q=category:Muusika')= t('categories.music')
+                                        //- li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
+                                        //-     span
+                                        //-         a(href='search?q=category:Loeng')= t('categories.lecture')
+                                        //- li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
+                                        //-     span
+                                        //-         a(href='search?q=category:Film')= t('categories.film')
+                                        //- li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
+                                        //-     span
+                                        //-         a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
 
 
                     a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')

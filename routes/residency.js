@@ -55,7 +55,7 @@ var prepareResidency = function prepareResidency(callback) {
             callback(err)
             return
         }
-        debug('Residency prepared.', JSON.stringify(residency, null, 2))
+        // debug('Residency prepared.', JSON.stringify(residency, null, 2))
         callback()
     })
 }
