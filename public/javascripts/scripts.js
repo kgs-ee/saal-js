@@ -114,12 +114,12 @@ function calToolTip() {
     };
 
 
-    $('body').popover({ 
-        selector: '[data-handler="selectDay"]', 
-        html: true, 
+    $('body').popover({
+        selector: '[data-handler="selectDay"]',
+        html: true,
         trigger: 'click hover',
         container: 'body',
-        placement: 'bottom', 
+        placement: 'bottom',
         delay: {show: 50, hide: 100},
         content: function() {
             return $(this).attr('data-original-title');
@@ -194,23 +194,23 @@ function eventBannerHeight() {
 /**
 **  Google Maps
 */
-function initMap() {
-    var myLatlng = new google.maps.LatLng(59.438552,24.745975)
-
-    var mapOptions = {
-        center: myLatlng,
-        zoom: 18
-    }
-
-    var map = new google.maps.Map(document.getElementById('map'),
-    mapOptions)
-
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title: 'Kanuti Gildi Saal'
-    })
-}
+// function initMap() {
+//     var myLatlng = new google.maps.LatLng(59.438552,24.745975)
+//
+//     var mapOptions = {
+//         center: myLatlng,
+//         zoom: 18
+//     }
+//
+//     var map = new google.maps.Map(document.getElementById('map'),
+//     mapOptions)
+//
+//     var marker = new google.maps.Marker({
+//         position: myLatlng,
+//         map: map,
+//         title: 'Kanuti Gildi Saal'
+//     })
+// }
 
 
 /**
@@ -247,13 +247,13 @@ $(document).ready(function() {
     calToolTip()
     fancyBoxGallery()
     shortenTexts()
-    // eventBannerHeight()
+    eventBannerHeight()
     //initMap()
     //categoryDropDown()
 })
 
 $(window).load(function() {
-    eventBannerHeight();
+    //eventBannerHeight();
     calToolTip()
     calendarWidth()
 })
