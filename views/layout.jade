@@ -80,7 +80,7 @@ html
                             a(href='/' + lang + '/about') SAAL
                         li(class= route == 'program' ? 'active' : undefined )
                             a(href='/' + lang + '/program')= t('nav.schedule')
-                        li(class= route == 'co-productions' ? 'active' : undefined )
+                        li(class= route == 'co_productions' ? 'active' : undefined )
                             a(href='/' + lang + '/co_productions')= t('nav.coproductions')
                         li(class= route == 'tours' ? 'active' : undefined )
                             a(href='/' + lang + '/tours')= t('nav.tours')
@@ -196,7 +196,8 @@ style.
     ** #00f - primary color
     ** #A62720 - secondary color
     */
-
+    
+    #front-carousel,
     .event-banner .item {
         background-color: #{SAAL.secondary_color};
     }

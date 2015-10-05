@@ -89,43 +89,31 @@ block content
                             .row
                                 each photo in op.get(performance, 'photos', [])
                                     .single-image.col-xs-6.col-sm-3.col-md-4
-                                        a.fancybox(rel='gallery' href=''+ photo.file + '')
+                                          a.fancybox(rel='gallery' href=''+ photo.file + '')
                                             img(src=''+ photo.file +'' class='img-responsive')
 
-                    if coverage.length
-                        .press
-                            h2= t('title.press')
-                            .row
-                                each press in coverage
-                                    .col-md-12.h3
-                                        a(target='_blank' href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
-
-                                    .col-xs-12.col-md-12
-                                        hr
-
                 .col-md-6
-                    //- .upcoming
-                    //-     h2= t('title.upcoming')
-                    //-     .row
-                    //-         .col-md-3
-                    //-             p Laupäev
-                    //-             p 24.01
-                    //-             p 19:30
-                    //-         .col-md-9
-                    //-             p Kaas Stuudio, Ghent
-                    //-         .col-md-12
-                    //-             hr
-                    
-                    if past_events.length
-                        .past
-                            h2= t('title.past')
-                            .row
-                                each event in past_events
-                                    .col-md-3
-                                        p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('dddd'))
-                                        p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('L'))
-                                        p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('HH:mm'))
-                                    .col-md-8
-                                        p= op.get(event, 'location')    
-                                    .col-md-12
-                                        hr
+                  if coverage.length
+                      .press
+                          h2= t('title.press')
+                          .row
+                              each press in coverage
+                                  .col-md-12.h3
+                                      a(target='_blank' href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
+
+                                  .col-xs-12.col-md-12
+                                      hr
+                  
+                  if past_events.length
+                      .past
+                          h2= t('title.past')
+                          .row
+                              each event in past_events
+                                  .col-md-3
+                                      p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('dddd'))
+                                      p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('L'))
+                                      p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('HH:mm'))
+                                  .col-md-8
+                                      p= op.get(event, 'location')    
+                                  .col-md-12
+                                      hr
