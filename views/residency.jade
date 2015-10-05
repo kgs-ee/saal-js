@@ -4,32 +4,17 @@ block vars
 
 block content
 
-	.container-fluid
-		.row.page-margin
+    .container-fluid
+        .row.page-margin
+            each location in residencies
+                section.col-md-6
+                    .programme.row
+                        .col-xs-12.col-md-12
+                            h2= op.get(location, [lang + '-name'])
+                        each eventdate, datestring in location.events
+                            each event in eventdate
 
-			section.col-md-6
-				.programme.row
-					.col-xs-12.col-md-12
-						h2= t('title.kanut-residency')
-
-					if residencies
-						each eventdate, datestring in residencies
-							each eventtime, timestring in eventdate
-								each p in eventtime
-
-									a.col-xs-12.col-md-4.resident(href='/' + lang + '/resident/' + op.get(p,'id'))
-										img.img-responsive(src=''+ op.get(p, 'photo.file') +'')
-										p= (moment(datestring).locale('et').format('L')) + "—"
-										p= op.get(p, lang + '-name')
-
-					else
-						.col-lg-12
-							h2= t('title.no-residencies')
-
-
-			section.col-md-6
-				.programme.row
-					.col-xs-12.col-md-12
-						h2= t('title.pyhavaimu-residency')
-					.col-lg-12
-						h2 Pühavaimu residentuurid tuleksid siia
+                                a.col-xs-12.col-md-4.resident(href='/' + lang + '/resident/' + op.get(event,'id'))
+                                    img.img-responsive(src=''+ op.get(event, 'photo.file') +'')
+                                    p= (moment(datestring).locale('et').format('L')) + "—"
+                                    p= op.get(event, lang + '-name')
