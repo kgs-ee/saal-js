@@ -10,7 +10,7 @@ var mapper  = require('../helpers/mapper')
 
 
 router.get('/', function(req, res, next) {
-    res.render('nu-performance', {
+    res.render('co_productions', {
     })
     res.end()
 })

@@ -147,12 +147,15 @@ app
     .use('/:lang/performance/',  require('./routes/performance'))
     .use('/:lang/tours/',        require('./routes/tours'))
     .use('/:lang/program/',      require('./routes/program'))
+    .use('/:lang/co_productions/',      require('./routes/co_productions'))
     .use('/:lang/residency/',    require('./routes/residency'))
     .use('/:lang/resident/',     require('./routes/resident'))
     .use('/:lang/projects/',     require('./routes/projects'))
     .use('/:lang/contact/',      require('./routes/contact'))
     .use('/:lang/search',        require('./routes/search'))
     .use('/:lang/signin',        require('./routes/signin'))
+    .use('/:lang/nu-performance/',      require('./routes/nu-performance'))
+    .use('/:lang/saal-biennaal/',      require('./routes/saal-biennaal'))
     .use('/:lang/calendar_json', require('./routes/calendar_json'))
 
     // logs to getsentry.com - error

@@ -165,6 +165,9 @@ nav:
         en: Co-Productions
         et: Kaasproduktsioonid
         lv: nav.coproductions
+    festivals:
+        en: Festivals
+        et: Festivalid
     program:
         en: Program
         et: Programm
@@ -174,8 +177,8 @@ nav:
         et: Projektid
         lv: Projekti
     residency:
-        en: Residency
-        et: Residentuur
+        en: Residencies
+        et: Residentuurid
         lv: Residentūra
     schedule:
         en: Schedule
@@ -234,6 +237,9 @@ title:
     gallery:
         en: Gallery
         et: Galerii
+    kanut-co_productions:
+        en: title.kanut-co_productions
+        et: title.kanut-co_productions
     kanut-residency:
         en: Residents of Kanuti Gildi SAAL
         et: Kanuti Gildi SAALi residendid

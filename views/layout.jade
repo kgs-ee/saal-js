@@ -80,28 +80,24 @@ html
                             a(href='/' + lang + '/about') SAAL
                         li(class= route == 'program' ? 'active' : undefined )
                             a(href='/' + lang + '/program')= t('nav.schedule')
+                        li(class= route == 'co-productions' ? 'active' : undefined )
+                            a(href='/' + lang + '/co_productions')= t('nav.coproductions')
                         li(class= route == 'tours' ? 'active' : undefined )
                             a(href='/' + lang + '/tours')= t('nav.tours')
                         li(class= route == 'residency' ? 'active' : undefined )
                             a(href='/' + lang + '/residency')= t('nav.residency')
-                        li(class= route == 'co-productions' ? 'active' : undefined )
-                            a(href='/' + lang + '/co-productions')= t('nav.coproductions')
-                        //- li
-                        //-     a(href='/' + lang + '/festival/1234') NU Performance Festivsl
-                        //- li
-                        //-     a(href='/' + lang + '/festival/1235') SAAL Bienaal
                         li(class= route == 'projects' ? 'active' : undefined )
                             a(href='/' + lang + '/projects')= t('nav.projects')
                         li(class= route == 'contact' ? 'active' : undefined )
                             a(href='/' + lang + '/contact')= t('nav.contact')
                         li.dropdown.festivals(class=(route == 'festival' ? ' active' : undefined))
-                            a(href='#' class='dropdown-toggle', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') Festivalid
+                            a(href='#' class='dropdown-toggle', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')= t('nav.festivals')
                                 span.caret
                             ul.dropdown-menu
-                                li(class=(path == 'festival/1234' ? ' active' : undefined))
-                                    a(href='/' + lang + '/festival/1234') NU Performance Festival
-                                li(class=(path == 'festival/1235' ? ' active' : undefined))
-                                    a(href='/' + lang + '/festival/1235') SAAL Bienaal
+                                li(class=(path == 'nu-performance' ? ' active' : undefined))
+                                    a(href='/' + lang + '/nu-performance') NU Performance Festival
+                                li(class=(path == 'saal-biennaal' ? ' active' : undefined))
+                                    a(href='/' + lang + '/saal-biennaal') SAAL Bienaal
                 
                     ul.nav.navbar-nav.navbar-right                            
                         li.social
