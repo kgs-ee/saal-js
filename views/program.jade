@@ -8,8 +8,8 @@ block content
         .row.page-margin
             
             nav.archive.top.col-md-12
-                .row
-                    .hidden-xs.col-sm-6.col-md-1.col-lg-1
+                .row    
+                    .col-xs-12.col-sm-2.col-md-1.col-lg-1
                         .btn-group
                             button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
                                     span.caret
@@ -21,36 +21,18 @@ block content
                                         else
                                             a
                                                 b= year
-                    .hidden-xs.col-sm-6.col-md-2.col-lg-2
-                        .btn-group
-                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
-                                    span.caret
-                            ul.dropdown-menu(role='menu')
-                                each cat in all_categories
-                                    li
-                                        if categories.indexOf(cat.id) == -1
-                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
-                                                = op.get(cat, ['properties', lang + '-name', 'value'])
-                                        else
-                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+arraySubtract(categories, cat.id).join(','))
-                                                b= op.get(cat, ['properties', lang + '-name', 'value'])
-                                                    
-                                    //- li
-                                    //-     a(href='#')= t('categories.theatre')
-                                    //- li
-                                    //-     a(href='#')= t('categories.dance')
-                                    //- li
-                                    //-     a(href='#')= t('categories.performance')
-                                    //- li
-                                    //-     a(href='#')= t('categories.music')
-                                    //- li
-                                    //-     a(href='#')= t('categories.lecture')
-                                    //- li
-                                    //-     a(href='#')= t('categories.film')
-                                    //- li
-                                    //-     a(href='#')= t('categories.new-circus')
-
-                    .col-sm-12.col-md-9.col-lg-9
+                    .col-xs-12.col-sm-10.col-md-11.col-lg-11.select-cat 
+                        each cat in all_categories
+                            if categories.indexOf(cat.id) == -1
+                                a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
+                                    = op.get(cat, ['properties', lang + '-name', 'value'])
+                                    span.icon-checkmark2
+                            else
+                                a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+arraySubtract(categories, cat.id).join(','))
+                                    .active= op.get(cat, ['properties', lang + '-name', 'value'])
+                                        span.icon-checkmark                            
+                                            
+                    .col-sm-12.col-md-12.col-lg-12
                         ul.pager
                             li.previous
                                 a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))
@@ -113,8 +95,8 @@ block content
                             h2= t('title.no-events')
 
             nav.archive.bottom.col-md-12
-                .row
-                    .hidden-xs.col-sm-6.col-md-1.col-lg-1
+                .row    
+                    .col-xs-12.col-sm-2.col-md-1.col-lg-1
                         .btn-group
                             button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
                                     span.caret
@@ -126,21 +108,18 @@ block content
                                         else
                                             a
                                                 b= year
-                    .hidden-xs.col-sm-6.col-md-2.col-lg-2
-                        .btn-group
-                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
-                                span.caret
-                            ul.dropdown-menu(role='menu')
-                                each cat in all_categories
-                                    li
-                                        if categories.indexOf(cat.id) == -1
-                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
-                                                = op.get(cat, ['properties', lang + '-name', 'value'])
-                                        else
-                                            a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+arraySubtract(categories, cat.id).join(','))
-                                                b= op.get(cat, ['properties', lang + '-name', 'value'])
-
-                    .col-sm-12.col-md-9.col-lg-9
+                    .col-xs-12.col-sm-10.col-md-11.col-lg-11.select-cat 
+                        each cat in all_categories
+                            if categories.indexOf(cat.id) == -1
+                                a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
+                                    = op.get(cat, ['properties', lang + '-name', 'value'])
+                                    span.icon-checkmark2
+                            else
+                                a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+arraySubtract(categories, cat.id).join(','))
+                                    .active= op.get(cat, ['properties', lang + '-name', 'value'])
+                                        span.icon-checkmark                            
+                                            
+                    .col-sm-12.col-md-12.col-lg-12
                         ul.pager
                             li.previous
                                 a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))

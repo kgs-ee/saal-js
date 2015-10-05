@@ -68,11 +68,11 @@ body {
 
 @font-face {
 	font-family: 'icomoon';
-	src:url('../fonts/icomoon/fonts/icomoon.eot?-bsudmf');
-	src:url('../fonts/icomoon/fonts/icomoon.eot?#iefix-bsudmf') format('embedded-opentype'),
-		url('../fonts/icomoon/fonts/icomoon.woff?-bsudmf') format('woff'),
-		url('../fonts/icomoon/fonts/icomoon.ttf?-bsudmf') format('truetype'),
-		url('../fonts/icomoon/fonts/icomoon.svg?-bsudmf#icomoon') format('svg');
+	src:url('../fonts/icomoon/fonts/icomoon.eot?qp9xhe');
+	src:url('../fonts/icomoon/fonts/icomoon.eot?qp9xhe#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon/fonts/icomoon.ttf?qp9xhe') format('truetype'),
+		url('../fonts/icomoon/fonts/icomoon.woff?qp9xhe') format('woff'),
+		url('../fonts/icomoon/fonts/icomoon.svg?qp9xhe#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -92,30 +92,31 @@ body {
 }
 
 .icon-search:before {
-	content: "\e986";
+	content: "\e800";
 }
-
+.icon-checkmark:before {
+	content: "\e801";
+}
+.icon-checkmark2:before {
+	content: "\e802";
+}
 .icon-mail4:before {
-	content: "\ea86";
+	content: "\e803";
 }
 .icon-facebook3:before {
-	content: "\ea8e";
+	content: "\e804";
 }
-
 .icon-instagram:before {
-	content: "\ea90";
+	content: "\e805";
 }
-
 .icon-twitter3:before {
-	content: "\ea93";
+	content: "\e806";
 }
-
 .icon-youtube:before {
-	content: "\ea97";
+	content: "\e807";
 }
-
 .icon-vimeo3:before {
-	content: "\ea9e";
+	content: "\e808";
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
@@ -678,22 +679,14 @@ a.logo {
 .select-cat {
 	margin-bottom: 2em;
 
-	@media (min-width: $screen-desktop) {
-		margin-bottom: 0;
-	}
+	// @media (min-width: $screen-desktop) {
+	// 	margin-bottom: 0;
+	// }
 
-	.active {
-		color: $primary-color;
-		@include box-shadow(0px 0px 0px transparent);
-
-		.icon-checkmark2:before {
-			content: "\ea10";
-		}
-	}
-
-	label {
+	a {
 		@extend h3;
 		padding: 0 .5em 0 0;
+		display: inline;
 
 		@media (min-width: $screen-desktop) {
 
@@ -710,13 +703,18 @@ a.logo {
 			&:hover {
 				color: $primary-color;
 			}
+		}
 
-			&:active {
-				@include box-shadow(0px 0px 0px transparent);
-			}
+		.active {
+			display: inline;
+		}
+
+		span {
+			padding-left: .3em;
 		}
 	}
 }
+
 
 .dropdown-menu {
 

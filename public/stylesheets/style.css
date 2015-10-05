@@ -348,7 +348,7 @@ hr {
   cursor: pointer;
 }
 
-h1, h2, h3, .select-cat label, h4, .social, h5, h6,
+h1, h2, h3, .select-cat a, h4, .social, h5, h6,
 .h1, .h2, .h3, .ui-datepicker-title, .h4, .today, .h5, .h6 {
   font-family: inherit;
   font-weight: 500;
@@ -359,8 +359,8 @@ h1, h2, h3, .select-cat label, h4, .social, h5, h6,
 h1 small,
 h1 .small, h2 small,
 h2 .small, h3 small,
-.select-cat label small,
-h3 .small, .select-cat label .small, h4 small,
+.select-cat a small,
+h3 .small, .select-cat a .small, h4 small,
 .social small,
 h4 .small, .social .small, h5 small,
 h5 .small, h6 small,
@@ -381,7 +381,7 @@ h6 .small,
 
 h1, .h1,
 h2, .h2,
-h3, .select-cat label, .h3, .ui-datepicker-title {
+h3, .select-cat a, .h3, .ui-datepicker-title {
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -393,8 +393,8 @@ h2 small,
 h2 .small, .h2 small,
 .h2 .small,
 h3 small,
-.select-cat label small,
-h3 .small, .select-cat label .small, .h3 small,
+.select-cat a small,
+h3 .small, .select-cat a .small, .h3 small,
 .ui-datepicker-title small,
 .h3 .small, .ui-datepicker-title .small {
   font-size: 65%;
@@ -431,7 +431,7 @@ h2, .h2 {
   font-size: 30px;
 }
 
-h3, .select-cat label, .h3, .ui-datepicker-title {
+h3, .select-cat a, .h3, .ui-datepicker-title {
   font-size: 24px;
 }
 
@@ -5454,8 +5454,8 @@ body {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon/fonts/icomoon.eot?-bsudmf");
-  src: url("../fonts/icomoon/fonts/icomoon.eot?#iefix-bsudmf") format("embedded-opentype"), url("../fonts/icomoon/fonts/icomoon.woff?-bsudmf") format("woff"), url("../fonts/icomoon/fonts/icomoon.ttf?-bsudmf") format("truetype"), url("../fonts/icomoon/fonts/icomoon.svg?-bsudmf#icomoon") format("svg");
+  src: url("../fonts/icomoon/fonts/icomoon.eot?qp9xhe");
+  src: url("../fonts/icomoon/fonts/icomoon.eot?qp9xhe#iefix") format("embedded-opentype"), url("../fonts/icomoon/fonts/icomoon.ttf?qp9xhe") format("truetype"), url("../fonts/icomoon/fonts/icomoon.woff?qp9xhe") format("woff"), url("../fonts/icomoon/fonts/icomoon.svg?qp9xhe#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -5474,31 +5474,39 @@ body {
 }
 
 .icon-search:before {
-  content: "\e986";
+  content: "\e800";
+}
+
+.icon-checkmark:before {
+  content: "\e801";
+}
+
+.icon-checkmark2:before {
+  content: "\e802";
 }
 
 .icon-mail4:before {
-  content: "\ea86";
+  content: "\e803";
 }
 
 .icon-facebook3:before {
-  content: "\ea8e";
+  content: "\e804";
 }
 
 .icon-instagram:before {
-  content: "\ea90";
+  content: "\e805";
 }
 
 .icon-twitter3:before {
-  content: "\ea93";
+  content: "\e806";
 }
 
 .icon-youtube:before {
-  content: "\ea97";
+  content: "\e807";
 }
 
 .icon-vimeo3:before {
-  content: "\ea9e";
+  content: "\e808";
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
@@ -5518,7 +5526,7 @@ body {
 p,
 h1, .h1,
 h2, .h2,
-h3, .select-cat label, .h3, .ui-datepicker-title {
+h3, .select-cat a, .h3, .ui-datepicker-title {
   font-weight: normal;
   margin: 0;
 }
@@ -5551,13 +5559,13 @@ p {
   line-height: 1.3em;
 }
 
-h3, .select-cat label, .h3, .ui-datepicker-title {
+h3, .select-cat a, .h3, .ui-datepicker-title {
   line-height: 1.3em;
   font-size: 1.2em;
 }
 
 @media (min-width: 768px) {
-  h3, .select-cat label, .h3, .ui-datepicker-title {
+  h3, .select-cat a, .h3, .ui-datepicker-title {
     font-size: 1.6em;
   }
 }
@@ -5883,43 +5891,32 @@ a.logo:hover {
   margin-bottom: 2em;
 }
 
-@media (min-width: 992px) {
-  .select-cat {
-    margin-bottom: 0;
-  }
-}
-
-.select-cat .active {
-  color: #0A2A6B;
-  -webkit-box-shadow: 0px 0px 0px transparent;
-  box-shadow: 0px 0px 0px transparent;
-}
-
-.select-cat .active .icon-checkmark2:before {
-  content: "\ea10";
-}
-
-.select-cat label {
+.select-cat a {
   padding: 0 0.5em 0 0;
+  display: inline;
 }
 
 @media (min-width: 992px) {
-  .select-cat label {
+  .select-cat a {
     padding: 0 0.5em 0 0.5em;
   }
-  .select-cat label:first-child {
+  .select-cat a:first-child {
     padding-left: 0;
   }
-  .select-cat label:last-child {
+  .select-cat a:last-child {
     padding-right: 0;
   }
-  .select-cat label:hover {
+  .select-cat a:hover {
     color: #0A2A6B;
   }
-  .select-cat label:active {
-    -webkit-box-shadow: 0px 0px 0px transparent;
-    box-shadow: 0px 0px 0px transparent;
-  }
+}
+
+.select-cat a .active {
+  display: inline;
+}
+
+.select-cat a span {
+  padding-left: .3em;
 }
 
 .dropdown-menu span {
@@ -6012,15 +6009,15 @@ a.logo:hover {
 }
 
 .tour h3,
-.tour .select-cat label,
-.select-cat .tour label, .programme h3, .programme .select-cat label, .select-cat .programme label {
+.tour .select-cat a,
+.select-cat .tour a, .programme h3, .programme .select-cat a, .select-cat .programme a {
   margin: 1em 0;
 }
 
 @media (min-width: 992px) {
   .tour h3,
-  .tour .select-cat label,
-  .select-cat .tour label, .programme h3, .programme .select-cat label, .select-cat .programme label {
+  .tour .select-cat a,
+  .select-cat .tour a, .programme h3, .programme .select-cat a, .select-cat .programme a {
     margin: 0;
   }
 }
@@ -6175,7 +6172,7 @@ a.logo:hover {
   margin-bottom: 1em;
 }
 
-.panel h3 a:focus, .panel .select-cat label a:focus, .select-cat .panel label a:focus {
+.panel h3 a:focus, .panel .select-cat a a:focus, .select-cat .panel a a:focus {
   text-decoration: none;
   color: #0A2A6B;
 }
@@ -6188,23 +6185,23 @@ a.logo:hover {
 }
 
 .press h3,
-.press .select-cat label,
-.select-cat .press label, .past h3,
-.past .select-cat label,
-.select-cat .past label, .upcoming h3,
-.upcoming .select-cat label,
-.select-cat .upcoming label, .gallery h3, .gallery .select-cat label, .select-cat .gallery label {
+.press .select-cat a,
+.select-cat .press a, .past h3,
+.past .select-cat a,
+.select-cat .past a, .upcoming h3,
+.upcoming .select-cat a,
+.select-cat .upcoming a, .gallery h3, .gallery .select-cat a, .select-cat .gallery a {
   margin: 1em 0;
 }
 
 @media (min-width: 992px) {
   .press h3,
-  .press .select-cat label,
-  .select-cat .press label, .past h3,
-  .past .select-cat label,
-  .select-cat .past label, .upcoming h3,
-  .upcoming .select-cat label,
-  .select-cat .upcoming label, .gallery h3, .gallery .select-cat label, .select-cat .gallery label {
+  .press .select-cat a,
+  .select-cat .press a, .past h3,
+  .past .select-cat a,
+  .select-cat .past a, .upcoming h3,
+  .upcoming .select-cat a,
+  .select-cat .upcoming a, .gallery h3, .gallery .select-cat a, .select-cat .gallery a {
     margin: 0;
   }
 }
