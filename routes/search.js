@@ -11,7 +11,7 @@ var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
 
 var mapper  = require('../helpers/mapper')
 
-var all_events = []
+var all_events = SDC.get(['local_entities', 'by_definition', 'event'])
 
 
 router.get('/', function(req, res, next) {
@@ -37,27 +37,38 @@ router.get('/', function(req, res, next) {
         })
         res.end()
     } else if (query.split(':')[0] === 'category') {
-        var category = query.split(':')
-        category.shift()
-        category = category.join(':')
-        debug('Looking for category "' + category + '"')
-        var fuse_options = {
-            includeScore: true,
-            keys: [
-                'category.value',
-                'performance.category.value'
-                ]
-        }
-        results = {
-            "query_type": 'category'
-            , "query_category": category
-            , "fuse_js": new fuse(all_events, fuse_options).search(category)
-        }
-        debug(JSON.stringify(results, null, '  '))
-        res.render('search', {
-            results: results
+        var performances = []
+        var q_category = query.split(':')
+        q_category.shift()
+        q_category = q_category.join(':').toLowerCase()
+        q_category = q_category.split(',')
+        debug('Looking for category "' + JSON.stringify(q_category) + '"')
+        async.each(SDC.get(['local_entities', 'by_definition', 'performance']), function(performance, callback) {
+            var performance = mapper.performance(performance.id)
+            // debug('P_EID:' + performance.id)
+            // debug('cat:' + op.get(performance, ['category'], []))
+            for (p_category in op.get(performance, ['category'], [])) {
+                if (q_category.indexOf(op.get(p_category, [res.locals.lang + '-name'], '').toLowerCase())) {
+                    performances.push(performance)
+                }
+            }
+            callback()
+        }, function(err) {
+            if (err) {
+                debug('Failed to search by category.', err)
+                callback(err)
+                return
+            }
+            results = {
+                "query_type": 'category',
+                "query_category": q_category.join(','),
+                "performances": performances,
+            }
+            res.render('search', {
+                results: results
+            })
+            res.end()
         })
-        res.end()
     } else if (query.split(':')[0] === 'person') {
         var person = query.split(':')
         person.shift()
