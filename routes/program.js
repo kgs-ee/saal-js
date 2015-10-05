@@ -6,6 +6,7 @@ var debug   = require('debug')('app:' + path.basename(__filename).replace('.js',
 var async   = require('async')
 var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
+var helper  = require('../helpers/helper')
 
 // var program_upcoming = []
 
@@ -79,42 +80,16 @@ var renderProgram = function renderProgram(res, year, month, categories) {
             callback(err)
             return
         }
-        var subtractCategory = function(val) {
-            var ret_arr = []
-            categories.forEach(function(category) {
-                if (String(val) != String(category)) {
-                    ret_arr.push(category)
-                }
-            })
-            return ret_arr
-        }
         res.render('program', {
-            "monthNav": monthNav(year, month),
+            "monthNav": helper.monthNav(year, month),
             "categories": categories,
             "all_categories": all_categories,
             "program": program_a,
-            "subtractCategory": subtractCategory,
+            "arraySubtract": helper.arraySubtract,
         })
         res.end()
     })
 }
 
-var monthNav = function monthNav(year, month) {
-    month = parseInt(month)
-    year = parseInt(year)
-    return {
-        "prev": {
-            "year": month > 1 ? year : year - 1,
-            "month": month > 1 ? month - 1 : 12
-        },
-        "current": {
-            "year": year,
-            "month": month
-        },
-        "next": {
-            "year": month < 12 ? year : year + 1,
-            "month": month < 12 ? month + 1 : 1
-        }
-    }
-}
+
 module.exports = router
