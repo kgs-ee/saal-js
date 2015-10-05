@@ -13,8 +13,7 @@ block content
                             h2= op.get(location, [lang + '-name'])
                         each eventdate, datestring in location.events
                             each event in eventdate
-
                                 a.col-xs-12.col-md-4.resident(href='/' + lang + '/resident/' + op.get(event,'id'))
                                     img.img-responsive(src=''+ op.get(event, 'photo.file') +'')
-                                    p= (moment(datestring).locale('et').format('L')) + "—"
+                                    p= (moment(op.get(event,['start-time',0])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time',0])).locale('et').format('L')
                                     p= op.get(event, lang + '-name')
