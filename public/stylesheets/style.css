@@ -1509,8 +1509,8 @@ table {
 }
 
 caption {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   color: #777777;
   text-align: left;
 }
@@ -1536,7 +1536,7 @@ th {
 .table > tfoot > tr > th,
 .ui-datepicker-calendar > tfoot > tr > th,
 .table > tfoot > tr > td, .ui-datepicker-calendar > tfoot > tr > td {
-  padding: 10px;
+  padding: 9px;
   line-height: 1.42857;
   vertical-align: top;
 }
