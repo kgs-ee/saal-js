@@ -20,6 +20,7 @@ var cache_from_entu = [
     {"parent":"1953", "definition": "news",        "class": "news"},
     {"parent":"1918", "definition": "person",      "class": "team"},
     {"parent":"1935", "definition": "performance", "class": "performance"},
+    {"parent":"2109", "definition": "location",    "class": "location"},
     // {                 "definition": "coverage",    "class": "coverage"},
 ]
 var cache_from_PL = {
@@ -281,6 +282,9 @@ cache_series.push(function fetchFromEntu(callback) {
                     break
                 case 'person':
                     cachePerson(e_class, op_entity, callback)
+                    break
+                case 'location':
+                    cacheLocation(e_class, op_entity, callback)
                     break
                 default:
                     debug('Unhandled definition: ' + definition)
@@ -634,6 +638,9 @@ var cacheNews = function cacheNews(e_class, op_entity, callback) {
     callback()
 }
 var cachePerson = function cachePerson(e_class, op_entity, callback) {
+    callback()
+}
+var cacheLocation = function cacheLocation(e_class, op_entity, callback) {
     callback()
 }
 var cacheCoverage = function cacheCoverage(e_class, op_entity, callback) {

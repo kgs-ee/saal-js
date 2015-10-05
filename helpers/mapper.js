@@ -57,7 +57,9 @@ var mapEvent = function event(eid) {
     entity_out.set('photo', op_entity.get('properties.photo.0'))
     entity_out.set('photos', op_entity.get('properties.photo'))
     entity_out.set('video', op_entity.get('properties.video.value'))
-    entity_out.set('location', op_entity.get('properties.location.value'))
+    if (location_id = op_entity.get('properties.location.reference')) {
+        entity_out.set('location', mapLocation(location_id))
+    }
     entity_out.set('price', op_entity.get('properties.price.value'))
     entity_out.set('min-price', op_entity.get('properties.min-price.value'))
     entity_out.set('max-price', op_entity.get('properties.max-price.value'))
@@ -173,6 +175,21 @@ var mapCategory = function mapCategory(eid) {
     return entity_out.get()
 }
 
+var mapLocation = function mapLocation(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    if (!entity) {
+        // debug( 'Location ' + eid + ' not cached.')
+        return
+    }
+    var op_entity = op(entity)
+    var entity_out = op({})
+    entity_out.set('id', op_entity.get('id'))
+    entity_out.set('et-name', op_entity.get(['properties', 'et-name', 'value']))
+    entity_out.set('en-name', op_entity.get(['properties', 'en-name', 'value']))
+    entity_out.set('geo',     op_entity.get(['properties', 'geo',     'value']))
+    return entity_out.get()
+}
+
 var mapUser = function mapUser(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
@@ -194,6 +211,7 @@ exports.category    = mapCategory
 exports.coverage    = mapCoverage
 exports.event       = mapEvent
 exports.news        = mapNews
+exports.location    = mapLocation
 exports.performance = mapPerformance
 exports.user        = mapUser
 
