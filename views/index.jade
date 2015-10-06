@@ -188,7 +188,7 @@ block content
                             each eventtime, timestring in eventdate
                                 each p in eventtime
                                     .col-xs-12.col-md-2
-                                        p= (moment(datestring).locale('et').format('L')) + "—"
+                                        p= (moment(op.get(p,['start-time',0])).locale('et').format('L')) + "—" + moment(op.get(p,['end-time',0])).locale('et').format('L')
 
                                     .col-xs-12.col-md-10
                                         h3
