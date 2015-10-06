@@ -43,23 +43,24 @@ block content
 
                 a.load-more.btn.btn-primary(href='#')= t('button.load-more')
 
-                ul.floorplans.list-unstyled.h3
+                .floorplans
                     h2= t('title.floorplans')
+                    ul.list-unstyled.h3
+                        li
+                            a(href='http://files.saal.ee/Kanuti_Gildi_SAAL-stage_20.03.13.pdf' target='_blank')= t('title.saal')
+                        li
+                            a(href='http://www.saal.ee/files/kgs_studio_plan.pdf' target='_blank')= t('title.studio')
+                        li
+                            a(href='http://www.saal.ee/files/kgs_cellar_plan.pdf' target='_blank')= t('title.basement')
 
-                    li
-                        a(href='http://files.saal.ee/Kanuti_Gildi_SAAL-stage_20.03.13.pdf' target='_blank')= t('title.saal')
-                    li
-                        a(href='http://www.saal.ee/files/kgs_studio_plan.pdf' target='_blank')= t('title.studio')
-                    li
-                        a(href='http://www.saal.ee/files/kgs_cellar_plan.pdf' target='_blank')= t('title.basement')
-
-                ul.archive.list-unstyled.h3
+                
+                .old-www
                     h2= t('title.archive')
-
-                    li
-                        a(href='http://www.saal.ee/archive/' target='_blank') SAAL 08—15   
-                    li
-                        a(href='http://www.saal.ee/archive/' target='_blank') SAAL 04—08            
+                    ul.list-unstyled.h3
+                        li
+                            a(href='http://www.saal.ee/archive/' target='_blank') www.saal.ee 08—15   
+                        li
+                            a(href='http://www.saal.ee/archive/' target='_blank') www.saal.ee 04—08            
 
     .row.page-margin
         .supporter.col-md-12

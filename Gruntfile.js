@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-  
+
   grunt.initConfig({
     // clean: {
     //   tests: ['dist']
@@ -18,8 +18,9 @@ module.exports = function(grunt) {
           ".collapse",
           ".collapsing",
           '.collapsed',
-          // /(#|\.)navbar(\-[a-zA-Z]+)?/,
-          // /(#|\.)dropdown(\-[a-zA-Z]+)?/,
+          /nav/,
+          /(#|\.)navbar(\-[a-zA-Z]+)?/,
+          /(#|\.)dropdown(\-[a-zA-Z]+)?/,
           /(#|\.)(open)/,
           // ".modal",
           // ".modal.fade.in",
@@ -34,36 +35,39 @@ module.exports = function(grunt) {
           // ".modal-backdrop"
           /carousel-inner/,
           "table",
-          // /datepicker/,
-          "#datepicker",
-          ".ui-datepicker",
-          ".ui-datepicker-calendar",
-          ".ui-datepicker-title",
-          ".ui-datepicker-prev",
-          ".ui-datepicker-next",
-          ".ui-datepicker-prev span",
-          ".ui-datepicker-next span",
-          ".ui-datepicker-prev:before",
-          ".ui-datepicker-next:before",
-          ".ui-datepicker-calendar>thead>tr>th",
-          ".ui-datepicker-calendar>thead>tr>td",
-          ".ui-datepicker-calendar>tbody>tr>th",
-          ".ui-datepicker-calendar>tbody>tr>td",
-          ".ui-datepicker-calendar>tfoot>tr>th",
-          ".ui-datepicker-calendar>tfoot>tr>td",
-          ".ui-datepicker-calendar>thead>tr>th",
-          ".ui-datepicker-calendar>thead:first-child>tr:first-child>th",
-          ".ui-datepicker-calendar>thead:first-child>tr:first-child>td",
-          ".ui-datepicker-calendar>tbody+tbody",
-          ".ui-datepicker-calendar.ui-datepicker-calendar",
-          ".ui-datepicker>.ui-datepicker-calendar",
-          ".ui-datepicker>.ui-datepicker-calendar>thead>tr>th",
-          ".ui-datepicker>.ui-datepicker-calendar>thead>tr>td",
-          ".ui-datepicker>.ui-datepicker-calendar>tbody>tr>th",
-          ".ui-datepicker>.ui-datepicker-calendar>tbody>tr>td",
-          ".ui-datepicker>.ui-datepicker-calendar>tfoot>tr>th",
-          ".ui-datepicker>.ui-datepicker-calendar>tfoot>tr>td",
-          ".highlight a",
+          /datepicker/,
+        //   "#datepicker",
+        //   ".ui-datepicker",
+        //   ".ui-datepicker-calendar",
+        //   ".ui-datepicker-title",
+        //   ".ui-datepicker-prev",
+        //   ".ui-datepicker-next",
+        //   ".ui-datepicker-prev span",
+        //   ".ui-datepicker-next span",
+        //   ".ui-datepicker-prev:before",
+        //   ".ui-datepicker-next:before",
+        //   ".ui-datepicker-calendar>thead>tr>th",
+        //   ".ui-datepicker-calendar>thead>tr>td",
+        //   ".ui-datepicker-calendar>tbody>tr>th",
+        //   ".ui-datepicker-calendar>tbody>tr>td",
+        //   ".ui-datepicker-calendar>tfoot>tr>th",
+        //   ".ui-datepicker-calendar>tfoot>tr>td",
+        //   ".ui-datepicker-calendar>thead>tr>th",
+        //   ".ui-datepicker-calendar>thead:first-child>tr:first-child>th",
+        //   ".ui-datepicker-calendar>thead:first-child>tr:first-child>td",
+        //   ".ui-datepicker-calendar>tbody+tbody",
+        //   ".ui-datepicker-calendar.ui-datepicker-calendar",
+        //   ".ui-datepicker>.ui-datepicker-calendar",
+        //   ".ui-datepicker>.ui-datepicker-calendar>thead>tr>th",
+        //   ".ui-datepicker>.ui-datepicker-calendar>thead>tr>td",
+        //   ".ui-datepicker>.ui-datepicker-calendar>tbody>tr>th",
+        //   ".ui-datepicker>.ui-datepicker-calendar>tbody>tr>td",
+        //   ".ui-datepicker>.ui-datepicker-calendar>tfoot>tr>th",
+        //   ".ui-datepicker>.ui-datepicker-calendar>tfoot>tr>td",
+        //   ".highlight a",
+            /highlight/,
+            /select-cat/,
+            /main-nav/,
           '.event-banner svg',
           '.navbar-toggle',
           /fancybox/,
@@ -94,7 +98,10 @@ module.exports = function(grunt) {
           '.member',
           '.address',
           '.intranet',
-          '.resident'
+          '.resident',
+          '.img-circle',
+          '.lang',
+          /icon-checkmark/
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
@@ -151,14 +158,14 @@ module.exports = function(grunt) {
       }
     }
   });
-  
+
   // Load the plugins
   // grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-uncss');
   // grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  
+
   // Default tasks.
   grunt.registerTask('default', [/*'copy',*/ 'uglify', 'uncss', 'cssmin', /*'processhtml'*/]);
 };

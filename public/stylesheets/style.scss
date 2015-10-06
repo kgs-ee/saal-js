@@ -156,7 +156,30 @@ h2,
 }
 
 .main-nav {
-	font-size: 1.1em;
+	font-size: 1.6em !important;
+	margin-top: 1em;
+
+	@media(min-width: $screen-lg) {
+		margin-top: 0;
+		font-size: 1.1em;
+	}
+
+	li {
+		padding: 5px 0;
+
+		@media(min-width: $screen-lg) {
+			padding: 0 10px;
+		}
+	}
+
+	.dropdown-menu {
+		font-size: 1em;
+
+		li {
+			padding: 0 !important;
+			line-height: 0 !important;
+		}
+	}
 }
 
 .festivals {
@@ -176,7 +199,7 @@ p {
 h3, .h3 {
 	line-height: 1.3em;
 
-	font-size: 1.2em;
+	font-size: 1.3em;
 
 	@media (min-width: $screen-tablet) {
 		font-size: 1.6em;
@@ -211,7 +234,9 @@ a {
 }
 
 .active a {
-	border-bottom: 2px solid;
+	@media(min-width: $screen-lg) {
+		border-bottom: 2px solid;
+	}
 }
 
 a.logo {
@@ -232,44 +257,45 @@ a.logo {
 	-moz-box-shadow: 0px 3px 15px 0px rgba(0,0,0,0.35);
 	-webkit-box-shadow: 0px 3px 15px 0px rgba(0,0,0,0.35);
 	padding: 1em 0;
-
-	// .social {
-	// 	@extend h4;
-	// 	margin: 0;
-
-	// 	a {
-	// 		color: $primary-color;
-	// 	}
-	// }
 }
 
-// #navbar {
-// 	margin-top: 1em;
-// 	padding-top: 1em;
-
-// 	@media (min-width: $screen-desktop) {
-// 		padding-top: 0;
-// 		margin-top: 0;
-// 	}
-
-// 	ul {
-
-// 		li {
-// 			margin-bottom: 1em;
-
-// 			@media (min-width: $screen-desktop) {
-// 				margin-bottom: 0;
-// 			}
-// 		}
-// 	}
-// }
-
 .social {
-	@extend h4;
-	margin: 0;
+		padding-left: 5px;
+		padding-right: 5px;
 
-	a {
-		color: $primary-color;
+	@media(min-width: $screen-lg) {
+		padding-left: 0;
+	}
+
+	li {
+		//@extend h4;
+		margin-top: 1em;
+		display: inline-block !important;
+		font-size: 2em;
+
+		@media(min-width: $screen-lg) {
+			margin-top: 0;
+			font-size: 1.5em;
+		}
+
+		a {
+			color: $primary-color;
+		}
+
+		&.lang {
+			font-family: flyerblack, sans-serif;
+			font-size: 1.6em;
+			float: right !important;
+			padding-top: .3em;
+
+			@media(min-width: $screen-lg) {
+				padding-top: 0;
+			}
+
+			a {
+				color: #000 !important;
+			}
+		}
 	}
 }
 
@@ -701,7 +727,7 @@ a.logo {
 			}
 
 			&:hover {
-				color: $primary-color;
+				color: #000;
 			}
 		}
 
@@ -713,6 +739,10 @@ a.logo {
 			padding-left: .3em;
 		}
 	}
+}
+
+.year-select {
+	margin-bottom: 2em;
 }
 
 
@@ -790,6 +820,7 @@ a.logo {
 }
 
 .news,
+.old-www,
 .residents,
 .floorplans {
 	margin-top: 3em;
@@ -830,7 +861,8 @@ a.logo {
 	padding: 6px 12px;*/
 }
 
-.resident {
+.resident,
+.co-production {
 	margin-bottom: 1.5em;
 
 	img {
@@ -839,10 +871,7 @@ a.logo {
 }
 
 #mailchimp-sign-up {
-
-	@media (min-width: $screen-lg) {
-		margin-top: 2em;
-	}
+	margin-top: 2em;
 
 	input[type="text"] {
 		border: 2px solid $primary-color;
@@ -960,8 +989,12 @@ a.logo {
 	}
 
 	.panel-collapse {
-		margin-top: 1em;
-		margin-bottom: 1em;
+		// margin-top: 1em;
+		// margin-bottom: 1em;
+
+		p {
+			padding: .3em 0;
+		}
 	}
 
 	h3 {

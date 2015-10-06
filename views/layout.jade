@@ -99,78 +99,19 @@ html
                                 li(class=(path == 'saal-biennaal' ? ' active' : undefined))
                                     a(href='/' + lang + '/saal-biennaal') SAAL Bienaal
                 
-                    ul.nav.navbar-nav.navbar-right                            
-                        li.social
+                    ul.nav.navbar-nav.navbar-right.social                         
+                        li
                             a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
-                        li.social
+                        li
                             a.icon-twitter3(href='https://twitter.com/kanutigildisaal', target='blank')
-                        li.social
+                        li
                             a.icon-instagram(href='https://instagram.com/kanutigildisaal', target='blank')
-                        li.social
+                        li
                             a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
                         each locale in locales
                             if lang !== locale
                                 li.lang.h3
                                     a(href='/'+locale+'/'+path)= t('lang.' + locale)
-
-
-
-        //- nav.navbar-default.navbar-fixed-top
-        //-     .container-fluid
-        //-         .row
-        //-             .col-md-1.col-lg-1
-        //-                 button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls="navbar")
-        //-                     span.sr-only Toggle navigation
-        //-                     span.icon-bar
-        //-                     span.icon-bar
-        //-                     span.icon-bar
-        //-                 a.logo(href='/' + lang + '/')
-        //-                     img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
-        //-                     p.season.visible-lg= t('.season') + ' ' + SAAL.season
-        //-             .collapse.navbar-collapse(id='navbar')
-
-        //-                 ul.list-unstyled.col-md-1.col-lg-1
-        //-                     li(class= path == 'about' ? 'active' : undefined )
-        //-                         a(href='/' + lang + '/about') SAAL
-        //-                     li(class= path == 'program' ? 'active' : undefined )
-        //-                         a(href='/' + lang + '/program')= t('nav.schedule')
-        //-                     li(class= path == 'contact' ? 'active' : undefined )
-        //-                         a(href='/' + lang + '/contact')= t('nav.contact')        
-                            
-
-        //-                 ul.list-unstyled.col-md-1.col-lg-1
-        //-                     li(class= path == 'productions' ? 'active' : undefined )
-        //-                         a(href='/' + lang + '/productions')= t('nav.coproductions')
-        //-                     li(class= path == 'tours' ? 'active' : undefined )
-        //-                         a(href='/' + lang + '/tours')= t('nav.tours')
-        //-                     li(class= path == 'residency' ? 'active' : undefined )
-        //-                         a(href='/' + lang + '/residency')= t('nav.residency')        
-                            
-
-        //-                 ul.list-unstyled.col-md-5.col-lg-5
-        //-                     li
-        //-                         a(href='/' + lang + '/festival/1234') NU Performance Festivsl
-        //-                     li
-        //-                         a(href='/' + lang + '/festival/1235') SAAL Bienaal
-        //-                     li(class= path == 'projects' ? 'active' : undefined )
-        //-                         a(href='/' + lang + '/projects')= t('nav.projects')    
-
-        //-                 ul.list-unstyled.col-xs-6.col-md-2.col-lg-2
-        //-                     each locale in locales
-        //-                         if lang !== locale
-        //-                             li
-        //-                                 a(href='/'+locale+'/'+path)= t('lang.' + locale)
-
-        //-                 ul.social.list-inline.col-xs-6.col-md-2.col-lg-2.text-right
-        //-                     li
-        //-                         a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
-        //-                     li
-        //-                         a.icon-twitter3(href='https://twitter.com/kanutigildisaal', target='blank')
-        //-                     li
-        //-                         a.icon-instagram(href='https://instagram.com/kanutigildisaal', target='blank')
-        //-                     li
-        //-                         a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
-
         block content
 
 .container-fluid
@@ -329,16 +270,16 @@ style.
 
     .pager li > a,
     .pager li > span {
-        background-color: #fff;
+        background-color: #{SAAL.secondary_color};
         border: 1px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
+        color: #fff;
     }
 
     .pager li > a:hover,
     .pager li > span:hover {
-        background-color: #{SAAL.secondary_color};
+        background-color: #fff;
         border: 1px solid #{SAAL.secondary_color};
-        color: #fff;
+        color: #{SAAL.secondary_color};
     }
 
     footer {
