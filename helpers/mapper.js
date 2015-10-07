@@ -62,6 +62,7 @@ var mapEvent = function event(eid) {
     }
     entity_out.set('price', op_entity.get('properties.price.value'))
     entity_out.set('min-price', op_entity.get('properties.min-price.value'))
+    entity_out.set('location', op_entity.get('properties.location.value'))
     entity_out.set('max-price', op_entity.get('properties.max-price.value'))
     entity_out.set('ticket-api', op_entity.get('properties.ticket-api.value'))
     entity_out.set('sales-status', op_entity.get('properties.sales-status.value'))
