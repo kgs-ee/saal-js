@@ -5703,10 +5703,6 @@ a.logo:hover {
   margin-bottom: .3em;
 }
 
-.badge {
-  background-color: red;
-}
-
 .highlight {
   padding-top: 11px;
   background: none;
@@ -5823,13 +5819,12 @@ a.logo:hover {
 }
 
 .event-banner header p {
-  line-height: .9em;
+  line-height: 1.1em;
 }
 
 .event-banner header h1,
 .event-banner header h2 {
   line-height: .9em;
-  padding-top: .2em;
 }
 
 @media (min-width: 768px) {

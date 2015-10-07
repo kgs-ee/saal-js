@@ -25,18 +25,6 @@ body {
 	padding-top: 63px;
 	-webkit-font-smoothing: subpixel-antialiased;
 	padding-top: 79px;
-
-	// @media (min-width: $screen-sm) {
-	// 	padding-top: 91px;
-	// }
-
-	// @media (min-width: $screen-md) {
-	// 	padding-top: 95px;
-	// }
-
-	// @media (min-width: $screen-lg) {
-	// 	padding-top: 108px;
-	// }
 }
 
 .page-margin {
@@ -304,36 +292,13 @@ a.logo {
 /**	DATEPICKER
 ***	- - - - - - - - - - - - - - - - - - - - */
 
-// #datepicker-container {
-// 	background-color: white;
-// 	padding: 2em;
-// 	cursor: move;
-// 	position: absolute;
-// 	top: 10em;
-// 	right: 3em;
-// 	width: 400px;
-// 	height: 260px;
-// 	z-index: 9000;
-// 	@include box-shadow(5px 2px 10px rgba(255, 0, 0, 0.8));
-
-// 	#datepicker {
-// 		z-index: 10000;
-// 	}
-// }
-
-
 #datepicker {
 	width: auto;
-	//margin-top: 1em;
 }
 
 .ui-datepicker {
 	@extend .table-responsive;
 }
-
-// @-moz-document url-prefix() {
-//   fieldset { display: table-cell; }
-// }
 
 .ui-datepicker-calendar {
 	width: auto;
@@ -346,21 +311,6 @@ a.logo {
 		@extend .text-center;
 	}
 }
-
-// .ui-datepicker-prev {
-// 	@extend .col-md-4;
-// 	@extend .arrow-left;
-// 	height: 1.7em;
-// }
-
-// .ui-datepicker-next {
-// 	@extend .col-md-4;
-// 	@extend .col-md-push-4;
-// 	@extend .pull-right;
-// 	@extend .text-right;
-// 	@extend .arrow-right;
-// 	height: 1.7em;
-// }
 
 .ui-datepicker-title {
 	@extend .h3;
@@ -375,35 +325,6 @@ a.logo {
 .ui-datepicker-header {
 	//@extend .row;
 }
-
-.badge {
-	//margin-top: -20px;
-	background-color: red;
-}
-
-
-
-// .ui-state-default {
-// 	padding-top: 11px;
-// 	background: none;
-// 	border: none;
-// 	font-size: 16px;
-// 	text-align: center;
-// 	line-height: 40px;
-// 	width: 40px;
-// 	height: 40px;
-// 	margin: 0 auto;
-// 	margin-bottom: 5px;
-// 	padding: 0;
-// 	border-radius: 50%;
-// 	position: relative;
-// }
-
-// #event-calendar .highlight.in-campo .ui-state-default {
-//   background-color: #f30 !important;
-//   color: #221f1f !important;
-//   border-top-color: #221f1f !important;
-// }
 
 .highlight {
 	padding-top: 11px;
@@ -534,13 +455,13 @@ a.logo {
 		}
 
 		p {
-			line-height: .9em;
+			line-height: 1.1em;
 		}
 
 		h1,
 		h2 {
 			line-height: .9em;
-			padding-top: .2em;
+			//padding-top: .2em;
 		}
 		@media (min-width: $screen-tablet) {
 			p {

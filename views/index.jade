@@ -17,6 +17,7 @@ block content
                                     figure(id='slide-'+op.get(feature, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
                                     header.col-md-8
                                         p= op.get(feature, lang + '-subtitle', '')
+                                        p= op.get(feature, 'artist', '') + ' / ' + op.get(feature, 'producer', '') + ' / ' + op.get(feature, 'town', '')
                                         h1= op.get(feature, lang + '-name', '')
 
 
@@ -92,10 +93,19 @@ block content
                                     .col-xs-12.col-md-6.col-lg-6
                                         h3
                                             if op.get(p, 'performance.id', false)
-                                                a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))= op.get(p, lang + '-name')
+                                                a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                                    span= op.get(p, 'artist', '')
+                                                    span= op.get(p, 'producer', '')
+                                                    span= op.get(p, 'town', '')
+                                                    span= op.get(p, lang + '-name')
+                                                
                                             else
                                                 a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-
+                                                    span= op.get(p, 'artist', '')
+                                                    span= op.get(p, 'producer', '')
+                                                    span= op.get(p, 'town', '')
+                                                    span= op.get(p, lang + '-name')
+                                        
                                     .col-xs-6.col-md-2.col-lg-2
                                         p= op.get(p, 'location')
                                         
@@ -148,9 +158,18 @@ block content
                                             .col-xs-12.col-md-6.col-lg-6
                                                 h3
                                                     if op.get(p, 'performance.id', false)
-                                                        a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))= op.get(p, lang + '-name')
+                                                        a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                                            span= op.get(p, 'artist', '')
+                                                            span= op.get(p, 'producer', '')
+                                                            span= op.get(p, 'town', '')
+                                                            span= op.get(p, lang + '-name')
+                                                        
                                                     else
                                                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
+                                                            span= op.get(p, 'artist', '')
+                                                            span= op.get(p, 'producer', '')
+                                                            span= op.get(p, 'town', '')
+                                                            span= op.get(p, lang + '-name')
 
                                             .col-xs-6.col-md-2.col-lg-2
                                                 p= op.get(p, 'location')
