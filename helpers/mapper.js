@@ -73,6 +73,7 @@ var mapEvent = function event(eid) {
     op_entity.get('properties.start-time', []).forEach(function stiterator(start_time) {
         entity_out.push('start-time', start_time.value)
     })
+    entity_out.set('end-time', op_entity.get('properties.end-time.value'))
 
     if (performance_id = op_entity.get('properties.performance.reference')) {
         entity_out.set('performance', mapPerformance(performance_id))

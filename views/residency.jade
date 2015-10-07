@@ -15,5 +15,5 @@ block content
                             each event in eventdate
                                 a.col-xs-6.col-sm-4.col-md-6.col-lg-4.resident(href='/' + lang + '/resident/' + op.get(event,'id'))
                                     img.img-responsive(src=''+ op.get(event, 'photo.file') +'')
-                                    p= (moment(op.get(event,['start-time',0])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time',0])).locale('et').format('L')
+                                    p= (moment(op.get(event,['start-time',0])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
                                     p= op.get(event, lang + '-name')
