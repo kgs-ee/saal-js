@@ -43,7 +43,9 @@ function datePickerInit() {
                     if (eventsByDate.length > 1) {
                         extraClass += " multiple"
                     }
+
                     tooltip = "<ul class='list-unstyled'>"
+
                     for (var e in eventsByDate) {
                         var event = eventsByDate[e]
 
@@ -57,15 +59,11 @@ function datePickerInit() {
                             controller = "/performance/"
                             eid = event.performance.id
                         }
-                        tooltip += "<li class='" + event.tag + "'><a href='/" + locale + controller + eid + "'>" + time + name + " / " + event.location + "</a></li>"
-                        // tooltip += "<li class='" + event.tag + "'><a href='/" + locale + "/performance/" + event.performance.id + "'>" + time + name + " / " + event.location + "</a></li>"
-                        // tooltip += "<li class='" + event.extraClasses + "'>"
-                        //     tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
-                        //     tooltip += event.client + ((event.city) ? (" - " + event.city) : "")
-                        //     tooltip += event.name + ((event.short) ? (" - " + event.short) : "") + "<br />"
+                        tooltip += "<li class='" + event.tag + "'><a href='/" + locale + controller + eid + "'>" + time.slice(11, -4) + " / " + name + " / " + event.location + "</a></li>"
 
                         tooltip += "</li>"
                     }
+
                     tooltip += "</ul>"
                 }
                 return [isClickable, extraClass, tooltip]
@@ -126,28 +124,6 @@ function calToolTip() {
         },
         template: '<div class="popover"><div class="arrow"></div><div class="popover-content"></div></div>'
     });
-    // $('body').popover({
-    //     selector: '[data-handler="selectDay"]',
-    //     html: true,
-    //     trigger: 'hover',
-    //     delay: {hide:500},
-    //     container: "body",
-    //     placement: "bottom",
-    //     content: function() {
-    //         return $(this).attr('data-original-title');
-    //     },
-    //     template: '<div class="popover"><div class="arrow"></div><div class="popover-content"></div></div>'
-    // })
-
-    // $('[data-handler="selectDay"]').each(function () {
-    //     var $elem = $(this);
-    //     $elem.popover({
-    //         placement: 'top',
-    //         trigger: 'hover',
-    //         html: true,
-    //         container: $elem
-    //     });
-    // });
 }
 
 
@@ -160,57 +136,6 @@ function eventBannerHeight() {
 
     $(".event-banner figure").height(windowHeight - navHeight)
 }
-
-
-/**
-**  Programme category dropdown
-*/
-// function categoryDropDown() {
-//     var options = []
-
-//     $( '.dropdown-menu a' ).on( 'click', function( event ) {
-
-//         var $target = $( event.currentTarget ),
-//              val = $target.attr( 'data-value' ),
-//              $inp = $target.find( 'input' ),
-//              idx
-
-//         if ( ( idx = options.indexOf( val ) ) > -1 ) {
-//             options.splice( idx, 1 )
-//             setTimeout( function() { $inp.prop( 'checked', false ) }, 0)
-//         } else {
-//             options.push( val )
-//             setTimeout( function() { $inp.prop( 'checked', true ) }, 0)
-//         }
-
-//         $( event.target ).blur()
-
-//         console.log( options )
-//         return false
-//     })
-// }
-
-
-/**
-**  Google Maps
-*/
-// function initMap() {
-//     var myLatlng = new google.maps.LatLng(59.438552,24.745975)
-//
-//     var mapOptions = {
-//         center: myLatlng,
-//         zoom: 18
-//     }
-//
-//     var map = new google.maps.Map(document.getElementById('map'),
-//     mapOptions)
-//
-//     var marker = new google.maps.Marker({
-//         position: myLatlng,
-//         map: map,
-//         title: 'Kanuti Gildi Saal'
-//     })
-// }
 
 
 /**
@@ -248,8 +173,6 @@ $(document).ready(function() {
     fancyBoxGallery()
     shortenTexts()
     eventBannerHeight()
-    //initMap()
-    //categoryDropDown()
 })
 
 $(window).load(function() {
