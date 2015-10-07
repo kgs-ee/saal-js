@@ -6332,4 +6332,9 @@ footer {
   font-weight: normal;
 }
 
+.subtitle {
+  display: block;
+  font-size: .7em;
+}
+
 /**	- - - - - - - - - - - - - - - - - - - - */

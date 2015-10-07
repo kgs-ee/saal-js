@@ -71,8 +71,7 @@ block content
                                     h3
                                         if op.get(p, 'performance.id', false)
                                             a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                span= op.get(p, lang + '-subtitle', '')
-                                                br
+                                                span.subtitle= op.get(p, lang + '-subtitle', '')
                                                 span.artist= op.get(p, 'performance.artist', '')
                                                 span.producer= op.get(p, 'performance.producer', '')
                                                 span.town= op.get(p, 'performance.town', '')
@@ -81,8 +80,7 @@ block content
                                             
                                         else
                                             a(href='/' + lang + '/event/' + op.get(p,'id'))
-                                                span= op.get(p, lang + '-subtitle', '')
-                                                br
+                                                span.subtitle= op.get(p, lang + '-subtitle', '')
                                                 span.artist= op.get(p, 'performance.artist', '')
                                                 span.producer= op.get(p, 'performance.producer', '')
                                                 span.town= op.get(p, 'performance.town', '')
