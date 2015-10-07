@@ -81,6 +81,106 @@ categories:
         et: Teater
         lv: Teātris
 error:
+    /Users/rannoait/GitHub/saal-js/views/index:
+        "jade:199\n    197|                             each eventtime, timestring in eventdate\n    198|                                 each p in eventtime\n  > 199|                                 ":
+            col-xs-12:
+                "col-md-2\n    200|                                     p= t('weekdays":
+                    "' + new Date(datestring)":
+                        "getDay())\n    201|                                     p= (moment(datestring)":
+                            locale(lang):
+                                "format('L'))\n    202|                                     p= timestring\n\nexpected \"indent\", but got \"newline\"":
+                                    et: >-
+                                        error./Users/rannoait/GitHub/saal-js/views/index.jade:199
+
+                                            197|                             each
+                                        eventtime, timestring in eventdate
+
+                                            198|                                 eac
+                                         p in eventtime
+
+                                          >
+                                        199|                                 .col-xs-12.col-md-2
+
+                                            200|                                     p
+                                         t('weekdays.' + new
+                                        Date(datestring).getDay())
+
+                                            201|                                     p
+                                         (moment(datestring).locale(lang).format('L'))
+
+                                            202|                                     p
+                                         timestring
+
+
+
+                                        expected "indent", but got "newline"
+    /Users/rannoait/GitHub/saal-js/views/tours:
+        "jade:74\n    72|                                         if op":
+            "get(p, 'performance":
+                "id', false)\n    73|                                             a(href='/' + lang + '/performance/' + op":
+                    "get(p,'performance":
+                        "id'))\n  > 74|                                                 span= op":
+                            "get(p, 'performance":
+                                "' lang + '-subtitle', '')\n    75|                                                 span= op":
+                                    "get(p, 'performance":
+                                        "artist', '') + ' / ' + op":
+                                            "get(p, 'performance":
+                                                "producer', '') + ' / ' + op":
+                                                    "get(p, 'performance":
+                                                        "town', '')\n    76|                                                 br\n    77|                                                 span= op":
+                                                            "get(p, lang + '-name')\n\nUnexpected identifier":
+                                                                et: >-
+                                                                    error./Users/rannoait/GitHub/saal-js/views/tours.jade:74
+
+
+
+                                                                        72|                                         i
+
+                                                                     op.get(p, 'performance.id', false)
+
+
+
+                                                                        73|                                             a(href='/
+
+                                                                     + lang + '/performance/'
+
+                                                                    + op.get(p,'performance.id'))
+
+
+
+                                                                      >
+
+                                                                    74|                                                 span
+                                                                     op.get(p, 'performance.' lang
+                                                                    + '-subtitle', '')
+
+
+
+                                                                        75|                                                 span
+
+                                                                     op.get(p, 'performance.artist', '') + '
+
+                                                                    / ' + op.get(p, 'performance.producer',
+                                                                    '') + ' / ' + op.get(p,
+                                                                    'performance.town', '')
+
+
+
+                                                                        76|                                                 br
+
+
+
+                                                                        77|                                                 span
+
+                                                                     op.get(p, lang + '-name')
+
+
+
+
+
+
+
+                                                                    Unexpected identifier
     Not Found:
         en: Page not found
         et: Seda lehte pole veel valmis tehtud või siis on heaks arvatud ta kustutada.
@@ -234,6 +334,9 @@ title:
     floorplans:
         en: Floorplans
         et: Saaliplaanid
+    free:
+        en: 'Free of charge!'
+        et: 'Tasuta!'
     gallery:
         en: Gallery
         et: Galerii

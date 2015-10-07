@@ -105,14 +105,11 @@ block content
                                                     span= op.get(p, lang + '-name')
                                         
                                     .col-xs-6.col-md-2.col-lg-2
-                                        p= op.get(p, 'location')
-                                        
-                                        //- Conditional for free event
-                                        if op.get(p, 'price')
-                                            if op.get(p, 'price') == 0
-                                                p= t('title.free')
-                                            else
-                                                p= p.get(p, 'price')
+                                        p= op.get(p, 'location.'+ lang + '-name')
+                                        if op.get(p, 'price') == 0
+                                            p= t('title.free')
+                                        else
+                                            p= op.get(p, 'price')
 
                                         if op.get(p, 'min-price')
                                             if op.get(p, 'min-price') == op.get(p, 'max-price')
@@ -168,23 +165,21 @@ block content
                                                             span= op.get(p, lang + '-name')
 
                                             .col-xs-6.col-md-2.col-lg-2
-                                                p= op.get(p, 'location')
-                                                
-                                                //- Conditional for free event
-                                                if op.get(p, 'price')
-                                                    if op.get(p, 'price') == 0
-                                                        p= t('title.free')
-                                                    else
-                                                        p= p.get(p, 'price')
+                                                if op.get(p, 'price') == 0
+                                                    p= t('title.free')
+                                                else
+                                                    p= op.get(p, 'price')
 
                                                 if op.get(p, 'min-price')
                                                     if op.get(p, 'min-price') == op.get(p, 'max-price')
                                                         p= op.get(p, 'min-price') + '€'
                                                     else
                                                         p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
-
-                                            if op.get(p, 'sales-status')
-                                                .col-xs-6.col-md-2.col-lg-2.text-right
+                                        
+                                            .col-xs-6.col-md-2.text-right
+                                                p= op.get(p, 'location')
+                                                
+                                                if op.get(p, 'sales-status')
                                                     a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
                                             .col-xs-12.col-md-12.col-lg-12

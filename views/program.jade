@@ -83,8 +83,11 @@ block content
                                                     span= op.get(p, lang + '-name')
                                                     
                                     .col-xs-6.col-md-2.col-lg-2
-                                        p= op.get(p, 'location')
-                                        //-p= op.get(p, 'price')
+                                        p= op.get(p, 'location.'+ lang + '-name')
+                                        if op.get(p, 'price') == 0
+                                            p= t('title.free')
+                                        else
+                                            p= op.get(p, 'price')
                                         
                                         if op.get(p, 'min-price')
                                             if op.get(p, 'min-price') == op.get(p, 'max-price')
