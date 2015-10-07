@@ -68,20 +68,18 @@ block content
                                     p= (moment(datestring).locale(lang).format('L'))
                                     p= timestring
                                 .col-xs-12.col-md-6
-                                h3
-                                    if op.get(p, 'performance.id', false)
-                                        a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                            span= op.get(p, 'artist', '')
-                                            span= op.get(p, 'producer', '')
-                                            span= op.get(p, 'town', '')
-                                            span= op.get(p, lang + '-name')
-                                        
-                                    else
-                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-                                            span= op.get(p, 'artist', '')
-                                            span= op.get(p, 'producer', '')
-                                            span= op.get(p, 'town', '')
-                                            span= op.get(p, lang + '-name')
+                                    h3
+                                        if op.get(p, 'performance.id', false)
+                                            a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                                span= op.get(p, 'performance.artist', '') + ' / ' + op.get(p, 'performance.producer', '') + ' / ' + op.get(p, 'performance.town', '')
+                                                br
+                                                span= op.get(p, lang + '-name')
+                                            
+                                        else
+                                            a(href='/' + lang + '/event/' + op.get(p,'id'))
+                                                span= op.get(p, 'performance.artist', '') + ' / ' + op.get(p, 'performance.producer', '') + ' / ' + op.get(p, 'performance.town', '')
+                                                br
+                                                span= op.get(p, lang + '-name')
                                             
                                 .col-xs-6.col-md-2.col-lg-2
                                     
