@@ -57,12 +57,12 @@ var mapEvent = function event(eid) {
     entity_out.set('photo', op_entity.get('properties.photo.0'))
     entity_out.set('photos', op_entity.get('properties.photo'))
     entity_out.set('video', op_entity.get('properties.video.value'))
-    if (location_id = op_entity.get('properties.location.reference')) {
-        entity_out.set('location', mapLocation(location_id))
+    if (location_id = op_entity.get('properties.saal-location.reference')) {
+        entity_out.set('saal-location', mapLocation(location_id))
     }
+    entity_out.set('location', op_entity.get('properties.location.value'))
     entity_out.set('price', op_entity.get('properties.price.value'))
     entity_out.set('min-price', op_entity.get('properties.min-price.value'))
-    entity_out.set('location', op_entity.get('properties.location.value'))
     entity_out.set('max-price', op_entity.get('properties.max-price.value'))
     entity_out.set('ticket-api', op_entity.get('properties.ticket-api.value'))
     entity_out.set('sales-status', op_entity.get('properties.sales-status.value'))
