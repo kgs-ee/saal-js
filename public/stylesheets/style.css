@@ -6321,4 +6321,15 @@ footer {
   right: 5px;
 }
 
+.artist {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.artist:after,
+.producer:after {
+  content: ' / ';
+  font-weight: normal;
+}
+
 /**	- - - - - - - - - - - - - - - - - - - - */

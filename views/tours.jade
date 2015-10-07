@@ -72,17 +72,23 @@ block content
                                         if op.get(p, 'performance.id', false)
                                             a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
                                                 span= op.get(p, lang + '-subtitle', '')
-                                                span= op.get(p, 'performance.artist', '') + ' / ' + op.get(p, 'performance.producer', '') + ' / ' + op.get(p, 'location', '')
+                                                br
+                                                span.artist= op.get(p, 'performance.artist', '')
+                                                span.producer= op.get(p, 'performance.producer', '')
+                                                span.town= op.get(p, 'performance.town', '')
                                                 br
                                                 span= op.get(p, lang + '-name')
                                             
                                         else
                                             a(href='/' + lang + '/event/' + op.get(p,'id'))
                                                 span= op.get(p, lang + '-subtitle', '')
-                                                //- span= op.get(p, 'performance.artist', '') + ' / ' + op.get(p, 'performance.producer', '') + ' / ' + op.get(p, 'performance.town', '')
+                                                br
+                                                span.artist= op.get(p, 'performance.artist', '')
+                                                span.producer= op.get(p, 'performance.producer', '')
+                                                span.town= op.get(p, 'performance.town', '')
                                                 br
                                                 span= op.get(p, lang + '-name')
-                                            
+                                                
                                 .col-xs-6.col-md-2.col-lg-2
                                     if op.get(p, 'price') == 0
                                         p= t('title.free')

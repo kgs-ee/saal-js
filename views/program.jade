@@ -72,13 +72,21 @@ block content
                                         h3
                                             if op.get(p, 'performance.id', false)
                                                 a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                    span= op.get(p, 'performance.artist', '') + ' / ' + op.get(p, 'performance.producer', '') + ' / ' + op.get(p, 'performance.town', '')
+                                                    span= op.get(p, lang + '-subtitle', '')
+                                                    br
+                                                    span.artist= op.get(p, 'performance.artist', '')
+                                                    span.producer= op.get(p, 'performance.producer', '')
+                                                    span.town= op.get(p, 'performance.town', '')
                                                     br
                                                     span= op.get(p, lang + '-name')
                                                 
                                             else
                                                 a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-                                                    span= op.get(p, 'performance.artist', '') + ' / ' + op.get(p, 'performance.producer', '') + ' / ' + op.get(p, 'performance.town', '')
+                                                    span= op.get(p, lang + '-subtitle', '')
+                                                    br
+                                                    span.artist= op.get(p, 'performance.artist', '')
+                                                    span.producer= op.get(p, 'performance.producer', '')
+                                                    span.town= op.get(p, 'performance.town', '')
                                                     br
                                                     span= op.get(p, lang + '-name')
                                                     

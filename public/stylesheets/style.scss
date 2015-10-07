@@ -989,4 +989,19 @@ footer {
 	}
 }
 
+// Sub Titles
+.artist {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.artist,
+.producer {
+
+	&:after {
+		content: ' / ';
+		font-weight: normal;
+	}
+}
+
 /**	- - - - - - - - - - - - - - - - - - - - */

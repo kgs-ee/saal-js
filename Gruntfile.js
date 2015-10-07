@@ -101,7 +101,12 @@ module.exports = function(grunt) {
           '.resident',
           '.img-circle',
           '.lang',
-          /icon-checkmark/
+          /icon-checkmark/,
+          '.artist',
+          '.producer',
+          '.town'
+          '.artist:after',
+          '.producer:after'
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
