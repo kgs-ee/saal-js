@@ -154,8 +154,7 @@ app
     .use('/:lang/contact/',      require('./routes/contact'))
     .use('/:lang/search',        require('./routes/search'))
     .use('/:lang/signin',        require('./routes/signin'))
-    .use('/:lang/nu-performance/',      require('./routes/nu-performance'))
-    .use('/:lang/saal-biennaal/',      require('./routes/saal-biennaal'))
+    .use('/:lang/festival',      require('./routes/festival'))
     .use('/:lang/calendar_json', require('./routes/calendar_json'))
 
     // logs to getsentry.com - error

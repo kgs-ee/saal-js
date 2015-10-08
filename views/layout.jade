@@ -97,7 +97,7 @@ html
                                 ul.dropdown-menu
                                     each festival, fid in SDC.get(['local_entities', 'by_class', 'festival'])
                                         li(class=(path == 'festival/' + op.get(festival, ['id']) ? ' active' : undefined))
-                                            a(href='festival/' + op.get(festival, ['id']))= path + '|' + op.get(festival, ['properties', lang+'-name', 'value'])
+                                            a(href='festival/' + op.get(festival, ['id']))= op.get(festival, ['properties', lang+'-name', 'value'])
                 
                     ul.nav.navbar-nav.navbar-right.social                         
                         li

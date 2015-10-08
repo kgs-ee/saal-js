@@ -1,0 +1,59 @@
+extends layout
+
+block vars
+
+block content
+
+    .container-fluid
+        .row.page-margin
+            section.col-md-12
+                h2= op.get(festival, [lang+'-name'])
+                .programme.row
+
+                    each eventdate, datestring in festival.events
+                        each eventtime, timestring in eventdate
+                            each p, i in eventtime
+                                .col-xs-12.col-md-2
+                                    p= t('weekdays.' + new Date(datestring).getDay())
+                                    p= (moment(datestring).locale(lang).format('L'))
+                                    p= timestring
+                                .col-xs-12.col-md-6
+                                    h3
+                                        if op.get(p, 'performance.id', false)
+                                            a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                                span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                span.artist= op.get(p, 'performance.artist', '')
+                                                span.producer= op.get(p, 'performance.producer', '')
+                                                span.town= op.get(p, 'performance.town', '')
+                                                br
+                                                span= op.get(p, lang + '-name')
+                                            
+                                        else
+                                            a(href='/' + lang + '/event/' + op.get(p,'id'))
+                                                span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                span.artist= op.get(p, 'performance.artist', '')
+                                                span.producer= op.get(p, 'performance.producer', '')
+                                                span.town= op.get(p, 'performance.town', '')
+                                                br
+                                                span= op.get(p, lang + '-name')
+                                                
+                                .col-xs-6.col-md-2.col-lg-2
+                                    if op.get(p, 'price') == 0
+                                        p= t('title.free')
+                                    else
+                                        p= op.get(p, 'price')
+
+                                    if op.get(p, 'min-price')
+                                        if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                            p= op.get(p, 'min-price') + '€'
+                                        else
+                                            p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                            
+                                .col-xs-6.col-md-2.text-right
+                                    p= op.get(p, 'location')
+                                    
+                                    if op.get(p, 'sales-status')
+                                        a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                        
+                                .col-xs-12.col-md-12
+                                    hr
