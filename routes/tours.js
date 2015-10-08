@@ -28,6 +28,8 @@ router.prepare = function prepare(callback) {
     })
 }
 
+var tours_upcoming = {}
+
 // Upcoming tours
 var prepareUpcomingTours = function prepareUpcomingTours(callback) {
     tours_upcoming = {}
