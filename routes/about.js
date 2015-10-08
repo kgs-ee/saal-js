@@ -10,20 +10,24 @@ var mapper  = require('../helpers/mapper')
 
 
 var prepped_news = {}
+var prepped_locations = []
 
 router.get('/', function(req, res, next) {
     debug('Loading "' + req.url + '"', req.params.lang)
 
     res.render('about', {
-    	"news": prepped_news
+    	"news": prepped_news,
+    	"locations": prepped_locations,
     })
     res.end()
+    debug(JSON.stringify(prepped_locations, null, 4))
 })
 
 router.prepare = function prepare(callback) {
     debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
     parallelf.push(prepareNews)
+    parallelf.push(prepareLocations)
     async.parallel(parallelf, function(err) {
         debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
@@ -51,6 +55,28 @@ var prepareNews = function prepareNews(callback) {
             return
         }
         debug('News prepared.')
+        callback()
+    })
+}
+
+// Locations
+var prepareLocations = function prepareLocations(callback) {
+    prepped_locations = []
+    async.each(SDC.get(['local_entities', 'by_class', 'location']), function(entity, callback) {
+        var location = mapper.location(entity.id)
+        if (!location.residency) {
+            callback()
+            return
+        }
+        prepped_locations.push(location)
+        callback()
+    }, function(err) {
+        if (err) {
+            debug('Failed to prepare locations.', err)
+            callback(err)
+            return
+        }
+        debug('Locations prepared.')
         callback()
     })
 }

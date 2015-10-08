@@ -192,6 +192,8 @@ var mapLocation = function mapLocation(eid) {
     entity_out.set('et-name', op_entity.get(['properties', 'et-name', 'value']))
     entity_out.set('en-name', op_entity.get(['properties', 'en-name', 'value']))
     entity_out.set('geo',     op_entity.get(['properties', 'geo',     'value']))
+    entity_out.set('residency', op_entity.get('properties.residency.value') === "True")
+    entity_out.set('floorplan', op_entity.get('properties.floorplan'))
     return entity_out.get()
 }
 

@@ -46,12 +46,18 @@ block content
                 .floorplans
                     h2= t('title.floorplans')
                     ul.list-unstyled.h3
-                        li
-                            a(href='http://files.saal.ee/Kanuti_Gildi_SAAL-stage_20.03.13.pdf' target='_blank')= t('title.saal')
-                        li
-                            a(href='http://www.saal.ee/files/kgs_studio_plan.pdf' target='_blank')= t('title.studio')
-                        li
-                            a(href='http://www.saal.ee/files/kgs_cellar_plan.pdf' target='_blank')= t('title.basement')
+                        each location in locations
+                            li
+                                ul= op.get(location, [lang+'-name'])
+                                    each floorplan in op.get(location, ['floorplan'], [])
+                                        li
+                                            a(href=floorplan.file target='_blank')= floorplan.value
+                        //- li
+                        //-     a(href='http://files.saal.ee/Kanuti_Gildi_SAAL-stage_20.03.13.pdf' target='_blank')= t('title.saal')
+                        //- li
+                        //-     a(href='http://www.saal.ee/files/kgs_studio_plan.pdf' target='_blank')= t('title.studio')
+                        //- li
+                        //-     a(href='http://www.saal.ee/files/kgs_cellar_plan.pdf' target='_blank')= t('title.basement')
 
                 
                 .old-www
