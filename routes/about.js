@@ -64,7 +64,7 @@ var prepareLocations = function prepareLocations(callback) {
     prepped_locations = []
     async.each(SDC.get(['local_entities', 'by_class', 'location']), function(entity, callback) {
         var location = mapper.location(entity.id)
-        if (!location.residency) {
+        if (!location.floorplan) {
             callback()
             return
         }
