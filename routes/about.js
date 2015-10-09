@@ -13,14 +13,14 @@ var prepped_news = {}
 var prepped_locations = []
 
 router.get('/', function(req, res, next) {
-    debug('Loading "' + req.url + '"', req.params.lang)
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     res.render('about', {
     	"news": prepped_news,
     	"locations": prepped_locations,
     })
     res.end()
-    debug(JSON.stringify(prepped_locations, null, 4))
+    // debug(JSON.stringify(prepped_locations, null, 4))
 })
 
 router.prepare = function prepare(callback) {

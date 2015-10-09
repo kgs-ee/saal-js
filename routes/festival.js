@@ -9,6 +9,7 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 router.get('/:festival_id', function(req, res, next) {
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var festival = op.get(festivals, req.params.festival_id)
     res.render('festival', {
         "festival": festival
@@ -59,7 +60,7 @@ var prepareFestivals = function prepareFestivals(callback) {
             callback(err)
             return
         }
-        debug('Festivals prepared.' + JSON.stringify(festivals, null, 4))
+        // debug('Festivals prepared.' + JSON.stringify(festivals, null, 4))
         callback()
     })
 }

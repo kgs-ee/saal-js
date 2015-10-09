@@ -15,18 +15,7 @@ var tours_upcoming = {}
 var residency_past = {}
 
 router.get('/', function(req, res, next) {
-
-    if (!SDC.get('program_upcoming')) {
-        debug(res.locals.t('error.cache_missing_upcoming_events'))
-    }
-    if (!SDC.get('tours_upcoming')) {
-        debug(res.locals.t('error.cache_missing_upcoming_tours'))
-    }
-    if (!SDC.get('residency_past')) {
-        debug(res.locals.t('error.cache_missing_residency_past'))
-    }
-
-    //debug(JSON.stringify(featured, null, 2))
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     res.render('index', {
         "featured": featured,
         "program": program_upcoming,

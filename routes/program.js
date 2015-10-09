@@ -19,11 +19,12 @@ router
         res.end()
     })
     .get('/:year/:month/:categories*?', function(req, res, next) {
-        debug('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
+        // debug('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
         renderProgram(res, req.params.year, req.params.month, req.params.categories)
     })
 
 var renderProgram = function renderProgram(res, year, month, categories) {
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var all_categories = SDC.get(['local_entities', 'by_class', 'category'])
     if (!categories) {
         categories = Object.keys(all_categories).map( function(key) { return parseInt(key) })
