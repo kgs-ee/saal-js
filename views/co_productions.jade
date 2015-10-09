@@ -13,7 +13,7 @@ block content
                         h2= t('nav.coproductions')
 
                     each performance in performances
-                        a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
+                        a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production(href='/' + lang + '/performance/' + op.get(performance,'id'))
                             img.img-responsive(src=op.get(performance, ['photo', 'file']))
                             p= op.get(performance, ['artist'], '')
                             p= op.get(performance, [lang+'-name'], '')
