@@ -9,7 +9,7 @@ var crypto   = require('crypto')
 // var sanitize = require('sanitize-html')
 
 
-LIMIT_PARALLEL = 10
+LIMIT_PARALLEL = 3
 
 function sign_data(data) {
     data = data || {}
@@ -94,7 +94,6 @@ var get_entity = function get_entity(id, auth_id, auth_token, callback) {
         callback(null, op(entity))
     })
 }
-
 
 
 //Get entities by definition
