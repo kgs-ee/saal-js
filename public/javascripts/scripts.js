@@ -53,13 +53,13 @@ function datePickerInit() {
                         var time = (event['start-time'] != "00:00") ? (event['start-time']) + ' ' : ""
                         var name = (locale == "et") ? event['et-name'] : event['en-name']
 
-                        var controller = "/event/"
+                        var controller = "event/"
                         var eid = event.id
                         if (event.performance) {
-                            controller = "/performance/"
+                            controller = "performance/"
                             eid = event.performance.id
                         }
-                        tooltip += "<li class='" + event.tag + "'><a href='/" + locale + controller + eid + "'>" + time.slice(11, -4) + " / " + name + " / " + event.location + "</a></li>"
+                        tooltip += "<li class='" + event.tag + "'><a href='" + controller + eid + "'>" + time.slice(11, -4) + " / " + name + " / " + event.location + "</a></li>"
 
                         tooltip += "</li>"
                     }
