@@ -4,27 +4,32 @@ block vars
 
 block content
 
-  .container-fluid
-    .row.page-margin
+    .container-fluid
+        .row.page-margin
 
-      section.col-md-12
-        .programme.row
-          .col-xs-12.col-md-12
-            h2= t('nav.coproductions')
-            
-          a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
-            img.img-responsive(src="http://www.placehold.it/400x400")
-            p Kunstniku nimi
-            p Lavastuse nimi
-          a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
-            img.img-responsive(src="http://www.placehold.it/400x400")
-            p Kunstniku nimi
-            p Lavastuse nimi
-          a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
-            img.img-responsive(src="http://www.placehold.it/400x400")
-            p Kunstniku nimi
-            p Lavastuse nimi
-          a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
-            img.img-responsive(src="http://www.placehold.it/400x400")
-            p Kunstniku nimi
-            p Lavastuse nimi
+            section.col-md-12
+                .programme.row
+                    .col-xs-12.col-md-12
+                        h2= t('nav.coproductions')
+
+                    each performance in performances
+                        a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
+                            img.img-responsive(src=op.get(performance, ['photo', 'file']))
+                            p= op.get(performance, ['artist'], '')
+                            p= op.get(performance, [lang+'-name'], '')
+        //-   a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
+        //-     img.img-responsive(src="http://www.placehold.it/400x400")
+        //-     p Kunstniku nimi
+        //-     p Lavastuse nimi
+        //-   a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
+        //-     img.img-responsive(src="http://www.placehold.it/400x400")
+        //-     p Kunstniku nimi
+        //-     p Lavastuse nimi
+        //-   a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
+        //-     img.img-responsive(src="http://www.placehold.it/400x400")
+        //-     p Kunstniku nimi
+        //-     p Lavastuse nimi
+        //-   a.col-xs-6.col-sm-4.col-md-3.col-lg-2.co-production
+        //-     img.img-responsive(src="http://www.placehold.it/400x400")
+        //-     p Kunstniku nimi
+        //-     p Lavastuse nimi

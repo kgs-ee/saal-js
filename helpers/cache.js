@@ -655,12 +655,12 @@ var cacheCoverage = function cacheCoverage(e_class, op_entity, callback) {
 var routine = function routine() {
     async.series(cache_series, function routineFinally(err) {
         if (err) {
-            debug('Routine stumbled. Restart in 5', err)
-            setTimeout(routine, 5*1000)
-            setTimeout(function(){debug('1')}, 4*1000)
-            setTimeout(function(){debug('2')}, 3*1000)
-            setTimeout(function(){debug('3')}, 2*1000)
-            setTimeout(function(){debug('4')}, 1*1000)
+            debug('Routine stumbled. Restart in 25', err)
+            setTimeout(routine, 25*1000)
+            setTimeout(function(){debug('1')}, 24*1000)
+            setTimeout(function(){debug('2')}, 23*1000)
+            setTimeout(function(){debug('3')}, 22*1000)
+            setTimeout(function(){debug('4')}, 21*1000)
             return
         }
         if (immediate_reload_required) {

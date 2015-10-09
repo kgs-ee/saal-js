@@ -22,11 +22,10 @@ var op      = require('object-path')
 
 var mapper  = require('../helpers/mapper')
 
-
 var prepped_users = []
 
 router.get('/', function(req, res, next) {
-    debug('Loading "' + req.url + '"', req.params.lang)
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     res.render('contact', {
     	"users": prepped_users
