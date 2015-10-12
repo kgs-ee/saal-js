@@ -5426,9 +5426,8 @@ a.badge:focus {
 ***	- - - - - - - - - - - - - - - - - - - - */
 body {
   color: #000;
-  padding-top: 63px;
   -webkit-font-smoothing: subpixel-antialiased;
-  padding-top: 79px;
+  padding-top: 60px;
 }
 
 .page-margin {
@@ -5800,13 +5799,6 @@ a.logo:hover {
 
 #about-carousel {
   margin-bottom: 1.5em;
-}
-
-.event-banner {
-  /* 
-	** Found FireFox GradientMap.js Bug
-	** Fix needed
-	*/
 }
 
 .event-banner header {
