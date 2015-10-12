@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 })
 
 router.prepare = function prepare(callback) {
-    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     event_calendar = {}
     var events = SDC.get('local_entities.by_definition.event')
     var dates_a = []

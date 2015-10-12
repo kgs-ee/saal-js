@@ -1,65 +1,113 @@
 if(process.env.NEW_RELIC_LICENSE_KEY) require('newrelic')
 
-var express = require('express')
-var path    = require('path')
-var fs      = require('fs')
-var logger  = require('morgan')
-var rotator = require('file-stream-rotator')
-var stylus  = require('stylus')
-var favicon = require('serve-favicon')
-var cookie  = require('cookie-parser')
-var random  = require('randomstring')
-var bparser = require('body-parser')
-var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
-var op      = require('object-path')
-var raven   = require('raven')
+var async    = require('async')
+var cookie   = require('cookie-parser')
+var path     = require('path')
+var debug    = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+var express  = require('express')
+var favicon  = require('serve-favicon')
+var fs       = require('fs')
+var stylus   = require('stylus')
+var bparser  = require('body-parser')
+var op       = require('object-path')
+var raven    = require('raven')
 
 
-var i18n    = require('./helpers/i18n')
-
+var i18n     = require('./helpers/i18n')
 
 debug('Loading Entu web ...')
 
 if (!process.env.ENTU_USER) {
     throw '"ENTU_USER" missing in environment'
 }
-// global variables (and list of all used environment variables)
+APP_COOKIE_SECRET   = '' // Will be set from master
+APP_CACHE_DIR       = '' // Will be set from master
 APP_VERSION         = process.env.VERSION || require('./package').version
-APP_ENTU_ROOT       = 1 // institution
-APP_ROOT_REFRESH_MS = 30 * 60 * 1000
 APP_DEBUG           = process.env.DEBUG
 APP_PORT            = process.env.PORT || 3000
-APP_LOG_DIR         = process.env.LOGDIR || __dirname + '/log'
-APP_CACHE_DIR       = __dirname + '/pagecache'
-APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
-APP_ENTU_URL        = process.env.ENTU_URL || "https://saal.entu.ee/api2"
-APP_ENTU_USER       = process.env.ENTU_USER
-APP_ENTU_KEY        = process.env.ENTU_KEY
 
-// Index and cache for entities and relationshipd
 
-// console.log(process.env)
+SDC = op({})
 
-// ensure required directories
-fs.existsSync(APP_LOG_DIR) || fs.mkdirSync(APP_LOG_DIR)
-fs.existsSync(APP_CACHE_DIR) || fs.mkdirSync(APP_CACHE_DIR)
+var prepare_controllers_fa = []
 
-// Site data cache
-SDC = op({
-    "root": {},
-    "local_entities": {},
-    "relationships": {},
+prepare_controllers_fa.push(function loadCache(callback) {
+    var filenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
+        return filename.split('.json')[0]
+    })
+
+    async.each(filenames, function(filename, callback) {
+        // process.send({ cmd: 'log', log: 'Loading cache from ' + filename })
+        // debug(filename)
+        try {
+            SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
+        } catch(err) {
+            debug('Not loaded: ', filename)
+            op.del(filenames, filenames.indexOf(filename))
+        }
+        callback()
+    }, function(err) {
+        if (err) {
+            debug('Failed to load local cache.', err)
+            process.send({ cmd: 'log', log: 'Failed to load local cache.', err: err })
+            callback(err)
+            return
+        }
+        // process.send({ cmd: 'log', log: 'Cache loaded.' })
+        // debug('Cache loaded.')
+        callback()
+    })
 })
-// require('./helpers/maintenance')
-require('./helpers/cache')
+
+prepare_controllers_fa.push(function prepareControllers(callback) {
+    // process.send({ cmd: 'log', log: 'Preparing data for controllers.' })
+    // debug('Preparing data for controllers.')
+    var controllers = fs.readdirSync(path.join(__dirname, 'routes')).map(function(filename) {
+        return filename.split('.js')[0]
+    })
+    async.each(controllers, function(controller, callback) {
+        var c = require(path.join(__dirname, 'routes', controller))
+        if (c.prepare !== undefined) {
+            // debug('Preparing ' + controller)
+            c.prepare(callback)
+        } else {
+            callback()
+        }
+    }, function(err) {
+        if (err) {
+            // debug('Failed to prepare controllers.', err)
+            process.send({ cmd: 'log', log: 'Failed to prepare controllers.', err: err })
+            callback(err)
+            return
+        }
+        // process.send({ cmd: 'log', log: 'Controllers prepared.' })
+        // debug('Controllers prepared.')
+        callback()
+    })
+})
 
 
-// create a rotating write stream
-var access_log_stream = rotator.getStream({
-  filename: APP_LOG_DIR + '/access-%DATE%.log',
-  frequency: 'daily',
-  verbose: false,
-  date_format: 'YYYY-MM-DD'
+// React to messages received from master
+process.on('message', function(msg) {
+    switch(msg.cmd) {
+        case 'APP_COOKIE_SECRET':
+            APP_COOKIE_SECRET = msg.APP_COOKIE_SECRET
+        break
+        case 'reload':
+            APP_CACHE_DIR = msg.dir
+            // process.send({ cmd: 'log', log: 'Loading cache from ' + APP_CACHE_DIR })
+            // debug('Loading local cache')
+
+            async.series(prepare_controllers_fa, function routineFinally(err) {
+                if (err) {
+                    process.send({ cmd: 'log', log: 'Reload failed', err: err })
+                    // debug('Reload failed', err)
+                    return
+                }
+                process.send({ cmd: 'log', log: 'Worker reloaded' })
+            })
+        break
+    }
 })
 
 
@@ -106,9 +154,6 @@ app
     // static files path & favicon
     .use(express.static(path.join(__dirname, 'public')))
     .use(favicon(path.join(__dirname, 'public', 'images', 'kgs-logo.ico')))
-
-    // logging
-    .use(logger(':date[iso] | HTTP/:http-version | :method | :status | :url | :res[content-length] b | :response-time ms | :remote-addr | :referrer | :user-agent', {stream: access_log_stream}))
 
     // set defaults for views
     .use(function(req, res, next) {

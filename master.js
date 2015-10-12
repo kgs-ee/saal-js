@@ -1,25 +1,91 @@
-var path     = require('path')
 var cluster  = require('cluster')
 var cpuCount = require('os').cpus().length
+var fs       = require('fs')
+var op       = require('object-path')
+var path     = require('path')
+var random   = require('randomstring')
 
 
+APP_ROOT_REFRESH_MS = 30 * 60 * 1000
+APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
+APP_ENTU_URL        = process.env.ENTU_URL || "https://saal.entu.ee/api2"
+APP_ENTU_USER       = process.env.ENTU_USER
+APP_ENTU_KEY        = process.env.ENTU_KEY
 
-cluster.setupMaster({
-    exec: path.join(__dirname, 'worker.js'),
+// Site data cache
+APP_ENTU_ROOT       = 1 // institution
+APP_CACHE_DIR       = __dirname + '/pagecache'
+fs.existsSync(APP_CACHE_DIR) || fs.mkdirSync(APP_CACHE_DIR)
+var cache           = require('./helpers/cache')
+cache.routine(function cachedCB() {
+    // console.log('Reload workers')
+    for (var i in workers) {
+        var worker = workers[i]
+        if (worker) {
+            // console.log('Reload worker ' + worker.id)
+            worker.send(command = { cmd: 'reload', dir: APP_CACHE_DIR })
+        }
+    }
 })
 
-// Create a worker for each CPU
-for (var i = 0; i < cpuCount; i += 1) {
-    cluster.fork()
+
+// Broadcast a message to all other workers
+var broadcast = function(data, worker_id) {
+    if (!worker_id) {
+        worker_id = -1
+    }
+    console.log('Broadcast from ' + worker_id + '.')
+    for (var i in workers) {
+        var worker = workers[i]
+        if (worker && worker.id !== worker_id) {
+            worker.send({ cmd: 'data', data: data, from: worker_id, chat: 'broadcast to ' + worker.id + ' initiated by ' + worker_id })
+        }
+    }
 }
 
-// Listen for new workers
-cluster.on('online', function(worker) {
-    console.log(new Date().toString() + ' worker ' + worker.id + ' started')
-})
+var createWorker = function createWorker() {
+    var worker = cluster.fork()
+    worker.on('message', function(msg) {
+        if (msg.cmd) {
+            switch (msg.cmd) {
+                case 'log':
+                    console.log(new Date().toString() + ' W-' + this.id + ': ' + msg.log)
+                break
+                case 'broadcast':
+                    console.log('W-' + this.id + ' broadcasting...')
+                    broadcast(msg.data, this.id)
+                break
+            }
+        }
+        if (msg.err) {
+            console.log(JSON.stringify({worker: this.id, error: err}, null, 2))
+        }
+    })
+    // Add the worker to an array of known workers
+    workers[worker.id] = worker
+}
 
-// Listen for dying workers nad replace the dead worker, we're not sentimental
-cluster.on('exit', function(worker) {
-    console.log(new Date().toString() + ' worker ' + worker.id + ' died')
-    cluster.fork()
-})
+var workers = []
+
+cluster.setupMaster({ exec: path.join(__dirname, 'worker.js') })
+
+if (cluster.isMaster) {
+    // Create a worker for each CPU
+    for (var i = 0; i < cpuCount; i += 1) {
+        createWorker()
+    }
+
+    // Listen for new workers
+    cluster.on('online', function(worker) {
+        console.log(new Date().toString() + ' worker ' + worker.id + ' started')
+        worker.send({ cmd: 'APP_COOKIE_SECRET', APP_COOKIE_SECRET: APP_COOKIE_SECRET })
+        worker.send(command = { cmd: 'reload', dir: APP_CACHE_DIR })
+    })
+
+    // Listen for dying workers nad replace the dead worker, we're not sentimental
+    cluster.on('exit', function(worker) {
+        console.log(new Date().toString() + ' worker ' + worker.id + ' died')
+        workers[worker.id] = false
+        createWorker()
+    })
+}

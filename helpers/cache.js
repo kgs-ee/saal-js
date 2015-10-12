@@ -10,6 +10,13 @@ debug('Caching Started at ' + Date().toString())
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
 
+CACHE_REFRESH_MS = 10 * 60 * 1000
+
+SDC = op({
+    "root": {},
+    "local_entities": {},
+    "relationships": {},
+})
 
 var cache_from_entu = [
     {"parent":"1976", "definition": "category",    "class": "category"},
@@ -28,10 +35,10 @@ var cache_from_PL = {
     "concert": 597, // event
     "show": 1935 // performance
 }
-var festivals = {
-    "1932": "Biennaal",
-    "1933": "NU_Performance"
-}
+// var festivals = {
+//     "1932": "Biennaal",
+//     "1933": "NU_Performance"
+// }
 var PL_languages = ['est', 'eng']
 var PL_data = {}
 var temp_local_entities = {}
@@ -69,44 +76,6 @@ cache_series.push(function loadCache(callback) {
         debug('Cache loaded.')
         callback()
     })
-})
-
-
-var prepareControllers = function prepareControllers(callback) {
-    debug('Preparing data for controllers.')
-    var controllers = fs.readdirSync(path.join(__dirname, '..', 'routes')).map(function(filename) {
-        return filename.split('.js')[0]
-    })
-    async.each(controllers, function(controller, callback) {
-        var c = require('../routes/' + controller)
-        if (c.prepare !== undefined) {
-            debug('Preparing ' + controller)
-            c.prepare(callback)
-        } else {
-            callback()
-        }
-    }, function(err) {
-        if (err) {
-            debug('Failed to prepare controllers.', err)
-            callback(err)
-            return
-        }
-        debug('Controllers prepared.')
-        callback()
-    })
-}
-
-// Preparing cache for controllers
-// On first run we cache _before_ fetching new data
-var first_run = true
-cache_series.push(function (callback) {
-    if (first_run) {
-        debug('Preparing data for controllers based on loaded cache.')
-        first_run = false
-        prepareControllers(callback)
-    } else {
-        callback()
-    }
 })
 
 
@@ -272,7 +241,7 @@ cache_series.push(function fetchFromEntu(callback) {
                     cacheCategory(e_class, op_entity, callback)
                     break
                 case 'event':
-                    cacheEvent(e_class, op_entity, callback)
+                    cacheEvent(op_entity, callback)
                     break
                 case 'performance':
                     cachePerformance(e_class, op_entity, callback)
@@ -448,8 +417,6 @@ cache_series.push(function add2Entu(callback) {
     }
     debug('Add new events to Entu. (' + Object.keys(PL_concerts).length + ')')
     immediate_reload_required = true
-    // callback()
-    // return
 
     async.eachLimit(PL_concerts, 1, function(PL_concert, callback) {
         var start_time = new Date(op.get(PL_concert, 'startTimestamp')*1000)
@@ -514,8 +481,6 @@ cache_series.push(function saveCache(callback) {
     })
 })
 
-// Preparing cache for controllers
-cache_series.push(prepareControllers)
 
 // Final cleanup
 cache_series.push(function cleanup(callback) {
@@ -526,7 +491,6 @@ cache_series.push(function cleanup(callback) {
     PL_concerts = {}
     callback()
 })
-
 
 
 var add2cache = function add2cache(entity, e_class) {
@@ -593,7 +557,7 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
         })
     })
 }
-var cacheEvent = function cacheEvent(e_class, op_entity, callback) {
+var cacheEvent = function cacheEvent(op_entity, callback) {
     if (pl_id = op_entity.get('properties.pl-id.value', false)) {
         // TODO: Merge ticket information from PL_concert ...
         //       sales-time
@@ -613,14 +577,16 @@ var cacheEvent = function cacheEvent(e_class, op_entity, callback) {
             callback(err)
             return
         }
-        var e_class = op.get(festivals, String(parent_eid))
+        // if (!e_class) {
+        //     e_class = op.get(festivals, String(parent_eid))
+        // }
         async.each(entities, function(op_entity, callback) {
             var entity = op_entity.get()
             relate(entity.id, 'parent', parent_eid, entity.definition)
 
-            add2cache(entity, e_class)
+            add2cache(entity)
             if (op_entity.get('definition') === 'event') {
-                cacheEvent(e_class, op_entity, callback)
+                cacheEvent(op_entity, callback)
             } else {
                 callback()
             }
@@ -649,14 +615,14 @@ var cacheCoverage = function cacheCoverage(e_class, op_entity, callback) {
 }
 
 
-
-
-
-var routine = function routine() {
+var routine = function routine(WorkerReloadCB) {
+    console.log('Cache routine started')
     async.series(cache_series, function routineFinally(err) {
         if (err) {
             debug('Routine stumbled. Restart in 125', err)
-            setTimeout(routine, 25*1000)
+            setTimeout(function() {
+                routine(WorkerReloadCB)
+            }, 125*1000)
             setTimeout(function(){debug('1')}, 124*1000)
             setTimeout(function(){debug('2')}, 123*1000)
             setTimeout(function(){debug('3')}, 122*1000)
@@ -666,13 +632,23 @@ var routine = function routine() {
         if (immediate_reload_required) {
             immediate_reload_required = false
             debug('Immediate reload requested - restarting in 3')
-            setTimeout(routine, 3*1000)
+            setTimeout(function() {
+                routine(WorkerReloadCB)
+            }, 3*1000)
             setTimeout(function(){debug('1')}, 2*1000)
             setTimeout(function(){debug('2')}, 1*1000)
         } else {
-            debug('Restarting routine in ' + APP_ROOT_REFRESH_MS/1000 + ' sec.')
-            setTimeout(routine, APP_ROOT_REFRESH_MS)
+            debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+            setTimeout(function() {
+                routine(WorkerReloadCB)
+            }, CACHE_REFRESH_MS)
+            setTimeout(function(){debug('1')}, CACHE_REFRESH_MS - 1*1000)
+            setTimeout(function(){debug('2')}, CACHE_REFRESH_MS - 2*1000)
+            setTimeout(function(){debug('3')}, CACHE_REFRESH_MS - 3*1000)
+            setTimeout(function(){debug('4')}, CACHE_REFRESH_MS - 4*1000)
+            setTimeout(function(){debug('Restarting routine in 5')}, CACHE_REFRESH_MS - 5*1000)
+            WorkerReloadCB()
         }
     })
 }
-routine()
+module.exports.routine = routine

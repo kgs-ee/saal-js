@@ -18,11 +18,16 @@ router.get('/:festival_id', function(req, res, next) {
 })
 
 router.prepare = function prepare(callback) {
-    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
     parallelf.push(prepareFestivals)
     async.parallel(parallelf, function(err) {
-        debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        if (err) {
+            debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
+            callback(err)
+            return
+        }
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }
@@ -51,7 +56,7 @@ var prepareFestivals = function prepareFestivals(callback) {
                 callback(err)
                 return
             }
-            debug('Festival ' + festival_entity.id + ' prepared.')
+            // debug('Festival ' + festival_entity.id + ' prepared.')
             callback()
         })
     }, function(err) {

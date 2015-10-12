@@ -19,11 +19,11 @@ router.get('/', function(req, res, next) {
 })
 
 router.prepare = function prepare(callback) {
-    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
     parallelf.push(prepareUpcomingTours)
     async.parallel(parallelf, function(err) {
-        debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }
@@ -50,7 +50,7 @@ var prepareUpcomingTours = function prepareUpcomingTours(callback) {
             callback(err)
             return
         }
-        debug('Upcoming tours prepared.')
+        // debug('Upcoming tours prepared.')
         callback()
     })
 }

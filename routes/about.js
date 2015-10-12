@@ -24,12 +24,17 @@ router.get('/', function(req, res, next) {
 })
 
 router.prepare = function prepare(callback) {
-    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
     parallelf.push(prepareNews)
     parallelf.push(prepareLocations)
     async.parallel(parallelf, function(err) {
-        debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        if (err) {
+            debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
+            callback(err)
+            return
+        }
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }
@@ -54,7 +59,7 @@ var prepareNews = function prepareNews(callback) {
             callback(err)
             return
         }
-        debug('News prepared.')
+        // debug('News prepared.')
         callback()
     })
 }
@@ -76,7 +81,7 @@ var prepareLocations = function prepareLocations(callback) {
             callback(err)
             return
         }
-        debug('Locations prepared.')
+        // debug('Locations prepared.')
         callback()
     })
 }

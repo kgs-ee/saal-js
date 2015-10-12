@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 })
 
 router.prepare = function prepare(callback) {
-    debug('Preparing "' + path.basename(__filename).replace('.js', '') + '"')
+    // debug('Preparing "' + path.basename(__filename).replace('.js', '') + '"')
     performances = []
     async.each(SDC.get(['local_entities', 'by_definition', 'performance'], []), function(entity, callback) {
         if (op.get(entity, ['properties', 'coprod', 'value']) === "True") {
@@ -32,7 +32,7 @@ router.prepare = function prepare(callback) {
             callback(err)
             return
         }
-        debug('"' + path.basename(__filename).replace('.js', '') + '" prepared.')
+        // debug('"' + path.basename(__filename).replace('.js', '') + '" prepared.')
         // debug(JSON.stringify(performances, null, 4))
         callback()
     })

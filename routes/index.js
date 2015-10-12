@@ -28,14 +28,14 @@ router.get('/', function(req, res, next) {
 })
 
 router.prepare = function prepare(callback) {
-    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
     parallelf.push(prepareFeatured)
     parallelf.push(prepareUpcomingEvents)
     parallelf.push(prepareUpcomingTours)
     parallelf.push(preparePastResidency)
     async.parallel(parallelf, function(err) {
-        debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }
@@ -52,7 +52,7 @@ var prepareFeatured = function prepareFeatured(callback) {
             callback(err)
             return
         }
-        debug('Featured performances prepared.')
+        // debug('Featured performances prepared.')
         callback()
     })
 }
@@ -81,7 +81,7 @@ var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
             callback(err)
             return
         }
-        debug('Upcoming events prepared.')
+        // debug('Upcoming events prepared.')
         callback()
     })
 }
@@ -106,7 +106,7 @@ var prepareUpcomingTours = function prepareUpcomingTours(callback) {
             callback(err)
             return
         }
-        debug('Upcoming tours prepared.')
+        // debug('Upcoming tours prepared.')
         callback()
     })
 }
@@ -131,7 +131,7 @@ var preparePastResidency = function preparePastResidency(callback) {
             callback(err)
             return
         }
-        debug('Past residency prepared.')
+        // debug('Past residency prepared.')
         callback()
     })
 }

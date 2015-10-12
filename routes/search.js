@@ -163,7 +163,7 @@ router.get('/', function(req, res, next) {
 
 router.prepare = function prepare(callback) {
     all_events = []
-    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     async.each(SDC.get(['local_entities', 'by_definition', 'event']), function(event, callback) {
         all_events.push(mapper.event(event.id))
         callback()
@@ -173,7 +173,7 @@ router.prepare = function prepare(callback) {
             callback(err)
             return
         }
-        debug('Events prepared for searching.')
+        // debug('Events prepared for searching.')
         callback()
     })
 }
