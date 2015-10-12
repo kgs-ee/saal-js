@@ -5512,11 +5512,16 @@ body {
 /**	ARROWS
 ***	- - - - - - - - - - - - - - - - - - - - */
 .arrow-left {
-  content: url(../images/arrow-left.svg);
+  background: url(../images/arrow-left.svg) no-repeat center left;
 }
 
 .arrow-right {
-  content: url(../images/arrow-right.svg);
+  background: url(../images/arrow-right.svg) no-repeat center right;
+}
+
+.carousel-control .icon-prev:before,
+.carousel-control .icon-next:before {
+  content: '';
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
