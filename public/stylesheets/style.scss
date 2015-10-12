@@ -438,10 +438,13 @@ a.logo {
 }
 
 .event-banner {
-
-	svg {
-		display: none;
-	}
+	/* 
+	** Found FireFox GradientMap.js Bug
+	** Fix needed
+	*/
+	// svg {
+	// 	display: none;
+	// }
 
 	header {
 		position: absolute;

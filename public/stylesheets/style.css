@@ -5802,8 +5802,11 @@ a.logo:hover {
   margin-bottom: 1.5em;
 }
 
-.event-banner svg {
-  display: none;
+.event-banner {
+  /* 
+	** Found FireFox GradientMap.js Bug
+	** Fix needed
+	*/
 }
 
 .event-banner header {
