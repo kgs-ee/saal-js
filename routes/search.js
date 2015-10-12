@@ -21,6 +21,10 @@ router.get('/', function(req, res, next) {
     var query = req.query.q
     res.locals.q = query
 
+    if (!query) {
+        return next()
+    }
+
     if (query.split(':')[0] === 'date') {
         var date = query.split(':')
         date.shift()
