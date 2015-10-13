@@ -10,15 +10,16 @@ block content
 			.programme.row
 				.col-xs-12.col-md-12
 					h2= t('nav.projects')
+					
+				each project in projects
+					.col-xs-12.col-md-2
+						p= (moment(op.get(project, ['start-time', 0])).locale(lang).format('dddd'))
+						p= (moment(op.get(project, ['start-time', 0])).locale(lang).format('L'))
+						p= op.get(project, ['start-time', 0])
 
-				.col-xs-12.col-md-2
-					p laupäev
-					p 24.01.2015
-					p 19:30
+					.col-xs-12.col-md-10
+						h3
+							a(href='#')= op.get(project, [lang + '-name'])
 
-				.col-xs-12.col-md-10
-					h3
-						a(href='#') Samara
-
-				.col-xs-12.col-md-12
-					hr
+					.col-xs-12.col-md-12
+						hr

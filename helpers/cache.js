@@ -28,6 +28,7 @@ var cache_from_entu = [
     {"parent":"1918", "definition": "person",      "class": "team"},
     {"parent":"1935", "definition": "performance", "class": "performance"},
     {"parent":"2109", "definition": "location",    "class": "location"},
+    {"parent":"2107", "definition": "event",       "class": "project"},
     // {                 "definition": "coverage",    "class": "coverage"},
 ]
 var cache_from_PL = {
@@ -35,10 +36,7 @@ var cache_from_PL = {
     "concert": 597, // event
     "show": 1935 // performance
 }
-// var festivals = {
-//     "1932": "Biennaal",
-//     "1933": "NU_Performance"
-// }
+
 var PL_languages = ['est', 'eng']
 var PL_data = {}
 var temp_local_entities = {}
@@ -46,7 +44,6 @@ var temp_relationships = {}
 
 var cache_series = []
 var immediate_reload_required = false
-
 
 
 // Preload with stored data
