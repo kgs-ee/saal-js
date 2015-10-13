@@ -1,17 +1,17 @@
 if(process.env.NEW_RELIC_LICENSE_KEY) require('newrelic')
 
 var async    = require('async')
+var bparser  = require('body-parser')
 var cookie   = require('cookie-parser')
 var path     = require('path')
 var debug    = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var express  = require('express')
 var favicon  = require('serve-favicon')
 var fs       = require('fs')
-var stylus   = require('stylus')
-var bparser  = require('body-parser')
+var moment   = require('moment')
 var op       = require('object-path')
 var raven    = require('raven')
-
+var stylus   = require('stylus')
 
 var i18n     = require('./helpers/i18n')
 
@@ -160,6 +160,7 @@ app
         if(req.path === '/') return res.redirect('/et/')
         // debug(JSON.stringify(req.path, null, '    '))
         // res.locals.lang = 'et'
+        res.locals.moment = moment
         res.locals.op = op
         res.locals.SAAL = SDC.get('root')
         var p = req.path.split('/')
@@ -177,10 +178,8 @@ app
     })
 
     //Initiate i18n
-    app.use(i18n.init)
+    .use(i18n.init)
 
-    .locals
-        .moment = require('moment');
 
 
 app
