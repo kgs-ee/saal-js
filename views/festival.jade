@@ -5,6 +5,11 @@ block vars
 block content
 
     .container-fluid
+        .row
+            .event-banner.carousel.slide(id='front-carousel')
+                .carousel-inner(role='listbox')
+                    figure(style="background-image: url('http://www.vetprofessionals.com/catprofessional/images/home-cat.jpg');")
+
         .row.page-margin
             section.col-md-12
                 h2= op.get(festival, [lang+'-name'])
