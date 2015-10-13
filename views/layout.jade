@@ -64,7 +64,10 @@ html
         script(src='/javascripts/gradientmaps/gradientmaps.min.js')
     body
         
-        include nav_saal
+        if (route == 'festival')
+            include nav_saal-biennaal
+        else
+            include nav_saal
         
         block content
 
@@ -76,6 +79,9 @@ html
             p Tallinn, Estonia
                  
 
-include style_saal
+if (route == 'festival')
+    include style_saal-biennaal
+else
+    include style_saal
 
 script(src='/javascripts/scripts.js')

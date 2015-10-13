@@ -1,0 +1,34 @@
+nav.navbar.navbar-default.navbar-fixed-top
+
+    .container-fluid
+        .navbar-header
+            button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
+                .icon-bar
+                .icon-bar
+                .icon-bar
+            //- a.navbar-brand.logo(href='/' + lang + '/')
+            //-     img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
+                //p.season.visible-lg= t('.season') + ' ' + SAAL.season
+
+        .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
+            ul.nav.navbar-nav.main-nav.h3
+                li
+                    a(href='#') Festivalist
+                li
+                    a(href='#') Programm
+                li
+                    a(href='#') Meeskond
+                li
+                    a(href='#') Toetajad
+                li
+                    a(href='#') Piletid
+                li
+                    a(href='#') Press
+        
+            ul.nav.navbar-nav.navbar-right.social                         
+                li
+                    a.icon-facebook3(href='https://www.facebook.com/saalbiennaal?fref=ts', target='blank')
+                each locale in locales
+                    if lang !== locale
+                        li.lang.h3
+                            a(href='/'+locale+'/'+path)= t('lang.' + locale)
