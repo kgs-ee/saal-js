@@ -17,6 +17,7 @@ html
         base(href='/' + lang + '/')
 
         link(rel='stylesheet', type='text/css', href='/javascripts/fancybox2/source/jquery.fancybox.css')
+    
         link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
 
         link(rel='apple-touch-icon', sizes='57x57', href='/images/favicons/apple-touch-icon-57x57.png')
@@ -62,56 +63,9 @@ html
         script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')
         script(src='/javascripts/gradientmaps/gradientmaps.min.js')
     body
-
-        nav.navbar.navbar-default.navbar-fixed-top
-            .container-fluid
-                .navbar-header
-                    button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
-                        .icon-bar
-                        .icon-bar
-                        .icon-bar
-                    a.navbar-brand.logo(href='/' + lang + '/')
-                        img(src='/images/saal_logo.svg', alt=t('.KGS_logo'))
-                        //p.season.visible-lg= t('.season') + ' ' + SAAL.season
-
-                .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
-                    ul.nav.navbar-nav.main-nav.h3
-                        li(class= route == 'about' ? 'active' : undefined )
-                            a(href='/' + lang + '/about') SAAL
-                        li(class= route == 'program' ? 'active' : undefined )
-                            a(href='/' + lang + '/program')= t('nav.schedule')
-                        li(class= route == 'co_productions' ? 'active' : undefined )
-                            a(href='/' + lang + '/co_productions')= t('nav.coproductions')
-                        li(class= route == 'tours' ? 'active' : undefined )
-                            a(href='/' + lang + '/tours')= t('nav.tours')
-                        li(class= route == 'residency' ? 'active' : undefined )
-                            a(href='/' + lang + '/residency')= t('nav.residency')
-                        li(class= route == 'projects' ? 'active' : undefined )
-                            a(href='/' + lang + '/projects')= t('nav.projects')
-                        li(class= route == 'contact' ? 'active' : undefined )
-                            a(href='/' + lang + '/contact')= t('nav.contact')
-                        if SDC.get(['local_entities', 'by_class', 'festival'])
-                            li.dropdown.festivals(class=(route == 'festival' ? ' active' : undefined))
-                                a(href='#' class='dropdown-toggle', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')= t('nav.festivals')
-                                    span.caret
-                                ul.dropdown-menu
-                                    each festival, fid in SDC.get(['local_entities', 'by_class', 'festival'])
-                                        li(class=(path == 'festival/' + op.get(festival, ['id']) ? ' active' : undefined))
-                                            a(href='festival/' + op.get(festival, ['id']))= op.get(festival, ['properties', lang+'-name', 'value'])
-                
-                    ul.nav.navbar-nav.navbar-right.social                         
-                        li
-                            a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
-                        li
-                            a.icon-twitter3(href='https://twitter.com/kanutigildisaal', target='blank')
-                        li
-                            a.icon-instagram(href='https://instagram.com/kanutigildisaal', target='blank')
-                        li
-                            a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
-                        each locale in locales
-                            if lang !== locale
-                                li.lang.h3
-                                    a(href='/'+locale+'/'+path)= t('lang.' + locale)
+        
+        include nav_saal
+        
         block content
 
 .container-fluid
@@ -120,167 +74,8 @@ html
             p Kanuti Gildi SAAL
             p Pikk 20, 10133
             p Tallinn, Estonia
-            
-style.
-    /**
-    ** SAAL COLOR SCHEME
-    */
-    
-    #front-carousel,
-    .event-banner .item {
-        background-color: #{SAAL.secondary_color};
-    }
+                 
 
-    a:hover {
-        color: #{SAAL.secondary_color};
-    }
+include style_saal
 
-    .select-cat .active {
-        color: #{SAAL.secondary_color};
-    }
-
-    .select-cat label:hover {
-        color:#{SAAL.secondary_color};
-    }
-
-    li.event,
-    .highlight.event {
-        background-color: #{SAAL.main_color};
-    }
-
-    li.tour,
-    .highlight.tour {
-        background-color: #28DF24;
-    }
-
-    li.tour {
-    margin-bottom: 0;
-    }
-
-    li.residency,
-    .highlight.residency {
-        background-color: #{SAAL.secondary_color};
-    }
-
-    .navbar-nav > .active > a,
-    .main-nav a:hover,
-    .legend li.event:before {
-        color: #{SAAL.main_color} !important;
-    }
-
-    .legend li.residency:before {
-        color: #{SAAL.secondary_color};
-    }
-
-    .legend li.tour:before {
-        color: #28DF24;
-    }
-
-    .legend li.event,
-    .legend li.tour,
-    .legend li.residency {
-        background-color: transparent;
-    }
-
-    .today {
-        color: #{SAAL.main_color};
-    }
-
-    .btn,
-    .btn-primary {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
-    }
-
-    .btn:hover,
-    .btn-primary:hover {
-        color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
-    }
-
-    .btn:focus,
-    .btn-primary:focus {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
-    }
-
-    .open>.btn-default.dropdown-toggle {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
-    }
-
-    .btn-default {
-        color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
-    }
-
-    .btn-default:hover {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
-    }
-
-    .social a {
-        color: #{SAAL.main_color} !important;
-    }
-
-    .social a:hover {
-        color: #{SAAL.secondary_color};
-    }
-
-    .volunteer a {
-        background-color: #{SAAL.main_color};
-        color: #{SAAL.secondary_color};
-    }
-
-    .volunteer a:hover {
-        border: 2px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
-    }
-
-    .panel h3 a:focus,
-    .panel .select-cat label a:focus,
-    .select-cat .panel label a:focus {
-        color: #{SAAL.secondary_color};
-    }
-
-    #mailchimp-sign-up input[type="text"] {
-        border: 2px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
-    }
-
-    #mailchimp-sign-up input[type="submit"] {
-        color: #{SAAL.secondary_color};
-    }
-
-    .matched {
-        color: red;
-    }
-
-    .pager li > a,
-    .pager li > span {
-        background-color: #{SAAL.secondary_color};
-        border: 1px solid #{SAAL.secondary_color};
-        color: #fff;
-    }
-
-    .pager li > a:hover,
-    .pager li > span:hover {
-        background-color: #fff;
-        border: 1px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
-    }
-
-    footer {
-        background-color: #{SAAL.secondary_color};
-    }
-
-    .site-search input {
-        border: 2px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
-    }
-
-    .site-search button{
-        color: #{SAAL.secondary_color};
-    }
-    
 script(src='/javascripts/scripts.js')
