@@ -159,6 +159,9 @@ nav:
         en: About Us
         et: Meist
         lv: Par mums
+    about-festival:
+        en: About
+        et: Festivalist
     contact:
         en: Contact
         et: Kontakt
@@ -170,6 +173,9 @@ nav:
     festivals:
         en: Festivals
         et: Festivalid
+    press:
+        en: Press
+        et: Press
     program:
         en: Program
         et: Programm
@@ -186,6 +192,12 @@ nav:
         en: Schedule
         et: Kava
         lv: nav.schedule
+    sponsors:
+        en: Supporters
+        et: Toetajad
+    tickets:
+        en: Tickets
+        et: Piletid
     tours:
         en: Tours
         et: Tuurid
