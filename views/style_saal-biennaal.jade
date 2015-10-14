@@ -3,10 +3,28 @@ style.
     ** SAAL COLOR SCHEME
     */
     
+    body {
+        padding-top: 54px;
+    }
+    
+    #banner-strip {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-image: url('/images/saal-biennaal-banner_strip.svg');
+        height: 45px;
+        width: 100%;
+        z-index: 9999;
+    }
+    
     .navbar,
     #front-carousel,
     .event-banner .item {
         background-color: #333333;
+    }
+    
+    .navbar-default {
+        border-color: transparent;
     }
 
     a:hover {
@@ -23,7 +41,7 @@ style.
 
     li.event,
     .highlight.event {
-        background-color: #00CC99;
+        background-color: rgb(54, 190, 178);
     }
 
     li.tour,
@@ -41,9 +59,9 @@ style.
     }
 
     .navbar-nav > .active > a,
-    .main-nav a:hover,
-    .legend li.event:before {
-        color: #00CC99 !important;
+    .legend li.event:before,
+    .navbar-default .navbar-nav > li > a {
+        color: rgb(54, 190, 178) !important;
     }
 
     .legend li.residency:before {
@@ -61,7 +79,7 @@ style.
     }
 
     .today {
-        color: #00CC99;
+        color: rgb(54, 190, 178);
     }
 
     .btn,
@@ -98,7 +116,7 @@ style.
     }
 
     .social a {
-        color: #00CC99 !important;
+        color: rgb(54, 190, 178) !important;
     }
 
     .social a:hover {
@@ -106,7 +124,7 @@ style.
     }
 
     .volunteer a {
-        background-color: #00CC99;
+        background-color: rgb(54, 190, 178);
         color: #333333;
     }
 
