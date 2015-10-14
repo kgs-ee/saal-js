@@ -4816,8 +4816,8 @@ a.badge:focus {
   left: 50%;
   margin-left: -11px;
   border-bottom-width: 0;
-  border-top-color: #999999;
-  border-top-color: black;
+  border-top-color: #000;
+  border-top-color: #000;
   bottom: -11px;
 }
 
@@ -4834,8 +4834,8 @@ a.badge:focus {
   left: -11px;
   margin-top: -11px;
   border-left-width: 0;
-  border-right-color: #999999;
-  border-right-color: black;
+  border-right-color: #000;
+  border-right-color: #000;
 }
 
 .popover.right > .arrow:after {
@@ -4850,8 +4850,8 @@ a.badge:focus {
   left: 50%;
   margin-left: -11px;
   border-top-width: 0;
-  border-bottom-color: #999999;
-  border-bottom-color: black;
+  border-bottom-color: #000;
+  border-bottom-color: #000;
   top: -11px;
 }
 
@@ -4860,7 +4860,6 @@ a.badge:focus {
   top: 1px;
   margin-left: -10px;
   border-top-width: 0;
-  border-bottom-color: #fff;
 }
 
 .popover.left > .arrow {
@@ -4868,8 +4867,8 @@ a.badge:focus {
   right: -11px;
   margin-top: -11px;
   border-right-width: 0;
-  border-left-color: #999999;
-  border-left-color: black;
+  border-left-color: #000;
+  border-left-color: #000;
 }
 
 .popover.left > .arrow:after {
