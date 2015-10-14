@@ -19,7 +19,7 @@ block content
 
 					.col-xs-12.col-md-10
 						h3
-							a(href='#')= op.get(project, [lang + '-name'])
+							a(href='/' + lang + '/performance/' + op.get(project,'id'))= op.get(project, [lang + '-name'])
 
 					.col-xs-12.col-md-12
 						hr
