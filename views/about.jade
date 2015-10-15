@@ -15,17 +15,13 @@ block content
                         each supporter in op.get(supporters, ['big', 'banners'], [])
                             img( class=(isActive++ === 0 ? 'img-responsive item active' : 'img-responsive item'), src=op.get(supporter, ['photos', 0, 'file']), alt=op.get(supporter, 'name'), height=op.get(supporter, ['type', 'height']), width=op.get(supporter, ['type', 'width']))
                     
-                        //- img.img-responsive.item.active(src='http://placehold.it/640x480' alt='Test')
-                        //- img.img-responsive.item(src='http://placehold.it/640x480' alt='Test')
-                        //- img.img-responsive.item(src='http://placehold.it/640x480' alt='Test')
-
                     a.left.carousel-control(href='#about-carousel' role='button' data-slide='prev')
                         span.icon-prev.arrow-left(aria-hidden='true')
                     a.right.carousel-control(href='#about-carousel' role='button' data-slide='next')
                         span.icon-next.arrow-right(aria-hidden='true')
 
                 article.h3
-                    p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus ad adipisci, minus natus nostrum? Odio, rerum dolores dolorum et quia nostrum inventore neque veniam incidunt quis officiis placeat, doloribus at velit ratione deserunt ducimus repellendus quaerat quo atque obcaecati aperiam perspiciatis molestiae! Nam sunt excepturi sed, aliquid a temporibus nemo sapiente, ratione culpa adipisci expedita modi laudantium illo perspiciatis molestiae atque pariatur, ea itaque repudiandae eaque maxime natus voluptate dolore dolores! Dignissimos nostrum nam non iste deleniti fugiat fugit eligendi, sapiente perspiciatis maxime ratione molestiae sed doloremque quidem qui possimus corrupti aliquam labore eveniet delectus odio amet commodi similique quo? Quis facilis quae perspiciatis tenetur ut, iure atque nobis ipsum harum ipsa, quos!
+                    p!= SDC.get(['root', 'description'])
 
             section.news.col-md-6
                 h2= t('title.news')
