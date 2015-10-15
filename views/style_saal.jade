@@ -1,3 +1,5 @@
+- var fgcolor = SDC.get(['root', 'main_color'], 'FFFF00')
+- var bgcolor = SDC.get(['root', 'secondary_color'], '1a1919')
 style.
     /**
     ** SAAL COLOR SCHEME
@@ -5,24 +7,24 @@ style.
     
     #front-carousel,
     .event-banner .item {
-        background-color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
     }
 
     a:hover {
-        color: #{SAAL.secondary_color};
+        color: #{bgcolor};
     }
 
     .select-cat .active {
-        color: #{SAAL.secondary_color};
+        color: #{bgcolor};
     }
 
     .select-cat label:hover {
-        color:#{SAAL.secondary_color};
+        color:#{bgcolor};
     }
 
     li.event,
     .highlight.event {
-        background-color: #{SAAL.main_color};
+        background-color: #{fgcolor};
     }
 
     li.tour,
@@ -36,17 +38,17 @@ style.
 
     li.residency,
     .highlight.residency {
-        background-color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
     }
 
     .navbar-nav > .active > a,
     .main-nav a:hover,
     .legend li.event:before {
-        color: #{SAAL.main_color} !important;
+        color: #{bgcolor} !important;
     }
 
     .legend li.residency:before {
-        color: #{SAAL.secondary_color};
+        color: #{bgcolor};
     }
 
     .legend li.tour:before {
@@ -60,73 +62,73 @@ style.
     }
 
     .today {
-        color: #{SAAL.main_color};
+        color: #{bgcolor};
     }
 
     .btn,
     .btn-primary {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
+        border-color: #{bgcolor};
     }
 
     .btn:hover,
     .btn-primary:hover {
-        color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
+        color: #{bgcolor};
+        border-color: #{bgcolor};
     }
 
     .btn:focus,
     .btn-primary:focus {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
+        border-color: #{bgcolor};
     }
 
     .open>.btn-default.dropdown-toggle {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
+        border-color: #{bgcolor};
     }
 
     .btn-default {
-        color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
+        color: #{bgcolor};
+        border-color: #{bgcolor};
     }
 
     .btn-default:hover {
-        background-color: #{SAAL.secondary_color};
-        border-color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
+        border-color: #{bgcolor};
     }
 
     .social a {
-        color: #{SAAL.main_color} !important;
+        color: #{bgcolor} !important;
     }
 
     .social a:hover {
-        color: #{SAAL.secondary_color};
+        color: #{bgcolor};
     }
 
     .volunteer a {
-        background-color: #{SAAL.main_color};
-        color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
+        color: #{bgcolor};
     }
 
     .volunteer a:hover {
-        border: 2px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
+        border: 2px solid #{bgcolor};
+        color: #{bgcolor};
     }
 
     .panel h3 a:focus,
     .panel .select-cat label a:focus,
     .select-cat .panel label a:focus {
-        color: #{SAAL.secondary_color};
+        color: #{bgcolor};
     }
 
     #mailchimp-sign-up input[type="text"] {
-        border: 2px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
+        border: 2px solid #{bgcolor};
+        color: #{bgcolor};
     }
 
     #mailchimp-sign-up input[type="submit"] {
-        color: #{SAAL.secondary_color};
+        color: #{bgcolor};
     }
 
     .matched {
@@ -135,27 +137,27 @@ style.
 
     .pager li > a,
     .pager li > span {
-        background-color: #{SAAL.secondary_color};
-        border: 1px solid #{SAAL.secondary_color};
+        background-color: #{bgcolor};
+        border: 1px solid #{bgcolor};
         color: #fff;
     }
 
     .pager li > a:hover,
     .pager li > span:hover {
         background-color: #fff;
-        border: 1px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
+        border: 1px solid #{bgcolor};
+        color: #{bgcolor};
     }
 
     footer {
-        background-color: #{SAAL.secondary_color};
+        background-color: #{bgcolor};
     }
 
     .site-search input {
-        border: 2px solid #{SAAL.secondary_color};
-        color: #{SAAL.secondary_color};
+        border: 2px solid #{bgcolor};
+        color: #{bgcolor};
     }
 
     .site-search button{
-        color: #{SAAL.secondary_color};
+        color: #{bgcolor};
     }
