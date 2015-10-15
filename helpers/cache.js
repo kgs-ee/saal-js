@@ -30,6 +30,7 @@ var cache_from_entu = [
     {"parent":"2109", "definition": "location",    "class": "location"},
     {"parent":"2107", "definition": "event",       "class": "project"},
     {"parent":"1",    "definition": "banner",      "class": "supporters"},
+    {"parent":"2786", "definition": "banner-type", "class": "banner types"},
     // {                 "definition": "coverage",    "class": "coverage"},
 ]
 var cache_from_PL = {
@@ -245,16 +246,19 @@ cache_series.push(function fetchFromEntu(callback) {
                     cachePerformance(e_class, op_entity, callback)
                     break
                 case 'news':
-                    cacheNews(e_class, op_entity, callback)
+                    callback()
                     break
                 case 'person':
-                    cachePerson(e_class, op_entity, callback)
+                    callback()
                     break
                 case 'location':
-                    cacheLocation(e_class, op_entity, callback)
+                    callback()
                     break
                 case 'banner':
-                    cacheBanner(e_class, op_entity, callback)
+                    callback()
+                    break
+                case 'banner-type':
+                    callback()
                     break
                 default:
                     debug('Unhandled definition: ' + definition)
@@ -602,56 +606,39 @@ var cacheEvent = function cacheEvent(op_entity, callback) {
         })
     })
 }
-var cacheNews = function cacheNews(e_class, op_entity, callback) {
-    callback()
-}
-var cachePerson = function cachePerson(e_class, op_entity, callback) {
-    callback()
-}
-var cacheLocation = function cacheLocation(e_class, op_entity, callback) {
-    callback()
-}
-var cacheBanner = function cacheLocation(e_class, op_entity, callback) {
-    callback()
-}
-var cacheCoverage = function cacheCoverage(e_class, op_entity, callback) {
-    callback()
-}
 
 
 var routine = function routine(WorkerReloadCB) {
     console.log('Cache routine started')
+    var restartInFive = function restartInFive() {
+        setTimeout(function(){debug('4')}, 1*1000)
+        setTimeout(function(){debug('3')}, 2*1000)
+        setTimeout(function(){debug('2')}, 3*1000)
+        setTimeout(function(){debug('1')}, 4*1000)
+        debug('Restarting routine in 5')
+        setTimeout(function() {
+            routine(WorkerReloadCB)
+        }, 5*1000)
+        WorkerReloadCB()
+    }
     async.series(cache_series, function routineFinally(err) {
         if (err) {
             debug('Routine stumbled. Restart in 125', err)
             setTimeout(function() {
-                routine(WorkerReloadCB)
-            }, 125*1000)
-            setTimeout(function(){debug('1')}, 124*1000)
-            setTimeout(function(){debug('2')}, 123*1000)
-            setTimeout(function(){debug('3')}, 122*1000)
-            setTimeout(function(){debug('4')}, 121*1000)
+                restartInFive()
+            }, 120*1000)
             return
         }
         if (immediate_reload_required) {
             immediate_reload_required = false
-            debug('Immediate reload requested - restarting in 3')
-            setTimeout(function() {
-                routine(WorkerReloadCB)
-            }, 3*1000)
-            setTimeout(function(){debug('1')}, 2*1000)
-            setTimeout(function(){debug('2')}, 1*1000)
+            debug('Immediate reload requested')
+            restartInFive()
         } else {
+            WorkerReloadCB() // Routine finished successfully - tell workers to reload.
             debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
             setTimeout(function() {
-                routine(WorkerReloadCB)
-            }, CACHE_REFRESH_MS)
-            setTimeout(function(){debug('1')}, CACHE_REFRESH_MS - 1*1000)
-            setTimeout(function(){debug('2')}, CACHE_REFRESH_MS - 2*1000)
-            setTimeout(function(){debug('3')}, CACHE_REFRESH_MS - 3*1000)
-            setTimeout(function(){debug('4')}, CACHE_REFRESH_MS - 4*1000)
-            setTimeout(function(){debug('Restarting routine in 5')}, CACHE_REFRESH_MS - 5*1000)
-            WorkerReloadCB()
+                restartInFive()
+            }, CACHE_REFRESH_MS - 5*1000)
         }
     })
 }

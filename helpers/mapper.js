@@ -217,10 +217,25 @@ var mapBanner = function mapBanner(eid) {
     var op_entity = op(entity)
     var entity_out = op({})
     entity_out.set('id', op_entity.get('id'))
-    entity_out.set('photos', op_entity.get('properties.photo'))
+    entity_out.set('photos', op_entity.get(['properties', 'photo']))
+    entity_out.set('name', op_entity.get(['properties', 'name', 'value']))
+    entity_out.set('url', op_entity.get(['properties', 'url', 'value']))
+    entity_out.set('start', op_entity.get(['properties', 'start', 'value']))
+    entity_out.set('end', op_entity.get(['properties', 'end', 'value']))
+    if (type_id = op_entity.get(['properties', 'type', 'reference'])) {
+        entity_out.set('type', mapBannerType(type_id))
+    }
+    return entity_out.get()
+}
+
+var mapBannerType = function mapBannerType(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    var op_entity = op(entity)
+    var entity_out = op({})
+    entity_out.set('id', op_entity.get('id'))
     entity_out.set('name', op_entity.get('properties.name.value'))
-    entity_out.set('start', op_entity.get('properties.start.value'))
-    entity_out.set('end', op_entity.get('properties.end.value'))
+    entity_out.set('width', op_entity.get('properties.width.value'))
+    entity_out.set('height', op_entity.get('properties.height.value'))
     return entity_out.get()
 }
 
@@ -233,6 +248,7 @@ exports.location    = mapLocation
 exports.performance = mapPerformance
 exports.user        = mapUser
 exports.banner      = mapBanner
+exports.bannerType  = mapBannerType
 
 exports.coverageByPerformanceSync = coverageByPerformanceSync
 exports.coverageByEventSync       = coverageByEventSync

@@ -11,7 +11,7 @@ var mapper  = require('../helpers/mapper')
 
 var prepped_news = {}
 var prepped_locations = []
-var prepped_supporters = []
+var prepped_supporters = {}
 
 router.get('/', function(req, res, next) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
@@ -91,10 +91,22 @@ var prepareLocations = function prepareLocations(callback) {
 
 // Supporters
 var prepareSupporters = function prepareSupporters(callback) {
-    prepped_supporters = []
+    var BANNER_SIZES = {
+        2788: "big",
+        2787: "small"
+    }
+    prepped_supporters = {}
     async.each(SDC.get(['local_entities', 'by_class', 'supporters']), function(entity, callback) {
         var supporter = mapper.banner(entity.id)
-        prepped_supporters.push(supporter)
+        var banner_size = op.get(BANNER_SIZES, op.get(supporter, ['type', 'id']), false)
+        if (!banner_size) {
+            return callback()
+        }
+        if (!op.get(prepped_supporters, banner_size, false)) {
+            op.set(prepped_supporters, banner_size, JSON.parse(JSON.stringify(op.get(supporter, ['type']))))
+        }
+        op.push(prepped_supporters, [banner_size, 'banners'], supporter)
+        // prepped_supporters.push(supporter)
         callback()
     }, function(err) {
         if (err) {
@@ -102,7 +114,7 @@ var prepareSupporters = function prepareSupporters(callback) {
             callback(err)
             return
         }
-        debug('Supporters prepared.', JSON.stringify(prepped_supporters, null, 4))
+        // debug('Supporters prepared.', JSON.stringify(prepped_supporters, 6, 4))
         callback()
     })
 }

@@ -12,7 +12,7 @@ block content
                         - var featureActive = 0
                         each feature in featured
 
-                            .item(class=(++featureActive === 1 ? 'active' : ''))
+                            .item(class=(featureActive++ === 0 ? 'active' : ''))
                                 a(href='/' + lang + '/performance/' + op.get(feature,'id'))
                                     figure(id='slide-'+op.get(feature, 'id')+'' style='background-image: url(' + op.get(feature, 'photo.file') + ');')
                                     header.col-md-8
