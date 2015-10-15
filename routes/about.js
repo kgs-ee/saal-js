@@ -11,13 +11,15 @@ var mapper  = require('../helpers/mapper')
 
 var prepped_news = {}
 var prepped_locations = []
+var prepped_supporters = []
 
 router.get('/', function(req, res, next) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     res.render('about', {
-    	"news": prepped_news,
-    	"locations": prepped_locations,
+    	"news"       : prepped_news,
+    	"locations"  : prepped_locations,
+    	"supporters" : prepped_supporters,
     })
     res.end()
     // debug(JSON.stringify(prepped_locations, null, 4))
@@ -28,6 +30,7 @@ router.prepare = function prepare(callback) {
     var parallelf = []
     parallelf.push(prepareNews)
     parallelf.push(prepareLocations)
+    parallelf.push(prepareSupporters)
     async.parallel(parallelf, function(err) {
         if (err) {
             debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
@@ -82,6 +85,24 @@ var prepareLocations = function prepareLocations(callback) {
             return
         }
         // debug('Locations prepared.')
+        callback()
+    })
+}
+
+// Supporters
+var prepareSupporters = function prepareSupporters(callback) {
+    prepped_supporters = []
+    async.each(SDC.get(['local_entities', 'by_class', 'supporters']), function(entity, callback) {
+        var supporter = mapper.banner(entity.id)
+        prepped_supporters.push(supporter)
+        callback()
+    }, function(err) {
+        if (err) {
+            debug('Failed to prepare supporters.', err)
+            callback(err)
+            return
+        }
+        debug('Supporters prepared.', JSON.stringify(prepped_supporters, null, 4))
         callback()
     })
 }

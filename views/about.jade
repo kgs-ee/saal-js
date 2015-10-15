@@ -63,27 +63,10 @@ block content
         .supporter.col-md-12
             h2= t('title.sponsors')
             ul.list-inline
-                li
-                    a(href='#')
-                        img(src='http://placehold.it/100x50' alt='Test')
-                li
-                    a(href='#')
-                        img(src='http://placehold.it/100x50' alt='Test')
-                li
-                    a(href='#')
-                        img(src='http://placehold.it/100x50' alt='Test')
-                li
-                    a(href='#')
-                        img(src='http://placehold.it/100x50' alt='Test')
-                li
-                    a(href='#')
-                        img(src='http://placehold.it/100x50' alt='Test')
-                li
-                    a(href='#')
-                        img(src='http://placehold.it/100x50' alt='Test')
-                li
-                    a(href='#')
-                        img(src='http://placehold.it/100x50' alt='Test')
+                each supporter in supporters
+                    li
+                        a(href='#')
+                            img(src=op.get(supporter, ['photos', 0, 'file']), height=50, width=100)
                 li
                     a(href='#')
                         img(src='http://placehold.it/100x50' alt='Test')

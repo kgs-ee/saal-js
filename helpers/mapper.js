@@ -212,6 +212,18 @@ var mapUser = function mapUser(eid) {
     return entity_out.get()
 }
 
+var mapBanner = function mapBanner(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    var op_entity = op(entity)
+    var entity_out = op({})
+    entity_out.set('id', op_entity.get('id'))
+    entity_out.set('photos', op_entity.get('properties.photo'))
+    entity_out.set('name', op_entity.get('properties.name.value'))
+    entity_out.set('start', op_entity.get('properties.start.value'))
+    entity_out.set('end', op_entity.get('properties.end.value'))
+    return entity_out.get()
+}
+
 
 exports.category    = mapCategory
 exports.coverage    = mapCoverage
@@ -220,6 +232,7 @@ exports.news        = mapNews
 exports.location    = mapLocation
 exports.performance = mapPerformance
 exports.user        = mapUser
+exports.banner      = mapBanner
 
 exports.coverageByPerformanceSync = coverageByPerformanceSync
 exports.coverageByEventSync       = coverageByEventSync
