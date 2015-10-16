@@ -10,16 +10,17 @@ block content
 			.programme.row
 				.col-xs-12.col-md-12
 					h2= t('nav.projects')
+				
+					.panel-group(id='accordion' role='tablist' multiselectable='true')
 					
-				each project in projects
-					.col-xs-12.col-md-2
-						p= (moment(op.get(project, ['start-time', 0])).locale(lang).format('dddd'))
-						p= (moment(op.get(project, ['start-time', 0])).locale(lang).format('L'))
-						p= op.get(project, ['start-time', 0])
-
-					.col-xs-12.col-md-10
-						h3
-							a(href='/' + lang + '/performance/' + op.get(project,'id'))= op.get(project, [lang + '-name'])
-
-					.col-xs-12.col-md-12
-						hr
+						- var indexCollapse = 0
+						- var indexIn = 0
+						each project in projects
+							.panel
+								div(role="tab" id="heading-"+op.get(project, 'id')+"")
+									h3
+										a(class=(++indexCollapse === 1 ? '' : 'collapsed') data-toggle="collapse" data-parent="#accordion" href="#collapse-"+op.get(project, 'id')+"" aria-expanded="true" aria-controls="collapse-"+op.get(project, 'id')+"")= op.get(project, lang + '-name')
+					
+								.panel-collapse.collapse(class=(++indexIn === 1 ? 'in' : ' ') id="collapse-"+op.get(project, 'id')+"" role="tabpanel" aria-labelledby="heading-"+op.get(project, 'id')+"")
+									div
+										p!= op.get(project, lang + '-description')

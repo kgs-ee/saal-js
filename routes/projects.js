@@ -30,7 +30,7 @@ router.prepare = function prepare(callback) {
             return
         }
         callback()
-        // debug('Projects prepared - ', JSON.stringify(projects, null, 4))
+         debug('Projects prepared - ', JSON.stringify(projects, null, 4))
     })
 }
 
