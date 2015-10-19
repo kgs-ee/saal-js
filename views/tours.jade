@@ -7,58 +7,30 @@ block content
     .container-fluid
         .row.page-margin
             
-            //- nav.archive.top.col-md-12
-            //-     .row
-            //-         .hidden-xs.col-sm-6.col-md-1.col-lg-1
-            //-             .btn-group
-            //-                 button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
-            //-                         span.caret
-            //-                 ul.dropdown-menu(role='menu')
-            //-                     li
-            //-                         a(href='#') 2015
-            //-                     li
-            //-                         a(href='#') 2014
-            //-                     li
-            //-                         a(href='#') 2013
-            //-                     li
-            //-                         a(href='#') 2012
-            //-                     li
-            //-                         a(href='#') 2011
-            //-                     li
-            //-                         a(href='#') 2010
-            //-         .hidden-xs.col-sm-6.col-md-2.col-lg-2
-            //-             .btn-group
-            //-                 button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
-            //-                         span.caret
-            //-                 ul.dropdown-menu(role='menu')
-            //-                     li
-            //-                         a(href='#')= t('categories.theatre')
-            //-                     li
-            //-                         a(href='#')= t('categories.dance')
-            //-                     li
-            //-                         a(href='#')= t('categories.performance')
-            //-                     li
-            //-                         a(href='#')= t('categories.music')
-            //-                     li
-            //-                         a(href='#')= t('categories.lecture')
-            //-                     li
-            //-                         a(href='#')= t('categories.film')
-            //-                     li
-            //-                         a(href='#')= t('categories.new-circus')
-            //- 
-            //-         .col-sm-12.col-md-9.col-lg-9
-            //-             ul.pager
-            //-                 li.previous
-            //-                     a(href='#')
-            //-                         span &larr; August 2015
-            //-                 li.next
-            //-                     a(href='#')
-            //-                         span September 2015 &rarr;
+            nav.archive.top.col-md-12
+                .row    
+                    .col-xs-12.col-sm-12.col-md-12.col-lg-12
+                        .btn-group.year-select
+                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
+                                    span.caret
+                            ul.dropdown-menu(role='menu')
+                                li
+                                    a(href="#") 2015
+                
+                .row                            
+                    .col-sm-12.col-md-12.col-lg-12
+                        ul.pager
+                            li.previous
+                                a(href="#")
+                                    span ← Aprill 2015 
+                            li.next
+                                a(href="#")
+                                    span Juuni 2015 →
 
             .col-md-12
-                .tour.row
-                    //- .col-xs-12.col-md-12.col-lg-12
-                    //-     h2 Aprill 2015
+                .programme.row
+                    .col-xs-12.col-md-12.col-lg-12
+                        h2 Mai 2015
 
                     each eventdate, datestring in tours
                         each eventtime, timestring in eventdate
@@ -107,51 +79,14 @@ block content
                                         
                                 .col-xs-12.col-md-12
                                     hr
-
-            //- nav.archive.bottom.col-md-12
-            //-     .row
-            //-         .hidden-xs.col-sm-6.col-md-1.col-lg-1
-            //-             .btn-group
-            //-                 button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
-            //-                         span.caret
-            //-                 ul.dropdown-menu(role='menu')
-            //-                     li
-            //-                         a(href='#') 2015
-            //-                     li
-            //-                         a(href='#') 2014
-            //-                     li
-            //-                         a(href='#') 2013
-            //-                     li
-            //-                         a(href='#') 2012
-            //-                     li
-            //-                         a(href='#') 2011
-            //-                     li
-            //-                         a(href='#') 2010
-            //-         .hidden-xs.col-sm-6.col-md-2.col-lg-2
-            //-             .btn-group
-            //-                 button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.category')
-            //-                         span.caret
-            //-                 ul.dropdown-menu(role='menu')
-            //-                     li
-            //-                         a(href='#')= t('categories.theatre')
-            //-                     li
-            //-                         a(href='#')= t('categories.dance')
-            //-                     li
-            //-                         a(href='#')= t('categories.performance')
-            //-                     li
-            //-                         a(href='#')= t('categories.music')
-            //-                     li
-            //-                         a(href='#')= t('categories.lecture')
-            //-                     li
-            //-                         a(href='#')= t('categories.film')
-            //-                     li
-            //-                         a(href='#')= t('categories.new-circus')
-            //- 
-            //-         .col-sm-12.col-md-9.col-lg-9
-            //-             ul.pager
-            //-                 li.previous
-            //-                     a(href='#')
-            //-                         span &larr; August 2015
-            //-                 li.next
-            //-                     a(href='#')
-            //-                         span September 2015 &rarr;
+            
+            nav.archive.bottom.col-md-12
+                .row
+                    .col-sm-12.col-md-12.col-lg-12
+                        ul.pager
+                            li.previous
+                                a(href="#")
+                                    span ← Aprill 2015 
+                            li.next
+                                a(href="#")
+                                    span Juuni 2015 →

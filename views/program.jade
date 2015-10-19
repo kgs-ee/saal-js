@@ -121,27 +121,3 @@ block content
                             li.next
                                 a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month + '/' + categories.join(','))
                                     span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
-                
-                //- .row    
-                //-     .col-xs-12.col-sm-2.col-md-1.col-lg-1
-                //-         .btn-group.year-select
-                //-             button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
-                //-                     span.caret
-                //-             ul.dropdown-menu(role='menu')
-                //-                 each year in [2015, 2014, 2013, 2012, 2011, 2010]
-                //-                     li
-                //-                         if year != monthNav.current.year
-                //-                             a(href = 'program/' + year + '/' + monthNav.current.month + '/' + categories.join(','))= year
-                //-                         else
-                //-                             a
-                //-                                 b= year
-                //-     .col-xs-12.col-sm-10.col-md-11.col-lg-11.select-cat 
-                //-         each cat in all_categories
-                //-             if categories.indexOf(cat.id) == -1
-                //-                 a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
-                //-                     = op.get(cat, ['properties', lang + '-name', 'value'])
-                //-                     span.icon-checkmark2
-                //-             else
-                //-                 a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+arraySubtract(categories, cat.id).join(','))
-                //-                     .active= op.get(cat, ['properties', lang + '-name', 'value'])
-                //-                         span.icon-checkmark                            
