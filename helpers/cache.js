@@ -46,6 +46,7 @@ var temp_relationships = {}
 
 var cache_series = []
 var immediate_reload_required = false
+var is_published = false
 
 
 // Preload with stored data
@@ -92,8 +93,15 @@ cache_series.push(function cacheRoot(callback) {
         SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
         SDC.set(['root', 'description'], institution.get(['properties', 'description', 'md']))
         SDC.set(['root', 'gallery'], institution.get(['properties', 'photo']))
-        debug('Root cached')
-        callback()
+        is_published = institution.get(['properties', 'published', 'value'], false)
+        SDC.set(['root', 'published'], is_published)
+        // debug('Root cached', institution.get(['properties', 'published']))
+        if (is_published === 'True') {
+            // debug('Is published')
+            return callback()
+        }
+        // debug('Is NOT published')
+        callback('Not published')
     })
 })
 
@@ -517,7 +525,6 @@ var add2cache = function add2cache(entity, e_class) {
     }
     return
 }
-
 var relate = function relate(eid1, rel1, eid2, rel2) {
     if (op.get(temp_relationships, [String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
         op.push(temp_relationships, [String(eid1), rel1], String(eid2))
@@ -624,24 +631,31 @@ var routine = function routine(WorkerReloadCB) {
         WorkerReloadCB()
     }
     async.series(cache_series, function routineFinally(err) {
-        if (err) {
-            debug('Routine stumbled. Restart in 125', err)
+        if (err === 'Not published') {
+            debug('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
             setTimeout(function() {
                 restartInFive()
-            }, 120*1000)
+            }, CACHE_REFRESH_MS - 5*1000)
+            return
+        }
+        else if (err) {
+            debug('Routine stumbled. Restart in 25', err)
+            setTimeout(function() {
+                restartInFive()
+            }, 20*1000)
             return
         }
         if (immediate_reload_required) {
             immediate_reload_required = false
             debug('Immediate reload requested')
             restartInFive()
-        } else {
-            WorkerReloadCB() // Routine finished successfully - tell workers to reload.
-            debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
-            setTimeout(function() {
-                restartInFive()
-            }, CACHE_REFRESH_MS - 5*1000)
+            return
         }
+        WorkerReloadCB() // Routine finished successfully - tell workers to reload.
+        debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+        setTimeout(function() {
+            restartInFive()
+        }, CACHE_REFRESH_MS - 5*1000)
     })
 }
 module.exports.routine = routine
