@@ -219,6 +219,34 @@ var get_childs = function get_childs(parent_entity_id, definition, auth_id, auth
 }
 
 
+//Edit entity
+// params = {
+//     entity_id: entity_id,
+//     entity_definition: entity_definition,
+//     dataproperty: dataproperty,
+//     property_id: property_id,
+//     new_value: new_value
+// }
+
+var edit = function edit(params, callback) {
+    var body = {}
+    var property = params.entity_definition + '-' + params.dataproperty
+    if (op.get(params, ['property_id'], false)) {
+        property = property + '.' + params.property_id
+    }
+    body[property] = op.get(params, 'new_value', '')
+
+    var headers = {}
+    var qb = sign_data(body)
+
+    request.put({url: APP_ENTU_URL + '/entity-' + params.entity_id, headers: headers, body: qb, strictSSL: true, json: true, timeout: 60000}, function(error, response, body) {
+        if(error) return callback(error)
+        if(response.statusCode !== 201 || !body.result) return callback(new Error(op.get(body, 'error', body)))
+
+        callback(null, op.get(body, 'result.properties.' + property + '.0', null))
+    })
+}
+
 //Add entity
 var add = function add(parent_entity_id, definition, properties, auth_id, auth_token, callback) {
     var data = {
@@ -289,5 +317,6 @@ var rights = function rights(id, person_id, right, auth_id, auth_token, callback
 exports.get_entity      = get_entity
 exports.get_childs      = get_childs
 exports.get_entities    = get_entities
+exports.edit            = edit
 exports.add             = add
 exports.rights          = rights

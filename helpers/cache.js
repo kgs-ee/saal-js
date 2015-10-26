@@ -94,14 +94,26 @@ cache_series.push(function cacheRoot(callback) {
         SDC.set(['root', 'description'], institution.get(['properties', 'description', 'md']))
         SDC.set(['root', 'gallery'], institution.get(['properties', 'photo']))
         is_published = institution.get(['properties', 'published', 'value'], false)
+        var published_pid = institution.get(['properties', 'published', 'id'], false)
         SDC.set(['root', 'published'], is_published)
         // debug('Root cached', institution.get(['properties', 'published']))
         if (is_published === 'True') {
-            // debug('Is published')
-            return callback()
+            var params = {
+                entity_id: APP_ENTU_ROOT,
+                entity_definition: 'institution',
+                dataproperty: 'published',
+                property_id: published_pid,
+                new_value: ''
+            }
+            entu.edit(params, function() {
+                debug('Is published')
+                return callback()
+            })
+
+        } else {
+            // debug('Is NOT published')
+            callback('Not published')
         }
-        // debug('Is NOT published')
-        callback('Not published')
     })
 })
 
