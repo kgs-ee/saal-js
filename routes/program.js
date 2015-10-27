@@ -25,7 +25,7 @@ router
 
 var renderProgram = function renderProgram(res, year, month, categories) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
-    var all_categories = SDC.get(['local_entities', 'by_class', 'category'])
+    var all_categories = SDC.get(['local_entities', 'by_class', 'category'], {})
     if (!categories) {
         categories = Object.keys(all_categories).map( function(key) { return parseInt(key) })
     } else {
