@@ -47,6 +47,7 @@ var temp_relationships = {}
 var cache_series = []
 var immediate_reload_required = false
 var is_published = false
+var first_run = true
 
 
 // Preload with stored data
@@ -97,7 +98,10 @@ cache_series.push(function cacheRoot(callback) {
         var published_pid = institution.get(['properties', 'published', 'id'], false)
         SDC.set(['root', 'published'], is_published)
         // debug('Root cached', institution.get(['properties', 'published']))
-        if (is_published === 'True') {
+        if (first_run === 'True') {
+            first_run = false
+            return callback() 
+        } else if (is_published === 'True') {
             var params = {
                 entity_id: APP_ENTU_ROOT,
                 entity_definition: 'institution',
