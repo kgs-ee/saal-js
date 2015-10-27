@@ -98,9 +98,9 @@ cache_series.push(function cacheRoot(callback) {
         var published_pid = institution.get(['properties', 'published', 'id'], false)
         SDC.set(['root', 'published'], is_published)
         // debug('Root cached', institution.get(['properties', 'published']))
-        if (first_run === 'True') {
+        if (first_run === true) {
             first_run = false
-            return callback() 
+            return callback()
         } else if (is_published === 'True') {
             var params = {
                 entity_id: APP_ENTU_ROOT,
