@@ -5,7 +5,7 @@ var async     = require('async')
 var op        = require('object-path')
 var fs        = require('fs')
 
-debug('Caching Started at ' + Date().toString())
+console.log('Caching Started at ' + Date().toString())
 
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
@@ -52,7 +52,7 @@ var first_run = true
 
 // Preload with stored data
 cache_series.push(function loadCache(callback) {
-    debug('Loading local cache')
+    console.log('Loading local cache')
     var mandatory_filenames = Object.keys(SDC.get())
     var existing_filenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
         return filename.split('.json')[0]
@@ -65,7 +65,7 @@ cache_series.push(function loadCache(callback) {
         try {
             SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
         } catch(err) {
-            debug('Not loaded: ', filename)
+            console.log('Not loaded: ', filename)
             op.del(filenames, filenames.indexOf(filename))
         }
         callback()
@@ -74,7 +74,7 @@ cache_series.push(function loadCache(callback) {
             callback(err)
             return
         }
-        debug('Cache loaded.')
+        console.log('Cache loaded.')
         callback()
     })
 })
@@ -82,11 +82,11 @@ cache_series.push(function loadCache(callback) {
 
 // Cache root elements
 cache_series.push(function cacheRoot(callback) {
-    debug('Caching root')
+    console.log('Caching root')
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(err, institution) {
         if (err) {
-            debug('Caching root failed', err)
+            console.log('Caching root failed', err)
             callback(err)
             return
         }
@@ -97,7 +97,7 @@ cache_series.push(function cacheRoot(callback) {
         is_published = institution.get(['properties', 'published', 'value'], false)
         var published_pid = institution.get(['properties', 'published', 'id'], false)
         SDC.set(['root', 'published'], is_published)
-        // debug('Root cached', institution.get(['properties', 'published']))
+        // console.log('Root cached', institution.get(['properties', 'published']))
         if (first_run === true) {
             first_run = false
             return callback()
@@ -110,12 +110,12 @@ cache_series.push(function cacheRoot(callback) {
                 new_value: ''
             }
             entu.edit(params, function() {
-                debug('Is published')
+                console.log('Is published')
                 return callback()
             })
 
         } else {
-            // debug('Is NOT published')
+            // console.log('Is NOT published')
             callback('Not published')
         }
     })
@@ -125,11 +125,11 @@ cache_series.push(function cacheRoot(callback) {
 // Fetch from Piletilevi
 cache_series.push(function fetchFromPL(callback) {
     if (immediate_reload_required) {
-        debug('Skipping "Fetch from Piletilevi"')
+        console.log('Skipping "Fetch from Piletilevi"')
         callback()
         return
     }
-    debug('Fetch from Piletilevi')
+    console.log('Fetch from Piletilevi')
     var url = 'http://www.piletilevi.ee/api/action/filter/?types=category,show,concert,venue&export=venue&order=date,desc&filter=venueId/245;concertActive&limit=10000&start=0&language='
     async.each(PL_languages, function(PL_language, callback) {
         request({
@@ -147,7 +147,7 @@ cache_series.push(function fetchFromPL(callback) {
         })
     }, function(err) {
         if (err) {
-            debug('Each failed for fetch from PL')
+            console.log('Each failed for fetch from PL')
             callback(err)
             return
         }
@@ -162,15 +162,15 @@ var PL_concerts = {}
 // Parse PL data
 cache_series.push(function parsePLData(callback) {
     if (immediate_reload_required) {
-        debug('Skipping "Parse Piletilevi data"')
+        console.log('Skipping "Parse Piletilevi data"')
         callback()
         return
     }
-    debug('Parse Piletilevi data')
+    console.log('Parse Piletilevi data')
     async.each(PL_languages, function(PL_language, callback) {
         async.each(Object.keys(cache_from_PL), function(PL_definition, callback) {
             async.each(op.get(PL_data, [PL_language, PL_definition], []), function(item, callback) {
-                // debug(JSON.stringify(item, null, 2), PL_definition)
+                // console.log(JSON.stringify(item, null, 2), PL_definition)
                 switch (PL_definition) {
                     case 'category':
                         op.set(PL_categories, [item.id, 'id'], item.id)
@@ -211,29 +211,29 @@ cache_series.push(function parsePLData(callback) {
                 callback()
             }, function(err) {
                 if (err) {
-                    debug('Each failed for parse PL definition: ' + PL_definition)
+                    console.log('Each failed for parse PL definition: ' + PL_definition)
                     callback(err)
                     return
                 }
-                // debug('Each succeeded for parse PL definitions for language: ' + PL_language)
+                // console.log('Each succeeded for parse PL definitions for language: ' + PL_language)
                 callback()
             })
         }, function(err) {
             if (err) {
-                debug('Each failed for parse PL data')
+                console.log('Each failed for parse PL data')
                 callback(err)
                 return
             }
-            // debug('Each succeeded for parse PL languages')
+            // console.log('Each succeeded for parse PL languages')
             callback()
         })
     }, function(err) {
         if (err) {
-            debug('Each failed for parse PL data')
+            console.log('Each failed for parse PL data')
             callback(err)
             return
         }
-        debug('Each succeeded for parse PL data')
+        console.log('Each succeeded for parse PL data')
         callback()
     })
 })
@@ -242,11 +242,11 @@ cache_series.push(function parsePLData(callback) {
 // Fetch from Entu and remove from PL_data if exists
 cache_series.push(function fetchFromEntu(callback) {
     if (immediate_reload_required) {
-        debug('Skipping "Fetch from Entu and remove from PL_data if exists"')
+        console.log('Skipping "Fetch from Entu and remove from PL_data if exists"')
         callback()
         return
     }
-    debug('Fetch from Entu and remove from PL_data if exists')
+    console.log('Fetch from Entu and remove from PL_data if exists')
 
     var _process_entities = function _process_entities(parent_eid, e_class, definition, entities, callback) {
         async.each(entities, function(op_entity, callback) {
@@ -287,13 +287,13 @@ cache_series.push(function fetchFromEntu(callback) {
                     callback()
                     break
                 default:
-                    debug('Unhandled definition: ' + definition)
+                    console.log('Unhandled definition: ' + definition)
                     break
             }
-            // debug(op_entity.get('id'))
+            // console.log(op_entity.get('id'))
         }, function(err) {
             if (err) {
-                debug('Each failed for _process_entities')
+                console.log('Each failed for _process_entities')
                 callback(err)
                 return
             }
@@ -304,39 +304,39 @@ cache_series.push(function fetchFromEntu(callback) {
     async.eachLimit(cache_from_entu, 1, function(options, callback) {
         var definition = options.definition
         var e_class = options.class
-        debug('Fetch ' + JSON.stringify(options) + ' from Entu.')
+        console.log('Fetch ' + JSON.stringify(options) + ' from Entu.')
         if (options.parent) {
             var parent_eid = options.parent
-            // debug('Fetch ' + definition + '@' + parent_eid + ' from Entu.')
+            // console.log('Fetch ' + definition + '@' + parent_eid + ' from Entu.')
             entu.get_childs(parent_eid, definition, null, null, function(err, op_entities) {
                 if (err) {
-                    debug('Fetch ' + definition + '@' + parent_eid + ' from Entu failed.', err)
+                    console.log('Fetch ' + definition + '@' + parent_eid + ' from Entu failed.', err)
                     callback(err)
                     return
                 }
-                // debug('Fetch ' + definition + '@' + parent_eid + ' from Entu succeeded.')
+                // console.log('Fetch ' + definition + '@' + parent_eid + ' from Entu succeeded.')
                 _process_entities(parent_eid, e_class, definition, op_entities, callback)
             })
         } else {
-            // debug('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
+            // console.log('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
             entu.get_entities(definition, null, null, null, function(err, op_entities) {
                 if (err) {
-                    debug('Fetch ' + definition + ' from Entu failed.', err)
+                    console.log('Fetch ' + definition + ' from Entu failed.', err)
                     callback(err)
                     return
                 }
-                // debug('Fetch ' + definition + '@' + parent_eid + ' from Entu succeeded.')
+                // console.log('Fetch ' + definition + '@' + parent_eid + ' from Entu succeeded.')
                 _process_entities(null, e_class, definition, op_entities, callback)
             })
         }
     }, function(err) {
         if (err) {
-            debug('Each failed for fetch from Entu')
+            console.log('Each failed for fetch from Entu')
             callback(err)
             return
         }
-        // debug('Each succeeded for fetch from Entu')
-        // debug(JSON.stringify(PL_categories, null, 2))
+        // console.log('Each succeeded for fetch from Entu')
+        // console.log(JSON.stringify(PL_categories, null, 2))
         // fs.createWriteStream(path.join(APP_CACHE_DIR, 'PL.json')).write(JSON.stringify({"category":PL_categories, "performance":PL_shows, "event":PL_concerts}, null, '    '), callback)
         callback()
     })
@@ -346,16 +346,16 @@ cache_series.push(function fetchFromEntu(callback) {
 // Add missing categories to Entu
 cache_series.push(function addCategories2Entu(callback) {
     if (immediate_reload_required) {
-        debug('Skipping "Add new categories to Entu"')
+        console.log('Skipping "Add new categories to Entu"')
         callback()
         return
     }
     if (Object.keys(PL_categories).length === 0) {
-        // debug('no categories')
+        // console.log('no categories')
         callback()
         return
     }
-    debug('Add new categories to Entu. (' + Object.keys(PL_categories).length + ')')
+    console.log('Add new categories to Entu. (' + Object.keys(PL_categories).length + ')')
 
     immediate_reload_required = true
 
@@ -367,28 +367,28 @@ cache_series.push(function addCategories2Entu(callback) {
         }
         entu.add(cache_from_PL.category, 'category', properties, null, null, function categoryAddedCB(err, new_id) {
             if (err) {
-                debug('Entu failed to add category', err)
+                console.log('Entu failed to add category', err)
                 callback(err)
                 return
             }
-            debug('Entu added category ' + new_id, err)
+            console.log('Entu added category ' + new_id, err)
             callback()
         })
 
     }, function(err) {
         if (err) {
-            debug('Each failed for add missing categories')
+            console.log('Each failed for add missing categories')
             callback(err)
             return
         }
-        // debug('Missing categories added.')
+        // console.log('Missing categories added.')
         callback()
     })
 })
 // Add missing performances to Entu
 cache_series.push(function addPerformances2Entu(callback) {
     if (immediate_reload_required) {
-        debug('Skipping "Add new performances to Entu"')
+        console.log('Skipping "Add new performances to Entu"')
         callback()
         return
     }
@@ -396,12 +396,12 @@ cache_series.push(function addPerformances2Entu(callback) {
         callback()
         return
     }
-    debug('Add new performances to Entu. (' + Object.keys(PL_shows).length + ')')
+    console.log('Add new performances to Entu. (' + Object.keys(PL_shows).length + ')')
     immediate_reload_required = true
 
     async.each(PL_shows, function(PL_show, callback) {
-        // debug(op.get(PL_show, 'category'))
-        // debug(op.get(PL_show, 'category').map(function(id) {return temp_local_entities.by_plid[id].id}))
+        // console.log(op.get(PL_show, 'category'))
+        // console.log(op.get(PL_show, 'category').map(function(id) {return temp_local_entities.by_plid[id].id}))
         var properties = {
             "pl-id": parseInt(PL_show.id),
             "category": op.get(PL_show, 'category', []).map(function(id) {return op.get(temp_local_entities, ['by_plid', id, 'id'])})[0],
@@ -414,31 +414,31 @@ cache_series.push(function addPerformances2Entu(callback) {
             "photo-url": op.get(PL_show, 'originalImageUrl'),
             "thumb-url": op.get(PL_show, 'shortImageUrl'),
         }
-        // debug(JSON.stringify(properties, null, 2))
+        // console.log(JSON.stringify(properties, null, 2))
         entu.add(cache_from_PL.show, 'performance', properties, null, null, function performanceAddedCB(err, new_id) {
             if (err) {
-                debug('Entu failed to add performance', err)
+                console.log('Entu failed to add performance', err)
                 callback(err)
                 return
             }
-            debug('Entu added performance ' + new_id, err)
+            console.log('Entu added performance ' + new_id, err)
             callback()
         })
 
     }, function(err) {
         if (err) {
-            debug('Each failed for add missing performances')
+            console.log('Each failed for add missing performances')
             callback(err)
             return
         }
-        // debug('Missing performances added.')
+        // console.log('Missing performances added.')
         callback()
     })
 })
 // Add missing events to Entu
 cache_series.push(function add2Entu(callback) {
     if (immediate_reload_required) {
-        debug('Skipping "Add new events to Entu"')
+        console.log('Skipping "Add new events to Entu"')
         callback()
         return
     }
@@ -446,7 +446,7 @@ cache_series.push(function add2Entu(callback) {
         callback()
         return
     }
-    debug('Add new events to Entu. (' + Object.keys(PL_concerts).length + ')')
+    console.log('Add new events to Entu. (' + Object.keys(PL_concerts).length + ')')
     immediate_reload_required = true
 
     async.eachLimit(PL_concerts, 1, function(PL_concert, callback) {
@@ -463,24 +463,24 @@ cache_series.push(function add2Entu(callback) {
             "min-price": op.get(PL_concert, 'minPrice'),
             "max-price": op.get(PL_concert, 'maxPrice'),
         }
-        // debug(JSON.stringify(properties, null, 2))
+        // console.log(JSON.stringify(properties, null, 2))
         entu.add(cache_from_PL.concert, 'event', properties, null, null, function eventAddedCB(err, new_id) {
             if (err) {
-                debug('Entu failed to add event', err)
+                console.log('Entu failed to add event', err)
                 callback(err)
                 return
             }
-            debug('Entu added event ' + new_id, err)
+            console.log('Entu added event ' + new_id, err)
             callback()
         })
 
     }, function(err) {
         if (err) {
-            debug('Each failed for add missing events')
+            console.log('Each failed for add missing events')
             callback(err)
             return
         }
-        // debug('Missing events added.')
+        // console.log('Missing events added.')
         callback()
     })
 })
@@ -488,7 +488,7 @@ cache_series.push(function add2Entu(callback) {
 // Save cache
 cache_series.push(function saveCache(callback) {
     if (immediate_reload_required) {
-        debug('Skipping "Save Cache"')
+        console.log('Skipping "Save Cache"')
         callback()
         return
     }
@@ -498,16 +498,16 @@ cache_series.push(function saveCache(callback) {
     var writer_fs = []
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
-        debug('Saving ' + filename)
+        console.log('Saving ' + filename)
         var entities_ws = fs.createWriteStream(path.join(APP_CACHE_DIR, filename + '.json'))
         entities_ws.write(JSON.stringify(SDC.get(filename), null, 4), callback)
     }, function(err) {
         if (err) {
-            debug('Saving cache failed', err)
+            console.log('Saving cache failed', err)
             callback(err)
             return
         }
-        debug('cache saved')
+        console.log('cache saved')
         callback()
     })
 })
@@ -567,7 +567,7 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
     var parent_eid = op_entity.get('id')
     entu.get_childs(parent_eid, null, null, null, function(err, entities) {
         if (err) {
-            // debug('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
+            // console.log('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
             callback(err)
             return
         }
@@ -578,11 +578,11 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
             callback()
         }, function(err) {
             if (err) {
-                debug('Each failed for childs of ' + parent_eid)
+                console.log('Each failed for childs of ' + parent_eid)
                 callback(err)
                 return
             }
-            // debug('Each succeeded for childs of ' + parent_eid)
+            // console.log('Each succeeded for childs of ' + parent_eid)
             callback()
         })
     })
@@ -603,7 +603,7 @@ var cacheEvent = function cacheEvent(op_entity, callback) {
     var parent_eid = op_entity.get('id')
     entu.get_childs(parent_eid, null, null, null, function(err, entities) {
         if (err) {
-            // debug('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
+            // console.log('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
             callback(err)
             return
         }
@@ -622,11 +622,11 @@ var cacheEvent = function cacheEvent(op_entity, callback) {
             }
         }, function(err) {
             if (err) {
-                debug('Each failed for childs of ' + parent_eid)
+                console.log('Each failed for childs of ' + parent_eid)
                 callback(err)
                 return
             }
-            // debug('Each succeeded for childs of ' + parent_eid)
+            // console.log('Each succeeded for childs of ' + parent_eid)
             callback()
         })
     })
@@ -636,11 +636,11 @@ var cacheEvent = function cacheEvent(op_entity, callback) {
 var routine = function routine(WorkerReloadCB) {
     console.log('Cache routine started')
     var restartInFive = function restartInFive() {
-        setTimeout(function(){debug('4')}, 1*1000)
-        setTimeout(function(){debug('3')}, 2*1000)
-        setTimeout(function(){debug('2')}, 3*1000)
-        setTimeout(function(){debug('1')}, 4*1000)
-        debug('Restarting routine in 5')
+        setTimeout(function(){console.log('4')}, 1*1000)
+        setTimeout(function(){console.log('3')}, 2*1000)
+        setTimeout(function(){console.log('2')}, 3*1000)
+        setTimeout(function(){console.log('1')}, 4*1000)
+        console.log('Restarting routine in 5')
         setTimeout(function() {
             routine(WorkerReloadCB)
         }, 5*1000)
@@ -648,14 +648,14 @@ var routine = function routine(WorkerReloadCB) {
     }
     async.series(cache_series, function routineFinally(err) {
         if (err === 'Not published') {
-            debug('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+            console.log('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
             setTimeout(function() {
                 restartInFive()
             }, CACHE_REFRESH_MS - 5*1000)
             return
         }
         else if (err) {
-            debug('Routine stumbled. Restart in 25', err)
+            console.log('Routine stumbled. Restart in 25', err)
             setTimeout(function() {
                 restartInFive()
             }, 20*1000)
@@ -663,12 +663,12 @@ var routine = function routine(WorkerReloadCB) {
         }
         if (immediate_reload_required) {
             immediate_reload_required = false
-            debug('Immediate reload requested')
+            console.log('Immediate reload requested')
             restartInFive()
             return
         }
         WorkerReloadCB() // Routine finished successfully - tell workers to reload.
-        debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+        console.log('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
         setTimeout(function() {
             restartInFive()
         }, CACHE_REFRESH_MS - 5*1000)
