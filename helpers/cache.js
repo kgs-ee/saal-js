@@ -19,7 +19,7 @@ SDC = op({
 })
 
 var cache_from_entu = [
-    {"parent":"1976", "definition": "category",    "class": "category"},
+    {"parent":"2786", "definition": "category",    "class": "category"},
     {"parent":"1930", "definition": "event",       "class": "festival"},
     {"parent":"597",  "definition": "event",       "class": "program"},
     {"parent":"1931", "definition": "event",       "class": "residency"},
@@ -94,14 +94,13 @@ cache_series.push(function cacheRoot(callback) {
         SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
         SDC.set(['root', 'description'], institution.get(['properties', 'description', 'md']))
         SDC.set(['root', 'gallery'], institution.get(['properties', 'photo']))
-        is_published = institution.get(['properties', 'published', 'value'], false)
+        is_published = institution.get(['properties', 'published', 'value'], false) === 'True'
         var published_pid = institution.get(['properties', 'published', 'id'], false)
-        SDC.set(['root', 'published'], is_published)
+        // SDC.set(['root', 'published'], is_published)
         // console.log('Root cached', institution.get(['properties', 'published']))
         if (first_run === true) {
-            first_run = false
             return callback()
-        } else if (is_published === 'True') {
+        } else if (is_published) {
             var params = {
                 entity_id: APP_ENTU_ROOT,
                 entity_definition: 'institution',
@@ -515,6 +514,7 @@ cache_series.push(function saveCache(callback) {
 
 // Final cleanup
 cache_series.push(function cleanup(callback) {
+    first_run = false
     temp_local_entities = {}
     temp_relationships = {}
     PL_categories = {}
