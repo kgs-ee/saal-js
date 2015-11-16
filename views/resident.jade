@@ -11,7 +11,7 @@ block content
                 .carousel-inner(role='listbox')
                     figure(id='slide-'+op.get(event, 'id')+'' style='background-image: url(' + op.get(event, 'photo.file') + ');')
                     header.col-md-8
-                        p= (moment(op.get(event,['start-time',0])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time',0])).locale('et').format('L')
+                        p= (moment(op.get(event,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
                         h1= op.get(event, lang + '-name')
 
                     - categoryNames = op.get(event, 'category').map(function(c){return c.value});    
