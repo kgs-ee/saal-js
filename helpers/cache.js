@@ -134,12 +134,15 @@ cache_series.push(function fetchFromPL(callback) {
     async.each(PL_languages, function(PL_language, callback) {
         request({
             url: url + PL_language,
-            json: true
+            json: true,
+            timeout: 10 * 1000
         }, function (error, response, body) {
             if (error) {
-                callback(error)
+                console.log('PL responded with ', error)
+                callback()
             } else if (response.statusCode !== 200) {
-                callback(new Error('Response status for language ' + PL_language + ': ' + response.statusCode))
+                console.log('Response status for language ' + PL_language + ': ' + response.statusCode)
+                callback()
             } else {
                 op.set(PL_data, PL_language, body.responseData)
                 callback()
