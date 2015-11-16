@@ -8,23 +8,21 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 var helper  = require('../helpers/helper')
 
-// var program_upcoming = []
-
 router
     .get('/', function(req, res, next) {
         var year = new Date().getUTCFullYear()
         var month = new Date().getUTCMonth() + 1
-        debug('Assuming ' + year + '/' + month )
+        // console.log('Assuming ' + year + '/' + month )
         renderProgram(res, year, month, undefined)
         res.end()
     })
     .get('/:year/:month/:categories*?', function(req, res, next) {
-        // debug('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
+        // console.log('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
         renderProgram(res, req.params.year, req.params.month, req.params.categories)
     })
 
 var renderProgram = function renderProgram(res, year, month, categories) {
-    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
+    // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var all_categories = SDC.get(['local_entities', 'by_class', 'category'], {})
     if (!categories) {
         categories = Object.keys(all_categories).map( function(key) { return parseInt(key) })
@@ -36,12 +34,12 @@ var renderProgram = function renderProgram(res, year, month, categories) {
     program_a = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
-        // debug(JSON.stringify(event, null, 2))
+        // console.log(JSON.stringify(event, null, 2))
         if (event['start-time']) {
 
             var pr_categories = op.get(event, ['performance', 'category'], []).map(function(category) { return category.id })
             pr_categories.sort(function(a,b){return a-b})
-            // debug(event.id, categories, '?==', JSON.stringify(pr_categories))
+            // console.log(event.id, categories, '?==', JSON.stringify(pr_categories))
 
             var intersects = false
             var ai = 0, bi = 0
@@ -53,19 +51,19 @@ var renderProgram = function renderProgram(res, year, month, categories) {
             }
 
             if (intersects) {
-                // debug(event.id, categories, ' intersects ', JSON.stringify(pr_categories))
+                // console.log(event.id, categories, ' intersects ', JSON.stringify(pr_categories))
             } else {
-                // debug(event.id, categories, ' doesnot intersect ', JSON.stringify(pr_categories))
-                return
+                // console.log(event.id, categories, ' doesnot intersect ', JSON.stringify(pr_categories))
+                return callback()
             }
 
             if (month - 1 !== new Date(event['start-time']).getUTCMonth()) {
-                // debug(month - 1, '!==', new Date(event['start-time']).getUTCMonth())
-                return
+                // console.log(month - 1, '!==', new Date(event['start-time']).getUTCMonth())
+                return callback()
             }
             if (parseInt(year) != new Date(event['start-time']).getUTCFullYear()) {
-                // debug(year, '!==', new Date(event['start-time']).getUTCFullYear())
-                return
+                // console.log(year, '!==', new Date(event['start-time']).getUTCFullYear())
+                return callback()
             }
 
             var event_date = (event['start-time']).slice(0,10)
@@ -77,7 +75,7 @@ var renderProgram = function renderProgram(res, year, month, categories) {
         callback()
     }, function(err) {
         if (err) {
-            debug('Failed to prepare program.', err)
+            console.log('Failed to render program.', err)
             callback(err)
             return
         }
