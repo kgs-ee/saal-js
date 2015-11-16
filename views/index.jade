@@ -51,10 +51,9 @@ block content
                         h2= t('nav.schedule')
 
                     if program
-                        each eventdate, datestring in program
-                            each eventtime, timestring in eventdate
-
-                                each p in eventtime
+                        each datestring in Object.keys(program).sort()
+                            each timestring in Object.keys(op.get(program, [datestring])).sort()
+                                each p in op.get(program, [datestring, timestring])
                                     .col-xs-12.col-sm-2.col-lg-2
                                         p= (moment(datestring).locale(lang).format('dddd'))
                                         p= (moment(datestring).locale(lang).format('L'))
@@ -117,63 +116,63 @@ block content
                         h2= t('nav.tours')
 
                     if tours
-                    each eventdate, datestring in tours
-                            each eventtime, timestring in eventdate
-                                each p in eventtime
-                                    if op.get(p, ['performance', lang + '-name'])
-                                        .col-xs-12.col-sm-2.col-lg-2
-                                            p= (moment(datestring).locale(lang).format('dddd'))
-                                            p= (moment(datestring).locale(lang).format('L'))
-                                            p= timestring
+                    each datestring in Object.keys(tours).sort()
+                        each timestring in Object.keys(op.get(tours, [datestring])).sort()
+                            each p in op.get(tours, [datestring, timestring])
+                                if op.get(p, ['performance', lang + '-name'])
+                                    .col-xs-12.col-sm-2.col-lg-2
+                                        p= (moment(datestring).locale(lang).format('dddd'))
+                                        p= (moment(datestring).locale(lang).format('L'))
+                                        p= timestring
 
-                                            //- Premiere
-                                            if op.get(p, 'performance.premiere.start-time')
-                                                if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
-                                                    p.today= t('button.premiere')
+                                        //- Premiere
+                                        if op.get(p, 'performance.premiere.start-time')
+                                            if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                                p.today= t('button.premiere')
 
-                                            //- Today
-                                            if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
-                                                div.today= t('button.today')
-                                        .col-xs-12.col-md-6.col-lg-6
-                                            h3
-                                                if op.get(p, 'performance.id', false)
-                                                    a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                        span.artist= op.get(p, 'performance.artist', '')
-                                                        span.producer= op.get(p, 'performance.producer', '')
-                                                        span.town= op.get(p, 'performance.town', '')
-                                                        br
-                                                        span= op.get(p, lang + '-name')
-                                                    
-                                                else
-                                                    a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                        span.artist= op.get(p, 'performance.artist', '')
-                                                        span.producer= op.get(p, 'performance.producer', '')
-                                                        span.town= op.get(p, 'performance.town', '')
-                                                        br
-                                                        span= op.get(p, lang + '-name')
-
-                                        .col-xs-6.col-md-2.col-lg-2
-                                            if op.get(p, 'price') == 0
-                                                p= t('title.free')
+                                        //- Today
+                                        if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
+                                            div.today= t('button.today')
+                                    .col-xs-12.col-md-6.col-lg-6
+                                        h3
+                                            if op.get(p, 'performance.id', false)
+                                                a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                                    span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                    span.artist= op.get(p, 'performance.artist', '')
+                                                    span.producer= op.get(p, 'performance.producer', '')
+                                                    span.town= op.get(p, 'performance.town', '')
+                                                    br
+                                                    span= op.get(p, lang + '-name')
+                                                
                                             else
-                                                p= op.get(p, 'price')
+                                                a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
+                                                    span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                    span.artist= op.get(p, 'performance.artist', '')
+                                                    span.producer= op.get(p, 'performance.producer', '')
+                                                    span.town= op.get(p, 'performance.town', '')
+                                                    br
+                                                    span= op.get(p, lang + '-name')
 
-                                            if op.get(p, 'min-price')
-                                                if op.get(p, 'min-price') == op.get(p, 'max-price')
-                                                    p= op.get(p, 'min-price') + '€'
-                                                else
-                                                    p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
-                                    
-                                        .col-xs-6.col-md-2.text-right
-                                            p= op.get(p, 'location')
-                                            
-                                            if op.get(p, 'sales-status')
-                                                a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                    .col-xs-6.col-md-2.col-lg-2
+                                        if op.get(p, 'price') == 0
+                                            p= t('title.free')
+                                        else
+                                            p= op.get(p, 'price')
 
-                                        .col-xs-12.col-md-12.col-lg-12
-                                            hr
+                                        if op.get(p, 'min-price')
+                                            if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                                p= op.get(p, 'min-price') + '€'
+                                            else
+                                                p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                
+                                    .col-xs-6.col-md-2.text-right
+                                        p= op.get(p, 'location')
+                                        
+                                        if op.get(p, 'sales-status')
+                                            a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+
+                                    .col-xs-12.col-md-12.col-lg-12
+                                        hr
                     else
                         .col-lg-12
                             h2= t('title.no-tours')
@@ -184,11 +183,11 @@ block content
                         h2= t('nav.residency')
 
                     if residencies
-                        each eventdate, datestring in residencies
-                            each eventtime, timestring in eventdate
-                                each p in eventtime
+                        each datestring in Object.keys(residencies).sort()
+                            each timestring in Object.keys(op.get(residencies, [datestring])).sort()
+                                each p in op.get(residencies, [datestring, timestring])
                                     .col-xs-12.col-md-2
-                                        p= (moment(op.get(p,['start-time',0])).locale('et').format('L')) + "—" + moment(op.get(p,['end-time'])).locale('et').format('L')
+                                        p= (moment(op.get(p,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(p,['end-time'])).locale('et').format('L')
 
                                     .col-xs-12.col-md-10
                                         h3

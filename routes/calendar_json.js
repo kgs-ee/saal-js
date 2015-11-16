@@ -31,14 +31,12 @@ router.prepare = function prepare(callback) {
         var one_event = mapper.event(event.id)
         //debug(JSON.stringify(one_event, null, 2))
         if(one_event['start-time']) {
-            one_event['start-time'].forEach(function(startdatetime) {
-                var starttime = '00:00'
-                if (startdatetime.length == 16) {
-                    starttime = startdatetime.slice(11,16)
-                }
-                one_event.time = starttime
-                op.push(event_calendar, startdatetime.slice(0,10), one_event)
-            })
+            var starttime = '00:00'
+            if (one_event['start-time'].length == 16) {
+                starttime = one_event['start-time'].slice(11,16)
+            }
+            one_event.time = starttime
+            op.push(event_calendar, one_event['start-time'].slice(0,10), one_event)
         }
         callback()
     }, function(err) {

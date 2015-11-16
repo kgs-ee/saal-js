@@ -62,18 +62,17 @@ var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
     program_upcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
-        event['start-time'].forEach(function(sttime) {
-            // Show only future events
-            if (new Date() > new Date(sttime)) {
+        if (event['start-time']) {
+            if (new Date() > new Date(event['start-time'])) {
                 return
             }
-            // debug(new Date().toJSON(), sttime, new Date(sttime).toJSON())
-            var event_date = (sttime).slice(0,10)
-            var event_time = (sttime).slice(11,16)
+            // debug(new Date().toJSON(), event['start-time'], new Date(event['start-time']).toJSON())
+            var event_date = (event['start-time']).slice(0,10)
+            var event_time = (event['start-time']).slice(11,16)
             op.set(event, 'event-date', event_date)
             op.set(event, 'event-time', event_time)
             op.push(program_upcoming, [event_date, event_time], event)
-        })
+        }
         callback()
     }, function(err) {
         if (err) {
@@ -92,13 +91,13 @@ var prepareUpcomingTours = function prepareUpcomingTours(callback) {
     async.each(SDC.get(['local_entities', 'by_class', 'tour']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
-        event['start-time'].forEach(function(sttime) {
-            var event_date = (sttime).slice(0,10)
-            var event_time = (sttime).slice(11,16)
+        if (event['start-time']) {
+            var event_date = (event['start-time']).slice(0,10)
+            var event_time = (event['start-time']).slice(11,16)
             op.set(event, 'event-date', event_date)
             op.set(event, 'event-time', event_time)
             op.push(tours_upcoming, [event_date, event_time], event)
-        })
+        }
         callback()
     }, function(err) {
         if (err) {
@@ -116,14 +115,14 @@ var preparePastResidency = function preparePastResidency(callback) {
     residency_past = {}
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
         var event = mapper.event(entity.id)
-        // debug(JSON.stringify(event, null, 2))
-        event['start-time'].forEach(function(sttime) {
-            var event_date = (sttime).slice(0,10)
-            var event_time = (sttime).slice(11,16)
+        // console.log(JSON.stringify(event, null, 2))
+        if (event['start-time']) {
+            var event_date = (event['start-time']).slice(0,10)
+            var event_time = (event['start-time']).slice(11,16)
             op.set(event, 'event-date', event_date)
             op.set(event, 'event-time', event_time)
             op.push(residency_past, [event_date, event_time], event)
-        })
+        }
         callback()
     }, function(err) {
         if (err) {
