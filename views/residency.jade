@@ -5,15 +5,13 @@ block vars
 block content
 
     .container-fluid
-        .row.page-margin
-            each location in residencies
-                section.col-xs-12.col-sm-3.col-md-3.col-lg-3
-                    .programme.row
-                        .col-md-12
-                            h2= op.get(location, [lang + '-name'])
-                        each eventdate, datestring in location.events
-                            each event in eventdate
-                                a.col-xs-12.col-sm-6.col-md-6.col-lg-6.resident(href='/' + lang + '/resident/' + op.get(event,'id'))
-                                    img.img-responsive(src=''+ op.get(event, 'photo.file') +'')
-                                    p= (moment(op.get(event,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
-                                    p= op.get(event, lang + '-name')
+        section.programme.row.page-margin
+            .col-md-12
+                h2= t('nav.residency')
+            each resident in residencies        
+                each eventdate, datestring in resident.events
+                    each event in eventdate
+                        a.col-xs-12.col-sm-6.col-md-3.col-lg-3.resident(href='/' + lang + '/resident/' + op.get(event,'id'))
+                            img.img-responsive(src=''+ op.get(event, 'photo.file') +'')
+                            p= (moment(op.get(event,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
+                            p= op.get(event, lang + '-name')

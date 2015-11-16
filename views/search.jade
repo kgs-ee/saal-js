@@ -74,7 +74,6 @@ block content
                                     if op.get(person, 'score') < 0.6
                                         div(score=op.get(person, 'score'), style='clear:both;')
                                             a(href='https://saal.entu.ee/entity/person/' + op.get(person, 'item.id'))
-                                                img(src=op.get(person, 'item.entity.picture'), style='float:left;')
                                                 h3= op.get(person, 'item.name')
                                                 p= op.get(person, 'item.email')
                                                 p= op.get(person, 'item.phone')

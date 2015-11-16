@@ -107,6 +107,10 @@ block content
 
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
+                        
+                        .col-xs-12.col-md-12        
+                            a.load-more.btn.btn-primary(href='/' + lang + '/program/')= t('button.view-all')
+                            
                     else
                         .col-lg-12
                             h2= t('title.no-events')
@@ -116,63 +120,71 @@ block content
                         h2= t('nav.tours')
 
                     if tours
-                    each datestring in Object.keys(tours).sort()
-                        each timestring in Object.keys(op.get(tours, [datestring])).sort()
-                            each p in op.get(tours, [datestring, timestring])
-                                if op.get(p, ['performance', lang + '-name'])
-                                    .col-xs-12.col-sm-2.col-lg-2
-                                        p= (moment(datestring).locale(lang).format('dddd'))
-                                        p= (moment(datestring).locale(lang).format('L'))
-                                        p= timestring
+                        each datestring in Object.keys(tours).sort()
+                            each timestring in Object.keys(op.get(tours, [datestring])).sort()
+                                each p in op.get(tours, [datestring, timestring])
+                                    if op.get(p, ['performance', lang + '-name'])
+                                        .col-xs-12.col-sm-2.col-lg-2
+                                            p= (moment(datestring).locale(lang).format('dddd'))
+                                            p= (moment(datestring).locale(lang).format('L'))
+                                            p= timestring
 
-                                        //- Premiere
-                                        if op.get(p, 'performance.premiere.start-time')
-                                            if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
-                                                p.today= t('button.premiere')
+                                            //- Premiere
+                                            if op.get(p, 'performance.premiere.start-time')
+                                                if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                                    p.today= t('button.premiere')
 
-                                        //- Today
-                                        if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
-                                            div.today= t('button.today')
-                                    .col-xs-12.col-md-6.col-lg-6
-                                        h3
-                                            if op.get(p, 'performance.id', false)
-                                                a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                    span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                    span.artist= op.get(p, 'performance.artist', '')
-                                                    span.producer= op.get(p, 'performance.producer', '')
-                                                    span.town= op.get(p, 'performance.town', '')
-                                                    br
-                                                    span= op.get(p, lang + '-name')
+                                            //- Today
+                                            if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
+                                                div.today= t('button.today')
                                                 
-                                            else
-                                                a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-                                                    span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                    span.artist= op.get(p, 'performance.artist', '')
-                                                    span.producer= op.get(p, 'performance.producer', '')
-                                                    span.town= op.get(p, 'performance.town', '')
-                                                    br
-                                                    span= op.get(p, lang + '-name')
+                                            //- Is SAAL Biennaal
+                                            
+                                            //- Is Nu Performance Festival
+                                            
+                                        .col-xs-12.col-md-6.col-lg-6
+                                            h3
+                                                if op.get(p, 'performance.id', false)
+                                                    a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                        span.artist= op.get(p, 'performance.artist', '')
+                                                        span.producer= op.get(p, 'performance.producer', '')
+                                                        span.town= op.get(p, 'performance.town', '')
+                                                        br
+                                                        span= op.get(p, lang + '-name')
+                                                    
+                                                else
+                                                    a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
+                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                        span.artist= op.get(p, 'performance.artist', '')
+                                                        span.producer= op.get(p, 'performance.producer', '')
+                                                        span.town= op.get(p, 'performance.town', '')
+                                                        br
+                                                        span= op.get(p, lang + '-name')
 
-                                    .col-xs-6.col-md-2.col-lg-2
-                                        if op.get(p, 'price') == 0
-                                            p= t('title.free')
-                                        else
-                                            p= op.get(p, 'price')
-
-                                        if op.get(p, 'min-price')
-                                            if op.get(p, 'min-price') == op.get(p, 'max-price')
-                                                p= op.get(p, 'min-price') + '€'
+                                        .col-xs-6.col-md-2.col-lg-2
+                                            if op.get(p, 'price') == 0
+                                                p= t('title.free')
                                             else
-                                                p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                                p= op.get(p, 'price')
+
+                                            if op.get(p, 'min-price')
+                                                if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                                    p= op.get(p, 'min-price') + '€'
+                                                else
+                                                    p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                    
+                                        .col-xs-6.col-md-2.text-right
+                                            p= op.get(p, 'location')
+                                            
+                                            if op.get(p, 'sales-status')
+                                                a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+
+                                        .col-xs-12.col-md-12.col-lg-12
+                                            hr
+                        .col-xs-12.col-md-12        
+                            a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all')
                                 
-                                    .col-xs-6.col-md-2.text-right
-                                        p= op.get(p, 'location')
-                                        
-                                        if op.get(p, 'sales-status')
-                                            a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
-
-                                    .col-xs-12.col-md-12.col-lg-12
-                                        hr
                     else
                         .col-lg-12
                             h2= t('title.no-tours')
@@ -195,6 +207,9 @@ block content
 
                                     .col-xs-12.col-md-12
                                         hr
+                    
+                        .col-xs-12.col-md-12        
+                            a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all')                    
                     else
                         .col-lg-12
                             h2= t('title.no-residencies')
@@ -207,11 +222,12 @@ block content
                         div(id='datepicker')
                         ul.list-inline.legend
                             li.event= t('title.event')
-                            li.residency= t('title.residency')
                             li.tour= t('title.tour')
 
                     .col-xs-12.col-sm-6.col-md-4.col-lg-12.volunteer
                         a.text-center.h3(href='mailto:vabatahtlik@saal.ee')= t('button.volunteer')
+                        
+                        img(src="https://entu-files.s3.amazonaws.com/saal_2/617/5629?Signature=kNDb9zArjVLewkhX0FeHTcVgx58%3D&Expires=1447689588&AWSAccessKeyId=AKIAJBBHKC3NLCV2PPOA&versionId=4Lnr8ngr_V0.aDQmDzKsyyx_Wybtk1KL", alt="Banner" class="img-responsive img-center front-banner")
 
                     .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
                         form.validate(action='http://paranoia.us8.list-manage.com/subscribe/post?u=1e1d48fe600fda5c3f6a39b75&amp;id=fdc080b2d5' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' target='_blank' novalidate)

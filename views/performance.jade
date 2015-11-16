@@ -48,6 +48,18 @@ block content
                             GradientMaps.applyGradientMap(slide#{id}, gradientMap); 
 
         .row.page-margin
+            aside.video-sound.col-md-12.col-lg-3
+                if op.get(performance, 'audio')
+                    div
+                        h2= t('title.sound')
+                        div!= op.get(performance, 'audio')
+                if op.get(performance, 'video')
+                    div
+                        h2= t('title.video')
+                        div!= op.get(performance, 'video')
+
+            article.main-text.col-md-8.col-lg-6.h3!= op.get(performance, lang + '-description')
+
             aside.col-md-4.col-lg-3
                 .row
                     each event in events
@@ -65,21 +77,20 @@ block content
                         .col-xs-12.col-md-12.col-lg-12
                             hr
 
-                .meta-info!= op.get(performance, lang + '-technical-information')
-
-                    a.intranet(href='https://saal.entu.ee/entity/performance/' + op.get(performance, 'id'))= t('linkto.intranet')
-
-            article.main-text.col-md-8.col-lg-6.h3!= op.get(performance, lang + '-description')
-
-            aside.video-sound.col-md-12.col-lg-3
-                if op.get(performance, 'audio')
-                    div
-                        h2= t('title.sound')
-                        div!= op.get(performance, 'audio')
-                if op.get(performance, 'video')
-                    div
-                        h2= t('title.video')
-                        div!= op.get(performance, 'video')
+                .meta-info!= op.get(performance, lang + '-technical-information')                    
+                    
+                if past_events.length
+                    .past
+                        h2= t('title.past')
+                        .row
+                            each event in past_events
+                                .col-md-3
+                                    p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('L'))
+                                .col-md-8
+                                    p= op.get(event, 'location')    
+                                .col-md-12
+                                    hr
+    
 
         .row.page-margin
                 .col-md-6
@@ -103,18 +114,4 @@ block content
                                       a(target='_blank' href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
 
                                   .col-xs-12.col-md-12
-                                      hr
-                  
-                  if past_events.length
-                      .past
-                          h2= t('title.past')
-                          .row
-                              each event in past_events
-                                  .col-md-3
-                                      p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('dddd'))
-                                      p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('L'))
-                                      p= (moment(op.get(event, ['start-time', 0])).locale(lang).format('HH:mm'))
-                                  .col-md-8
-                                      p= op.get(event, 'location')    
-                                  .col-md-12
                                       hr

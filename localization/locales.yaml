@@ -48,6 +48,9 @@ button:
     today:
         en: 'Today!'
         et: 'Täna!'
+    view-all:
+        en: View all
+        et: Vaata kõiki
     volunteer:
         en: 'Become a volunteer!'
         et: 'Tule vabatahtlikuks!'
@@ -85,6 +88,15 @@ categories:
         et: Teater
         lv: Teātris
 error:
+    /Users/rannoait/GitHub/saal-js/views/index:
+        "jade:201\n    199|                     a":
+            load-more:
+                btn:
+                    "btn-primary(href='#')= t('button":
+                        "load-more')\n    200|                     \n  > 201|                     else\n    202|                         ":
+                            "col-lg-12\n    203|                             h2= t('title":
+                                "no-residencies')\n    204| \n\nUnexpected else without if":
+                                    et: "error./Users/rannoait/GitHub/saal-js/views/index.jade:201\n    199|                     a.load-more.btn.btn-primary(href='#')= t('button.load-more')\n    200|                     \n  > 201|                     else\n    202|                         .col-lg-12\n    203|                             h2= t('title.no-residencies')\n    204| \n\nUnexpected else without if"
     Not Found:
         en: Page not found
         et: Seda lehte pole veel valmis tehtud või siis on heaks arvatud ta kustutada.
@@ -248,8 +260,8 @@ title:
         et: Kontakt
         lv: title.contact
     event:
-        en: Event
-        et: Etendus
+        en: at SAAL
+        et: SAALis
     floorplans:
         en: Floorplans
         et: Saaliplaanid
@@ -303,8 +315,8 @@ title:
         en: Studio
         et: Stuudio
     tour:
-        en: Tour
-        et: Tuur
+        en: On tour
+        et: Tuuril
     upcoming:
         en: Upcoming
         et: Tulekul

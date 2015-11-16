@@ -9,8 +9,9 @@ block content
             section.col-xs-4.col-sm-3.col-md-2.col-lg-2
                 h2= t('title.contact')
             article.col-xs-8.col-sm-9.col-md-10.col-lg-10.address
-                p Pikk 20, 10133 Tallinn
-                p tel: 64 64 704
+                p Pikk 20, 10133 
+                p Tallinn, Estonia
+                p tel: +372 64 64 704
                 p
                     a(href='mailto:saal@saal.ee') saal@saal.ee
         .row.page-margin
@@ -22,8 +23,7 @@ block content
                 .row.team
                     each user in users
                         .col-xs-6.col-sm-4.col-md-4.col-lg-4.member
-                            img(src=user.picture, height=80, width=80, class='img-circle')
-                            p= op.get(user, 'name')
+                            h2= op.get(user, 'name')
                             p= op.get(user, 'occupation')
                             a(href="mailto:" + op.get(user, 'email') + "")= op.get(user, 'email')
                             p= op.get(user, 'phone')

@@ -107,7 +107,8 @@ module.exports = function(grunt) {
           '.town'
           '.artist:after',
           '.producer:after',
-          '.subtitle'
+          '.subtitle',
+          '.front-banner'
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],

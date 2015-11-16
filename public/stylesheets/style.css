@@ -6182,6 +6182,10 @@ a.logo:hover {
   color: #0A2A6B;
 }
 
+.front-banner {
+  margin-top: 2em;
+}
+
 .banner div,
 .video-sound div {
   margin-bottom: 2em;
@@ -6284,9 +6288,12 @@ a.logo:hover {
   }
 }
 
-.team,
 .member {
-  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.member h2 {
+  margin-bottom: .2em;
 }
 
 footer {
