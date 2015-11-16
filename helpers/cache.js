@@ -19,6 +19,7 @@ SDC = op({
 })
 
 var cache_from_entu = [
+    {"parent":"1976", "definition": "category",    "class": "category"},
     {"parent":"2786", "definition": "category",    "class": "category"},
     {"parent":"1930", "definition": "event",       "class": "festival"},
     {"parent":"597",  "definition": "event",       "class": "program"},
@@ -370,7 +371,7 @@ cache_series.push(function addCategories2Entu(callback) {
                 callback(err)
                 return
             }
-            console.log('Entu added category ' + new_id, err)
+            console.log('Entu added category ' + new_id)
             callback()
         })
 
@@ -435,7 +436,7 @@ cache_series.push(function addPerformances2Entu(callback) {
     })
 })
 // Add missing events to Entu
-cache_series.push(function add2Entu(callback) {
+cache_series.push(function addEvents2Entu(callback) {
     if (immediate_reload_required) {
         console.log('Skipping "Add new events to Entu"')
         callback()
@@ -455,9 +456,9 @@ cache_series.push(function add2Entu(callback) {
         var properties = {
             "pl-id": parseInt(PL_concert.id),
             "performance": op.get(temp_local_entities, ['by_plid', op.get(PL_concert, 'showId'), 'id']),
-            "start-time": start_time.toLocaleDateString() + ' ' + start_time.toLocaleTimeString(),
-            "end-time": end_time.toLocaleDateString() + ' ' + end_time.toLocaleTimeString(),
-            "sales-time": sales_time.toLocaleDateString() + ' ' + sales_time.toLocaleTimeString(),
+            "start-time": start_time.toJSON().replace('T', ' ').slice(0,19),
+            "end-time": end_time.toJSON().replace('T', ' ').slice(0,19),
+            "sales-time": sales_time.toJSON().replace('T', ' ').slice(0,19),
             "sales-status": op.get(PL_concert, 'salesStatus'),
             "min-price": op.get(PL_concert, 'minPrice'),
             "max-price": op.get(PL_concert, 'maxPrice'),
@@ -491,6 +492,7 @@ cache_series.push(function saveCache(callback) {
         callback()
         return
     }
+    console.log('Save Cache')
     SDC.set('local_entities', temp_local_entities)
     SDC.set('relationships', temp_relationships)
 
@@ -507,6 +509,7 @@ cache_series.push(function saveCache(callback) {
             return
         }
         console.log('cache saved')
+        first_run = false
         callback()
     })
 })
@@ -514,7 +517,6 @@ cache_series.push(function saveCache(callback) {
 
 // Final cleanup
 cache_series.push(function cleanup(callback) {
-    first_run = false
     temp_local_entities = {}
     temp_relationships = {}
     PL_categories = {}

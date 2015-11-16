@@ -12,6 +12,13 @@ APP_ENTU_URL        = process.env.ENTU_URL || "https://saal.entu.ee/api2"
 APP_ENTU_USER       = process.env.ENTU_USER
 APP_ENTU_KEY        = process.env.ENTU_KEY
 
+if (!process.env.ENTU_USER) {
+    throw '"ENTU_USER" missing in environment'
+}
+if (!process.env.ENTU_KEY) {
+    throw '"ENTU_KEY" missing in environment'
+}
+
 // Site data cache
 APP_ENTU_ROOT       = 1 // institution
 APP_CACHE_DIR       = __dirname + '/pagecache'

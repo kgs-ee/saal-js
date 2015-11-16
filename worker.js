@@ -17,9 +17,6 @@ var i18n     = require('./helpers/i18n')
 
 debug('Loading Entu web ...')
 
-if (!process.env.ENTU_USER) {
-    throw '"ENTU_USER" missing in environment'
-}
 APP_COOKIE_SECRET   = '' // Will be set from master
 APP_CACHE_DIR       = '' // Will be set from master
 APP_VERSION         = process.env.VERSION || require('./package').version
