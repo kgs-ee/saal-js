@@ -37,7 +37,7 @@ var renderProgram = function renderProgram(res, year, month, categories) {
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
-        event['start-time'].forEach(function(sttime) {
+        if (event['start-time']) {
 
             var pr_categories = op.get(event, ['performance', 'category'], []).map(function(category) { return category.id })
             pr_categories.sort(function(a,b){return a-b})
@@ -59,21 +59,21 @@ var renderProgram = function renderProgram(res, year, month, categories) {
                 return
             }
 
-            if (month - 1 !== new Date(sttime).getUTCMonth()) {
-                // debug(month - 1, '!==', new Date(sttime).getUTCMonth())
+            if (month - 1 !== new Date(event['start-time']).getUTCMonth()) {
+                // debug(month - 1, '!==', new Date(event['start-time']).getUTCMonth())
                 return
             }
-            if (parseInt(year) != new Date(sttime).getUTCFullYear()) {
-                // debug(year, '!==', new Date(sttime).getUTCFullYear())
+            if (parseInt(year) != new Date(event['start-time']).getUTCFullYear()) {
+                // debug(year, '!==', new Date(event['start-time']).getUTCFullYear())
                 return
             }
 
-            var event_date = (sttime).slice(0,10)
-            var event_time = (sttime).slice(11,16)
+            var event_date = (event['start-time']).slice(0,10)
+            var event_time = (event['start-time']).slice(11,16)
             op.set(event, 'event-date', event_date)
             op.set(event, 'event-time', event_time)
             op.push(program_a, [event_date, event_time], event)
-        })
+        }
         callback()
     }, function(err) {
         if (err) {
