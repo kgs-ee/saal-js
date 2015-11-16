@@ -7,86 +7,89 @@ block content
     .container-fluid
         .row.page-margin
             
-            nav.archive.top.col-md-12
-                .row    
-                    .col-xs-12.col-sm-12.col-md-12.col-lg-12
-                        .btn-group.year-select
-                            button.btn.dtn-default.dropdown-toggle(type='button' data-toggle='dropdown' aria-expanded='false')= t('button.year') 
-                                    span.caret
-                            ul.dropdown-menu(role='menu')
-                                li
-                                    a(href="#") 2015
-                
-                .row                            
-                    .col-sm-12.col-md-12.col-lg-12
-                        ul.pager
-                            li.previous
-                                a(href="#")
-                                    span ← Aprill 2015 
-                            li.next
-                                a(href="#")
-                                    span Juuni 2015 →
+        .row
+            .col-sm-12.col-md-12.col-lg-12
+                ul.pager
+                    li.previous
+                        a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
+                            span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
+                    li.next
+                        a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
+                            span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
 
-            .col-md-12
-                .programme.row
-                    .col-xs-12.col-md-12.col-lg-12
-                        h2 Mai 2015
+    .col-md-12
+        .programme.row
+            .col-xs-12.col-md-12.col-lg-12
+                h2= monthNav.current.year + ' ' + t('month.' + monthNav.current.month)
 
-                    each eventdate, datestring in tours
-                        each eventtime, timestring in eventdate
-                            each p, i in eventtime
-                                .col-xs-12.col-md-2
-                                    p= t('weekdays.' + new Date(datestring).getDay())
-                                    p= (moment(datestring).locale(lang).format('L'))
-                                    p= timestring
-                                .col-xs-12.col-md-6
-                                    h3
-                                        if op.get(p, 'performance.id', false)
-                                            a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                span.artist= op.get(p, 'performance.artist', '')
-                                                span.producer= op.get(p, 'performance.producer', '')
-                                                span.town= op.get(p, 'performance.town', '')
-                                                br
-                                                span= op.get(p, lang + '-name')
-                                            
-                                        else
-                                            a(href='/' + lang + '/event/' + op.get(p,'id'))
-                                                span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                span.artist= op.get(p, 'performance.artist', '')
-                                                span.producer= op.get(p, 'performance.producer', '')
-                                                span.town= op.get(p, 'performance.town', '')
-                                                br
-                                                span= op.get(p, lang + '-name')
-                                                
-                                .col-xs-6.col-md-2.col-lg-2
-                                    if op.get(p, 'price') == 0
-                                        p= t('title.free')
+            if tours
+                each datestring in Object.keys(tours).sort()
+                    each timestring in Object.keys(op.get(tours, [datestring])).sort()
+                        each p in op.get(tours, [datestring, timestring])
+                            .col-xs-12.col-sm-2.col-lg-2
+                                p= (moment(datestring).locale(lang).format('dddd'))
+                                p= (moment(datestring).locale(lang).format('L'))
+                                p= timestring
+
+                                //- Premiere
+                                if op.get(p, 'performance.premiere.start-time')
+                                    if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                        p.today= t('button.premiere')
+
+                                //- Today
+                                if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
+                                    div.today= t('button.today')
+
+                            .col-xs-12.col-md-6.col-lg-6
+                                h3
+                                    if op.get(p, 'performance.id', false)
+                                        a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
+                                            span.subtitle= op.get(p, lang + '-subtitle', '')
+                                            span.artist= op.get(p, 'performance.artist', '')
+                                            span.producer= op.get(p, 'performance.producer', '')
+                                            span.town= op.get(p, 'performance.town', '')
+                                            br
+                                            span= op.get(p, lang + '-name')
+
                                     else
-                                        p= op.get(p, 'price')
+                                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
+                                            span.subtitle= op.get(p, lang + '-subtitle', '')
+                                            span.artist= op.get(p, 'performance.artist', '')
+                                            span.producer= op.get(p, 'performance.producer', '')
+                                            span.town= op.get(p, 'performance.town', '')
+                                            br
+                                            span= op.get(p, lang + '-name')
 
-                                    if op.get(p, 'min-price')
-                                        if op.get(p, 'min-price') == op.get(p, 'max-price')
-                                            p= op.get(p, 'min-price') + '€'
-                                        else
-                                            p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
-                            
-                                .col-xs-6.col-md-2.text-right
-                                    p= op.get(p, 'location')
-                                    
-                                    if op.get(p, 'sales-status')
-                                        a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
-                                        
-                                .col-xs-12.col-md-12
-                                    hr
-            
-            nav.archive.bottom.col-md-12
-                .row
-                    .col-sm-12.col-md-12.col-lg-12
-                        ul.pager
-                            li.previous
-                                a(href="#")
-                                    span ← Aprill 2015 
-                            li.next
-                                a(href="#")
-                                    span Juuni 2015 →
+                            .col-xs-6.col-md-2.col-lg-2
+                                p= op.get(p, 'location.'+ lang + '-name')
+                                if op.get(p, 'price') == 0
+                                    p= t('title.free')
+                                else
+                                    p= op.get(p, 'price')
+
+                                if op.get(p, 'min-price')
+                                    if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                        p= op.get(p, 'min-price') + '€'
+                                    else
+                                        p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+
+                            if op.get(p, 'sales-status')
+                                .col-xs-6.col-md-2.col-lg-2.text-right
+                                    a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+
+                            .col-xs-12.col-md-12.col-lg-12
+                                hr
+            else
+                .col-lg-12
+                    h2= t('title.no-events')
+
+    nav.archive.bottom.col-md-12
+        .row
+            .col-sm-12.col-md-12.col-lg-12
+                ul.pager
+                    li.previous
+                        a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
+                            span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
+                    li.next
+                        a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
+                            span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
