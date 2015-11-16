@@ -51,9 +51,9 @@ block content
                         h2= monthNav.current.year + ' ' + t('month.' + monthNav.current.month)
 
                     if program
-                        each eventdate, datestring in program
-                            each eventtime, timestring in eventdate
-                                each p in eventtime
+                        each datestring in Object.keys(program).sort()
+                            each timestring in Object.keys(op.get(program, [datestring])).sort()
+                                each p in op.get(program, [datestring, timestring])
                                     .col-xs-12.col-sm-2.col-lg-2
                                         p= (moment(datestring).locale(lang).format('dddd'))
                                         p= (moment(datestring).locale(lang).format('L'))
