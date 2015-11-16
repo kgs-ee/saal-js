@@ -6,7 +6,7 @@ block content
 
     .container-fluid
         .row.page-margin
-            
+
             nav.archive.top.col-md-12
                 .row    
                     .col-xs-12.col-sm-2.col-md-2.col-lg-1
@@ -32,7 +32,7 @@ block content
                                     .active= op.get(cat, ['properties', lang + '-name', 'value'])
                                         span.icon-checkmark                            
                 
-                .row                            
+                .row
                     .col-sm-12.col-md-12.col-lg-12
                         ul.pager
                             li.previous
@@ -78,7 +78,7 @@ block content
                                                     span.town= op.get(p, 'performance.town', '')
                                                     br
                                                     span= op.get(p, lang + '-name')
-                                                
+
                                             else
                                                 a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
                                                     span.subtitle= op.get(p, lang + '-subtitle', '')
@@ -87,14 +87,14 @@ block content
                                                     span.town= op.get(p, 'performance.town', '')
                                                     br
                                                     span= op.get(p, lang + '-name')
-                                                    
+
                                     .col-xs-6.col-md-2.col-lg-2
                                         p= op.get(p, 'location.'+ lang + '-name')
                                         if op.get(p, 'price') == 0
                                             p= t('title.free')
                                         else
                                             p= op.get(p, 'price')
-                                        
+
                                         if op.get(p, 'min-price')
                                             if op.get(p, 'min-price') == op.get(p, 'max-price')
                                                 p= op.get(p, 'min-price') + '€'
@@ -104,7 +104,7 @@ block content
                                     if op.get(p, 'sales-status')
                                         .col-xs-6.col-md-2.col-lg-2.text-right
                                             a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
-                                                
+
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
                     else
