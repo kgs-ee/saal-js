@@ -93,18 +93,17 @@ error:
         et: Seda lehte pole veel valmis tehtud või siis on heaks arvatud ta kustutada.
         lv: Lapa nav atrodama
     cache_missing_residency_past:
-        en: error.cache_missing_residency_past
-        et: error.cache_missing_residency_past
+        en: Loading data. Should be ready in a minute
+        et: Laadin andmeid. Minuti pärast peaks valmis olema
     cache_missing_upcoming_events:
         en: No upcoming events
         et: Tulevasi sündmusi pole
     cache_missing_upcoming_tours:
-        en: error.cache_missing_upcoming_tours
-        et: error.cache_missing_upcoming_tours
-    calendar_json is not defined:
-        et: error.calendar_json is not defined
+        en: Loading data. Should be ready in a minute
+        et: Laadin andmeid. Minuti pärast peaks valmis olema
     program_upcoming is not defined:
-        et: error.program_upcoming is not defined
+        en: Loading data. Should be ready in a minute
+        et: Laadin andmeid. Minuti pärast peaks valmis olema
 lang:
     en:
         en: EN
@@ -178,6 +177,9 @@ nav:
     festivals:
         en: Festivals
         et: Festivalid
+    media:
+        en: Media
+        et: Meedia
     press:
         en: Press
         et: Press
