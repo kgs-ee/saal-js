@@ -3,7 +3,7 @@
 */
 function datePickerInit() {
     var baseHref = document.getElementsByTagName('base')[0].getAttribute("href")
-    locale = baseHref.split('/')[1]
+    var locale = baseHref.split('/')[1]
 
     var options = $.extend(
         {},
