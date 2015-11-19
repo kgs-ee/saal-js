@@ -4,21 +4,21 @@ var request  = require('request')
 var async    = require('async')
 var op       = require('object-path')
 var md       = require('marked')
-var random   = require('randomstring')
 var crypto   = require('crypto')
 // var sanitize = require('sanitize-html')
-
 
 LIMIT_PARALLEL = 3
 
 function sign_data(data) {
     data = data || {}
 
-    if (!APP_ENTU_USER || !APP_ENTU_KEY) return data
+    if (!APP_ENTU_USER || !APP_ENTU_KEY) { return data }
 
     var conditions = []
     for (k in data) {
-        conditions.push({k: data[k]})
+        if (data.hasOwnProperty(k)) {
+            conditions.push({k: data[k]})
+        }
     }
 
     var expiration = new Date()
@@ -48,7 +48,7 @@ function get_entity(id, auth_id, auth_token, callback) {
         if (error) {
             return callback(error)
         }
-        if (response.statusCode !== 200 || !body.result) return callback(new Error(op.get(body, 'error', body)))
+        if (response.statusCode !== 200 || !body.result) { return callback(new Error(op.get(body, 'error', body))) }
         var properties = op.get(body, 'result.properties', {})
         var entity = {
             id: op.get(body, 'result.id', null),
@@ -87,7 +87,7 @@ function get_entity(id, auth_id, auth_token, callback) {
                         })
                     }
                 }
-                if (op.get(properties, [p, 'multiplicity']) === 1) op.set(entity, ['properties', p], op.get(entity, ['properties', p, 0]))
+                if (op.get(properties, [p, 'multiplicity']) === 1) { op.set(entity, ['properties', p], op.get(entity, ['properties', p, 0])) }
             }
         }
         // debug(JSON.stringify(entity, null, '  '))
