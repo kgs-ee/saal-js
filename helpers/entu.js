@@ -122,7 +122,7 @@ function get_entities(definition, limit, auth_id, auth_token, callback) {
         if (error) {
             return callback(error)
         }
-        if (response.statusCode !== 200 || !body.result) return callback(new Error(op.get(body, 'error', body)))
+        if (response.statusCode !== 200 || !body.result) { return callback(new Error(op.get(body, 'error', body))) }
 
         var entities = []
         async.eachLimit(op.get(body, loop, []), LIMIT_PARALLEL, function(e, callback) {
@@ -239,8 +239,8 @@ function edit(params, callback) {
     var qb = sign_data(body)
 
     request.put({url: APP_ENTU_URL + '/entity-' + params.entity_id, headers: headers, body: qb, strictSSL: true, json: true, timeout: 60000}, function(error, response, body) {
-        if(error) return callback(error)
-        if(response.statusCode !== 201 || !body.result) return callback(new Error(op.get(body, 'error', body)))
+        if(error) { return callback(error) }
+        if(response.statusCode !== 201 || !body.result) { return callback(new Error(op.get(body, 'error', body))) }
 
         callback(null, op.get(body, 'result.properties.' + property + '.0', null))
     })
@@ -300,14 +300,14 @@ function rights(id, person_id, right, auth_id, auth_token, callback) {
     var headers = {}
     var qb = body
     if(auth_id && auth_token) {
-        var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
+        headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
     } else {
-        var qb = sign_data(body)
+        qb = sign_data(body)
     }
 
     request.post({url: APP_ENTU_URL + '/entity-' + id + '/rights', headers: headers, body: qb, strictSSL: true, json: true}, function(error, response, body) {
         if(error) return callback(error)
-        if(response.statusCode !== 200) return callback(new Error(op.get(body, 'error', body)))
+        if(response.statusCode !== 200) { return callback(new Error(op.get(body, 'error', body))) }
 
         callback(null, id)
     })

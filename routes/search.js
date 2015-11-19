@@ -6,7 +6,6 @@ var debug   = require('debug')('app:' + path.basename(__filename).replace('.js',
 var async   = require('async')
 var op      = require('object-path')
 var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
-// var fuzzy   = require('fuzzy')                  // https://github.com/mattyork/fuzzy
 
 var mapper  = require('../helpers/mapper')
 
@@ -14,7 +13,7 @@ var all_events = SDC.get(['local_entities', 'by_definition', 'event'])
 
 
 router.get('/', function(req, res, next) {
-    debug('querystring ', req.query)
+    // console.log('querystring ', req.query)
 
     var results = {}
     var query = req.query.q
@@ -23,6 +22,8 @@ router.get('/', function(req, res, next) {
     if (!query) {
         return next()
     }
+
+    var fuse_options = {}
 
     if (query.split(':')[0] === 'date') {
         var date = query.split(':')
@@ -79,7 +80,7 @@ router.get('/', function(req, res, next) {
         person.shift()
         person = person.join(':')
         debug('Looking for person "' + person + '"')
-        var fuse_options = {
+        fuse_options = {
             includeScore: true,
             keys: [
                 'name',
@@ -122,8 +123,8 @@ router.get('/', function(req, res, next) {
             }
         })
     } else if (query) {
-        debug('Looking for "' + query + '"')
-        var fuse_options = {
+        // console.log('Looking for "' + query + '"')
+        fuse_options = {
             caseSensitive: false,
             includeScore: true,
             shouldSort: true,
@@ -140,11 +141,6 @@ router.get('/', function(req, res, next) {
                 'performance.' + res.locals.lang + '-technical-information'
                 ]
         }
-        // var fuzzy_options = {
-        //     pre: '<b class="matched">',
-        //     post: '</b>',
-        //     extract: function(el) { return el.name + ' ' + el.description; }
-        // }
 
         results = {
             "query_type": 'query'
@@ -152,7 +148,7 @@ router.get('/', function(req, res, next) {
             , "fuse_js": new fuse(all_events, fuse_options).search(req.query.q)
             // , "fuzzy": fuzzy.filter(req.query.q, all_events, fuzzy_options)
         }
-        debug(JSON.stringify(results, null, '  '))
+        // console.log(JSON.stringify(results, null, '  '))
         res.render('search', {
             results: results
         })

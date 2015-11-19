@@ -1,4 +1,4 @@
-if(process.env.NEW_RELIC_LICENSE_KEY) require('newrelic')
+if(process.env.NEW_RELIC_LICENSE_KEY) { require('newrelic') }
 
 var async    = require('async')
 var bparser  = require('body-parser')
@@ -154,7 +154,7 @@ app
 
     // set defaults for views
     .use(function(req, res, next) {
-        if(req.path === '/') return res.redirect('/et/')
+        if(req.path === '/') { return res.redirect('/et/') }
         // debug(JSON.stringify(req.path, null, '    '))
         // res.locals.lang = 'et'
         res.locals.moment = moment
@@ -203,7 +203,7 @@ app
 
     // 404
     .use(function(req, res, next) {
-        debug('404:' + req.path)
+        console.log('404:' + req.path)
         var err = new Error('Not Found')
         err.status = 404
         next(err)
@@ -220,7 +220,7 @@ app
             error: APP_DEBUG ? err : {}
         })
 
-        if(err.status !== 404) debug(err)
+        if(err.status !== 404) { debug(err) }
     })
 
     // start server

@@ -14,7 +14,7 @@ var tours_upcoming = {}
 var residency_past = {}
 
 router.get('/', function(req, res) {
-    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
+    // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
     res.render('index', {
         "featured": featured,
         "program": program_upcoming,
@@ -23,7 +23,6 @@ router.get('/', function(req, res) {
         path: req.path
     })
     res.end()
-    return
 })
 
 
