@@ -4,23 +4,20 @@ var async   = require('async')
 var op      = require('object-path')
 
 
-function getByParent(parent, definition, callback) {
-    var childs = SDC.get(['relationships', parent, 'child'])
-    var lookup = definition ? SDC.get(['local_entities', 'by_definition', definition]) : SDC.get(['local_entities', 'by_eid'])
-    async.filter(lookup, function filter(one_entity) {
-        debug(one_entity.id + ':', childs.indexOf(String(one_entity.id)) > -1)
-        return childs.indexOf(String(one_entity.id)) > -1
-    }, function filtered(entities) {
-        debug('foo', entities)
-        callback(null, entities)
-    })
-}
-function getByDefinition(definition, callback) {
-    callback(null, SDC.get('local_entities', ['by_definition', definition]))
-}
-function coverageByEventSync(event_eid) {
-    return coverageByPerformanceSync(SDC.get(['local_entities', 'by_eid', event_eid, 'properties', 'performance', 'id']))
-}
+// function getByParent(parent, definition, callback) {
+//     var childs = SDC.get(['relationships', parent, 'child'])
+//     var lookup = definition ? SDC.get(['local_entities', 'by_definition', definition]) : SDC.get(['local_entities', 'by_eid'])
+//     async.filter(lookup, function filter(one_entity) {
+//         debug(one_entity.id + ':', childs.indexOf(String(one_entity.id)) > -1)
+//         return childs.indexOf(String(one_entity.id)) > -1
+//     }, function filtered(entities) {
+//         debug('foo', entities)
+//         callback(null, entities)
+//     })
+// }
+// function getByDefinition(definition, callback) {
+//     callback(null, SDC.get('local_entities', ['by_definition', definition]))
+// }
 function coverageByPerformanceSync(performance_eid) {
     var coverages = SDC.get(['relationships', performance_eid, 'coverage'], []).map(function(eid) {
         return mapCoverage(eid)
@@ -33,6 +30,9 @@ function coverageByPerformanceSync(performance_eid) {
         )
     })
     return coverages
+}
+function coverageByEventSync(event_eid) {
+    return coverageByPerformanceSync(SDC.get(['local_entities', 'by_eid', event_eid, 'properties', 'performance', 'id']))
 }
 
 function mapCategory(eid) {
@@ -62,7 +62,7 @@ function mapEvent(eid) {
     op_entity.get('properties.category', []).forEach(function catiterator(category) {
         categories.push(mapCategory(category.reference))
     })
-    entity_out.set('category', categories.filter(function(category) {if (category) return 1}))
+    entity_out.set('category', categories.filter(function(category) { if (category) { return 1 } }))
 
     entity_out.set('color', op_entity.get('properties.color.value', '').split('; '))
     entity_out.set('tag', op_entity.get('properties.tag.value', '').split('; '))
@@ -73,9 +73,10 @@ function mapEvent(eid) {
     entity_out.set('photo', op_entity.get('properties.photo.0'))
     entity_out.set('photos', op_entity.get('properties.photo'))
     entity_out.set('video', op_entity.get('properties.video.value'))
-    if (location_id = op_entity.get('properties.saal-location.reference')) {
-        entity_out.set('saal-location', mapLocation(location_id))
-    }
+
+    var location_id = op_entity.get('properties.saal-location.reference'))
+    if (location_id) { entity_out.set('saal-location', mapLocation(location_id)) }
+
     entity_out.set('location', op_entity.get('properties.location.value'))
     entity_out.set('price', op_entity.get('properties.price.value'))
     entity_out.set('min-price', op_entity.get('properties.min-price.value'))
@@ -88,7 +89,8 @@ function mapEvent(eid) {
     entity_out.set('start-time', op_entity.get('properties.start-time.value'))
     entity_out.set('end-time', op_entity.get('properties.end-time.value'))
 
-    if (performance_id = op_entity.get('properties.performance.reference')) {
+    var performance_id = op_entity.get('properties.performance.reference')
+    if (performance_id) {
         entity_out.set('performance', mapPerformance(performance_id))
         // debug('1: ' + JSON.stringify(entity_out.get('et-name'), null, 2))
         // debug('2: ' + JSON.stringify(entity_out.get(['performance', 'et-name']), null, 2))
@@ -234,9 +236,10 @@ function mapBanner(eid) {
     entity_out.set('url', op_entity.get(['properties', 'url', 'value']))
     entity_out.set('start', op_entity.get(['properties', 'start', 'value']))
     entity_out.set('end', op_entity.get(['properties', 'end', 'value']))
-    if (type_id = op_entity.get(['properties', 'type', 'reference'])) {
-        entity_out.set('type', mapBannerType(type_id))
-    }
+
+    var type_id = op_entity.get(['properties', 'type', 'reference'])
+    if (type_id) { entity_out.set('type', mapBannerType(type_id)) }
+
     return entity_out.get()
 }
 
