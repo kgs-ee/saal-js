@@ -1,6 +1,6 @@
-var path    = require('path')
-var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
-var async   = require('async')
+// var path    = require('path')
+// var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+// var async   = require('async')
 var op      = require('object-path')
 
 
@@ -143,7 +143,7 @@ function mapPerformance(eid) {
     op_entity.get('properties.category', []).forEach(function catiterator(category) {
         categories.push(mapCategory(category.reference))
     })
-    entity_out.set('category', categories.filter(function(category) {if (category) return 1}))
+    entity_out.set('category', categories.filter(function(category) { if (category) { return 1 } }))
 
     entity_out.set('pl-id', op_entity.get('properties.pl-id.value'))
     entity_out.set('en-name', op_entity.get('properties.en-name.value'))

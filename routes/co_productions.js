@@ -9,7 +9,7 @@ var mapper  = require('../helpers/mapper')
 
 var performances = []
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     res.render('co_productions', {
         "performances": performances

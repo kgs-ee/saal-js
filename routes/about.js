@@ -12,7 +12,7 @@ var prepped_news = {}
 var prepped_locations = []
 var prepped_supporters = {}
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     res.render('about', {
@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
     // debug(JSON.stringify(prepped_locations, null, 4))
 })
 
-function prepare(callback) {
+router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
     parallelf.push(prepareNews)

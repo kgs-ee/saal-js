@@ -1,12 +1,12 @@
 var express = require('express')
 var router  = express.Router()
-var path    = require('path')
+// var path    = require('path')
 // var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
-var op      = require('object-path')
+// var op      = require('object-path')
 
 var mapper  = require('../helpers/mapper')
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
 
     var performance_eid = req.path.split('/')[1]
     var performance = mapper.performance(performance_eid)

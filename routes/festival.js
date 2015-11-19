@@ -7,7 +7,7 @@ var op      = require('object-path')
 
 var mapper  = require('../helpers/mapper')
 
-router.get('/:festival_id', function(req, res, next) {
+router.get('/:festival_id', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var festival = op.get(festivals, req.params.festival_id)
     res.render('festival', {
@@ -16,24 +16,8 @@ router.get('/:festival_id', function(req, res, next) {
     res.end()
 })
 
-router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    var parallelf = []
-    parallelf.push(prepareFestivals)
-    async.parallel(parallelf, function(err) {
-        if (err) {
-            debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
-            callback(err)
-            return
-        }
-        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
-        callback()
-    })
-}
-
-
 function prepareFestivals(callback) {
-    festivals = {}
+    var festivals = {}
     async.each(SDC.get(['local_entities', 'by_class', 'festival']), function(festival_entity, callback) {
         op.set(festivals, festival_entity.id, mapper.event(festival_entity.id))
         // debug(JSON.stringify(event, null, 2))
@@ -65,4 +49,21 @@ function prepareFestivals(callback) {
         callback()
     })
 }
+
+router.prepare = function prepare(callback) {
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    var parallelf = []
+    parallelf.push(prepareFestivals)
+    async.parallel(parallelf, function(err) {
+        if (err) {
+            debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
+            callback(err)
+            return
+        }
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        callback()
+    })
+}
+
+
 module.exports = router

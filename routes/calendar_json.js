@@ -9,7 +9,7 @@ var mapper  = require('../helpers/mapper')
 
 var event_calendar = {}
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     var date = op.get(req, 'query.date')
     if (date) {
@@ -24,7 +24,6 @@ router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     event_calendar = {}
     var events = SDC.get('local_entities.by_definition.event')
-    var dates_a = []
 
     async.each(events, function(event, callback) {
         var one_event = mapper.event(event.id)
