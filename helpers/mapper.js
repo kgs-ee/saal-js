@@ -36,6 +36,7 @@ var coverageByPerformanceSync = function coverageByPerformanceSync(performance_e
 }
 
 var mapEvent = function event(eid) {
+    eid = String(eid)
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
     var entity_out = op({})
@@ -97,6 +98,19 @@ var mapEvent = function event(eid) {
         // debug('3: ' + JSON.stringify(entity_out.get('et-name'), null, 2))
     }
 
+    // look for grandparents and if its a "festivals", then add extra "festival" property to event
+    // where festival name comes from parent that relates to "festivals" grandparent.
+    var parent_eids = SDC.get(['relationships', eid, 'parent'], []).map(function(i) {return parseInt(i)})
+    var grandparent_eids = [].concat.apply([],
+        parent_eids.map(function (parent_eid) {
+            if (SDC.get(['relationships', parent_eid, 'parent'], [])
+                   .map(function(i) {return parseInt(i)})
+                   .indexOf(parseInt(SDC.get(['mappings', 'festival']))) > -1) {
+                entity_out.set('et-festival', SDC.get(['local_entities', 'by_eid', String(parent_eid), 'properties', 'et-name', 'value'], 'Festival'))
+                entity_out.set('en-festival', SDC.get(['local_entities', 'by_eid', String(parent_eid), 'properties', 'en-name', 'value'], 'Festival'))
+            }
+        })
+    )
     // debug(entity_out.get())
     return entity_out.get()
 }

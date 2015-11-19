@@ -13,25 +13,26 @@ var entu      = require('../helpers/entu')
 CACHE_REFRESH_MS = 10 * 60 * 1000
 
 SDC = op({
+    "mappings": {"festival": 1930},
     "root": {},
     "local_entities": {},
     "relationships": {},
 })
 
 var cache_from_entu = [
-    {"parent":"1976", "definition": "category",    "class": "category"},
-    {"parent":"2786", "definition": "category",    "class": "category"},
-    {"parent":"1930", "definition": "event",       "class": "festival"},
-    {"parent":"597",  "definition": "event",       "class": "program"},
-    {"parent":"1931", "definition": "event",       "class": "residency"},
-    {"parent":"1929", "definition": "event",       "class": "tour"},
-    {"parent":"1953", "definition": "news",        "class": "news"},
-    {"parent":"1918", "definition": "person",      "class": "team"},
-    {"parent":"1935", "definition": "performance", "class": "performance"},
-    {"parent":"2109", "definition": "location",    "class": "location"},
-    {"parent":"2107", "definition": "event",       "class": "project"},
-    {"parent":"1",    "definition": "banner",      "class": "supporters"},
-    {"parent":"2786", "definition": "banner-type", "class": "banner types"},
+    {"parent":"1976",                            "definition": "category",    "class": "category"},
+    {"parent":"2786",                            "definition": "category",    "class": "category"},
+    {"parent":SDC.get(['mappings', 'festival']), "definition": "event",       "class": "festival"},
+    {"parent":"597",                             "definition": "event",       "class": "program"},
+    {"parent":"1931",                            "definition": "event",       "class": "residency"},
+    {"parent":"1929",                            "definition": "event",       "class": "tour"},
+    {"parent":"1953",                            "definition": "news",        "class": "news"},
+    {"parent":"1918",                            "definition": "person",      "class": "team"},
+    {"parent":"1935",                            "definition": "performance", "class": "performance"},
+    {"parent":"2109",                            "definition": "location",    "class": "location"},
+    {"parent":"2107",                            "definition": "event",       "class": "project"},
+    {"parent":"1",                               "definition": "banner",      "class": "supporters"},
+    {"parent":"2786",                            "definition": "banner-type", "class": "banner types"},
     // {                 "definition": "coverage",    "class": "coverage"},
 ]
 var cache_from_PL = {
