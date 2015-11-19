@@ -1,4 +1,3 @@
-var fs      = require('fs')
 var express = require('express')
 var request = require('request')
 var router  = express.Router()
@@ -47,8 +46,8 @@ router.get('/', function(req, res, next) {
         q_category = q_category.join(':').toLowerCase()
         q_category = q_category.split(',')
         debug('Looking for category "' + JSON.stringify(q_category) + '"')
-        async.each(SDC.get(['local_entities', 'by_definition', 'performance']), function(performance, callback) {
-            var performance = mapper.performance(performance.id)
+        async.each(SDC.get(['local_entities', 'by_definition', 'performance']), function(performance_e, callback) {
+            var performance = mapper.performance(performance_e.id)
             for (ix in op.get(performance, ['category'], [])) {
                 var p_category = op.get(performance, ['category'], [])[ix]
                 if (q_category.indexOf(op.get(p_category, [res.locals.lang + '-name'], '').toLowerCase()) > -1) {

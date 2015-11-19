@@ -1,4 +1,3 @@
-var fs      = require('fs')
 var express = require('express')
 var router  = express.Router()
 var path    = require('path')
@@ -34,7 +33,7 @@ router.prepare = function prepare(callback) {
 
 var festivals = {}
 
-var prepareFestivals = function prepareFestivals(callback) {
+function prepareFestivals(callback) {
     festivals = {}
     async.each(SDC.get(['local_entities', 'by_class', 'festival']), function(festival_entity, callback) {
         op.set(festivals, festival_entity.id, mapper.event(festival_entity.id))

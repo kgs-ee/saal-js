@@ -1,4 +1,4 @@
-var monthNav = function monthNav(year, month) {
+module.exports.monthNav = function monthNav(year, month) {
     month = parseInt(month)
     year = parseInt(year)
     return {
@@ -17,7 +17,7 @@ var monthNav = function monthNav(year, month) {
     }
 }
 
-var arraySubtract = function arraySubtract(arr, val) {
+module.exports.arraySubtract = function arraySubtract(arr, val) {
     var ret_arr = []
     arr.forEach(function(el) {
         if (String(val) != String(el)) {
@@ -26,6 +26,3 @@ var arraySubtract = function arraySubtract(arr, val) {
     })
     return ret_arr
 }
-
-module.exports.monthNav = monthNav
-module.exports.arraySubtract = arraySubtract

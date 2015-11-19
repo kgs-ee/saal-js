@@ -4,7 +4,7 @@ var async   = require('async')
 var op      = require('object-path')
 
 
-var getByParent = function getByParent(parent, definition, callback) {
+function getByParent(parent, definition, callback) {
     var childs = SDC.get(['relationships', parent, 'child'])
     var lookup = definition ? SDC.get(['local_entities', 'by_definition', definition]) : SDC.get(['local_entities', 'by_eid'])
     async.filter(lookup, function filter(one_entity) {
@@ -15,13 +15,13 @@ var getByParent = function getByParent(parent, definition, callback) {
         callback(null, entities)
     })
 }
-var getByDefinition = function getByDefinition(definition, callback) {
+function getByDefinition(definition, callback) {
     callback(null, SDC.get('local_entities', ['by_definition', definition]))
 }
-var coverageByEventSync = function coverageByEventSync(event_eid) {
+function coverageByEventSync(event_eid) {
     return coverageByPerformanceSync(SDC.get(['local_entities', 'by_eid', event_eid, 'properties', 'performance', 'id']))
 }
-var coverageByPerformanceSync = function coverageByPerformanceSync(performance_eid) {
+function coverageByPerformanceSync(performance_eid) {
     var coverages = SDC.get(['relationships', performance_eid, 'coverage'], []).map(function(eid) {
         return mapCoverage(eid)
     })
@@ -35,7 +35,22 @@ var coverageByPerformanceSync = function coverageByPerformanceSync(performance_e
     return coverages
 }
 
-var mapEvent = function event(eid) {
+function mapCategory(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    if (!entity) {
+        // debug( 'Category ' + eid + ' not cached.')
+        return
+    }
+    var op_entity = op(entity)
+    var entity_out = op({})
+    entity_out.set('id', op_entity.get('id'))
+    entity_out.set('et-name', op_entity.get(['properties', 'et-name', 'value']))
+    entity_out.set('en-name', op_entity.get(['properties', 'en-name', 'value']))
+    entity_out.set('pl-id',   op_entity.get(['properties', 'pl-id',   'value']))
+    return entity_out.get()
+}
+
+function mapEvent(eid) {
     eid = String(eid)
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
@@ -101,6 +116,7 @@ var mapEvent = function event(eid) {
     // look for grandparents and if its a "festivals", then add extra "festival" property to event
     // where festival name comes from parent that relates to "festivals" grandparent.
     var parent_eids = SDC.get(['relationships', eid, 'parent'], []).map(function(i) {return parseInt(i)})
+    // TODO: get rid of grandparent_eids
     var grandparent_eids = [].concat.apply([],
         parent_eids.map(function (parent_eid) {
             if (SDC.get(['relationships', parent_eid, 'parent'], [])
@@ -115,7 +131,7 @@ var mapEvent = function event(eid) {
     return entity_out.get()
 }
 
-var mapPerformance = function mapPerformance(eid) {
+function mapPerformance(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
     var entity_out = op({})
@@ -148,7 +164,7 @@ var mapPerformance = function mapPerformance(eid) {
     return entity_out.get()
 }
 
-var mapCoverage = function mapCoverage(eid) {
+function mapCoverage(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
     var entity_out = op({})
@@ -162,7 +178,7 @@ var mapCoverage = function mapCoverage(eid) {
     return entity_out.get()
 }
 
-var mapNews = function mapNews(eid) {
+function mapNews(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
     var entity_out = op({})
@@ -176,22 +192,7 @@ var mapNews = function mapNews(eid) {
     return entity_out.get()
 }
 
-var mapCategory = function mapCategory(eid) {
-    var entity = SDC.get(['local_entities', 'by_eid', eid])
-    if (!entity) {
-        // debug( 'Category ' + eid + ' not cached.')
-        return
-    }
-    var op_entity = op(entity)
-    var entity_out = op({})
-    entity_out.set('id', op_entity.get('id'))
-    entity_out.set('et-name', op_entity.get(['properties', 'et-name', 'value']))
-    entity_out.set('en-name', op_entity.get(['properties', 'en-name', 'value']))
-    entity_out.set('pl-id',   op_entity.get(['properties', 'pl-id',   'value']))
-    return entity_out.get()
-}
-
-var mapLocation = function mapLocation(eid) {
+function mapLocation(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     if (!entity) {
         // debug( 'Location ' + eid + ' not cached.')
@@ -207,7 +208,7 @@ var mapLocation = function mapLocation(eid) {
     return entity_out.get()
 }
 
-var mapUser = function mapUser(eid) {
+function mapUser(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
     var entity_out = op({})
@@ -223,7 +224,7 @@ var mapUser = function mapUser(eid) {
     return entity_out.get()
 }
 
-var mapBanner = function mapBanner(eid) {
+function mapBanner(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
     var entity_out = op({})
@@ -239,7 +240,7 @@ var mapBanner = function mapBanner(eid) {
     return entity_out.get()
 }
 
-var mapBannerType = function mapBannerType(eid) {
+function mapBannerType(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var op_entity = op(entity)
     var entity_out = op({})

@@ -194,7 +194,7 @@ app
     .use('/:lang/projects/',     require('./routes/projects'))
     .use('/:lang/contact/',      require('./routes/contact'))
     .use('/:lang/search',        require('./routes/search'))
-    .use('/:lang/signin',        require('./routes/signin'))
+    // .use('/:lang/signin',        require('./routes/signin'))
     .use('/:lang/festival',      require('./routes/festival'))
     .use('/:lang/calendar_json', require('./routes/calendar_json'))
 

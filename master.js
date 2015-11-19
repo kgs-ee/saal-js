@@ -30,14 +30,14 @@ cache.routine(function cachedCB() {
         var worker = workers[i]
         if (worker) {
             // console.log('Reload worker ' + worker.id)
-            worker.send(command = { cmd: 'reload', dir: APP_CACHE_DIR })
+            worker.send({ cmd: 'reload', dir: APP_CACHE_DIR })
         }
     }
 })
 
 
 // Broadcast a message to all other workers
-var broadcast = function(data, worker_id) {
+function broadcast(data, worker_id) {
     if (!worker_id) {
         worker_id = -1
     }
@@ -50,7 +50,7 @@ var broadcast = function(data, worker_id) {
     }
 }
 
-var createWorker = function createWorker() {
+function createWorker() {
     var worker = cluster.fork()
     worker.on('message', function(msg) {
         if (msg.cmd) {
@@ -86,7 +86,7 @@ if (cluster.isMaster) {
     cluster.on('online', function(worker) {
         console.log(new Date().toString() + ' worker ' + worker.id + ' started')
         worker.send({ cmd: 'APP_COOKIE_SECRET', APP_COOKIE_SECRET: APP_COOKIE_SECRET })
-        worker.send(command = { cmd: 'reload', dir: APP_CACHE_DIR })
+        worker.send({ cmd: 'reload', dir: APP_CACHE_DIR })
     })
 
     // Listen for dying workers nad replace the dead worker, we're not sentimental

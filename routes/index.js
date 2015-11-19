@@ -1,4 +1,3 @@
-var fs      = require('fs')
 var express = require('express')
 var router  = express.Router()
 var path    = require('path')
@@ -14,7 +13,7 @@ var program_upcoming = {}
 var tours_upcoming = {}
 var residency_past = {}
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     res.render('index', {
         "featured": featured,
@@ -41,7 +40,7 @@ router.prepare = function prepare(callback) {
 }
 
 // Featured performamces
-var prepareFeatured = function prepareFeatured(callback) {
+function prepareFeatured(callback) {
     featured = []
     async.each(SDC.get(['local_entities', 'featured']), function(entity, callback) {
         featured.push(mapper.performance(entity.id))
@@ -58,7 +57,7 @@ var prepareFeatured = function prepareFeatured(callback) {
 }
 
 // Upcoming events
-var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
+function prepareUpcomingEvents(callback) {
     program_upcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
@@ -86,7 +85,7 @@ var prepareUpcomingEvents = function prepareUpcomingEvents(callback) {
 }
 
 // Upcoming tours
-var prepareUpcomingTours = function prepareUpcomingTours(callback) {
+function prepareUpcomingTours(callback) {
     tours_upcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'tour']), function(entity, callback) {
         var event = mapper.event(entity.id)
@@ -111,7 +110,7 @@ var prepareUpcomingTours = function prepareUpcomingTours(callback) {
 }
 
 // Past residency
-var preparePastResidency = function preparePastResidency(callback) {
+function preparePastResidency(callback) {
     residency_past = {}
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
         var event = mapper.event(entity.id)

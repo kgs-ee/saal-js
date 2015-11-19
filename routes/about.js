@@ -1,4 +1,3 @@
-var fs      = require('fs')
 var express = require('express')
 var router  = express.Router()
 var path    = require('path')
@@ -25,7 +24,7 @@ router.get('/', function(req, res, next) {
     // debug(JSON.stringify(prepped_locations, null, 4))
 })
 
-router.prepare = function prepare(callback) {
+function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     var parallelf = []
     parallelf.push(prepareNews)
@@ -43,7 +42,7 @@ router.prepare = function prepare(callback) {
 }
 
 // News
-var prepareNews = function prepareNews(callback) {
+function prepareNews(callback) {
     prepped_news = {}
     async.each(SDC.get(['local_entities', 'by_class', 'news']), function(entity, callback) {
         var news = mapper.news(entity.id)
@@ -68,7 +67,7 @@ var prepareNews = function prepareNews(callback) {
 }
 
 // Locations
-var prepareLocations = function prepareLocations(callback) {
+function prepareLocations(callback) {
     prepped_locations = []
     async.each(SDC.get(['local_entities', 'by_class', 'location']), function(entity, callback) {
         var location = mapper.location(entity.id)
@@ -90,7 +89,7 @@ var prepareLocations = function prepareLocations(callback) {
 }
 
 // Supporters
-var prepareSupporters = function prepareSupporters(callback) {
+function prepareSupporters(callback) {
     var BANNER_SIZES = {
         2788: "big",
         2787: "small"

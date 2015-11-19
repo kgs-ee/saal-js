@@ -34,13 +34,13 @@ function sign_data(data) {
 
 
 //Get entity from Entu
-var get_entity = function get_entity(id, auth_id, auth_token, callback) {
+function get_entity(id, auth_id, auth_token, callback) {
+    var headers = {}
+    var qs = {}
     if (auth_id && auth_token) {
-        var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
-        var qs = {}
+        headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
     } else {
-        var headers = {}
-        var qs = sign_data()
+        qs = sign_data()
     }
 
     // debug('get_entity: ' + APP_ENTU_URL + '/entity-' + id)
@@ -97,20 +97,20 @@ var get_entity = function get_entity(id, auth_id, auth_token, callback) {
 
 
 //Get entities by definition
-var get_entities = function get_entities(definition, limit, auth_id, auth_token, callback) {
+function get_entities(definition, limit, auth_id, auth_token, callback) {
     if (!definition) {
         callback(new Error('Missing "definition"'))
         return
     }
 
     var qs = {definition: definition}
+    var headers = {}
     if (limit) {
         qs['limit'] = limit
     }
     if (auth_id && auth_token) {
-        var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
+        headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
     } else {
-        var headers = {}
         qs = sign_data(qs)
     }
 
@@ -145,7 +145,7 @@ var get_entities = function get_entities(definition, limit, auth_id, auth_token,
 
 
 //Get childs by parent entity id and optionally by definition
-var get_childs = function get_childs(parent_entity_id, definition, auth_id, auth_token, callback) {
+function get_childs(parent_entity_id, definition, auth_id, auth_token, callback) {
     if (!parent_entity_id) {
         callback(new Error('Missing "parent_entity_id"'))
         return
@@ -227,8 +227,7 @@ var get_childs = function get_childs(parent_entity_id, definition, auth_id, auth
 //     property_id: property_id,
 //     new_value: new_value
 // }
-
-var edit = function edit(params, callback) {
+function edit(params, callback) {
     var body = {}
     var property = params.entity_definition + '-' + params.dataproperty
     if (op.get(params, ['property_id'], false)) {
@@ -248,7 +247,7 @@ var edit = function edit(params, callback) {
 }
 
 //Add entity
-var add = function add(parent_entity_id, definition, properties, auth_id, auth_token, callback) {
+function add(parent_entity_id, definition, properties, auth_id, auth_token, callback) {
     var data = {
         definition: definition
     }
@@ -257,12 +256,12 @@ var add = function add(parent_entity_id, definition, properties, auth_id, auth_t
         data[definition + '-' + p] = properties[p]
     }
 
+    var headers = {}
+    var qb = data
     if (auth_id && auth_token) {
-        var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
-        var qb = data
+        headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
     } else {
-        var headers = {}
-        var qb = sign_data(data)
+        qb = sign_data(data)
     }
 
     var options = {
@@ -291,16 +290,16 @@ var add = function add(parent_entity_id, definition, properties, auth_id, auth_t
 
 
 //Share entity
-var rights = function rights(id, person_id, right, auth_id, auth_token, callback) {
+function rights(id, person_id, right, auth_id, auth_token, callback) {
     var body = {
         entity: person_id,
         right: right
     }
+    var headers = {}
+    var qb = body
     if(auth_id && auth_token) {
         var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
-        var qb = body
     } else {
-        var headers = {}
         var qb = sign_data(body)
     }
 

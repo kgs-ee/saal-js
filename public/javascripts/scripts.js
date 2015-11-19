@@ -13,7 +13,6 @@ function datePickerInit() {
     $.datepicker.setDefaults(options)
 
     var arrEvents = {}
-    var currentTitle = ""
     $.getJSON('calendar_json', function(response){
 
         for (var key in response) {
@@ -131,8 +130,8 @@ function calToolTip() {
 **  Frontpage slider height
 */
 function eventBannerHeight() {
-    windowHeight = $(window).height()
-    navHeight = $('.navbar-default').outerHeight()
+    var windowHeight = $(window).height()
+    var navHeight = $('.navbar-default').outerHeight()
 
     $(".event-banner figure").height(windowHeight - navHeight)
 }

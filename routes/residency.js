@@ -1,4 +1,3 @@
-var fs      = require('fs')
 var express = require('express')
 var router  = express.Router()
 var path    = require('path')
@@ -10,7 +9,7 @@ var mapper  = require('../helpers/mapper')
 
 var residency = {}
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     debug('Loading "' + req.url + '"')
 
     res.render('residency', {
@@ -29,7 +28,7 @@ router.prepare = function prepare(callback) {
     })
 }
 
-var prepareResidency = function prepareResidency(callback) {
+function prepareResidency(callback) {
     residency = {}
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
         var event = mapper.event(entity.id)

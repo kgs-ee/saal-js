@@ -1,4 +1,3 @@
-var fs      = require('fs')
 var express = require('express')
 var router  = express.Router()
 var path    = require('path')
@@ -21,7 +20,7 @@ router
         renderProgram(res, req.params.year, req.params.month, req.params.categories)
     })
 
-var renderProgram = function renderProgram(res, year, month, categories) {
+function renderProgram(res, year, month, categories) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var all_categories = SDC.get(['local_entities', 'by_class', 'category'], {})
     if (!categories) {
@@ -31,7 +30,7 @@ var renderProgram = function renderProgram(res, year, month, categories) {
     }
     categories.sort(function(a,b){return a-b})
 
-    program_a = {}
+    var program_a = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // console.log(JSON.stringify(event, null, 2))

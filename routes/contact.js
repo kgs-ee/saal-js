@@ -1,4 +1,3 @@
-var fs      = require('fs')
 var express = require('express')
 var router  = express.Router()
 var path    = require('path')
@@ -38,6 +37,7 @@ router.prepare = function prepare(callback) {
     var parallelf = []
     parallelf.push(prepareUsers)
     async.parallel(parallelf, function(err) {
+        if (err) { return callback(err) }
         // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
