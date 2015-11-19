@@ -48,10 +48,13 @@ router.get('/', function(req, res, next) {
         debug('Looking for category "' + JSON.stringify(q_category) + '"')
         async.each(SDC.get(['local_entities', 'by_definition', 'performance']), function(performance_e, callback) {
             var performance = mapper.performance(performance_e.id)
-            for (ix in op.get(performance, ['category'], [])) {
-                var p_category = op.get(performance, ['category'], [])[ix]
-                if (q_category.indexOf(op.get(p_category, [res.locals.lang + '-name'], '').toLowerCase()) > -1) {
-                    performances.push(performance)
+            var categories = op.get(performance, ['category'], [])
+            for (ix in categories) {
+                if (categories.hasOwnProperty(ix)) {
+                    var p_category = categories[ix]
+                    if (q_category.indexOf(op.get(p_category, [res.locals.lang + '-name'], '').toLowerCase()) > -1) {
+                        performances.push(performance)
+                    }
                 }
             }
             callback()

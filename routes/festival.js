@@ -31,7 +31,6 @@ router.prepare = function prepare(callback) {
     })
 }
 
-var festivals = {}
 
 function prepareFestivals(callback) {
     festivals = {}

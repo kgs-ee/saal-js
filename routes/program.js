@@ -60,7 +60,7 @@ function renderProgram(res, year, month, categories) {
                 // console.log(month - 1, '!==', new Date(event['start-time']).getUTCMonth())
                 return callback()
             }
-            if (parseInt(year) != new Date(event['start-time']).getUTCFullYear()) {
+            if (parseInt(year) !== new Date(event['start-time']).getUTCFullYear()) {
                 // console.log(year, '!==', new Date(event['start-time']).getUTCFullYear())
                 return callback()
             }

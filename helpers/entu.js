@@ -156,10 +156,10 @@ function get_childs(parent_entity_id, definition, auth_id, auth_token, callback)
         qs = {definition: definition}
     }
 
+    var headers = {}
     if (auth_id && auth_token) {
-        var headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
+        headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
     } else {
-        var headers = {}
         qs = sign_data(qs)
     }
     var url = '/entity-' + parent_entity_id + '/childs'
@@ -253,7 +253,9 @@ function add(parent_entity_id, definition, properties, auth_id, auth_token, call
     }
 
     for (p in properties) {
-        data[definition + '-' + p] = properties[p]
+        if (properties.hasOwnProperty(p)) {
+            data[definition + '-' + p] = properties[p]
+        }
     }
 
     var headers = {}

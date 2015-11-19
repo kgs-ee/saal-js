@@ -74,7 +74,7 @@ function mapEvent(eid) {
     entity_out.set('photos', op_entity.get('properties.photo'))
     entity_out.set('video', op_entity.get('properties.video.value'))
 
-    var location_id = op_entity.get('properties.saal-location.reference'))
+    var location_id = op_entity.get('properties.saal-location.reference')
     if (location_id) { entity_out.set('saal-location', mapLocation(location_id)) }
 
     entity_out.set('location', op_entity.get('properties.location.value'))

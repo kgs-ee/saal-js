@@ -19,18 +19,24 @@ if (!process.env.ENTU_KEY) {
     throw '"ENTU_KEY" missing in environment'
 }
 
+
 // Site data cache
 APP_ENTU_ROOT       = 1 // institution
 APP_CACHE_DIR       = __dirname + '/pagecache'
 fs.existsSync(APP_CACHE_DIR) || fs.mkdirSync(APP_CACHE_DIR)
 var cache           = require('./helpers/cache')
+
+var workers = []
+
 cache.routine(function cachedCB() {
     // console.log('Reload workers')
     for (var i in workers) {
-        var worker = workers[i]
-        if (worker) {
-            // console.log('Reload worker ' + worker.id)
-            worker.send({ cmd: 'reload', dir: APP_CACHE_DIR })
+        if (workers.hasOwnProperty(i)) {
+            var worker = workers[i]
+            if (worker) {
+                // console.log('Reload worker ' + worker.id)
+                worker.send({ cmd: 'reload', dir: APP_CACHE_DIR })
+            }
         }
     }
 })
@@ -49,6 +55,7 @@ function broadcast(data, worker_id) {
         }
     }
 }
+
 
 function createWorker() {
     var worker = cluster.fork()
@@ -71,8 +78,6 @@ function createWorker() {
     // Add the worker to an array of known workers
     workers[worker.id] = worker
 }
-
-var workers = []
 
 cluster.setupMaster({ exec: path.join(__dirname, 'worker.js') })
 

@@ -31,7 +31,7 @@ router.prepare = function prepare(callback) {
         //debug(JSON.stringify(one_event, null, 2))
         if(one_event['start-time']) {
             var starttime = '00:00'
-            if (one_event['start-time'].length == 16) {
+            if (one_event['start-time'].length === 16) {
                 starttime = one_event['start-time'].slice(11,16)
             }
             one_event.time = starttime

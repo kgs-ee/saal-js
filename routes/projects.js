@@ -7,14 +7,14 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 
+var projects = []
+
 router.get('/', function(req, res, next) {
     res.render('projects', {
         projects: projects
     })
     res.end()
 })
-
-var projects = []
 
 router.prepare = function prepare(callback) {
     projects = []

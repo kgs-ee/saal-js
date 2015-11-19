@@ -558,16 +558,19 @@ function relate(eid1, rel1, eid2, rel2) {
     }
 }
 function cacheCategory(e_class, op_entity, callback) {
-    if (pl_id = op_entity.get('properties.pl-id.value', false)) {
+    var pl_id = op_entity.get('properties.pl-id.value', false)
+    if (pl_id) {
         op.del(PL_categories, pl_id)
     }
     callback()
 }
 function cachePerformance(e_class, op_entity, callback) {
-    if (pl_id = op_entity.get('properties.pl-id.value', false)) {
+    var pl_id = op_entity.get('properties.pl-id.value', false)
+    if (pl_id) {
         op.del(PL_shows, pl_id)
     }
-    if (perf_ref = op_entity.get('properties.premiere.reference', false)) {
+    var perf_ref = op_entity.get('properties.premiere.reference', false)
+    if (perf_ref) {
         relate(op_entity.get('id'), 'premiere', perf_ref, 'performance')
     }
     var parent_eid = op_entity.get('id')
@@ -603,8 +606,9 @@ function cacheEvent(op_entity, callback) {
         // ... and remove from PL
         op.del(PL_concerts, pl_id)
     }
-    if (perf_ref = op_entity.get('properties.performance.reference', false)) {
-        relate(op_entity.get('id'), 'performance', op_entity.get('properties.performance.reference'), 'event')
+    var perf_ref = op_entity.get('properties.performance.reference', false)
+    if (perf_ref) {
+        relate(op_entity.get('id'), 'performance', perf_ref, 'event')
     }
     var parent_eid = op_entity.get('id')
     entu.get_childs(parent_eid, null, null, null, function(err, entities) {

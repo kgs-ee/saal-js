@@ -20,7 +20,7 @@ module.exports.monthNav = function monthNav(year, month) {
 module.exports.arraySubtract = function arraySubtract(arr, val) {
     var ret_arr = []
     arr.forEach(function(el) {
-        if (String(val) != String(el)) {
+        if (String(val) !== String(el)) {
             ret_arr.push(el)
         }
     })

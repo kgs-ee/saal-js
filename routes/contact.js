@@ -5,20 +5,6 @@ var debug   = require('debug')('app:' + path.basename(__filename).replace('.js',
 var async   = require('async')
 var op      = require('object-path')
 
-
-// router.get('/', function(req, res, next) {
-//     debug('Loading "' + req.url + '"', req.params.lang)
-
-//     // res.locals.lang = req.params.lang
-//     res.render('contact', {
-//         "users": SDC.get('users_others')
-//     })
-//     res.end()
-// })
-
-
-// module.exports = router
-
 var mapper  = require('../helpers/mapper')
 
 var prepped_users = []
@@ -31,17 +17,6 @@ router.get('/', function(req, res, next) {
     })
     res.end()
 })
-
-router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    var parallelf = []
-    parallelf.push(prepareUsers)
-    async.parallel(parallelf, function(err) {
-        if (err) { return callback(err) }
-        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
-        callback()
-    })
-}
 
 // Users
 var prepareUsers = function prepareUsers(callback) {
@@ -56,6 +31,17 @@ var prepareUsers = function prepareUsers(callback) {
             return
         }
         // debug('Users prepared.')
+        callback()
+    })
+}
+
+router.prepare = function prepare(callback) {
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    var parallelf = []
+    parallelf.push(prepareUsers)
+    async.parallel(parallelf, function(err) {
+        if (err) { return callback(err) }
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }
