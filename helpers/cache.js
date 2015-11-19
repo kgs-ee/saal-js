@@ -252,7 +252,7 @@ cache_series.push(function fetchFromEntu(callback) {
     }
     console.log('Fetch from Entu and remove from PL_data if exists')
 
-    var _process_entities = function _process_entities(parent_eid, e_class, definition, entities, callback) {
+    function _process_entities(parent_eid, e_class, definition, entities, callback) {
         async.each(entities, function(op_entity, callback) {
             var entity = op_entity.get()
             if (parent_eid) {
@@ -530,7 +530,7 @@ cache_series.push(function cleanup(callback) {
 })
 
 
-var add2cache = function add2cache(entity, e_class) {
+function add2cache(entity, e_class) {
     op.set(temp_local_entities, ['by_eid', String(entity.id)], entity)
     if (e_class) {
         op.set(temp_local_entities, ['by_class', e_class, String(entity.id)], entity)
@@ -547,7 +547,7 @@ var add2cache = function add2cache(entity, e_class) {
     }
     return
 }
-var relate = function relate(eid1, rel1, eid2, rel2) {
+function relate(eid1, rel1, eid2, rel2) {
     if (op.get(temp_relationships, [String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
         op.push(temp_relationships, [String(eid1), rel1], String(eid2))
     }
@@ -557,13 +557,13 @@ var relate = function relate(eid1, rel1, eid2, rel2) {
         }
     }
 }
-var cacheCategory = function cacheCategory(e_class, op_entity, callback) {
+function cacheCategory(e_class, op_entity, callback) {
     if (pl_id = op_entity.get('properties.pl-id.value', false)) {
         op.del(PL_categories, pl_id)
     }
     callback()
 }
-var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
+function cachePerformance(e_class, op_entity, callback) {
     if (pl_id = op_entity.get('properties.pl-id.value', false)) {
         op.del(PL_shows, pl_id)
     }
@@ -593,7 +593,7 @@ var cachePerformance = function cachePerformance(e_class, op_entity, callback) {
         })
     })
 }
-var cacheEvent = function cacheEvent(op_entity, callback) {
+function cacheEvent(op_entity, callback) {
     if (pl_id = op_entity.get('properties.pl-id.value', false)) {
         // TODO: Merge ticket information from PL_concert ...
         //       sales-time
@@ -639,9 +639,9 @@ var cacheEvent = function cacheEvent(op_entity, callback) {
 }
 
 
-var routine = function routine(WorkerReloadCB) {
+function routine(WorkerReloadCB) {
     console.log('Cache routine started')
-    var restartInFive = function restartInFive() {
+    function restartInFive() {
         setTimeout(function(){console.log('4')}, 1*1000)
         setTimeout(function(){console.log('3')}, 2*1000)
         setTimeout(function(){console.log('2')}, 3*1000)
