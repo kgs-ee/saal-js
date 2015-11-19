@@ -210,7 +210,7 @@ app
     })
 
     // error
-    .use(function(err, req, res, next) {
+    .use(function(err, req, res) {
         var status = parseInt(err.status) || 500
 
         res.status(status)

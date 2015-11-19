@@ -1,7 +1,7 @@
 var cluster  = require('cluster')
 var cpuCount = require('os').cpus().length
 var fs       = require('fs')
-var op       = require('object-path')
+// var op       = require('object-path')
 var path     = require('path')
 var random   = require('randomstring')
 
@@ -23,7 +23,7 @@ if (!process.env.ENTU_KEY) {
 // Site data cache
 APP_ENTU_ROOT       = 1 // institution
 APP_CACHE_DIR       = __dirname + '/pagecache'
-fs.existsSync(APP_CACHE_DIR) || fs.mkdirSync(APP_CACHE_DIR)
+if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
 var cache           = require('./helpers/cache')
 
 var workers = []
@@ -49,9 +49,11 @@ function broadcast(data, worker_id) {
     }
     console.log('Broadcast from ' + worker_id + '.')
     for (var i in workers) {
-        var worker = workers[i]
-        if (worker && worker.id !== worker_id) {
-            worker.send({ cmd: 'data', data: data, from: worker_id, chat: 'broadcast to ' + worker.id + ' initiated by ' + worker_id })
+        if (workers.hasOwnProperty(i)) {
+            var worker = workers[i]
+            if (worker && worker.id !== worker_id) {
+                worker.send({ cmd: 'data', data: data, from: worker_id, chat: 'broadcast to ' + worker.id + ' initiated by ' + worker_id })
+            }
         }
     }
 }

@@ -24,23 +24,6 @@ router.get('/', function(req, res) {
     // debug(JSON.stringify(prepped_locations, null, 4))
 })
 
-router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    var parallelf = []
-    parallelf.push(prepareNews)
-    parallelf.push(prepareLocations)
-    parallelf.push(prepareSupporters)
-    async.parallel(parallelf, function(err) {
-        if (err) {
-            debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
-            callback(err)
-            return
-        }
-        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
-        callback()
-    })
-}
-
 // News
 function prepareNews(callback) {
     prepped_news = {}
@@ -117,5 +100,23 @@ function prepareSupporters(callback) {
         callback()
     })
 }
+
+router.prepare = function prepare(callback) {
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    var parallelf = []
+    parallelf.push(prepareNews)
+    parallelf.push(prepareLocations)
+    parallelf.push(prepareSupporters)
+    async.parallel(parallelf, function(err) {
+        if (err) {
+            debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
+            callback(err)
+            return
+        }
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        callback()
+    })
+}
+
 
 module.exports = router

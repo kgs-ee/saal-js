@@ -1,5 +1,5 @@
 var path      = require('path')
-var debug     = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+// var debug     = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var request   = require('request')
 var async     = require('async')
 var op        = require('object-path')
@@ -242,6 +242,120 @@ cache_series.push(function parsePLData(callback) {
     })
 })
 
+
+function add2cache(entity, e_class) {
+    op.set(temp_local_entities, ['by_eid', String(entity.id)], entity)
+    if (e_class) {
+        op.set(temp_local_entities, ['by_class', e_class, String(entity.id)], entity)
+    }
+    op.set(temp_local_entities, ['by_definition', entity.definition, String(entity.id)], entity)
+    var pl_id = op.get(entity, 'properties.pl-id.value', false)
+    if (pl_id) {
+        op.set(temp_local_entities, ['by_plid', String(pl_id)], entity)
+    }
+
+    if (op.get(entity, ['properties', 'featured', 'value']) === "True") {
+        if (op.get(entity, ['definition']) === "performance") {
+            op.set(temp_local_entities, ['featured', String(entity.id)], entity)
+        }
+    }
+    return
+}
+function relate(eid1, rel1, eid2, rel2) {
+    if (op.get(temp_relationships, [String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
+        op.push(temp_relationships, [String(eid1), rel1], String(eid2))
+    }
+    if (rel2) {
+        if (op.get(temp_relationships, [String(eid2), rel2], []).indexOf(String(eid1)) === -1) {
+            op.push(temp_relationships, [String(eid2), rel2], String(eid1))
+        }
+    }
+}
+function cacheCategory(e_class, op_entity, callback) {
+    var pl_id = op_entity.get('properties.pl-id.value', false)
+    if (pl_id) {
+        op.del(PL_categories, pl_id)
+    }
+    callback()
+}
+function cachePerformance(e_class, op_entity, callback) {
+    var pl_id = op_entity.get('properties.pl-id.value', false)
+    if (pl_id) {
+        op.del(PL_shows, pl_id)
+    }
+    var perf_ref = op_entity.get('properties.premiere.reference', false)
+    if (perf_ref) {
+        relate(op_entity.get('id'), 'premiere', perf_ref, 'performance')
+    }
+    var parent_eid = op_entity.get('id')
+    entu.get_childs(parent_eid, null, null, null, function(err, entities) {
+        if (err) {
+            // console.log('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
+            callback(err)
+            return
+        }
+        async.each(entities, function(op_entity, callback) {
+            var entity = op_entity.get()
+            relate(entity.id, 'parent', parent_eid, entity.definition)
+            add2cache(entity)
+            callback()
+        }, function(err) {
+            if (err) {
+                console.log('Each failed for childs of ' + parent_eid)
+                callback(err)
+                return
+            }
+            // console.log('Each succeeded for childs of ' + parent_eid)
+            callback()
+        })
+    })
+}
+function cacheEvent(op_entity, callback) {
+    var pl_id = op_entity.get('properties.pl-id.value', false)
+    if (pl_id) {
+        // TODO: Merge ticket information from PL_concert ...
+        //       sales-time
+        //       sales-status
+        //       min-price
+        //       max-price
+        // ... and remove from PL
+        op.del(PL_concerts, pl_id)
+    }
+    var perf_ref = op_entity.get('properties.performance.reference', false)
+    if (perf_ref) {
+        relate(op_entity.get('id'), 'performance', perf_ref, 'event')
+    }
+    var parent_eid = op_entity.get('id')
+    entu.get_childs(parent_eid, null, null, null, function(err, entities) {
+        if (err) {
+            // console.log('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
+            callback(err)
+            return
+        }
+        // if (!e_class) {
+        //     e_class = op.get(festivals, String(parent_eid))
+        // }
+        async.each(entities, function(op_entity, callback) {
+            var entity = op_entity.get()
+            relate(entity.id, 'parent', parent_eid, entity.definition)
+
+            add2cache(entity)
+            if (op_entity.get('definition') === 'event') {
+                cacheEvent(op_entity, callback)
+            } else {
+                callback()
+            }
+        }, function(err) {
+            if (err) {
+                console.log('Each failed for childs of ' + parent_eid)
+                callback(err)
+                return
+            }
+            // console.log('Each succeeded for childs of ' + parent_eid)
+            callback()
+        })
+    })
+}
 
 // Fetch from Entu and remove from PL_data if exists
 cache_series.push(function fetchFromEntu(callback) {
@@ -500,7 +614,7 @@ cache_series.push(function saveCache(callback) {
     SDC.set('local_entities', temp_local_entities)
     SDC.set('relationships', temp_relationships)
 
-    var writer_fs = []
+
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
         console.log('Saving ' + filename)
@@ -530,118 +644,6 @@ cache_series.push(function cleanup(callback) {
 })
 
 
-function add2cache(entity, e_class) {
-    op.set(temp_local_entities, ['by_eid', String(entity.id)], entity)
-    if (e_class) {
-        op.set(temp_local_entities, ['by_class', e_class, String(entity.id)], entity)
-    }
-    op.set(temp_local_entities, ['by_definition', entity.definition, String(entity.id)], entity)
-    var pl_id = op.get(entity, 'properties.pl-id.value', false)
-    if (pl_id) {
-        op.set(temp_local_entities, ['by_plid', String(pl_id)], entity)
-    }
-
-    if (op.get(entity, ['properties', 'featured', 'value']) === "True") {
-        if (op.get(entity, ['definition']) === "performance") {
-            op.set(temp_local_entities, ['featured', String(entity.id)], entity)
-        }
-    }
-    return
-}
-function relate(eid1, rel1, eid2, rel2) {
-    if (op.get(temp_relationships, [String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
-        op.push(temp_relationships, [String(eid1), rel1], String(eid2))
-    }
-    if (rel2) {
-        if (op.get(temp_relationships, [String(eid2), rel2], []).indexOf(String(eid1)) === -1) {
-            op.push(temp_relationships, [String(eid2), rel2], String(eid1))
-        }
-    }
-}
-function cacheCategory(e_class, op_entity, callback) {
-    var pl_id = op_entity.get('properties.pl-id.value', false)
-    if (pl_id) {
-        op.del(PL_categories, pl_id)
-    }
-    callback()
-}
-function cachePerformance(e_class, op_entity, callback) {
-    var pl_id = op_entity.get('properties.pl-id.value', false)
-    if (pl_id) {
-        op.del(PL_shows, pl_id)
-    }
-    var perf_ref = op_entity.get('properties.premiere.reference', false)
-    if (perf_ref) {
-        relate(op_entity.get('id'), 'premiere', perf_ref, 'performance')
-    }
-    var parent_eid = op_entity.get('id')
-    entu.get_childs(parent_eid, null, null, null, function(err, entities) {
-        if (err) {
-            // console.log('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
-            callback(err)
-            return
-        }
-        async.each(entities, function(op_entity, callback) {
-            var entity = op_entity.get()
-            relate(entity.id, 'parent', parent_eid, entity.definition)
-            add2cache(entity)
-            callback()
-        }, function(err) {
-            if (err) {
-                console.log('Each failed for childs of ' + parent_eid)
-                callback(err)
-                return
-            }
-            // console.log('Each succeeded for childs of ' + parent_eid)
-            callback()
-        })
-    })
-}
-function cacheEvent(op_entity, callback) {
-    if (pl_id = op_entity.get('properties.pl-id.value', false)) {
-        // TODO: Merge ticket information from PL_concert ...
-        //       sales-time
-        //       sales-status
-        //       min-price
-        //       max-price
-        // ... and remove from PL
-        op.del(PL_concerts, pl_id)
-    }
-    var perf_ref = op_entity.get('properties.performance.reference', false)
-    if (perf_ref) {
-        relate(op_entity.get('id'), 'performance', perf_ref, 'event')
-    }
-    var parent_eid = op_entity.get('id')
-    entu.get_childs(parent_eid, null, null, null, function(err, entities) {
-        if (err) {
-            // console.log('Fetch childs: ' + definition + '@' + parent_eid + ' from Entu failed.', err)
-            callback(err)
-            return
-        }
-        // if (!e_class) {
-        //     e_class = op.get(festivals, String(parent_eid))
-        // }
-        async.each(entities, function(op_entity, callback) {
-            var entity = op_entity.get()
-            relate(entity.id, 'parent', parent_eid, entity.definition)
-
-            add2cache(entity)
-            if (op_entity.get('definition') === 'event') {
-                cacheEvent(op_entity, callback)
-            } else {
-                callback()
-            }
-        }, function(err) {
-            if (err) {
-                console.log('Each failed for childs of ' + parent_eid)
-                callback(err)
-                return
-            }
-            // console.log('Each succeeded for childs of ' + parent_eid)
-            callback()
-        })
-    })
-}
 
 
 function routine(WorkerReloadCB) {

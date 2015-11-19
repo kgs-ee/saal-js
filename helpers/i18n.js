@@ -3,13 +3,13 @@ var path  = require('path')
 var yaml  = require('js-yaml')
 var op    = require('object-path')
 var md    = require('marked')
-var debug = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+// var debug = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 
 i18n_config = {}
 
 
 
-exports.configure = function(config) {
+exports.configure = function configure(config) {
     if(!config) config = {}
 
     i18n_config.file = config.file || path.join(__dirname, 'localization', 'locales.yaml')
@@ -24,7 +24,7 @@ exports.configure = function(config) {
 
 
 
-exports.init = function(req, res, next) {
+exports.init = function init(req, res, next) {
     i18n_config.lang = req.path.split('/')[1] || i18n_config.defaultLocale
 
     if(i18n_config.redirectWrongLocale === true && req.path === '/') return res.redirect('/' + i18n_config.lang)
@@ -43,8 +43,7 @@ exports.init = function(req, res, next) {
 
 
 
-exports.translate = translate
-function translate(key) {
+exports.translate = function translate(key) {
     var value = op.get(i18n_config, 'translations.' + key + '.' + i18n_config.lang)
     if(!value && i18n_config.updateFile === true && i18n_config.locales.indexOf(i18n_config.lang) > -1) {
         op.set(i18n_config, 'translations.' + key + '.' + i18n_config.lang, key)
@@ -55,4 +54,3 @@ function translate(key) {
     }
     return value || key
 }
-
