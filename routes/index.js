@@ -26,18 +26,6 @@ router.get('/', function(req, res) {
     return
 })
 
-router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    var parallelf = []
-    parallelf.push(prepareFeatured)
-    parallelf.push(prepareUpcomingEvents)
-    parallelf.push(prepareUpcomingTours)
-    parallelf.push(preparePastResidency)
-    async.parallel(parallelf, function(err) {
-        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
-        callback()
-    })
-}
 
 // Featured performamces
 function prepareFeatured(callback) {
@@ -130,6 +118,21 @@ function preparePastResidency(callback) {
             return
         }
         // debug('Past residency prepared.')
+        callback()
+    })
+}
+
+
+router.prepare = function prepare(callback) {
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    var parallelf = []
+    parallelf.push(prepareFeatured)
+    parallelf.push(prepareUpcomingEvents)
+    parallelf.push(prepareUpcomingTours)
+    parallelf.push(preparePastResidency)
+    async.parallel(parallelf, function(err) {
+        if (err) { return callback(err) }
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }
