@@ -33,7 +33,7 @@ var prepareResidency = function prepareResidency(callback) {
     residency = {}
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
         var event = mapper.event(entity.id)
-        if (!op.get(event, ['start-time', 0], false)) {
+        if (!op.get(event, ['start-time'], false)) {
             debug('Skipping residency eid=' + event.id + ' because missing start time.')
             return callback()
         }
@@ -41,7 +41,7 @@ var prepareResidency = function prepareResidency(callback) {
             debug('Skipping residency eid=' + event.id + ' because missing location.')
             return callback()
         }
-        var event_date = op.get(event, ['start-time', 0].slice(0,10))
+        var event_date = op.get(event, ['start-time'].slice(0,10))
         var location_eid = op.get(event, ['saal-location', 'id'])
         op.set(residency, [location_eid], op.get(residency, [location_eid], mapper.location(location_eid)))
         op.set(residency, [location_eid, 'events', event_date], op.get(residency, [location_eid, 'events', event_date], []))
