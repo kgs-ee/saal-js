@@ -18,16 +18,6 @@ router.get('/', function(req, res) {
     res.end()
 })
 
-router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    var parallelf = []
-    parallelf.push(prepareResidency)
-    async.parallel(parallelf, function(err) {
-        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
-        callback()
-    })
-}
-
 function prepareResidency(callback) {
     residency = {}
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
@@ -55,6 +45,17 @@ function prepareResidency(callback) {
             return
         }
         // debug('Residency prepared.', JSON.stringify(residency, null, 2))
+        callback()
+    })
+}
+
+router.prepare = function prepare(callback) {
+    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    var parallelf = []
+    parallelf.push(prepareResidency)
+    async.parallel(parallelf, function(err) {
+        if (err) { return callback(err) }
+        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }

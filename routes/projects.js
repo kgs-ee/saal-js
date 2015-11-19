@@ -3,13 +3,13 @@ var router  = express.Router()
 var path    = require('path')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var async   = require('async')
-var op      = require('object-path')
+// var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 
 var projects = []
 
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.render('projects', {
         projects: projects
     })

@@ -8,7 +8,7 @@ var mapper  = require('../helpers/mapper')
 var helper  = require('../helpers/helper')
 
 
-function renderTours(res, year, month, categories) {
+function renderTours(res, year, month) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     var tours_a = {}
@@ -48,16 +48,16 @@ function renderTours(res, year, month, categories) {
 }
 
 router
-    .get('/', function(req, res, next) {
+    .get('/', function(req, res) {
         var year = new Date().getUTCFullYear()
         var month = new Date().getUTCMonth() + 1
         debug('Assuming ' + year + '/' + month )
-        renderTours(res, year, month, undefined)
+        renderTours(res, year, month)
         res.end()
     })
-    .get('/:year/:month/:categories*?', function(req, res, next) {
+    .get('/:year/:month/:categories*?', function(req, res) {
         // debug('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
-        renderTours(res, req.params.year, req.params.month, req.params.categories)
+        renderTours(res, req.params.year, req.params.month)
     })
 
 router.prepare = function prepare(callback) {

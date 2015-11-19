@@ -1,24 +1,11 @@
 var express = require('express')
 var router  = express.Router()
 var path    = require('path')
-var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+// var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var async   = require('async')
 var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 var helper  = require('../helpers/helper')
-
-router
-    .get('/', function(req, res, next) {
-        var year = new Date().getUTCFullYear()
-        var month = new Date().getUTCMonth() + 1
-        // console.log('Assuming ' + year + '/' + month )
-        renderProgram(res, year, month, undefined)
-        res.end()
-    })
-    .get('/:year/:month/:categories*?', function(req, res, next) {
-        // console.log('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
-        renderProgram(res, req.params.year, req.params.month, req.params.categories)
-    })
 
 function renderProgram(res, year, month, categories) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
@@ -88,6 +75,21 @@ function renderProgram(res, year, month, categories) {
         res.end()
     })
 }
+
+router
+    // .get('/', function(req, res, next) {
+    .get('/', function(req, res) {
+        var year = new Date().getUTCFullYear()
+        var month = new Date().getUTCMonth() + 1
+        // console.log('Assuming ' + year + '/' + month )
+        renderProgram(res, year, month, undefined)
+        res.end()
+    })
+    // .get('/:year/:month/:categories*?', function(req, res, next) {
+    .get('/:year/:month/:categories*?', function(req, res) {
+        // console.log('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
+        renderProgram(res, req.params.year, req.params.month, req.params.categories)
+    })
 
 
 module.exports = router

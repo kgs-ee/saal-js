@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 })
 
 // Users
-var prepareUsers = function prepareUsers(callback) {
+function prepareUsers(callback) {
     prepped_users = []
     async.each(SDC.get(['local_entities', 'by_definition', 'person'], []), function(entity, callback) {
         prepped_users.push(mapper.user(entity.id))

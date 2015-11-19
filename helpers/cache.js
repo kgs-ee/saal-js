@@ -86,7 +86,7 @@ cache_series.push(function loadCache(callback) {
 cache_series.push(function cacheRoot(callback) {
     console.log('Caching root')
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
-    entu.get_entity(id=APP_ENTU_ROOT, null, null, CB=function(err, institution) {
+    entu.get_entity(APP_ENTU_ROOT, null, null, function(err, institution) {
         if (err) {
             console.log('Caching root failed', err)
             callback(err)
@@ -536,7 +536,8 @@ function add2cache(entity, e_class) {
         op.set(temp_local_entities, ['by_class', e_class, String(entity.id)], entity)
     }
     op.set(temp_local_entities, ['by_definition', entity.definition, String(entity.id)], entity)
-    if (pl_id = op.get(entity, 'properties.pl-id.value', false)) {
+    var pl_id = op.get(entity, 'properties.pl-id.value', false)
+    if (pl_id) {
         op.set(temp_local_entities, ['by_plid', String(pl_id)], entity)
     }
 
