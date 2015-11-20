@@ -306,7 +306,7 @@ function rights(id, person_id, right, auth_id, auth_token, callback) {
     }
 
     request.post({url: APP_ENTU_URL + '/entity-' + id + '/rights', headers: headers, body: qb, strictSSL: true, json: true}, function(error, response, body) {
-        if(error) return callback(error)
+        if(error) { return callback(error) }
         if(response.statusCode !== 200) { return callback(new Error(op.get(body, 'error', body))) }
 
         callback(null, id)

@@ -26,25 +26,31 @@ router.get('/', function(req, res) {
 
 // News
 function prepareNews(callback) {
+    var display_top_news_count = 5
+    var news_eids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'])).filter(function (eid) {
+        if (SDC.get(['local_entities', 'by_eid', eid, 'properties', 'time', 'value'], false) === false) { return false }
+        return true
+    })
+    news_eids.sort(function(a, b) {
+        a_date = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 'value']))
+        b_date = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 'value']))
+        // debug(a, a_date, b, b_date, a_date < b_date)
+        return (a_date < b_date)
+    })
     prepped_news = {}
-    async.each(SDC.get(['local_entities', 'by_class', 'news']), function(entity, callback) {
-        var news = mapper.news(entity.id)
-        if (!news.time) {
-            callback()
-            return
-        }
+    async.each(news_eids.slice(0, display_top_news_count), function(eid, callback) {
+        var news = mapper.news(eid)
+        if (!news.time) { return callback() }
         // debug(JSON.stringify(news, null, 2))
-        var news_date = news.time.slice(0,10)
+        var news_date = op.get(news, ['time']).slice(0,10)
         // var news_time = news.time.slice(11,16)
         op.push(prepped_news, news_date, news)
         callback()
     }, function(err) {
         if (err) {
             debug('Failed to prepare news.', err)
-            callback(err)
-            return
+            return callback(err)
         }
-        // debug('News prepared.')
         callback()
     })
 }
@@ -54,17 +60,13 @@ function prepareLocations(callback) {
     prepped_locations = []
     async.each(SDC.get(['local_entities', 'by_class', 'location']), function(entity, callback) {
         var location = mapper.location(entity.id)
-        if (!location.floorplan) {
-            callback()
-            return
-        }
+        if (!location.floorplan) { return callback() }
         prepped_locations.push(location)
         callback()
     }, function(err) {
         if (err) {
             debug('Failed to prepare locations.', err)
-            callback(err)
-            return
+            return callback(err)
         }
         // debug('Locations prepared.')
         callback()
@@ -93,8 +95,7 @@ function prepareSupporters(callback) {
     }, function(err) {
         if (err) {
             debug('Failed to prepare supporters.', err)
-            callback(err)
-            return
+            return callback(err)
         }
         // debug('Supporters prepared.', JSON.stringify(prepped_supporters, 6, 4))
         callback()
@@ -110,8 +111,7 @@ router.prepare = function prepare(callback) {
     async.parallel(parallelf, function(err) {
         if (err) {
             debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
-            callback(err)
-            return
+            return callback(err)
         }
         // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
