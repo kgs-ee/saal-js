@@ -21,7 +21,7 @@ function renderTours(res, year, month) {
                 // console.log(month - 1, '!==', new Date(event['start-time']).getUTCMonth())
                 return callback()
             }
-            if (parseInt(year) !== new Date(event['start-time']).getUTCFullYear()) {
+            if (parseInt(year, 10) !== new Date(event['start-time']).getUTCFullYear()) {
                 // console.log(year, '!==', new Date(event['start-time']).getUTCFullYear())
                 return callback()
             }

@@ -211,7 +211,7 @@ app
 
     // error
     .use(function(err, req, res) {
-        var status = parseInt(err.status) || 500
+        var status = parseInt(err.status, 10) || 500
 
         res.status(status)
         res.render('error', {

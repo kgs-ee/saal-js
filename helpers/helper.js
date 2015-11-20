@@ -1,6 +1,6 @@
 module.exports.monthNav = function monthNav(year, month) {
-    month = parseInt(month)
-    year = parseInt(year)
+    month = parseInt(month, 10)
+    year = parseInt(year, 10)
     return {
         "prev": {
             "year": month > 1 ? year : year - 1,

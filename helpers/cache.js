@@ -182,11 +182,11 @@ cache_series.push(function parsePLData(callback) {
                         op.set(PL_categories, [item.id, 'title', PL_language], item.title)
                         break
                     case 'concert':
-                        op.set(PL_concerts, [item.id, 'id'],             parseInt(item.id))
-                        op.set(PL_concerts, [item.id, 'showId'],         parseInt(item.showId))
-                        op.set(PL_concerts, [item.id, 'startTimestamp'], parseInt(item.startTime.stamp))
-                        op.set(PL_concerts, [item.id, 'endTimestamp'],   parseInt(item.endTime.stamp))
-                        op.set(PL_concerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp))
+                        op.set(PL_concerts, [item.id, 'id'],             parseInt(item.id, 10))
+                        op.set(PL_concerts, [item.id, 'showId'],         parseInt(item.showId, 10))
+                        op.set(PL_concerts, [item.id, 'startTimestamp'], parseInt(item.startTime.stamp, 10))
+                        op.set(PL_concerts, [item.id, 'endTimestamp'],   parseInt(item.endTime.stamp, 10))
+                        op.set(PL_concerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp, 10))
                         op.set(PL_concerts, [item.id, 'salesStatus'],    item.salesStatus)
                         op.set(PL_concerts, [item.id, 'minPrice'],       item.minPrice)
                         op.set(PL_concerts, [item.id, 'maxPrice'],       item.maxPrice)
@@ -479,7 +479,7 @@ cache_series.push(function addCategories2Entu(callback) {
 
     async.each(PL_categories, function(PL_category, callback) {
         var properties = {
-            "pl-id": parseInt(PL_category.id),
+            "pl-id": parseInt(PL_category.id, 10),
             "et-name": op.get(PL_category, 'title.est'),
             "en-name": op.get(PL_category, 'title.eng')
         }
@@ -521,7 +521,7 @@ cache_series.push(function addPerformances2Entu(callback) {
         // console.log(op.get(PL_show, 'category'))
         // console.log(op.get(PL_show, 'category').map(function(id) {return temp_local_entities.by_plid[id].id}))
         var properties = {
-            "pl-id": parseInt(PL_show.id),
+            "pl-id": parseInt(PL_show.id, 10),
             "category": op.get(PL_show, 'category', []).map(function(id) {return op.get(temp_local_entities, ['by_plid', id, 'id'])})[0],
             "et-name": op.get(PL_show, 'title.est'),
             "en-name": op.get(PL_show, 'title.eng'),
@@ -572,7 +572,7 @@ cache_series.push(function addEvents2Entu(callback) {
         var end_time = new Date(op.get(PL_concert, 'endTimestamp')*1000)
         var sales_time = new Date(op.get(PL_concert, 'salesTimestamp')*1000)
         var properties = {
-            "pl-id": parseInt(PL_concert.id),
+            "pl-id": parseInt(PL_concert.id, 10),
             "performance": op.get(temp_local_entities, ['by_plid', op.get(PL_concert, 'showId'), 'id']),
             "start-time": start_time.toJSON().replace('T', ' ').slice(0,19),
             "end-time": end_time.toJSON().replace('T', ' ').slice(0,19),

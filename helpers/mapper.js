@@ -117,13 +117,13 @@ function mapEvent(eid) {
 
     // look for grandparents and if its a "festivals", then add extra "festival" property to event
     // where festival name comes from parent that relates to "festivals" grandparent.
-    var parent_eids = SDC.get(['relationships', eid, 'parent'], []).map(function(i) {return parseInt(i)})
+    var parent_eids = SDC.get(['relationships', eid, 'parent'], []).map(function(i) {return parseInt(i, 10)})
     // TODO: get rid of grandparent_eids
     var grandparent_eids = [].concat.apply([],
         parent_eids.map(function (parent_eid) {
             if (SDC.get(['relationships', parent_eid, 'parent'], [])
-                   .map(function(i) {return parseInt(i)})
-                   .indexOf(parseInt(SDC.get(['mappings', 'festival']))) > -1) {
+                   .map(function(i) {return parseInt(i, 10)})
+                   .indexOf(parseInt(SDC.get(['mappings', 'festival']), 10)) > -1) {
                 entity_out.set('et-festival', SDC.get(['local_entities', 'by_eid', String(parent_eid), 'properties', 'et-name', 'value'], 'Festival'))
                 entity_out.set('en-festival', SDC.get(['local_entities', 'by_eid', String(parent_eid), 'properties', 'en-name', 'value'], 'Festival'))
             }

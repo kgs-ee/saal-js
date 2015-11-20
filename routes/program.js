@@ -11,9 +11,9 @@ function renderProgram(res, year, month, categories) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var all_categories = SDC.get(['local_entities', 'by_class', 'category'], {})
     if (!categories) {
-        categories = Object.keys(all_categories).map( function(key) { return parseInt(key) })
+        categories = Object.keys(all_categories).map( function(key) { return parseInt(key, 10) })
     } else {
-        categories = categories.split(',').map(function(eid){return parseInt(eid)})
+        categories = categories.split(',').map(function(eid){return parseInt(eid, 10)})
     }
     categories.sort(function(a,b){return a-b})
 
@@ -47,7 +47,7 @@ function renderProgram(res, year, month, categories) {
                 // console.log(month - 1, '!==', new Date(event['start-time']).getUTCMonth())
                 return callback()
             }
-            if (parseInt(year) !== new Date(event['start-time']).getUTCFullYear()) {
+            if (parseInt(year, 10) !== new Date(event['start-time']).getUTCFullYear()) {
                 // console.log(year, '!==', new Date(event['start-time']).getUTCFullYear())
                 return callback()
             }
