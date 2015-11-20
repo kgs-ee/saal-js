@@ -1,4 +1,4 @@
-# WWW on Entu
+# WWW on Entu [![Codacy Badge](https://api.codacy.com/project/badge/grade/3145fc1e898141129a6858489cde7871)](https://www.codacy.com/app/mihkel-putrinsh/saal-js)
 
 ## License
 The MIT License (MIT)
