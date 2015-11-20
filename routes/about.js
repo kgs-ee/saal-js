@@ -32,8 +32,8 @@ function prepareNews(callback) {
         return true
     })
     news_eids.sort(function(a, b) {
-        a_date = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 'value']))
-        b_date = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 'value']))
+        var a_date = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 'value']))
+        var b_date = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 'value']))
         // debug(a, a_date, b, b_date, a_date < b_date)
         return (a_date < b_date)
     })
