@@ -11,7 +11,7 @@ router.get('/:festival_id', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var festival = op.get(festivals, req.params.festival_id)
     res.render('festival', {
-        "festival": festival
+        'festival': festival
     })
     res.end()
 })

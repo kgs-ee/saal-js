@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
     debug('Loading "' + req.url + '"')
 
     res.render('residency', {
-        "residencies": residency
+        'residencies': residency
     })
     res.end()
 })

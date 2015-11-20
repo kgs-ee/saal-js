@@ -18,8 +18,8 @@ router.get('/', function(req, res, next) {
     }
 
     res.render('dev', {
-        "tours": tours,
-        "program": program
+        'tours': tours,
+        'program': program
     })
     res.end()
 })

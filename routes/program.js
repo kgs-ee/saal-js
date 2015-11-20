@@ -66,11 +66,11 @@ function renderProgram(res, year, month, categories) {
             return
         }
         res.render('program', {
-            "monthNav": helper.monthNav(year, month),
-            "categories": categories,
-            "all_categories": all_categories,
-            "program": program_a,
-            "arraySubtract": helper.arraySubtract,
+            'monthNav': helper.monthNav(year, month),
+            'categories': categories,
+            'all_categories': all_categories,
+            'program': program_a,
+            'arraySubtract': helper.arraySubtract,
         })
         res.end()
     })

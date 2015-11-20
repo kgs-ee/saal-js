@@ -12,8 +12,8 @@ router.get('/:id', function(req, res) {
     var event = mapper.event(event_eid)
 
     res.render('resident', {
-        "event": event,
-        "id": event.id
+        'event': event,
+        'id': event.id
     })
     res.end()
     return

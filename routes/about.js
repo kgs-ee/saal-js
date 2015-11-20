@@ -16,9 +16,9 @@ router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     res.render('about', {
-    	"news"       : prepped_news,
-    	"locations"  : prepped_locations,
-    	"supporters" : prepped_supporters,
+    	'news'       : prepped_news,
+    	'locations'  : prepped_locations,
+    	'supporters' : prepped_supporters,
     })
     res.end()
     // debug(JSON.stringify(prepped_locations, null, 4))
@@ -76,8 +76,8 @@ function prepareLocations(callback) {
 // Supporters
 function prepareSupporters(callback) {
     var BANNER_SIZES = {
-        2788: "big",
-        2787: "small"
+        2788: 'big',
+        2787: 'small'
     }
     prepped_supporters = {}
     async.each(SDC.get(['local_entities', 'by_class', 'supporters']), function(entity, callback) {

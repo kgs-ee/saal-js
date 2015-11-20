@@ -31,9 +31,9 @@ router.get('/', function(req, res, next) {
         date = date.join(':')
         debug('Looking for date "' + date + '"')
         results = {
-            "query_type": 'date'
-            , "query_date": date
-            , "events": require(path.join(APP_CACHE_DIR, 'calendar.json'))[date]
+            'query_type': 'date'
+            , 'query_date': date
+            , 'events': require(path.join(APP_CACHE_DIR, 'calendar.json'))[date]
         }
         debug(JSON.stringify(results, null, '  '))
         res.render('search', {
@@ -66,9 +66,9 @@ router.get('/', function(req, res, next) {
                 return
             }
             results = {
-                "query_type": 'category',
-                "query_category": q_category.join(','),
-                "performances": performances,
+                'query_type': 'category',
+                'query_category': q_category.join(','),
+                'performances': performances,
             }
             res.render('search', {
                 results: results
@@ -89,9 +89,9 @@ router.get('/', function(req, res, next) {
                 ]
         }
         results = {
-            "query_type": 'person'
-            , "query_person": person
-            , "fuse_js": new fuse(require(path.join(APP_CACHE_DIR, 'users_all.json')), fuse_options).search(person)
+            'query_type': 'person'
+            , 'query_person': person
+            , 'fuse_js': new fuse(require(path.join(APP_CACHE_DIR, 'users_all.json')), fuse_options).search(person)
         }
         debug(JSON.stringify(results, null, '  '))
         res.render('search', {
@@ -111,9 +111,9 @@ router.get('/', function(req, res, next) {
             if (!error && response.statusCode === 200) {
                 debug(body) // Print the json response
                 results = {
-                    "query_type": 'giphy'
-                    , "query_giphy": giphy
-                    , "giphy": body
+                    'query_type': 'giphy'
+                    , 'query_giphy': giphy
+                    , 'giphy': body
                 }
                 debug(JSON.stringify(results, null, '  '))
                 res.render('search', {
@@ -143,10 +143,10 @@ router.get('/', function(req, res, next) {
         }
 
         results = {
-            "query_type": 'query'
-            , "query": req.query.q
-            , "fuse_js": new fuse(all_events, fuse_options).search(req.query.q)
-            // , "fuzzy": fuzzy.filter(req.query.q, all_events, fuzzy_options)
+            'query_type': 'query'
+            , 'query': req.query.q
+            , 'fuse_js': new fuse(all_events, fuse_options).search(req.query.q)
+            // , 'fuzzy': fuzzy.filter(req.query.q, all_events, fuzzy_options)
         }
         // console.log(JSON.stringify(results, null, '  '))
         res.render('search', {

@@ -24,11 +24,11 @@ router.get('/:id', function(req, res) {
     })
 
     res.render('performance', {
-        "performance": performance,
-        "events": events,
-        "past_events": past_events,
-        "coverage": coverages,
-        "id": performance.id
+        'performance': performance,
+        'events': events,
+        'past_events': past_events,
+        'coverage': coverages,
+        'id': performance.id
     })
     res.end()
     return

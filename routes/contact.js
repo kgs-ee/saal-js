@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     res.render('contact', {
-    	"users": prepped_users
+    	'users': prepped_users
     })
     res.end()
 })
