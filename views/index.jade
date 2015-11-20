@@ -46,12 +46,13 @@ block content
         .row.page-margin
             section.col-xs-12.col-md-12.col-lg-9
 
+                - var listlength = 3
                 .programme.row
                     .col-xs-12.col-md-12.col-lg-12
                         h2= t('nav.schedule')
 
                     if program
-                        each datestring in Object.keys(program).sort()
+                        each datestring in Object.keys(program).sort().slice(0, listlength)
                             each timestring in Object.keys(op.get(program, [datestring])).sort()
                                 each p in op.get(program, [datestring, timestring])
                                     .col-xs-12.col-sm-2.col-lg-2
@@ -112,8 +113,9 @@ block content
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
                         
-                        .col-xs-12.col-md-12        
-                            a.load-more.btn.btn-primary(href='/' + lang + '/program/')= t('button.view-all')
+                        if Object.keys(program).length > listlength
+                            .col-xs-12.col-md-12        
+                                a.load-more.btn.btn-primary(href='/' + lang + '/program/')= t('button.view-all') + ' (' + Object.keys(program).length + ')'
                             
                     else
                         .col-lg-12
@@ -124,7 +126,7 @@ block content
                         h2= t('nav.tours')
 
                     if tours
-                        each datestring in Object.keys(tours).sort()
+                        each datestring in Object.keys(tours).sort().slice(0, listlength)
                             each timestring in Object.keys(op.get(tours, [datestring])).sort()
                                 each p in op.get(tours, [datestring, timestring])
                                     if op.get(p, ['performance', lang + '-name'])
@@ -186,8 +188,10 @@ block content
 
                                         .col-xs-12.col-md-12.col-lg-12
                                             hr
-                        .col-xs-12.col-md-12        
-                            a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all')
+                        
+                        if Object.keys(tours).length > listlength
+                            .col-xs-12.col-md-12        
+                                a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all') + ' (' + Object.keys(tours).length + ')'
                                 
                     else
                         .col-lg-12
@@ -199,7 +203,7 @@ block content
                         h2= t('nav.residency')
 
                     if residencies
-                        each datestring in Object.keys(residencies).sort()
+                        each datestring in Object.keys(residencies).sort().slice(0, listlength)
                             each timestring in Object.keys(op.get(residencies, [datestring])).sort()
                                 each p in op.get(residencies, [datestring, timestring])
                                     .col-xs-12.col-md-2
@@ -212,8 +216,9 @@ block content
                                     .col-xs-12.col-md-12
                                         hr
                     
-                        .col-xs-12.col-md-12        
-                            a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all')                    
+                        if Object.keys(residencies).length > listlength
+                            .col-xs-12.col-md-12        
+                                a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all') + ' (' + Object.keys(residencies).length + ')'
                     else
                         .col-lg-12
                             h2= t('title.no-residencies')
