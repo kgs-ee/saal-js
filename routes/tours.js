@@ -40,8 +40,8 @@ function renderTours(res, year, month) {
             return
         }
         res.render('tours', {
-            "monthNav": helper.monthNav(year, month),
-            "tours": tours_a,
+            'monthNav': helper.monthNav(year, month),
+            'tours': tours_a,
         })
         res.end()
     })
