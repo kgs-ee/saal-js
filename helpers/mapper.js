@@ -159,7 +159,7 @@ function mapPerformance(eid) {
     entity_out.set('photos', op_entity.get('properties.photo'))
     entity_out.set('audio', op_entity.get('properties.audio.value'))
     entity_out.set('video', op_entity.get('properties.video.value'))
-    entity_out.set('featured', op_entity.get('properties.featured.value') === "True")
+    entity_out.set('featured', op_entity.get('properties.featured.value') === 'True')
     entity_out.set('et-technical-information', op_entity.get('properties.et-technical-information.md'))
     entity_out.set('en-technical-information', op_entity.get('properties.en-technical-information.md'))
     entity_out.set('premiere.start-time', op_entity.get('properties.premiere-time.value'))

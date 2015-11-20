@@ -13,32 +13,32 @@ var entu      = require('../helpers/entu')
 CACHE_REFRESH_MS = 10 * 60 * 1000
 
 SDC = op({
-    "mappings": {"festival": 1930},
-    "root": {},
-    "local_entities": {},
-    "relationships": {},
+    'mappings': {'festival': 1930},
+    'root': {},
+    'local_entities': {},
+    'relationships': {},
 })
 
 var cache_from_entu = [
-    {"parent":"1976",                            "definition": "category",    "class": "category"},
-    {"parent":"2786",                            "definition": "category",    "class": "category"},
-    {"parent":SDC.get(['mappings', 'festival']), "definition": "event",       "class": "festival"},
-    {"parent":"597",                             "definition": "event",       "class": "program"},
-    {"parent":"1931",                            "definition": "event",       "class": "residency"},
-    {"parent":"1929",                            "definition": "event",       "class": "tour"},
-    {"parent":"1953",                            "definition": "news",        "class": "news"},
-    {"parent":"1918",                            "definition": "person",      "class": "team"},
-    {"parent":"1935",                            "definition": "performance", "class": "performance"},
-    {"parent":"2109",                            "definition": "location",    "class": "location"},
-    {"parent":"2107",                            "definition": "event",       "class": "project"},
-    {"parent":"1",                               "definition": "banner",      "class": "supporters"},
-    {"parent":"2786",                            "definition": "banner-type", "class": "banner types"},
-    // {                 "definition": "coverage",    "class": "coverage"},
+    {'parent':'1976',                            'definition': 'category',    'class': 'category'},
+    {'parent':'2786',                            'definition': 'category',    'class': 'category'},
+    {'parent':SDC.get(['mappings', 'festival']), 'definition': 'event',       'class': 'festival'},
+    {'parent':'597',                             'definition': 'event',       'class': 'program'},
+    {'parent':'1931',                            'definition': 'event',       'class': 'residency'},
+    {'parent':'1929',                            'definition': 'event',       'class': 'tour'},
+    {'parent':'1953',                            'definition': 'news',        'class': 'news'},
+    {'parent':'1918',                            'definition': 'person',      'class': 'team'},
+    {'parent':'1935',                            'definition': 'performance', 'class': 'performance'},
+    {'parent':'2109',                            'definition': 'location',    'class': 'location'},
+    {'parent':'2107',                            'definition': 'event',       'class': 'project'},
+    {'parent':'1',                               'definition': 'banner',      'class': 'supporters'},
+    {'parent':'2786',                            'definition': 'banner-type', 'class': 'banner types'},
+    // {                 'definition': 'coverage',    'class': 'coverage'},
 ]
 var cache_from_PL = {
-    "category": 1976,
-    "concert": 597, // event
-    "show": 1935 // performance
+    'category': 1976,
+    'concert': 597, // event
+    'show': 1935 // performance
 }
 
 var PL_languages = ['est', 'eng']
@@ -455,7 +455,7 @@ cache_series.push(function fetchFromEntu(callback) {
         }
         // console.log('Each succeeded for fetch from Entu')
         // console.log(JSON.stringify(PL_categories, null, 2))
-        // fs.createWriteStream(path.join(APP_CACHE_DIR, 'PL.json')).write(JSON.stringify({"category":PL_categories, "performance":PL_shows, "event":PL_concerts}, null, '    '), callback)
+        // fs.createWriteStream(path.join(APP_CACHE_DIR, 'PL.json')).write(JSON.stringify({'category':PL_categories, 'performance':PL_shows, 'event':PL_concerts}, null, '    '), callback)
         callback()
     })
 })
@@ -479,9 +479,9 @@ cache_series.push(function addCategories2Entu(callback) {
 
     async.each(PL_categories, function(PL_category, callback) {
         var properties = {
-            "pl-id": parseInt(PL_category.id, 10),
-            "et-name": op.get(PL_category, 'title.est'),
-            "en-name": op.get(PL_category, 'title.eng')
+            'pl-id': parseInt(PL_category.id, 10),
+            'et-name': op.get(PL_category, 'title.est'),
+            'en-name': op.get(PL_category, 'title.eng')
         }
         entu.add(cache_from_PL.category, 'category', properties, null, null, function categoryAddedCB(err, new_id) {
             if (err) {
@@ -521,16 +521,16 @@ cache_series.push(function addPerformances2Entu(callback) {
         // console.log(op.get(PL_show, 'category'))
         // console.log(op.get(PL_show, 'category').map(function(id) {return temp_local_entities.by_plid[id].id}))
         var properties = {
-            "pl-id": parseInt(PL_show.id, 10),
-            "category": op.get(PL_show, 'category', []).map(function(id) {return op.get(temp_local_entities, ['by_plid', id, 'id'])})[0],
-            "et-name": op.get(PL_show, 'title.est'),
-            "en-name": op.get(PL_show, 'title.eng'),
-            "et-purchase-description": op.get(PL_show, 'purchaseDescription.est'),
-            "en-purchase-description": op.get(PL_show, 'purchaseDescription.eng'),
-            "et-description": op.get(PL_show, 'description.est'),
-            "en-description": op.get(PL_show, 'description.eng'),
-            "photo-url": op.get(PL_show, 'originalImageUrl'),
-            "thumb-url": op.get(PL_show, 'shortImageUrl'),
+            'pl-id': parseInt(PL_show.id, 10),
+            'category': op.get(PL_show, 'category', []).map(function(id) {return op.get(temp_local_entities, ['by_plid', id, 'id'])})[0],
+            'et-name': op.get(PL_show, 'title.est'),
+            'en-name': op.get(PL_show, 'title.eng'),
+            'et-purchase-description': op.get(PL_show, 'purchaseDescription.est'),
+            'en-purchase-description': op.get(PL_show, 'purchaseDescription.eng'),
+            'et-description': op.get(PL_show, 'description.est'),
+            'en-description': op.get(PL_show, 'description.eng'),
+            'photo-url': op.get(PL_show, 'originalImageUrl'),
+            'thumb-url': op.get(PL_show, 'shortImageUrl'),
         }
         // console.log(JSON.stringify(properties, null, 2))
         entu.add(cache_from_PL.show, 'performance', properties, null, null, function performanceAddedCB(err, new_id) {
@@ -572,14 +572,14 @@ cache_series.push(function addEvents2Entu(callback) {
         var end_time = new Date(op.get(PL_concert, 'endTimestamp')*1000)
         var sales_time = new Date(op.get(PL_concert, 'salesTimestamp')*1000)
         var properties = {
-            "pl-id": parseInt(PL_concert.id, 10),
-            "performance": op.get(temp_local_entities, ['by_plid', op.get(PL_concert, 'showId'), 'id']),
-            "start-time": start_time.toJSON().replace('T', ' ').slice(0,19),
-            "end-time": end_time.toJSON().replace('T', ' ').slice(0,19),
-            "sales-time": sales_time.toJSON().replace('T', ' ').slice(0,19),
-            "sales-status": op.get(PL_concert, 'salesStatus'),
-            "min-price": op.get(PL_concert, 'minPrice'),
-            "max-price": op.get(PL_concert, 'maxPrice'),
+            'pl-id': parseInt(PL_concert.id, 10),
+            'performance': op.get(temp_local_entities, ['by_plid', op.get(PL_concert, 'showId'), 'id']),
+            'start-time': start_time.toJSON().replace('T', ' ').slice(0,19),
+            'end-time': end_time.toJSON().replace('T', ' ').slice(0,19),
+            'sales-time': sales_time.toJSON().replace('T', ' ').slice(0,19),
+            'sales-status': op.get(PL_concert, 'salesStatus'),
+            'min-price': op.get(PL_concert, 'minPrice'),
+            'max-price': op.get(PL_concert, 'maxPrice'),
         }
         // console.log(JSON.stringify(properties, null, 2))
         entu.add(cache_from_PL.concert, 'event', properties, null, null, function eventAddedCB(err, new_id) {
