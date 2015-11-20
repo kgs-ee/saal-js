@@ -31,8 +31,8 @@ function renderProgram(res, year, month, categories) {
             var ai = 0, bi = 0
             while( ai < pr_categories.length && bi < categories.length && !intersects )
             {
-                if      (pr_categories[ai] < categories[bi]) { ai++ }
-                else if (pr_categories[ai] > categories[bi]) { bi++ }
+                if      (pr_categories[ai] < categories[bi]) { ai = ai + 1 }
+                else if (pr_categories[ai] > categories[bi]) { bi = bi + 1 }
                 else { intersects = true }
             }
 

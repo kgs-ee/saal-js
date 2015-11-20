@@ -106,7 +106,7 @@ function get_entities(definition, limit, auth_id, auth_token, callback) {
     var qs = {definition: definition}
     var headers = {}
     if (limit) {
-        qs['limit'] = limit
+        qs.limit = limit
     }
     if (auth_id && auth_token) {
         headers = {'X-Auth-UserId': auth_id, 'X-Auth-Token': auth_token}
