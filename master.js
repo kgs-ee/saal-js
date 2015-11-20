@@ -8,7 +8,7 @@ var random   = require('randomstring')
 
 APP_ROOT_REFRESH_MS = 30 * 60 * 1000
 APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
-APP_ENTU_URL        = process.env.ENTU_URL || "https://saal.entu.ee/api2"
+APP_ENTU_URL        = process.env.ENTU_URL || 'https://saal.entu.ee/api2'
 APP_ENTU_USER       = process.env.ENTU_USER
 APP_ENTU_KEY        = process.env.ENTU_KEY
 

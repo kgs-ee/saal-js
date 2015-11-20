@@ -16,10 +16,10 @@ var residency_past = {}
 router.get('/', function(req, res) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
     res.render('index', {
-        "featured": featured,
-        "program": program_upcoming,
-        "tours": tours_upcoming,
-        "residencies": residency_past,
+        'featured': featured,
+        'program': program_upcoming,
+        'tours': tours_upcoming,
+        'residencies': residency_past,
         path: req.path
     })
     res.end()
