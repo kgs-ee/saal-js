@@ -76,8 +76,9 @@ block content
 
                         .col-xs-12.col-md-12.col-lg-12
                             hr
-
-                .meta-info!= op.get(performance, lang + '-technical-information')                    
+                
+                if op.get(performance, lang + '-technical-information')
+                    .meta-info!= op.get(performance, lang + '-technical-information')                    
                     
                 if past_events.length
                     .past
