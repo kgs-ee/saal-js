@@ -11,6 +11,7 @@ Back-end: Mihkel Putrinš
 /**	- - - - - - - - - - - - - - - - - - - - */
 
 @import "bootstrap";
+@import "bootstrap-column-clear";
 
 /**	- - - - - - - - - - - - - - - - - - - - */
 
@@ -785,12 +786,13 @@ a.logo {
 
 .resident,
 .co-production {
-	margin-bottom: 1.5em;
+	margin-bottom: 4em;
 
 	img {
 		margin-bottom: 1em;
 	}
 }
+
 
 #mailchimp-sign-up {
 	margin-top: 2em;
@@ -817,7 +819,7 @@ a.logo {
 }
 
 .main-text {
-	margin-top: 2em;
+	//margin-top: 2em;
 
 	@media (min-width: $screen-desktop) {
 		margin-top: 0;
@@ -874,7 +876,7 @@ a.logo {
 }
 
 .video-sound {
-	margin-top: 5em;
+	//margin-top: 5em;
 	@media (min-width: $screen-desktop) {
 		margin-top: 0;
 	}
@@ -934,7 +936,12 @@ a.logo {
 }
 
 .meta-info {
+	margin-top: 4em;
 	margin-bottom: 4em;
+
+	@media (min-width: $screen-desktop) {
+		margin-top: 0;
+	}
 }
 
 .press,
@@ -960,6 +967,10 @@ a.logo {
 	@media(min-width: $screen-md) {
 		margin-top: 0;
 	}
+}
+
+.location {
+	margin-bottom: 4em;
 }
 
 .member {

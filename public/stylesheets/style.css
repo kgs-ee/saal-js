@@ -5420,6 +5420,79 @@ a.badge:focus {
   }
 }
 
+/*  Bootstrap Clearfix */
+/*  Tablet  */
+@media (min-width: 767px) {
+  /* Column clear fix */
+  .grid-row .col-lg-1:nth-child(12n+1),
+  .grid-row .col-lg-2:nth-child(6n+1),
+  .grid-row .col-lg-3:nth-child(4n+1),
+  .grid-row .col-lg-4:nth-child(3n+1),
+  .grid-row .col-lg-6:nth-child(2n+1),
+  .grid-row .col-md-1:nth-child(12n+1),
+  .grid-row .col-md-2:nth-child(6n+1),
+  .grid-row .col-md-3:nth-child(4n+1),
+  .grid-row .col-md-4:nth-child(3n+1),
+  .grid-row .col-md-6:nth-child(2n+1) {
+    clear: none;
+  }
+  .grid-row .col-sm-1:nth-child(12n+1),
+  .grid-row .col-sm-2:nth-child(6n+1),
+  .grid-row .col-sm-3:nth-child(4n+1),
+  .grid-row .col-sm-4:nth-child(3n+1),
+  .grid-row .col-sm-6:nth-child(2n+1) {
+    clear: left;
+  }
+}
+
+/*  Medium Desktop  */
+@media (min-width: 992px) {
+  /* Column clear fix */
+  .grid-row .col-lg-1:nth-child(12n+1),
+  .grid-row .col-lg-2:nth-child(6n+1),
+  .grid-row .col-lg-3:nth-child(4n+1),
+  .grid-row .col-lg-4:nth-child(3n+1),
+  .grid-row .col-lg-6:nth-child(2n+1),
+  .grid-row .col-sm-1:nth-child(12n+1),
+  .grid-row .col-sm-2:nth-child(6n+1),
+  .grid-row .col-sm-3:nth-child(4n+1),
+  .grid-row .col-sm-4:nth-child(3n+1),
+  .grid-row .col-sm-6:nth-child(2n+1) {
+    clear: none;
+  }
+  .grid-row .col-md-1:nth-child(12n+1),
+  .grid-row .col-md-2:nth-child(6n+1),
+  .grid-row .col-md-3:nth-child(4n+1),
+  .grid-row .col-md-4:nth-child(3n+1),
+  .grid-row .col-md-6:nth-child(2n+1) {
+    clear: left;
+  }
+}
+
+/*  Large Desktop  */
+@media (min-width: 1200px) {
+  /* Column clear fix */
+  .grid-row .col-md-1:nth-child(12n+1),
+  .grid-row .col-md-2:nth-child(6n+1),
+  .grid-row .col-md-3:nth-child(4n+1),
+  .grid-row .col-md-4:nth-child(3n+1),
+  .grid-row .col-md-6:nth-child(2n+1),
+  .grid-row .col-sm-1:nth-child(12n+1),
+  .grid-row .col-sm-2:nth-child(6n+1),
+  .grid-row .col-sm-3:nth-child(4n+1),
+  .grid-row .col-sm-4:nth-child(3n+1),
+  .grid-row .col-sm-6:nth-child(2n+1) {
+    clear: none;
+  }
+  .grid-row .col-lg-1:nth-child(12n+1),
+  .grid-row .col-lg-2:nth-child(6n+1),
+  .grid-row .col-lg-3:nth-child(4n+1),
+  .grid-row .col-lg-4:nth-child(3n+1),
+  .grid-row .col-lg-6:nth-child(2n+1) {
+    clear: left;
+  }
+}
+
 /**	- - - - - - - - - - - - - - - - - - - - */
 /**	MAIN
 ***	- - - - - - - - - - - - - - - - - - - - */
@@ -6099,7 +6172,7 @@ a.logo:hover {
 
 .resident,
 .co-production {
-  margin-bottom: 1.5em;
+  margin-bottom: 4em;
 }
 
 .resident img,
@@ -6130,10 +6203,6 @@ a.logo:hover {
   top: 9px;
   right: 22px;
   padding: 0;
-}
-
-.main-text {
-  margin-top: 2em;
 }
 
 @media (min-width: 992px) {
@@ -6191,10 +6260,6 @@ a.logo:hover {
   margin-bottom: 2em;
 }
 
-.video-sound {
-  margin-top: 5em;
-}
-
 @media (min-width: 992px) {
   .video-sound {
     margin-top: 0;
@@ -6246,7 +6311,14 @@ a.logo:hover {
 }
 
 .meta-info {
+  margin-top: 4em;
   margin-bottom: 4em;
+}
+
+@media (min-width: 992px) {
+  .meta-info {
+    margin-top: 0;
+  }
 }
 
 .press,
@@ -6285,6 +6357,10 @@ a.logo:hover {
   .address {
     margin-top: 0;
   }
+}
+
+.location {
+  margin-bottom: 4em;
 }
 
 .member {
