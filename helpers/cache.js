@@ -1,5 +1,5 @@
 var path      = require('path')
-// var debug     = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+var debug     = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var request   = require('request')
 var async     = require('async')
 var op        = require('object-path')
@@ -55,6 +55,7 @@ var first_run = true
 // Preload with stored data
 cache_series.push(function loadCache(callback) {
     console.log('Loading local cache')
+    // debug(Object.keys(SDC.get()))
     var mandatory_filenames = Object.keys(SDC.get())
     var existing_filenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
         return filename.split('.json')[0]
@@ -84,7 +85,7 @@ cache_series.push(function loadCache(callback) {
 
 // Cache root elements
 cache_series.push(function cacheRoot(callback) {
-    console.log('Caching root')
+    debug('Caching root')
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.get_entity(APP_ENTU_ROOT, null, null, function(err, institution) {
         if (err) {

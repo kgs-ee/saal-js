@@ -27,7 +27,7 @@ router.get('/', function(req, res) {
 // News
 function prepareNews(callback) {
     var display_top_news_count = 5
-    var news_eids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'])).filter(function (eid) {
+    var news_eids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'], {})).filter(function (eid) {
         if (SDC.get(['local_entities', 'by_eid', eid, 'properties', 'time', 'value'], false) === false) { return false }
         return true
     })
@@ -58,7 +58,7 @@ function prepareNews(callback) {
 // Locations
 function prepareLocations(callback) {
     prepped_locations = []
-    async.each(SDC.get(['local_entities', 'by_class', 'location']), function(entity, callback) {
+    async.each(SDC.get(['local_entities', 'by_class', 'location'], []), function(entity, callback) {
         var location = mapper.location(entity.id)
         if (!location.floorplan) { return callback() }
         prepped_locations.push(location)
@@ -80,7 +80,7 @@ function prepareSupporters(callback) {
         2787: 'small'
     }
     prepped_supporters = {}
-    async.each(SDC.get(['local_entities', 'by_class', 'supporters']), function(entity, callback) {
+    async.each(SDC.get(['local_entities', 'by_class', 'supporters'], []), function(entity, callback) {
         var supporter = mapper.banner(entity.id)
         var banner_size = op.get(BANNER_SIZES, op.get(supporter, ['type', 'id']), false)
         if (!banner_size) {
