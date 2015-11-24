@@ -85,7 +85,7 @@ cluster.setupMaster({ exec: path.join(__dirname, 'worker.js') })
 
 if (cluster.isMaster) {
     // Create a worker for each CPU
-    cpuCount = 1
+    cpuCount = 2
     for (var i = 0; i < cpuCount; i += 1) {
         createWorker()
     }
