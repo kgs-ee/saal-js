@@ -16,7 +16,6 @@ docker run -d \
     --name="saal" \
     --restart="always" \
     --memory="512m" \
-    --cpuset-cpus="0,1" \
     --env="PORT=80" \
     --env="COOKIE_SECRET=" \
     --env="NEW_RELIC_APP_NAME=saal" \
