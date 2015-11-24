@@ -10,7 +10,7 @@ nav.navbar.navbar-default.navbar-fixed-top
                 //p.season.visible-lg= t('.season') + ' ' + SAAL.season
 
         .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
-            ul.nav.navbar-nav.main-nav.h3
+            ul.nav.navbar-nav.main-nav
                 li(class= route == 'about' ? 'active' : undefined )
                     a(href='/' + lang + '/about') SAAL
                 li(class= route == 'program' ? 'active' : undefined )
@@ -45,5 +45,5 @@ nav.navbar.navbar-default.navbar-fixed-top
                     a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
                 each locale in locales
                     if lang !== locale
-                        li.lang.h3
+                        li.lang
                             a(href='/'+locale+'/'+path)= t('lang.' + locale)

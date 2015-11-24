@@ -153,13 +153,16 @@ h2,
 	font-size: 1.6em !important;
 	margin-top: 1em;
 
+	// @media(min-width: $screen-md) {
+	// 	font-size: 1.4em !important;
+	// }
+
 	@media(min-width: $screen-lg) {
 		margin-top: 0;
-		font-size: 1.1em;
 	}
 
 	li {
-		padding: 5px 0;
+		padding: 5px 16px;
 
 		@media(min-width: $screen-lg) {
 			padding: 0 10px;
@@ -181,7 +184,7 @@ h2,
 }
 
 h2 {
-	font-size: 1.7em;
+	font-size: 1.65em;
 	margin-bottom: 1em;
 }
 
@@ -225,6 +228,11 @@ a {
 		color: $primary-color;
 		text-decoration: none;
 	}
+
+	&:focus {
+		text-decoration: none;
+	}
+
 }
 
 .active a {
@@ -269,7 +277,8 @@ a.logo {
 
 		@media(min-width: $screen-lg) {
 			margin-top: 0;
-			font-size: 1.5em;
+			font-size: 1.6em;
+			padding: 0 5px;
 		}
 
 		a {
@@ -355,7 +364,8 @@ a.logo {
 	}
 }
 
-.highlight.residency a {
+.highlight.tour a,
+.popover-content .tour a {
 	color: #fff;
 
 	&:hover {
@@ -392,6 +402,7 @@ a.logo {
 }
 
 .legend {
+	margin-top: .7em;
 	margin-bottom: 2em;
 
 	li {
@@ -420,10 +431,6 @@ a.logo {
 
 		a {
 			border-bottom: 0;
-
-			&:hover header {
-				color: #000;
-			}
 		}
 	}
 
@@ -436,6 +443,10 @@ a.logo {
 		height: 100%;
 		// filter: grayscale(100%);
 		// -webkit-filter: grayscale(100%);
+	}
+
+	.carousel-control {
+		bottom: 2em;
 	}
 }
 
@@ -793,9 +804,24 @@ a.logo {
 	}
 }
 
+.sidebar {
+	margin-top: 2em;
+
+	@media(min-width: $screen-lg) {
+		margin-top: 0;
+	}
+}
 
 #mailchimp-sign-up {
 	margin-top: 2em;
+
+	@media(min-width: $screen-md) {
+		margin-top: 0;
+	}
+
+	@media(min-width: $screen-md) {
+		margin-top: 2em;
+	}
 
 	input[type="text"] {
 		border: 2px solid $primary-color;

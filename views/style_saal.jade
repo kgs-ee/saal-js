@@ -10,10 +10,15 @@ style.
         background-color: #{bgcolor};
     }
 
-    a:hover {
-        color: #{bgcolor};
+    a:hover,
+    a:focus,
+    a:active,
+    .select-cat a:hover,
+    .select-cat a .active:hover {
+        color: #{fgcolor};
     }
 
+    .item a:hover header,
     .select-cat .active {
         color: #{bgcolor};
     }
@@ -29,14 +34,9 @@ style.
 
     li.tour,
     .highlight.tour {
-        background-color: #28DF24;
-    }
-
-    li.tour,
-    .highlight.tour {
         background-color: #{bgcolor};
     }
-
+    
     .navbar-nav > .active > a,
     .main-nav a:hover,
     .legend li.event:before {
@@ -151,4 +151,8 @@ style.
 
     .site-search button{
         color: #{bgcolor};
+    }
+    
+    .highlight a:hover {
+        color: #000;
     }
