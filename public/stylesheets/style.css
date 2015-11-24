@@ -6264,7 +6264,7 @@ a.logo:hover {
   }
 }
 
-.volunteer a {
+.volunteer {
   display: block;
   padding: 2em 1em;
   margin: 0 !important;
@@ -6274,7 +6274,7 @@ a.logo:hover {
   text-transform: uppercase;
 }
 
-.volunteer a:hover {
+.volunteer:hover {
   border: 2px solid #0A2A6B;
   background-color: white;
   color: #0A2A6B;
