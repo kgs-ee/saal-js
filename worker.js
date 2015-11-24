@@ -11,7 +11,7 @@ var fs       = require('fs')
 var moment   = require('moment')
 var op       = require('object-path')
 var raven    = require('raven')
-var stylus   = require('stylus')
+// var stylus   = require('stylus')
 
 var i18n     = require('./helpers/i18n')
 
@@ -146,7 +146,7 @@ app
     .use(bparser.urlencoded({extended: true}))
 
     // stylus to css converter
-    .use(stylus.middleware({src: path.join(__dirname, 'public'), compress: true}))
+    // .use(stylus.middleware({src: path.join(__dirname, 'public'), compress: true}))
 
     // static files path & favicon
     .use(express.static(path.join(__dirname, 'public')))
