@@ -98,9 +98,15 @@ if (cluster.isMaster) {
     })
 
     // Listen for dying workers nad replace the dead worker, we're not sentimental
-    cluster.on('exit', function(worker) {
-        console.log(new Date().toString() + ' worker ' + worker.id + ' died')
+    cluster.on('exit', function(worker, code, signal) {
         workers[worker.id] = false
+        if(signal) {
+            console.error('Worker #' + worker.id + ' was killed by signal: ' + signal)
+        } else if(code !== 0) {
+            console.error('Worker #' + worker.id + ' exited with error code: ' + code)
+        } else {
+            console.error('Worker #' + worker.id + ' success!')
+        }
         createWorker()
     })
 }
