@@ -6248,6 +6248,15 @@ a.logo:hover {
   border-bottom: 2px solid;
 }
 
+.main-text a.btn {
+  border-bottom: 0;
+}
+
+.main-text a.btn:hover {
+  color: black;
+  background-color: white;
+}
+
 .intranet {
   display: inline-block;
   margin-top: 2em;

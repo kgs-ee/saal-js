@@ -857,6 +857,15 @@ a.logo {
 
 	a {
 		border-bottom: 2px solid;
+
+		&.btn {
+			border-bottom: 0;
+
+			&:hover {
+				color: black;
+				background-color: white;
+			}
+		}
 	}
 }
 

@@ -22,5 +22,5 @@ block content
 										a(class=(++indexCollapse === 1 ? '' : 'collapsed') data-toggle="collapse" data-parent="#accordion" href="#collapse-"+op.get(project, 'id')+"" aria-expanded="true" aria-controls="collapse-"+op.get(project, 'id')+"")= op.get(project, lang + '-name')
 											
 								.panel-collapse.collapse(class=(++indexIn === 1 ? 'in' : ' ') id="collapse-"+op.get(project, 'id')+"" role="tabpanel" aria-labelledby="heading-"+op.get(project, 'id')+"")
-									div
+									div.main-text.h3
 										p!= op.get(project, lang + '-description')

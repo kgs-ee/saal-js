@@ -157,7 +157,7 @@ function fancyBoxGallery() {
 **  Read More generator
 */
 function shortenTexts() {
-    $(".main-text").shorten({
+    $(".readMore").shorten({
         moreText: 'Loe edasi',
         lessText: 'Loe vähem',
         showChars: '1000'
