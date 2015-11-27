@@ -16,7 +16,7 @@ router.get('/:id', function(req, res) {
     SDC.get(['relationships', performance_eid, 'event'], []).forEach(function(event_eid) {
         var event = mapper.event(event_eid)
         //debug(JSON.stringify(event, null, 2))
-        if (new Date() < new Date(event['start-time'][0])) {
+        if (new Date() < new Date(event['start-time'])) {
             events.push(event)
         } else {
             past_events.push(event)
