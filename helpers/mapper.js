@@ -3,6 +3,8 @@ var debug   = require('debug')('app:' + path.basename(__filename).replace('.js',
 // var async   = require('async')
 var op      = require('object-path')
 
+debug('Entity mapper ready to serve')
+
 
 // function getByParent(parent, definition, callback) {
 //     var childs = SDC.get(['relationships', parent, 'child'])
@@ -118,7 +120,7 @@ function mapEvent(eid) {
     // look for grandparents and if its a "festivals", then add extra "festival" property to event
     // where festival name comes from parent that relates to "festivals" grandparent.
     var parent_eids = SDC.get(['relationships', eid, 'parent'], []).map(function(i) {return parseInt(i, 10)})
-    // TODO: get rid of grandparent_eids
+    // TODO: get rid of this extremely ugly grandparent hack :D
     var grandparent_eids = [].concat.apply([],
         parent_eids.map(function (parent_eid) {
             if (SDC.get(['relationships', parent_eid, 'parent'], [])
