@@ -9,7 +9,7 @@ var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
 
 var mapper  = require('../helpers/mapper')
 
-var all_events = SDC.get(['local_entities', 'by_definition', 'event'])
+var allPerformances = [] // = SDC.get(['local_entities', 'by_definition', 'performance'])
 
 
 router.get('/', function(req, res, next) {
@@ -145,8 +145,8 @@ router.get('/', function(req, res, next) {
         results = {
             'query_type': 'query'
             , 'query': req.query.q
-            , 'fuse_js': new fuse(all_events, fuse_options).search(req.query.q)
-            // , 'fuzzy': fuzzy.filter(req.query.q, all_events, fuzzy_options)
+            , 'fuse_js': new fuse(allPerformances, fuse_options).search(req.query.q)
+            // , 'fuzzy': fuzzy.filter(req.query.q, allPerformances, fuzzy_options)
         }
         // console.log(JSON.stringify(results, null, '  '))
         res.render('search', {
@@ -160,18 +160,16 @@ router.get('/', function(req, res, next) {
 
 
 router.prepare = function prepare(callback) {
-    all_events = []
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    async.each(SDC.get(['local_entities', 'by_definition', 'event']), function(event, callback) {
-        all_events.push(mapper.event(event.id))
+    async.each(SDC.get(['local_entities', 'by_definition', 'performance']), function(performance, callback) {
+        allPerformances.push(mapper.performance(performance.id))
         callback()
     }, function(err) {
         if (err) {
-            debug('Failed to prepare events forsearch.', err)
+            debug('Failed to prepare performances forsearch.', err)
             callback(err)
             return
         }
-        // debug('Events prepared for searching.')
         callback()
     })
 }
