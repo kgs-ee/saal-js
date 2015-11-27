@@ -272,14 +272,23 @@ function relate(eid1, rel1, eid2, rel2) {
         }
     }
 }
-function cacheCategory(e_class, op_entity, callback) {
+function cacheBanner(op_entity, callback) {
+    var bannerTypes = op_entity.get(['properties', 'type'])
+    // debug(JSON.stringify(bannerTypes, null, 4))
+    bannerTypes.forEach(function(bannerType) {
+        // debug(JSON.stringify(bannerType, null, 4))
+        relate(bannerType.reference, 'banner', op_entity.get(['id']), 'type')
+    })
+    callback()
+}
+function cacheCategory(op_entity, callback) {
     var pl_id = op_entity.get('properties.pl-id.value', false)
     if (pl_id) {
         op.del(PL_categories, pl_id)
     }
     callback()
 }
-function cachePerformance(e_class, op_entity, callback) {
+function cachePerformance(op_entity, callback) {
     var pl_id = op_entity.get('properties.pl-id.value', false)
     if (pl_id) {
         op.del(PL_shows, pl_id)
@@ -382,13 +391,13 @@ cache_series.push(function fetchFromEntu(callback) {
             add2cache(entity, e_class)
             switch (definition) {
                 case 'category':
-                    cacheCategory(e_class, op_entity, callback)
+                    cacheCategory(op_entity, callback)
                     break
                 case 'event':
                     cacheEvent(op_entity, callback)
                     break
                 case 'performance':
-                    cachePerformance(e_class, op_entity, callback)
+                    cachePerformance(op_entity, callback)
                     break
                 case 'news':
                     callback()
@@ -399,11 +408,11 @@ cache_series.push(function fetchFromEntu(callback) {
                 case 'location':
                     callback()
                     break
-                case 'banner':
-                    callback()
-                    break
                 case 'banner-type':
                     callback()
+                    break
+                case 'banner':
+                    cacheBanner(op_entity, callback)
                     break
                 default:
                     console.log('Unhandled definition: ' + definition)

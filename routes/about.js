@@ -82,22 +82,19 @@ function prepareSupporters(callback) {
     prepped_supporters = {}
     async.each(SDC.get(['local_entities', 'by_class', 'supporters'], []), function(entity, callback) {
         var supporter = mapper.banner(entity.id)
-        var banner_size = op.get(BANNER_SIZES, op.get(supporter, ['type', 'id']), false)
-        if (!banner_size) {
-            return callback()
-        }
-        if (!op.get(prepped_supporters, banner_size, false)) {
-            op.set(prepped_supporters, banner_size, JSON.parse(JSON.stringify(op.get(supporter, ['type']))))
-        }
-        op.push(prepped_supporters, [banner_size, 'banners'], supporter)
-        // prepped_supporters.push(supporter)
+        // debug('supporter', JSON.stringify(supporter, null, 4))
+        op.get(supporter, ['type'], []).forEach(function(type) {
+            var banner_size = op.get(BANNER_SIZES, type, false)
+            if (!banner_size) { return }
+            op.push(prepped_supporters, [banner_size, 'banners'], supporter)
+        })
         callback()
     }, function(err) {
         if (err) {
             debug('Failed to prepare supporters.', err)
             return callback(err)
         }
-        // debug('Supporters prepared.', JSON.stringify(prepped_supporters, 6, 4))
+        // debug('Supporters prepared.', JSON.stringify(prepped_supporters, null, 4))
         callback()
     })
 }

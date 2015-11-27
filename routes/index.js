@@ -8,10 +8,11 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 
-var featured = {}
+var featured = []
 var program_upcoming = {}
 var tours_upcoming = {}
 var residency_past = {}
+var sideBanner
 
 router.get('/', function(req, res) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
@@ -20,11 +21,21 @@ router.get('/', function(req, res) {
         'program': program_upcoming,
         'tours': tours_upcoming,
         'residencies': residency_past,
+        'sideBanner': sideBanner,
         path: req.path
     })
     res.end()
 })
 
+
+// Side Banner
+function prepareSideBanner(callback) {
+    var bannerEid = SDC.get(['relationships', '3806', 'banner', 0], false)
+    if (bannerEid) {
+        sideBanner = mapper.banner(bannerEid)
+        debug(JSON.stringify(sideBanner, null, 4))
+    }
+}
 
 // Featured performamces
 function prepareFeatured(callback) {
@@ -129,6 +140,7 @@ router.prepare = function prepare(callback) {
     parallelf.push(prepareUpcomingEvents)
     parallelf.push(prepareUpcomingTours)
     parallelf.push(preparePastResidency)
+    parallelf.push(prepareSideBanner)
     async.parallel(parallelf, function(err) {
         if (err) { return callback(err) }
         // debug('Prepared ' + path.basename(__filename).replace('.js', ''))

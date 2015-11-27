@@ -1,5 +1,5 @@
-// var path    = require('path')
-// var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+var path    = require('path')
+var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 // var async   = require('async')
 var op      = require('object-path')
 
@@ -217,9 +217,9 @@ function mapUser(eid) {
     entity_out.set('id', op_entity.get('id'))
     entity_out.set('picture', op_entity.get('picture'))
     entity_out.set('name', op_entity.get('displayname'))
-    entity_out.set('phone', op_entity.get('properties.phone.value'))
-    entity_out.set('email', op_entity.get('properties.email.value'))
-    op_entity.get('properties.occupation', []).forEach(function stiterator(occupation) {
+    entity_out.set('phone', op_entity.get(['properties', 'phone', 'value']))
+    entity_out.set('email', op_entity.get(['properties', 'email', 'value']))
+    op_entity.get(['properties', 'occupation'], []).forEach(function stiterator(occupation) {
         entity_out.push('occupation', occupation.value)
     })
     entity_out.set('entity', op_entity.get())
@@ -237,9 +237,13 @@ function mapBanner(eid) {
     entity_out.set('start', op_entity.get(['properties', 'start', 'value']))
     entity_out.set('end', op_entity.get(['properties', 'end', 'value']))
 
-    var type_id = op_entity.get(['properties', 'type', 'reference'])
-    if (type_id) { entity_out.set('type', mapBannerType(type_id)) }
+    op_entity.get(['properties', 'type'], []).forEach(function stiterator(type) {
+        entity_out.push('type', type.reference)
+    })
+    // var type_id = op_entity.get(['properties', 'type', 'reference'])
+    // if (type_id) { entity_out.set('type', mapBannerType(type_id)) }
 
+    // debug('1: ' + JSON.stringify(entity_out.get(), null, 2))
     return entity_out.get()
 }
 
