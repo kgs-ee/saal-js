@@ -33,7 +33,7 @@ function prepareSideBanner(callback) {
     var bannerEid = SDC.get(['relationships', '3806', 'banner', 0], false)
     if (bannerEid) {
         sideBanner = mapper.banner(bannerEid)
-        debug(JSON.stringify(sideBanner, null, 4))
+        // debug(JSON.stringify(sideBanner, null, 4))
     }
 }
 

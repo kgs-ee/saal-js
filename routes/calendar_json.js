@@ -23,18 +23,21 @@ router.get('/', function(req, res) {
 router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     event_calendar = {}
-    var events = SDC.get('local_entities.by_definition.event')
+    var residenciesEid = '1931'
+    var events = SDC.get(['local_entities', 'by_definition', 'event'], [])
 
     async.each(events, function(event, callback) {
         var one_event = mapper.event(event.id)
         //debug(JSON.stringify(one_event, null, 2))
-        if(one_event['start-time']) {
+        if (one_event['start-time']) {
             var starttime = '00:00'
             if (one_event['start-time'].length === 16) {
                 starttime = one_event['start-time'].slice(11,16)
             }
             one_event.time = starttime
-            op.push(event_calendar, one_event['start-time'].slice(0,10), one_event)
+            if (SDC.get(['relationships', one_event.id, 'parent'], []).indexOf(residenciesEid) === -1) {
+                op.push(event_calendar, one_event['start-time'].slice(0,10), one_event)
+            }
         }
         callback()
     }, function(err) {
