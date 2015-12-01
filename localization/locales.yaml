@@ -17,7 +17,8 @@ button:
         future_sale:
             et: button.buy_ticket.future_sale
         going_now:
-            et: button.buy_ticket.going_now
+            en: Buy ticket
+            et: Osta pilet
         lv: Pirkt biļeti
         presale_at_boxoffices:
             en: From box office
