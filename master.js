@@ -52,8 +52,8 @@ function startPLSync() {
     } else if (plSync.state === 'idle') {
         plSync.routine(function plSyncCB(err, message) {
             if (err) {
-                debug(err)
-                debug(message)
+                console.log(err)
+                console.log(message)
                 throw 'PL sync totally messed up'
             }
             console.log(message + ' at ' + Date().toString())
