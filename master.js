@@ -56,7 +56,7 @@ function startPLSync() {
                 debug(message)
                 throw 'PL sync totally messed up'
             }
-            console.log(message + ' at ' + Date().toString()))
+            console.log(message + ' at ' + Date().toString())
             cache.requestSync()
         })
     }
