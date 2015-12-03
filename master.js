@@ -51,7 +51,11 @@ function startPLSync() {
         }, 1000)
     } else if (plSync.state === 'idle') {
         plSync.routine(function plSyncCB(err, message) {
-            if (err) { throw 'PL sync totally messed up' }
+            if (err) {
+                debug(err)
+                debug(message)
+                throw 'PL sync totally messed up'
+            }
             debug(message)
             cache.requestSync()
         })

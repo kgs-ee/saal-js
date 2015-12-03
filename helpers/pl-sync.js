@@ -340,7 +340,7 @@ function startRoutine(CacheReloadCB) {
             callback()
         }
     ], function(err) {
-        if (err) { return callback(err) }
+        if (err) { return CacheReloadCB(err) }
         // debug('PL sync routine started.')
     })
 }
