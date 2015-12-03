@@ -5,12 +5,14 @@ var async     = require('async')
 var op        = require('object-path')
 var fs        = require('fs')
 
-console.log('Caching Started at ' + Date().toString())
+debug('Caching Started at ' + Date().toString())
 
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
 
 CACHE_REFRESH_MS = 10 * 60 * 1000
+
+var state = 'idle'
 
 SDC = op({
     'mappings': {'festival': 1930},
@@ -35,14 +37,7 @@ var cacheFromEntu = [
     {'parent':'2786',                            'definition': 'banner-type', 'class': 'banner types'},
     // {                 'definition': 'coverage',    'class': 'coverage'},
 ]
-var cacheFromPL = {
-    'category': 1976,
-    'concert': 597, // event
-    'show': 1935 // performance
-}
 
-var PLLanguages = ['est', 'eng']
-var PLData = {}
 var tempLocalEntities = {}
 var tempRelationships = {}
 
@@ -54,7 +49,8 @@ var firstRun = true
 
 // Preload with stored data
 cacheSeries.push(function loadCache(callback) {
-    console.log('Loading local cache')
+    state = 'busy'
+    // debug('Loading local cache')
     // debug(Object.keys(SDC.get()))
     var mandatoryFilenames = Object.keys(SDC.get())
     var existingFilenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
@@ -68,7 +64,7 @@ cacheSeries.push(function loadCache(callback) {
         try {
             SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
         } catch(err) {
-            console.log('Not loaded: ', filename)
+            // debug('Not loaded: ', filename)
             op.del(filenames, filenames.indexOf(filename))
         }
         callback()
@@ -77,7 +73,7 @@ cacheSeries.push(function loadCache(callback) {
             callback(err)
             return
         }
-        console.log('Cache loaded.')
+        // debug('Cache loaded.')
         callback()
     })
 })
@@ -85,11 +81,11 @@ cacheSeries.push(function loadCache(callback) {
 
 // Cache root elements
 cacheSeries.push(function cacheRoot(callback) {
-    debug('Caching root')
+    // debug('Caching root')
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.get_entity(APP_ENTU_ROOT, null, null, function(err, institution) {
         if (err) {
-            console.log('Caching root failed', err)
+            debug('Caching root failed', err)
             callback(err)
             return
         }
@@ -100,7 +96,7 @@ cacheSeries.push(function cacheRoot(callback) {
         isPublished = institution.get(['properties', 'published', 'value'], false) === 'True'
         var publishedPid = institution.get(['properties', 'published', 'id'], false)
         // SDC.set(['root', 'published'], isPublished)
-        // console.log('Root cached', institution.get(['properties', 'published']))
+        // debug('Root cached', institution.get(['properties', 'published']))
         if (firstRun === true) {
             return callback()
         } else if (isPublished) {
@@ -112,134 +108,14 @@ cacheSeries.push(function cacheRoot(callback) {
                 new_value: ''
             }
             entu.edit(params, function() {
-                console.log('Is published')
+                // debug('Is published')
                 return callback()
             })
 
         } else {
-            // console.log('Is NOT published')
-            callback('Not published')
+            // debug('Is NOT published')
+            // callback('Not published')
         }
-    })
-})
-
-
-// Fetch from Piletilevi
-cacheSeries.push(function fetchFromPL(callback) {
-    if (immediateReloadRequired) {
-        console.log('Skipping "Fetch from Piletilevi"')
-        callback()
-        return
-    }
-    console.log('Fetch from Piletilevi')
-    var url = 'http://www.piletilevi.ee/api/action/filter/?types=category,show,concert,venue&export=venue&order=date,desc&filter=venueId/245;concertActive&limit=10000&start=0&language='
-    async.each(PLLanguages, function(PLLanguage, callback) {
-        request({
-            url: url + PLLanguage,
-            json: true,
-            timeout: 10 * 1000
-        }, function (error, response, body) {
-            if (error) {
-                console.log('PL responded with ', error)
-                callback()
-            } else if (response.statusCode !== 200) {
-                console.log('Response status for language ' + PLLanguage + ': ' + response.statusCode)
-                callback()
-            } else {
-                op.set(PLData, PLLanguage, body.responseData)
-                callback()
-            }
-        })
-    }, function(err) {
-        if (err) {
-            console.log('Each failed for fetch from PL')
-            callback(err)
-            return
-        }
-        callback()
-    })
-})
-
-var PLCategories = {}
-var PLShows = {}
-var PLConcerts = {}
-
-// Parse PL data
-cacheSeries.push(function parsePLData(callback) {
-    if (immediateReloadRequired) {
-        console.log('Skipping "Parse Piletilevi data"')
-        callback()
-        return
-    }
-    console.log('Parse Piletilevi data')
-    async.each(PLLanguages, function(PLLanguage, callback) {
-        async.each(Object.keys(cacheFromPL), function(PLDefinition, callback) {
-            async.each(op.get(PLData, [PLLanguage, PLDefinition], []), function(item, callback) {
-                // console.log(JSON.stringify(item, null, 2), PLDefinition)
-                switch (PLDefinition) {
-                    case 'category':
-                        op.set(PLCategories, [item.id, 'id'], item.id)
-                        op.set(PLCategories, [item.id, 'parent'], item.parentCategoryId)
-                        op.set(PLCategories, [item.id, 'title', PLLanguage], item.title)
-                        break
-                    case 'concert':
-                        op.set(PLConcerts, [item.id, 'id'],             parseInt(item.id, 10))
-                        op.set(PLConcerts, [item.id, 'showId'],         parseInt(item.showId, 10))
-                        op.set(PLConcerts, [item.id, 'startTimestamp'], parseInt(item.startTime.stamp, 10))
-                        op.set(PLConcerts, [item.id, 'endTimestamp'],   parseInt(item.endTime.stamp, 10))
-                        op.set(PLConcerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp, 10))
-                        op.set(PLConcerts, [item.id, 'salesStatus'],    item.salesStatus)
-                        op.set(PLConcerts, [item.id, 'minPrice'],       item.minPrice)
-                        op.set(PLConcerts, [item.id, 'maxPrice'],       item.maxPrice)
-                        break
-                    case 'show':
-                        var descriptionLanguages = item.descriptionLanguages.split(',')
-                        var translatedLang = false
-                        for (i in descriptionLanguages) {
-                            if (descriptionLanguages[i] === PLLanguage) {
-                                translatedLang = true
-                                break
-                            }
-                        }
-                        op.set(PLShows, [item.id, 'id'], item.id)
-                        op.set(PLShows, [item.id, 'category'], item.categories)
-                        op.set(PLShows, [item.id, 'descriptionLanguages'], item.descriptionLanguages)
-                        op.set(PLShows, [item.id, 'originalImageUrl'], item.originalImageUrl)
-                        op.set(PLShows, [item.id, 'shortImageUrl'], item.shortImageUrl)
-                        if (translatedLang) {
-                            op.set(PLShows, [item.id, 'title', PLLanguage], item.title)
-                            op.set(PLShows, [item.id, 'description', PLLanguage], item.description)
-                            op.set(PLShows, [item.id, 'purchaseDescription', PLLanguage], item.purchaseDescription)
-                        }
-                        break
-                }
-                callback()
-            }, function(err) {
-                if (err) {
-                    console.log('Each failed for parse PL definition: ' + PLDefinition)
-                    callback(err)
-                    return
-                }
-                // console.log('Each succeeded for parse PL definitions for language: ' + PLLanguage)
-                callback()
-            })
-        }, function(err) {
-            if (err) {
-                console.log('Each failed for parse PL data')
-                callback(err)
-                return
-            }
-            // console.log('Each succeeded for parse PL languages')
-            callback()
-        })
-    }, function(err) {
-        if (err) {
-            console.log('Each failed for parse PL data')
-            callback(err)
-            return
-        }
-        console.log('Each succeeded for parse PL data')
-        callback()
     })
 })
 
@@ -250,10 +126,10 @@ function add2cache(entity, eClass) {
         op.set(tempLocalEntities, ['by_class', eClass, String(entity.id)], entity)
     }
     op.set(tempLocalEntities, ['by_definition', entity.definition, String(entity.id)], entity)
-    var plId = op.get(entity, 'properties.pl-id.value', false)
-    if (plId) {
-        op.set(tempLocalEntities, ['by_plid', String(plId)], entity)
-    }
+    // var plId = op.get(entity, 'properties.pl-id.value', false)
+    // if (plId) {
+    //     op.set(tempLocalEntities, ['by_plid', String(plId)], entity)
+    // }
 
     if (op.get(entity, ['properties', 'featured', 'value']) === 'True') {
         if (op.get(entity, ['definition']) === 'performance') {
@@ -282,17 +158,9 @@ function cacheBanner(opEntity, callback) {
     callback()
 }
 function cacheCategory(opEntity, callback) {
-    var plId = opEntity.get('properties.pl-id.value', false)
-    if (plId) {
-        op.del(PLCategories, plId)
-    }
     callback()
 }
 function cachePerformance(opEntity, callback) {
-    var plId = opEntity.get('properties.pl-id.value', false)
-    if (plId) {
-        op.del(PLShows, plId)
-    }
     var perfRef = opEntity.get('properties.premiere.reference', false)
     if (perfRef) {
         relate(opEntity.get('id'), 'premiere', perfRef, 'performance')
@@ -300,7 +168,7 @@ function cachePerformance(opEntity, callback) {
     var parentEid = opEntity.get('id')
     entu.get_childs(parentEid, null, null, null, function(err, entities) {
         if (err) {
-            // console.log('Fetch childs: ' + definition + '@' + parentEid + ' from Entu failed.', err)
+            // debug('Fetch childs: ' + definition + '@' + parentEid + ' from Entu failed.', err)
             callback(err)
             return
         }
@@ -311,26 +179,16 @@ function cachePerformance(opEntity, callback) {
             callback()
         }, function(err) {
             if (err) {
-                console.log('Each failed for childs of ' + parentEid)
+                debug('Each failed for childs of ' + parentEid)
                 callback(err)
                 return
             }
-            // console.log('Each succeeded for childs of ' + parentEid)
+            // debug('Each succeeded for childs of ' + parentEid)
             callback()
         })
     })
 }
 function cacheEvent(opEntity, callback) {
-    var plId = opEntity.get('properties.pl-id.value', false)
-    if (plId) {
-        // TODO: Merge ticket information from PLConcert ...
-        //       sales-time
-        //       sales-status
-        //       min-price
-        //       max-price
-        // ... and remove from PL
-        op.del(PLConcerts, plId)
-    }
     var perfRef = opEntity.get('properties.performance.reference', false)
     if (perfRef) {
         relate(opEntity.get('id'), 'performance', perfRef, 'event')
@@ -338,7 +196,7 @@ function cacheEvent(opEntity, callback) {
     var parentEid = opEntity.get('id')
     entu.get_childs(parentEid, null, null, null, function(err, entities) {
         if (err) {
-            // console.log('Fetch childs: ' + definition + '@' + parentEid + ' from Entu failed.', err)
+            // debug('Fetch childs: ' + definition + '@' + parentEid + ' from Entu failed.', err)
             callback(err)
             return
         }
@@ -357,24 +215,24 @@ function cacheEvent(opEntity, callback) {
             }
         }, function(err) {
             if (err) {
-                console.log('Each failed for childs of ' + parentEid)
+                debug('Each failed for childs of ' + parentEid)
                 callback(err)
                 return
             }
-            // console.log('Each succeeded for childs of ' + parentEid)
+            // debug('Each succeeded for childs of ' + parentEid)
             callback()
         })
     })
 }
 
-// Fetch from Entu and remove from PLData if exists
+// Fetch from Entu
 cacheSeries.push(function fetchFromEntu(callback) {
     if (immediateReloadRequired) {
-        console.log('Skipping "Fetch from Entu and remove from PLData if exists"')
+        // debug('Skipping "Fetch from Entu"')
         callback()
         return
     }
-    console.log('Fetch from Entu and remove from PLData if exists')
+    // debug('Fetch from Entu')
 
     function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         async.each(entities, function(opEntity, callback) {
@@ -415,13 +273,13 @@ cacheSeries.push(function fetchFromEntu(callback) {
                     cacheBanner(opEntity, callback)
                     break
                 default:
-                    console.log('Unhandled definition: ' + definition)
+                    debug('Unhandled definition: ' + definition)
                     break
             }
-            // console.log(opEntity.get('id'))
+            // debug(opEntity.get('id'))
         }, function(err) {
             if (err) {
-                console.log('Each failed for myProcessEntities')
+                debug('Each failed for myProcessEntities')
                 callback(err)
                 return
             }
@@ -432,211 +290,66 @@ cacheSeries.push(function fetchFromEntu(callback) {
     async.eachLimit(cacheFromEntu, 1, function(options, callback) {
         var definition = options.definition
         var eClass = options.class
-        console.log('Fetch ' + JSON.stringify(options) + ' from Entu.')
+        // debug('Fetch ' + JSON.stringify(options) + ' from Entu.')
         if (options.parent) {
             var parentEid = options.parent
-            // console.log('Fetch ' + definition + '@' + parentEid + ' from Entu.')
+            // debug('Fetch ' + definition + '@' + parentEid + ' from Entu.')
             entu.get_childs(parentEid, definition, null, null, function(err, opEntities) {
                 if (err) {
-                    console.log('Fetch ' + definition + '@' + parentEid + ' from Entu failed.', err)
+                    debug('Fetch ' + definition + '@' + parentEid + ' from Entu failed.', err)
                     callback(err)
                     return
                 }
-                // console.log('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
+                // debug('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
                 myProcessEntities(parentEid, eClass, definition, opEntities, callback)
             })
         } else {
-            // console.log('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
+            // debug('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
             entu.get_entities(definition, null, null, null, function(err, opEntities) {
                 if (err) {
-                    console.log('Fetch ' + definition + ' from Entu failed.', err)
+                    debug('Fetch ' + definition + ' from Entu failed.', err)
                     callback(err)
                     return
                 }
-                // console.log('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
+                // debug('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
                 myProcessEntities(null, eClass, definition, opEntities, callback)
             })
         }
     }, function(err) {
         if (err) {
-            console.log('Each failed for fetch from Entu')
+            debug('Each failed for fetch from Entu')
             callback(err)
             return
         }
-        // console.log('Each succeeded for fetch from Entu')
-        // console.log(JSON.stringify(PLCategories, null, 2))
-        // fs.createWriteStream(path.join(APP_CACHE_DIR, 'PL.json')).write(JSON.stringify({'category':PLCategories, 'performance':PLShows, 'event':PLConcerts}, null, '    '), callback)
+        // debug('Each succeeded for fetch from Entu')
         callback()
     })
 })
 
-
-// Add missing categories to Entu
-cacheSeries.push(function addCategories2Entu(callback) {
-    if (immediateReloadRequired) {
-        console.log('Skipping "Add new categories to Entu"')
-        callback()
-        return
-    }
-    if (Object.keys(PLCategories).length === 0) {
-        // console.log('no categories')
-        callback()
-        return
-    }
-    console.log('Add new categories to Entu. (' + Object.keys(PLCategories).length + ')')
-
-    immediateReloadRequired = true
-
-    async.each(PLCategories, function(PLCategory, callback) {
-        var properties = {
-            'pl-id': parseInt(PLCategory.id, 10),
-            'et-name': op.get(PLCategory, 'title.est'),
-            'en-name': op.get(PLCategory, 'title.eng')
-        }
-        entu.add(cacheFromPL.category, 'category', properties, null, null, function categoryAddedCB(err, newId) {
-            if (err) {
-                console.log('Entu failed to add category', err)
-                callback(err)
-                return
-            }
-            console.log('Entu added category ' + newId)
-            callback()
-        })
-
-    }, function(err) {
-        if (err) {
-            console.log('Each failed for add missing categories')
-            callback(err)
-            return
-        }
-        // console.log('Missing categories added.')
-        callback()
-    })
-})
-// Add missing performances to Entu
-cacheSeries.push(function addPerformances2Entu(callback) {
-    if (immediateReloadRequired) {
-        console.log('Skipping "Add new performances to Entu"')
-        callback()
-        return
-    }
-    if (Object.keys(PLShows).length === 0) {
-        callback()
-        return
-    }
-    console.log('Add new performances to Entu. (' + Object.keys(PLShows).length + ')')
-    immediateReloadRequired = true
-
-    async.each(PLShows, function(PLShow, callback) {
-        // console.log(op.get(PLShow, 'category'))
-        // console.log(op.get(PLShow, 'category').map(function(id) {return tempLocalEntities.by_plid[id].id}))
-        var properties = {
-            'pl-id': parseInt(PLShow.id, 10),
-            'category': op.get(PLShow, 'category', []).map(function(id) {return op.get(tempLocalEntities, ['by_plid', id, 'id'])})[0],
-            'et-name': op.get(PLShow, 'title.est'),
-            'en-name': op.get(PLShow, 'title.eng'),
-            'et-purchase-description': op.get(PLShow, 'purchaseDescription.est'),
-            'en-purchase-description': op.get(PLShow, 'purchaseDescription.eng'),
-            'et-description': op.get(PLShow, 'description.est'),
-            'en-description': op.get(PLShow, 'description.eng'),
-            'photo-url': op.get(PLShow, 'originalImageUrl'),
-            'thumb-url': op.get(PLShow, 'shortImageUrl'),
-        }
-        // console.log(JSON.stringify(properties, null, 2))
-        entu.add(cacheFromPL.show, 'performance', properties, null, null, function performanceAddedCB(err, newId) {
-            if (err) {
-                console.log('Entu failed to add performance', err)
-                callback(err)
-                return
-            }
-            console.log('Entu added performance ' + newId, err)
-            callback()
-        })
-
-    }, function(err) {
-        if (err) {
-            console.log('Each failed for add missing performances')
-            callback(err)
-            return
-        }
-        // console.log('Missing performances added.')
-        callback()
-    })
-})
-// Add missing events to Entu
-cacheSeries.push(function addEvents2Entu(callback) {
-    if (immediateReloadRequired) {
-        console.log('Skipping "Add new events to Entu"')
-        callback()
-        return
-    }
-    if (Object.keys(PLConcerts).length === 0) {
-        callback()
-        return
-    }
-    console.log('Add new events to Entu. (' + Object.keys(PLConcerts).length + ')')
-    immediateReloadRequired = true
-
-    async.eachLimit(PLConcerts, 1, function(PLConcert, callback) {
-        var startTime = new Date(op.get(PLConcert, 'startTimestamp')*1000)
-        var endTime = new Date(op.get(PLConcert, 'endTimestamp')*1000)
-        var salesTime = new Date(op.get(PLConcert, 'salesTimestamp')*1000)
-        var properties = {
-            'pl-id': parseInt(PLConcert.id, 10),
-            'performance': op.get(tempLocalEntities, ['by_plid', op.get(PLConcert, 'showId'), 'id']),
-            'start-time': startTime.toJSON().replace('T', ' ').slice(0,19),
-            'end-time': endTime.toJSON().replace('T', ' ').slice(0,19),
-            'sales-time': salesTime.toJSON().replace('T', ' ').slice(0,19),
-            'sales-status': op.get(PLConcert, 'salesStatus'),
-            'min-price': op.get(PLConcert, 'minPrice'),
-            'max-price': op.get(PLConcert, 'maxPrice'),
-        }
-        // console.log(JSON.stringify(properties, null, 2))
-        entu.add(cacheFromPL.concert, 'event', properties, null, null, function eventAddedCB(err, newId) {
-            if (err) {
-                console.log('Entu failed to add event', err)
-                callback(err)
-                return
-            }
-            console.log('Entu added event ' + newId, err)
-            callback()
-        })
-
-    }, function(err) {
-        if (err) {
-            console.log('Each failed for add missing events')
-            callback(err)
-            return
-        }
-        // console.log('Missing events added.')
-        callback()
-    })
-})
 
 // Save cache
 cacheSeries.push(function saveCache(callback) {
     if (immediateReloadRequired) {
-        console.log('Skipping "Save Cache"')
+        debug('Skipping "Save Cache"')
         callback()
         return
     }
-    console.log('Save Cache')
+    // debug('Save Cache')
     SDC.set('local_entities', tempLocalEntities)
     SDC.set('relationships', tempRelationships)
 
 
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
-        console.log('Saving ' + filename)
+        // debug('Saving ' + filename)
         var entitiesWs = fs.createWriteStream(path.join(APP_CACHE_DIR, filename + '.json'))
         entitiesWs.write(JSON.stringify(SDC.get(filename), null, 4), callback)
     }, function(err) {
         if (err) {
-            console.log('Saving cache failed', err)
-            callback(err)
-            return
+            debug('Saving cache failed', err)
+            return callback(err)
         }
-        console.log('cache saved')
+        // debug('cache saved')
         firstRun = false
         callback()
     })
@@ -647,23 +360,21 @@ cacheSeries.push(function saveCache(callback) {
 cacheSeries.push(function cleanup(callback) {
     tempLocalEntities = {}
     tempRelationships = {}
-    PLCategories = {}
-    PLShows = {}
-    PLConcerts = {}
     callback()
+    state = 'sleeping'
 })
 
 
 
 
 function routine(WorkerReloadCB) {
-    console.log('Cache routine started')
+    // debug('Cache routine started')
     function restartInFive() {
-        setTimeout(function(){console.log('4')}, 1*1000)
-        setTimeout(function(){console.log('3')}, 2*1000)
-        setTimeout(function(){console.log('2')}, 3*1000)
-        setTimeout(function(){console.log('1')}, 4*1000)
-        console.log('Restarting routine in 5')
+        // setTimeout(function(){debug('4')}, 1*1000)
+        // setTimeout(function(){debug('3')}, 2*1000)
+        // setTimeout(function(){debug('2')}, 3*1000)
+        // setTimeout(function(){debug('1')}, 4*1000)
+        // debug('Restarting routine in 5')
         setTimeout(function() {
             routine(WorkerReloadCB)
         }, 5*1000)
@@ -671,14 +382,14 @@ function routine(WorkerReloadCB) {
     }
     async.series(cacheSeries, function routineFinally(err) {
         if (err === 'Not published') {
-            console.log('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+            debug('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
             setTimeout(function() {
                 restartInFive()
             }, CACHE_REFRESH_MS - 5*1000)
             return
         }
         else if (err) {
-            console.log('Routine stumbled. Restart in 25', err)
+            debug('Routine stumbled. Restart in 25', err)
             setTimeout(function() {
                 restartInFive()
             }, 20*1000)
@@ -686,15 +397,22 @@ function routine(WorkerReloadCB) {
         }
         if (immediateReloadRequired) {
             immediateReloadRequired = false
-            console.log('Immediate reload requested')
+            debug('Immediate reload requested')
             restartInFive()
             return
         }
         WorkerReloadCB() // Routine finished successfully - tell workers to reload.
-        console.log('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+        debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
         setTimeout(function() {
             restartInFive()
         }, CACHE_REFRESH_MS - 5*1000)
     })
 }
+
+function requestedSync() {
+    debug('Sync request acknowledged.')
+}
+
 module.exports.routine = routine
+module.exports.state = state
+module.exports.requestSync = requestedSync

@@ -39,8 +39,8 @@ prepare_controllers_fa.push(function loadCache(callback) {
         try {
             SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
         } catch(err) {
-            debug('Not loaded: ', filename)
-            op.del(filenames, filenames.indexOf(filename))
+            // debug('Not loaded: ', filename)
+            // op.del(filenames, filenames.indexOf(filename))
         }
         callback()
     }, function(err) {

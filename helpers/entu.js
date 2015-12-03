@@ -44,10 +44,8 @@ function get_entity(id, auth_id, auth_token, callback) {
     }
 
     // debug('get_entity: ' + APP_ENTU_URL + '/entity-' + id)
-    request.get({url: APP_ENTU_URL + '/entity-' + id, headers: headers, qs: qs, strictSSL: true, json: true}, function(error, response, body) {
-        if (error) {
-            return callback(error)
-        }
+    request.get({url: APP_ENTU_URL + '/entity-' + id, headers: headers, qs: qs, strictSSL: true, json: true}, function(err, response, body) {
+        if (err) { return callback(err) }
         if (response.statusCode !== 200 || !body.result) { return callback(new Error(op.get(body, 'error', body))) }
         var properties = op.get(body, 'result.properties', {})
         var entity = {

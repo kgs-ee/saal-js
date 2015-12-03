@@ -3,6 +3,7 @@ var cpuCount = require('os').cpus().length
 var fs       = require('fs')
 // var op       = require('object-path')
 var path     = require('path')
+var debug    = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var random   = require('randomstring')
 
 
@@ -24,10 +25,10 @@ if (!process.env.ENTU_KEY) {
 APP_ENTU_ROOT       = 1 // institution
 APP_CACHE_DIR       = __dirname + '/pagecache'
 if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
-var cache           = require('./helpers/cache')
 
 var workers = []
 
+var cache = require('./helpers/cache')
 cache.routine(function cachedCB() {
     // console.log('Reload workers')
     for (var i in workers) {
@@ -40,6 +41,23 @@ cache.routine(function cachedCB() {
         }
     }
 })
+
+var plSync = require('./helpers/pl-sync')
+function startPLSync() {
+    if (plSync.state === undefined) {
+        debug('PLSync not ready, try in a sec')
+        setTimeout(function () {
+            startPLSync()
+        }, 1000)
+    } else if (plSync.state === 'idle') {
+        plSync.routine(function plSyncCB(err, message) {
+            if (err) { throw 'PL sync totally messed up' }
+            debug(message)
+            cache.requestSync()
+        })
+    }
+}
+startPLSync()
 
 
 // Broadcast a message to all other workers
