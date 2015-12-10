@@ -65,7 +65,8 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
     async.each(plLanguages, function(plLanguage, callback) {
         // debug(JSON.stringify(PLData[plLanguage], null, 4))
         async.forEachOf(PLData[plLanguage], function(plItems, plDefinition, callback) {
-            debug(JSON.stringify([plLanguage, plDefinition, plItems], null, 4))
+            if(!Array.isArray(plItems)) { return callback() }
+            // debug(JSON.stringify([plLanguage, plDefinition, plItems], null, 4))
             async.each(plItems, function(item, callback) {
                 switch (plDefinition) {
                     case 'category':
