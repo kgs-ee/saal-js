@@ -235,9 +235,10 @@ block content
 
                     .col-xs-12.col-sm-6.col-md-4.col-lg-12
                         a.text-center.h3.volunteer(href='mailto:vabatahtlik@saal.ee')= t('button.volunteer')
-                           
-                        a(href=sideBanner.url)
-                            img(src=op.get(sideBanner, ['photos', 0, 'file']), alt=sideBanner.name, class="img-responsive img-center front-banner")
+                        
+                        if sideBanner
+                            a(href=sideBanner.url)
+                                img(src=op.get(sideBanner, ['photos', 0, 'file']), alt=sideBanner.name, class="img-responsive img-center front-banner")
 
                     .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
                         form.validate(action='http://paranoia.us8.list-manage.com/subscribe/post?u=1e1d48fe600fda5c3f6a39b75&amp;id=fdc080b2d5' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' target='_blank' novalidate)
