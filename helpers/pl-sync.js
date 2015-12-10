@@ -15,7 +15,7 @@ var state = 'idle'
 
 
 cacheReloadSuggested = false
-var PLLanguages = ['est', 'eng']
+var plLanguages = ['est', 'eng']
 var mapPL2Entu = {}
 var syncWaterfall = []
 
@@ -30,9 +30,9 @@ syncWaterfall.push(function fetchFromPL(callback) {
     // debug('Fetch from Piletilevi')
     var url = 'http://www.piletilevi.ee/api/action/filter/?types=category,show,concert,venue&export=venue&order=date,desc&filter=venueId/245;concertActive&limit=10000&start=0&language='
     var PLData = {}
-    async.each(PLLanguages, function(PLLanguage, callback) {
+    async.each(plLanguages, function(plLanguage, callback) {
         request({
-            url: url + PLLanguage,
+            url: url + plLanguage,
             json: true,
             timeout: 10 * 1000
         }, function (error, response, body) {
@@ -40,10 +40,10 @@ syncWaterfall.push(function fetchFromPL(callback) {
                 debug('PL responded with ', error)
                 callback(error)
             } else if (response.statusCode !== 200) {
-                debug('Response status for language ' + PLLanguage + ': ' + response.statusCode)
+                debug('Response status for language ' + plLanguage + ': ' + response.statusCode)
                 callback('PL responded with ' + response.statusCode)
             } else {
-                op.set(PLData, PLLanguage, body.responseData)
+                op.set(PLData, plLanguage, body.responseData)
                 callback()
             }
         })
@@ -62,16 +62,17 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
     var PLCategories = {}
     var PLShows = {}
     var PLConcerts = {}
-    async.each(PLLanguages, function(PLLanguage, callback) {
-        // debug(JSON.stringify(PLData[PLLanguage], null, 4))
-        async.forEachOf(PLData[PLLanguage], function(PLItems, plDefinition, callback) {
-            async.each(PLItems, function(item, callback) {
+    async.each(plLanguages, function(plLanguage, callback) {
+        // debug(JSON.stringify(PLData[plLanguage], null, 4))
+        async.forEachOf(PLData[plLanguage], function(plItems, plDefinition, callback) {
+            debug(JSON.stringify([plLanguage, plDefinition, plItems], null, 4))
+            async.each(plItems, function(item, callback) {
                 switch (plDefinition) {
                     case 'category':
                         // debug('Parse Piletilevi ' + plDefinition)
                         op.set(PLCategories, [item.id, 'id'], item.id)
                         op.set(PLCategories, [item.id, 'parent'], item.parentCategoryId)
-                        op.set(PLCategories, [item.id, 'title', PLLanguage], item.title)
+                        op.set(PLCategories, [item.id, 'title', plLanguage], item.title)
                         break
                     case 'concert':
                         // debug('Parse Piletilevi ' + plDefinition)
@@ -89,7 +90,7 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
                         var descriptionLanguages = item.descriptionLanguages.split(',')
                         var translatedLang = false
                         for (i in descriptionLanguages) {
-                            if (descriptionLanguages[i] === PLLanguage) {
+                            if (descriptionLanguages[i] === plLanguage) {
                                 translatedLang = true
                                 break
                             }
@@ -100,9 +101,9 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
                         op.set(PLShows, [item.id, 'originalImageUrl'], item.originalImageUrl)
                         op.set(PLShows, [item.id, 'shortImageUrl'], item.shortImageUrl)
                         if (translatedLang) {
-                            op.set(PLShows, [item.id, 'title', PLLanguage], item.title)
-                            op.set(PLShows, [item.id, 'description', PLLanguage], item.description)
-                            op.set(PLShows, [item.id, 'purchaseDescription', PLLanguage], item.purchaseDescription)
+                            op.set(PLShows, [item.id, 'title', plLanguage], item.title)
+                            op.set(PLShows, [item.id, 'description', plLanguage], item.description)
+                            op.set(PLShows, [item.id, 'purchaseDescription', plLanguage], item.purchaseDescription)
                         }
                         break
                     default:
