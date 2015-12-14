@@ -846,9 +846,11 @@ a.logo {
 
 .main-text {
 	//margin-top: 2em;
+	margin-bottom: 2em;
 
 	@media (min-width: $screen-desktop) {
 		margin-top: 0;
+		margin-bottom: 0;
 	}
 
 	p {

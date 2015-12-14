@@ -1,114 +1,66 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    // clean: {
-    //   tests: ['dist']
-    // },
-    // copy: {
-    //   dist: {
-    //     cwd: 'src/', expand: true, src: '**', dest: 'dist/'
-    //   }
-    // },
+
     uncss: {
     dist: {
       options: {
         ignore: [
-          /\w\.in/,
-          ".fade",
-          ".collapse",
-          ".collapsing",
-          '.collapsed',
-          /nav/,
-          /(#|\.)navbar(\-[a-zA-Z]+)?/,
-          /(#|\.)dropdown(\-[a-zA-Z]+)?/,
-          /(#|\.)(open)/,
-          // ".modal",
-          // ".modal.fade.in",
-          // ".modal-dialog",
-          // ".modal-document",
-          // ".modal-scrollbar-measure",
-          // ".modal-backdrop.fade",
-          // ".modal-backdrop.in",
-          // ".modal.fade.modal-dialog",
-          // ".modal.in.modal-dialog",
-          // ".modal-open",
-          // ".modal-backdrop"
-          /carousel-inner/,
-          "table",
-          /datepicker/,
-        //   "#datepicker",
-        //   ".ui-datepicker",
-        //   ".ui-datepicker-calendar",
-        //   ".ui-datepicker-title",
-        //   ".ui-datepicker-prev",
-        //   ".ui-datepicker-next",
-        //   ".ui-datepicker-prev span",
-        //   ".ui-datepicker-next span",
-        //   ".ui-datepicker-prev:before",
-        //   ".ui-datepicker-next:before",
-        //   ".ui-datepicker-calendar>thead>tr>th",
-        //   ".ui-datepicker-calendar>thead>tr>td",
-        //   ".ui-datepicker-calendar>tbody>tr>th",
-        //   ".ui-datepicker-calendar>tbody>tr>td",
-        //   ".ui-datepicker-calendar>tfoot>tr>th",
-        //   ".ui-datepicker-calendar>tfoot>tr>td",
-        //   ".ui-datepicker-calendar>thead>tr>th",
-        //   ".ui-datepicker-calendar>thead:first-child>tr:first-child>th",
-        //   ".ui-datepicker-calendar>thead:first-child>tr:first-child>td",
-        //   ".ui-datepicker-calendar>tbody+tbody",
-        //   ".ui-datepicker-calendar.ui-datepicker-calendar",
-        //   ".ui-datepicker>.ui-datepicker-calendar",
-        //   ".ui-datepicker>.ui-datepicker-calendar>thead>tr>th",
-        //   ".ui-datepicker>.ui-datepicker-calendar>thead>tr>td",
-        //   ".ui-datepicker>.ui-datepicker-calendar>tbody>tr>th",
-        //   ".ui-datepicker>.ui-datepicker-calendar>tbody>tr>td",
-        //   ".ui-datepicker>.ui-datepicker-calendar>tfoot>tr>th",
-        //   ".ui-datepicker>.ui-datepicker-calendar>tfoot>tr>td",
-        //   ".highlight a",
+            /\w\.in/,
+            ".fade",
+            ".collapse",
+            ".collapsing",
+            '.collapsed',
+            /nav/,
+            /(#|\.)navbar(\-[a-zA-Z]+)?/,
+            /(#|\.)dropdown(\-[a-zA-Z]+)?/,
+            /(#|\.)(open)/,
+            /carousel-inner/,
+            "table",
+            /datepicker/,
             /highlight/,
             /select-cat/,
             /main-nav/,
-          '.event-banner svg',
-          '.navbar-toggle',
-          /fancybox/,
-          // /popover/,
-          ".popover",
-          ".popover.bottom",
-          ".popover li",
-          ".popover li a",
-          ".popover li a:hover",
-          ".popover li:last-child",
-          ".popover-content ul.list-unstyled",
-          ".popover>.arrow",
-          ".popover>.arrow:after",
-          ".popover.bottom>.arrow",
-          ".popover.bottom>.arrow:after",
-          /site-search/,
-          /pager/,
-          ".archive",
-          ".archive.top",
-          ".archive.bottom",
-          /mailchimp-sign-up/,
-          '.icon-search',
-          '.h4',
-          '.today',
-          /legend/,
-          '.main-text p',
-          '.team',
-          '.member',
-          '.address',
-          '.intranet',
-          '.resident',
-          '.img-circle',
-          '.lang',
-          /icon-checkmark/,
-          '.artist',
-          '.producer',
-          '.town'
-          '.artist:after',
-          '.producer:after',
-          '.subtitle',
-          '.front-banner'
+            '.event-banner svg',
+            '.navbar-toggle',
+            /fancybox/,
+            ".popover",
+            ".popover.bottom",
+            ".popover li",
+            ".popover li a",
+            ".popover li a:hover",
+            ".popover li:last-child",
+            ".popover-content ul.list-unstyled",
+            ".popover>.arrow",
+            ".popover>.arrow:after",
+            ".popover.bottom>.arrow",
+            ".popover.bottom>.arrow:after",
+            /site-search/,
+            /pager/,
+            ".archive",
+            ".archive.top",
+            ".archive.bottom",
+            /mailchimp-sign-up/,
+            '.icon-search',
+            '.h4',
+            '.today',
+            /legend/,
+            '.main-text p',
+            '.team',
+            '.member',
+            '.address',
+            '.intranet',
+            '.resident',
+            '.img-circle',
+            '.lang',
+            /icon-checkmark/,
+            '.artist',
+            '.producer',
+            '.town',
+            '.artist:after',
+            '.producer:after',
+            '.subtitle',
+            '.front-banner'
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
@@ -120,21 +72,6 @@ module.exports = function(grunt) {
         ]
       },
     },
-    // processhtml: {
-    //   dist: {
-    //     files: {
-    //     'dist/index.html': ['src/index.html'],
-    //     'dist/program.html': ['src/program.html'],
-    //     'dist/single-event.html': ['src/single-event.html'],
-    //     'dist/contact.html': ['src/contact.html'],
-    //     'dist/about.html': ['src/about.html'],
-    //     'dist/projects.html': ['src/projects.html'],
-    //     'dist/residencies.html': ['src/residencies.html'],
-    //     'dist/single-residency.html': ['src/single-residency.html'],
-    //     'dist/tours.html': ['src/tours.html']
-    //     }
-    //   }
-    // },
     cssmin: {
       dist: {
         files: [
@@ -167,12 +104,10 @@ module.exports = function(grunt) {
   });
 
   // Load the plugins
-  // grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-uncss');
-  // grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Default tasks.
-  grunt.registerTask('default', [/*'copy',*/ 'uglify', 'uncss', 'cssmin', /*'processhtml'*/]);
+  grunt.registerTask('default', ['uglify', 'uncss', 'cssmin']);
 };
