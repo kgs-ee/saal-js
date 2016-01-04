@@ -137,12 +137,12 @@ function createNewEntity(plDefinition, plItem, callback) {
     debug('Creating new ' + op.get(mapPlDefinitions, [plDefinition, 'eDefinition']), plItem)
     callback(null, 'dummyEid')
 }
+
 function syncWithEntu(plDefinition, plItem, eId, callback) {
     // debug('Matching: ', eId, plItem)
 
-    entu.get_entity(eId, null, null, function entuCB(err, opEntity) {
-        if (err) { return callback(err) }
-
+    entu.get_entity(eId, null, null)
+    .then(function (opEntity) {
         var eItem = opEntity.get()
         if (op.get(mapPlDefinitions, [plDefinition, 'eDefinition']) !== eItem.definition) {
             return callback('PL definition ' + plDefinition + ' do not match Entu definition ' + eItem.definition)
@@ -225,7 +225,7 @@ function syncWithEntu(plDefinition, plItem, eId, callback) {
                     new_value: newValue.value
                 }
                 debug('|__ Needs syncing', 'E' + eItem.id + ' ?= PL' + plItem.id, params)
-                entu.edit(params, callback)
+                entu.edit(params).then(callback)
             }, function (err) {
                 if (err) return callback(err)
                 callback()
@@ -313,8 +313,8 @@ function routine(CacheReloadCB) {
 function preloadIdMapping(callback) {
     debug('PL sync preloader started at ' + Date().toString())
     async.forEachOfSeries(mapPlDefinitions, function iterator(eValue, plDefinition, callback) {
-        entu.get_childs(eValue.eId, eValue.eDefinition, null, null, function(err, opEntities) {
-            if (err) { return callback(err) }
+        entu.get_childs(eValue.eId, eValue.eDefinition, null, null)
+        .then(function(opEntities) {
             async.each(opEntities, function(opEntity, callback) {
                 if (opEntity.get(['properties', 'pl-id', 'value'], false) !== false) {
                     op.set(mapPL2Entu, String(opEntity.get(['properties', 'pl-id', 'value'])), String(opEntity.get(['id'])))

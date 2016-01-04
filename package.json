@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "saal.ee-at-entu",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "description": "saal.ee on entu.ee webpage engine",
   "homepage": "https://github.com/kgs/saal-js",
@@ -34,6 +34,7 @@
     "moment": "^2.10.6",
     "newrelic": "1.x",
     "object-path": "0.x",
+    "promise": "^7.1.1",
     "randomstring": "1.x",
     "raven": "0.x",
     "request": "2.x",

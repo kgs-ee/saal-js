@@ -83,12 +83,8 @@ cacheSeries.push(function loadCache(callback) {
 cacheSeries.push(function cacheRoot(callback) {
     // debug('Caching root')
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
-    entu.get_entity(APP_ENTU_ROOT, null, null, function(err, institution) {
-        if (err) {
-            debug('Caching root failed', err)
-            callback(err)
-            return
-        }
+    entu.get_entity(APP_ENTU_ROOT, null, null)
+    .then(function(institution) {
         SDC.set(['root', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
         SDC.set(['root', 'description'], institution.get(['properties', 'description', 'md']))
@@ -107,11 +103,7 @@ cacheSeries.push(function cacheRoot(callback) {
                 property_id: publishedPid,
                 new_value: ''
             }
-            entu.edit(params, function() {
-                // debug('Is published')
-                return callback()
-            })
-
+            entu.edit(params).then(callback)
         } else {
             // debug('Is NOT published')
             // callback('Not published')
@@ -166,12 +158,8 @@ function cachePerformance(opEntity, callback) {
         relate(opEntity.get('id'), 'premiere', perfRef, 'performance')
     }
     var parentEid = opEntity.get('id')
-    entu.get_childs(parentEid, null, null, null, function(err, entities) {
-        if (err) {
-            // debug('Fetch childs: ' + definition + '@' + parentEid + ' from Entu failed.', err)
-            callback(err)
-            return
-        }
+    entu.get_childs(parentEid, null, null, null)
+    .then(function(entities) {
         async.each(entities, function(opEntity, callback) {
             var entity = opEntity.get()
             relate(entity.id, 'parent', parentEid, entity.definition)
@@ -194,15 +182,8 @@ function cacheEvent(opEntity, callback) {
         relate(opEntity.get('id'), 'performance', perfRef, 'event')
     }
     var parentEid = opEntity.get('id')
-    entu.get_childs(parentEid, null, null, null, function(err, entities) {
-        if (err) {
-            // debug('Fetch childs: ' + definition + '@' + parentEid + ' from Entu failed.', err)
-            callback(err)
-            return
-        }
-        // if (!eClass) {
-        //     eClass = op.get(festivals, String(parentEid))
-        // }
+    entu.get_childs(parentEid, null, null, null)
+    .then(function(entities) {
         async.each(entities, function(opEntity, callback) {
             var entity = opEntity.get()
             relate(entity.id, 'parent', parentEid, entity.definition)
@@ -216,8 +197,7 @@ function cacheEvent(opEntity, callback) {
         }, function(err) {
             if (err) {
                 debug('Each failed for childs of ' + parentEid)
-                callback(err)
-                return
+                return callback(err)
             }
             // debug('Each succeeded for childs of ' + parentEid)
             callback()
@@ -229,8 +209,7 @@ function cacheEvent(opEntity, callback) {
 cacheSeries.push(function fetchFromEntu(callback) {
     if (immediateReloadRequired) {
         // debug('Skipping "Fetch from Entu"')
-        callback()
-        return
+        return callback()
     }
     // debug('Fetch from Entu')
 
@@ -294,24 +273,15 @@ cacheSeries.push(function fetchFromEntu(callback) {
         if (options.parent) {
             var parentEid = options.parent
             // debug('Fetch ' + definition + '@' + parentEid + ' from Entu.')
-            entu.get_childs(parentEid, definition, null, null, function(err, opEntities) {
-                if (err) {
-                    debug('Fetch ' + definition + '@' + parentEid + ' from Entu failed.', err)
-                    callback(err)
-                    return
-                }
+            entu.get_childs(parentEid, definition, null, null)
+            .then(function(opEntities) {
                 // debug('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
                 myProcessEntities(parentEid, eClass, definition, opEntities, callback)
             })
         } else {
             // debug('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
-            entu.get_entities(definition, null, null, null, function(err, opEntities) {
-                if (err) {
-                    debug('Fetch ' + definition + ' from Entu failed.', err)
-                    callback(err)
-                    return
-                }
-                // debug('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
+            entu.get_entities(definition, null, null, null)
+            .then(function(opEntities) {
                 myProcessEntities(null, eClass, definition, opEntities, callback)
             })
         }
