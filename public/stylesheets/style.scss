@@ -27,12 +27,19 @@ body {
 	-webkit-font-smoothing: subpixel-antialiased;
 	padding-top: 60px;
 }
+.front-page-margin {
+	margin: 1.5em 0;
+
+	@media (min-width: $screen-tablet) {
+		margin: 1.5em 3em 1.5em 3em;
+	}
+}
 
 .page-margin {
 	margin: 3em 0;
 
 	@media (min-width: $screen-tablet) {
-		margin: 3em;
+		margin: 3em 1.5em 3em 1.5em;
 	}
 }
 
@@ -164,6 +171,10 @@ h2,
 	li {
 		padding: 5px 16px;
 
+		@media(max-width: 1250px) {
+			padding: 0 6px !important;
+		}
+
 		@media(min-width: $screen-lg) {
 			padding: 0 10px;
 		}
@@ -196,11 +207,11 @@ p {
 h3, .h3 {
 	line-height: 1.3em;
 
-	font-size: 1.3em;
+	font-size: 1.65em;
 
-	@media (min-width: $screen-tablet) {
-		font-size: 1.6em;
-	}
+	// @media (min-width: $screen-tablet) {
+	// 	font-size: 1.6em;
+	// }
 }
 
 .season {
@@ -525,16 +536,17 @@ a.logo {
         	color: white;
 
         	&:hover {
-        		color: #000;
+        		color: #000 !important;
         	}
 
-        	&:hover span {
-        		background-color: transparent;
-        	}
         }
 
         &.unactive span {
         	background-color: white;
+
+			&:hover {
+				background-color: transparent;
+			}
 
         }
     }

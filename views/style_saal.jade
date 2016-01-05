@@ -10,14 +10,6 @@ style.
         background-color: #{bgcolor};
     }
 
-    a:hover,
-    a:focus,
-    a:active,
-    .select-cat a:hover,
-    .select-cat a .active:hover {
-        color: #{fgcolor};
-    }
-
     .item a:hover header,
     .select-cat .active {
         color: #{bgcolor};
@@ -139,6 +131,7 @@ style.
         border: 1px solid #{bgcolor};
         color: #{bgcolor};
     }
+    
 
     footer {
         background-color: #{bgcolor};
@@ -155,4 +148,13 @@ style.
     
     .highlight a:hover {
         color: #000;
+    }
+    
+    a:hover,
+    a:focus,
+    a:active,
+    li.lang a:hover,
+    .select-cat a:hover,
+    .select-cat a .active:hover {
+        color: #{fgcolor} !important;
     }

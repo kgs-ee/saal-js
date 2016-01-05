@@ -4811,7 +4811,7 @@ a.badge:hover, a.badge:focus {
   .carousel-control .icon-next {
     width: 50px;
     height: 50px;
-    margin-top: -15px;
+    margin-top: 0;
     font-size: 30px;
   }
   .carousel-control .glyphicon-chevron-left,
@@ -5216,13 +5216,23 @@ body {
   padding-top: 60px;
 }
 
+.front-page-margin {
+  margin: 1.5em 0;
+}
+
+@media (min-width: 768px) {
+  .front-page-margin {
+    margin: 1.5em 3em 1.5em 3em;
+  }
+}
+
 .page-margin {
   margin: 3em 0;
 }
 
 @media (min-width: 768px) {
   .page-margin {
-    margin: 3em;
+    margin: 3em 1.5em 3em 1.5em;
   }
 }
 
@@ -5347,6 +5357,12 @@ h2,
   padding: 5px 16px;
 }
 
+@media (max-width: 1250px) {
+  .main-nav li {
+    padding: 0 6px !important;
+  }
+}
+
 @media (min-width: 1200px) {
   .main-nav li {
     padding: 0 10px;
@@ -5378,13 +5394,7 @@ p {
 
 h3, .select-cat a, .h3, .ui-datepicker-title {
   line-height: 1.3em;
-  font-size: 1.3em;
-}
-
-@media (min-width: 768px) {
-  h3, .select-cat a, .h3, .ui-datepicker-title {
-    font-size: 1.6em;
-  }
+  font-size: 1.65em;
 }
 
 .season {
@@ -5652,15 +5662,15 @@ a.logo:hover {
 }
 
 .event-categories li a:hover {
-  color: #000;
-}
-
-.event-categories li a:hover span {
-  background-color: transparent;
+  color: #000 !important;
 }
 
 .event-categories li.unactive span {
   background-color: white;
+}
+
+.event-categories li.unactive span:hover {
+  background-color: transparent;
 }
 
 .event-categories .h3, .event-categories .ui-datepicker-title {

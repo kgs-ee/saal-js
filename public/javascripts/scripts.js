@@ -133,7 +133,7 @@ function eventBannerHeight() {
     var windowHeight = $(window).height()
     var navHeight = $('.navbar-default').outerHeight()
 
-    $(".event-banner figure").height(windowHeight - navHeight)
+    $(".event-banner figure").height(windowHeight - navHeight - 100)
 }
 
 

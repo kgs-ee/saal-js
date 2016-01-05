@@ -12,8 +12,18 @@ block content
                     .carousel-inner(role='listbox')
                         figure(id='slide-'+op.get(performance, 'id')+'' style='background-image: url(' + op.get(performance, 'photo.file') + ');')
                         header.col-md-8
-                            p= op.get(performance, lang + '-subtitle', '')
-                            p= op.get(performance, 'artist', '') + ' / ' + op.get(performance, 'producer', '') + ' / ' + op.get(performance, 'town', '')
+                            if op.get(performance, lang + '-subtitle', '')
+                                p= op.get(performance, lang + '-subtitle', '')
+                            p
+                                if op.get(performance, 'artist', '')
+                                    span.artist= op.get(performance, 'artist', '')
+                                
+                                if op.get(performance, 'producer', '')    
+                                    span.producer= op.get(performance, 'producer', '')
+                                
+                                if op.get(performance, 'town', '')    
+                                    span.town= op.get(performance, 'town', '')
+                                    
                             h1= op.get(performance, lang + '-name', '')
 
                         - categoryNames = op.get(performance, 'category', []).map(function(c){return c.value});
@@ -47,7 +57,7 @@ block content
 
                             GradientMaps.applyGradientMap(slide#{id}, gradientMap); 
 
-        .row.page-margin
+        .row.front-page-margin
             aside.video-sound.col-md-12.col-lg-3
                 if op.get(performance, 'audio')
                     div
