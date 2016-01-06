@@ -4,6 +4,7 @@ var request   = require('request')
 var async     = require('async')
 var op        = require('object-path')
 var fs        = require('fs')
+var Promise   = require('promise')
 
 debug('PL sync loaded at ' + Date().toString())
 
@@ -128,20 +129,49 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
 })
 
 var mapPlDefinitions = {
-    'category': {eId: 1976, eDefinition: 'category'},
-    'concert': {eId: 597, eDefinition: 'event'},
-    'show': {eId: 1935, eDefinition: 'performance'}
+    'category': {eId: 1976, eDefinition: 'category', properties: [
+        {pl: 'title.est', entu: 'et-name'},
+        {pl: 'title.eng', entu: 'en-name'}
+    ]},
+    'concert': {eId: 597, eDefinition: 'event', properties: [
+        {pl: '', entu: ''},
+        {pl: '', entu: ''}
+    ]},
+    'show': {eId: 1935, eDefinition: 'performance', properties: [
+        {pl: '', entu: ''},
+        {pl: '', entu: ''}
+    ]}
 }
 
-function createNewEntity(plDefinition, plItem, callback) {
-    debug('Creating new ' + op.get(mapPlDefinitions, [plDefinition, 'eDefinition']), plItem)
-    callback(null, 'dummyEid')
+function createNewEntity(plDefinition, plItem) {
+    var parentEid = false
+    Object.keys(mapPlDefinitions).forEach(function(key) {
+        if (mapPlDefinitions[key].eDefinition === plDefinition) { parentEid = mapPlDefinitions[key].eId }
+    })
+    return new Promise(function (fulfill, reject) {
+        if (!parentEid) { return reject( plDefinition + ' not mapped.') }
+        var properties = {
+            entity_id: plItem.id,
+            entity_definition: plItem.definition,
+            // dataproperty: propertyName,
+            // property_id: newValue.id,
+            // new_value: newValue.value
+        }
+        debug('Creating new ' + op.get(mapPlDefinitions, [plDefinition, 'eDefinition']), plItem)
+        return fulfill('newEid')
+
+        entu.add(parentEid, plDefinition, null, null, null)
+        .then(function (newEid) {
+            debug('Created new ' + op.get(mapPlDefinitions, [plDefinition, 'eDefinition']), newEid, plItem)
+            fulfill(newEid)
+        })
+    })
 }
 
 function syncWithEntu(plDefinition, plItem, eId, callback) {
     // debug('Matching: ', eId, plItem)
 
-    entu.get_entity(eId, null, null)
+    entu.getEntity(eId, null, null)
     .then(function (opEntity) {
         var eItem = opEntity.get()
         if (op.get(mapPlDefinitions, [plDefinition, 'eDefinition']) !== eItem.definition) {
@@ -217,15 +247,15 @@ function syncWithEntu(plDefinition, plItem, eId, callback) {
             cacheReloadSuggested = true
             debug('| Needs syncing', 'E' + eItem.id + ' ?= PL' + plItem.id, op.get(propertiesToUpdate, ['properties']))
             async.forEachOfSeries(op.get(propertiesToUpdate, ['properties']), function (newValue, propertyName, callback) {
-                var params = {
+                var properties = {
                     entity_id: eItem.id,
                     entity_definition: eItem.definition,
                     dataproperty: propertyName,
                     property_id: newValue.id,
                     new_value: newValue.value
                 }
-                debug('|__ Needs syncing', 'E' + eItem.id + ' ?= PL' + plItem.id, params)
-                entu.edit(params).then(callback)
+                debug('|__ Needs syncing', 'E' + eItem.id + ' ?= PL' + plItem.id, properties)
+                entu.edit(properties).then(callback)
             }, function (err) {
                 if (err) return callback(err)
                 callback()
@@ -240,11 +270,15 @@ syncWaterfall.push(function compareToEntu(PLData, callback) {
         async.forEachOfSeries(PLData[plDefinition], function(val, key, callback) {
             // debug('Compare: ', eDefinition.eDefinition, plDefinition, key)
             if (op.get(mapPL2Entu, key, false) === false) {
-                createNewEntity(plDefinition, val, function(err, newEid) {
-                    if (err) { return callback(err) }
+                createNewEntity(plDefinition, val)
+                .then(function(newEid) {
                     debug('Success. id:' + newEid)
                     op.set(mapPL2Entu, key, newEid)
                     callback()
+                })
+                .catch(function(reason) {
+                    debug(reason)
+                    return callback(reason)
                 })
             } else {
                 syncWithEntu(plDefinition, val, op.get(mapPL2Entu, key), function(err) {
@@ -313,7 +347,7 @@ function routine(CacheReloadCB) {
 function preloadIdMapping(callback) {
     debug('PL sync preloader started at ' + Date().toString())
     async.forEachOfSeries(mapPlDefinitions, function iterator(eValue, plDefinition, callback) {
-        entu.get_childs(eValue.eId, eValue.eDefinition, null, null)
+        entu.getChilds(eValue.eId, eValue.eDefinition, null, null)
         .then(function(opEntities) {
             async.each(opEntities, function(opEntity, callback) {
                 if (opEntity.get(['properties', 'pl-id', 'value'], false) !== false) {

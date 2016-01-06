@@ -83,7 +83,7 @@ cacheSeries.push(function loadCache(callback) {
 cacheSeries.push(function cacheRoot(callback) {
     // debug('Caching root')
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
-    entu.get_entity(APP_ENTU_ROOT, null, null)
+    entu.getEntity(APP_ENTU_ROOT, null, null)
     .then(function(institution) {
         SDC.set(['root', 'main_color'], institution.get(['properties', 'main-color', 'value']))
         SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
@@ -158,7 +158,7 @@ function cachePerformance(opEntity, callback) {
         relate(opEntity.get('id'), 'premiere', perfRef, 'performance')
     }
     var parentEid = opEntity.get('id')
-    entu.get_childs(parentEid, null, null, null)
+    entu.getChilds(parentEid, null, null, null)
     .then(function(entities) {
         async.each(entities, function(opEntity, callback) {
             var entity = opEntity.get()
@@ -182,7 +182,7 @@ function cacheEvent(opEntity, callback) {
         relate(opEntity.get('id'), 'performance', perfRef, 'event')
     }
     var parentEid = opEntity.get('id')
-    entu.get_childs(parentEid, null, null, null)
+    entu.getChilds(parentEid, null, null, null)
     .then(function(entities) {
         async.each(entities, function(opEntity, callback) {
             var entity = opEntity.get()
@@ -273,14 +273,14 @@ cacheSeries.push(function fetchFromEntu(callback) {
         if (options.parent) {
             var parentEid = options.parent
             // debug('Fetch ' + definition + '@' + parentEid + ' from Entu.')
-            entu.get_childs(parentEid, definition, null, null)
+            entu.getChilds(parentEid, definition, null, null)
             .then(function(opEntities) {
                 // debug('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
                 myProcessEntities(parentEid, eClass, definition, opEntities, callback)
             })
         } else {
             // debug('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
-            entu.get_entities(definition, null, null, null)
+            entu.getEntities(definition, null, null, null)
             .then(function(opEntities) {
                 myProcessEntities(null, eClass, definition, opEntities, callback)
             })
