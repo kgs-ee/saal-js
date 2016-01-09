@@ -47,8 +47,8 @@ function getEntity(id, authId, authToken) {
 
         // debug('getEntity: ' + APP_ENTU_URL + '/entity-' + id)
         request.get({url: APP_ENTU_URL + '/entity-' + id, headers: headers, qs: qs, strictSSL: true, json: true}, function(err, response, body) {
-            if (err) { reject(err) }
-            if (response.statusCode !== 200 || !body.result) { reject(new Error(op.get(body, 'error', body))) }
+            if (err) { return reject(err) }
+            if (response.statusCode !== 200 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
             var properties = op.get(body, 'result.properties', {})
             var entity = {
                 id: op.get(body, 'result.id', null),
@@ -100,7 +100,7 @@ function getEntity(id, authId, authToken) {
 //Get entities by definition
 function getEntities(definition, limit, authId, authToken) {
     return new Promise(function (fulfill, reject) {
-        if (!definition) { reject(new Error('Missing "definition"')) }
+        if (!definition) { return reject(new Error('Missing "definition"')) }
 
         var qs = {definition: definition}
         var headers = {}
@@ -112,8 +112,8 @@ function getEntities(definition, limit, authId, authToken) {
         }
 
         request.get({url: APP_ENTU_URL + '/entity', headers: headers, qs: qs, strictSSL: true, json: true}, function(error, response, body) {
-            if (error) { reject(error) }
-            if (response.statusCode !== 200 || !body.result) { reject(new Error(op.get(body, 'error', body))) }
+            if (error) { return reject(error) }
+            if (response.statusCode !== 200 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
 
             var entities = []
             async.eachSeries(op.get(body, 'result', []), function(e, callback) {
@@ -123,7 +123,7 @@ function getEntities(definition, limit, authId, authToken) {
                     callback()
                 })
             }, function(error) {
-                if (error) { reject(error) }
+                if (error) { return reject(error) }
                 // debug(definition + ' returned ' +  entities.length + ' entities.')
                 fulfill(entities)
             })
@@ -135,7 +135,7 @@ function getEntities(definition, limit, authId, authToken) {
 //Get childs by parent entity id and optionally by definition
 function getChilds(parentEid, definition, authId, authToken) {
     return new Promise(function (fulfill, reject) {
-        if (!parentEid) { reject(new Error('Missing "parentEid"')) }
+        if (!parentEid) { return reject(new Error('Missing "parentEid"')) }
         // debug('get childs for ' + parentEid)
         var qs = {}
         if (definition) { qs = {definition: definition} }
@@ -146,7 +146,7 @@ function getChilds(parentEid, definition, authId, authToken) {
             qs = signData(qs)
         }
         var url = '/entity-' + parentEid + '/childs'
-        // debug('getChilds: ' + APP_ENTU_URL + url)
+        // debug('getChilds: ' + url)
         var options = {
             url: APP_ENTU_URL + url,
             headers: headers,
@@ -155,9 +155,10 @@ function getChilds(parentEid, definition, authId, authToken) {
             json: true
         }
         request.get(options, function(error, response, body) {
-            if (error) { reject(error) }
-            if (response.statusCode !== 200 || !body.result) { reject(new Error(op.get(body, 'error', body))) }
-
+            if (error) { return reject(error) }
+            if (response.statusCode !== 200 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
+            // debug('getChilds response', response.statusCode)
+            // debug(body)
             var definitions = Object.keys(body.result)
             var childs = []
             async.eachSeries(
@@ -177,7 +178,7 @@ function getChilds(parentEid, definition, authId, authToken) {
                     })
                 },
                 function endLoop(error) {
-                    if (error) { reject(error) }
+                    if (error) { return reject(error) }
                     fulfill(childs)
                 }
             )
@@ -208,8 +209,8 @@ function edit(params) {
         request.put(
             { url: APP_ENTU_URL + '/entity-' + params.entity_id, headers: headers, body: qb, strictSSL: true, json: true, timeout: 60000 },
             function(error, response, body) {
-                if(error) { reject(error) }
-                if(response.statusCode !== 201 || !body.result) { reject(new Error(op.get(body, 'error', body))) }
+                if(error) { return reject(error) }
+                if(response.statusCode !== 201 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
                 fulfill(op.get(body, 'result.properties.' + property + '.0', null))
             }
         )
@@ -244,8 +245,8 @@ function add(parentEid, definition, properties, authId, authToken) {
     // debug(JSON.stringify(options, null, 4))
     return new Promise(function (fulfill, reject) {
         request.post(options, function(error, response, body) {
-            if (error) { reject(error) }
-            if (response.statusCode !== 201 || !body.result) { reject(new Error(op.get(body, 'error', body))) }
+            if (error) { return reject(error) }
+            if (response.statusCode !== 201 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
             fulfill(op.get(body, 'result.id', null))
         })
     })

@@ -10,7 +10,7 @@ debug('PL sync loaded at ' + Date().toString())
 
 var entu      = require('../helpers/entu')
 
-FETCH_DELAY_MS = 1 * 60 * 1000
+FETCH_DELAY_MS = 5 * 60e3
 
 var state = 'idle'
 
@@ -28,7 +28,7 @@ syncWaterfall.push(function startSync(callback) {
 
 // Fetch from PL
 syncWaterfall.push(function fetchFromPL(callback) {
-    // debug('Fetch from Piletilevi')
+    debug('Fetch from Piletilevi')
     var url = 'http://www.piletilevi.ee/api/action/filter/?types=category,show,concert,venue&export=venue&order=date,desc&filter=venueId/245;concertActive&limit=10000&start=0&language='
     var PLData = {}
     async.each(plLanguages, function(plLanguage, callback) {
@@ -59,7 +59,7 @@ syncWaterfall.push(function fetchFromPL(callback) {
 
 // Parse PL data
 syncWaterfall.push(function parsePLData(PLData, callback) {
-    // debug('Parse Piletilevi data')
+    debug('Parse Piletilevi data')
     var PLCategories = {}
     var PLShows = {}
     var PLConcerts = {}
@@ -75,17 +75,6 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
                         op.set(PLCategories, [item.id, 'id'], item.id)
                         op.set(PLCategories, [item.id, 'parent'], item.parentCategoryId)
                         op.set(PLCategories, [item.id, 'title', plLanguage], item.title)
-                        break
-                    case 'concert':
-                        // debug('Parse Piletilevi ' + plDefinition)
-                        op.set(PLConcerts, [item.id, 'id'],             parseInt(item.id, 10))
-                        op.set(PLConcerts, [item.id, 'showId'],         parseInt(item.showId, 10))
-                        op.set(PLConcerts, [item.id, 'startTimestamp'], parseInt(item.startTime.stamp, 10))
-                        op.set(PLConcerts, [item.id, 'endTimestamp'],   parseInt(item.endTime.stamp, 10))
-                        op.set(PLConcerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp, 10))
-                        op.set(PLConcerts, [item.id, 'salesStatus'],    item.salesStatus)
-                        op.set(PLConcerts, [item.id, 'minPrice'],       item.minPrice)
-                        op.set(PLConcerts, [item.id, 'maxPrice'],       item.maxPrice)
                         break
                     case 'show':
                         // debug('Parse Piletilevi ' + plDefinition)
@@ -108,6 +97,17 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
                             op.set(PLShows, [item.id, 'purchaseDescription', plLanguage], item.purchaseDescription)
                         }
                         break
+                        case 'concert':
+                            // debug('Parse Piletilevi ' + plDefinition)
+                            op.set(PLConcerts, [item.id, 'id'],             parseInt(item.id, 10))
+                            op.set(PLConcerts, [item.id, 'showId'],         parseInt(item.showId, 10))
+                            op.set(PLConcerts, [item.id, 'startTimestamp'], parseInt(item.startTime.stamp, 10))
+                            op.set(PLConcerts, [item.id, 'endTimestamp'],   parseInt(item.endTime.stamp, 10))
+                            op.set(PLConcerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp, 10))
+                            op.set(PLConcerts, [item.id, 'salesStatus'],    item.salesStatus)
+                            op.set(PLConcerts, [item.id, 'minPrice'],       item.minPrice)
+                            op.set(PLConcerts, [item.id, 'maxPrice'],       item.maxPrice)
+                            break
                     default:
                         // debug('Ignore Piletilevi ' + plDefinition)
                         // break
@@ -123,59 +123,31 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
         })
     }, function(err) {
         if (err) { return callback(err) }
-        // debug('Each succeeded for parse PL data')
-        callback(null, { 'category': PLCategories, 'concert': PLConcerts, 'show': PLShows })
+        debug('Each succeeded for parse PL data')
+        callback(null, [
+            { plDefinition: 'category', eDefinition: 'category', plItems: PLCategories},
+            { plDefinition: 'show', eDefinition: 'performance', plItems: PLShows },
+            { plDefinition: 'concert', eDefinition: 'event', plItems: PLConcerts},
+        ])
     })
 })
 
+
 var mapPlDefinitions = {
-    'category': {eId: 1976, eDefinition: 'category', properties: [
-        {pl: 'title.est', entu: 'et-name'},
-        {pl: 'title.eng', entu: 'en-name'}
-    ]},
-    'concert': {eId: 597, eDefinition: 'event', properties: [
-        {pl: '', entu: ''},
-        {pl: '', entu: ''}
-    ]},
-    'show': {eId: 1935, eDefinition: 'performance', properties: [
-        {pl: '', entu: ''},
-        {pl: '', entu: ''}
-    ]}
+    'category': {parentEid: 1976, eDefinition: 'category'},
+    'show': {parentEid: 1935, eDefinition: 'performance'},
+    'concert': {parentEid: 597, eDefinition: 'event'},
 }
 
-function createNewEntity(plDefinition, plItem) {
-    var parentEid = false
-    Object.keys(mapPlDefinitions).forEach(function(key) {
-        if (mapPlDefinitions[key].eDefinition === plDefinition) { parentEid = mapPlDefinitions[key].eId }
-    })
-    return new Promise(function (fulfill, reject) {
-        if (!parentEid) { return reject( plDefinition + ' not mapped.') }
-        var properties = {
-            entity_id: plItem.id,
-            entity_definition: plItem.definition,
-            // dataproperty: propertyName,
-            // property_id: newValue.id,
-            // new_value: newValue.value
-        }
-        debug('Creating new ' + op.get(mapPlDefinitions, [plDefinition, 'eDefinition']), plItem)
-        return fulfill('newEid')
-
-        entu.add(parentEid, plDefinition, null, null, null)
-        .then(function (newEid) {
-            debug('Created new ' + op.get(mapPlDefinitions, [plDefinition, 'eDefinition']), newEid, plItem)
-            fulfill(newEid)
-        })
-    })
-}
-
-function syncWithEntu(plDefinition, plItem, eId, callback) {
-    // debug('Matching: ', eId, plItem)
+function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
+    debug('Matching with eId', eId, (doFullSync ? 'FULL' : 'PARTIAL'))
 
     entu.getEntity(eId, null, null)
     .then(function (opEntity) {
         var eItem = opEntity.get()
         if (op.get(mapPlDefinitions, [plDefinition, 'eDefinition']) !== eItem.definition) {
-            return callback('PL definition ' + plDefinition + ' do not match Entu definition ' + eItem.definition)
+            debug('PL definition ' + plDefinition + ' do not match Entu definition ' + eItem.definition)
+            return syncWithEntuCB('PL definition ' + plDefinition + ' do not match Entu definition ' + eItem.definition)
         }
 
         // debug('Matching ', 'E' + eItem.id + ' ?= PL' + plItem.id)
@@ -212,7 +184,22 @@ function syncWithEntu(plDefinition, plItem, eId, callback) {
                 // debug('E' + eItem.id + ' ?= PL' + plItem.id, new Date(tsE) + '===' + new Date(tsPL))
             }
         }
+        function compareReferences(eItem, propertyName, idPLs) {
+            idPLs.forEach(function(idPL) { compareReference(eItem, propertyName, idPL) })
+        }
+        function compareReference(eItem, propertyName, idPL) {
+            removeIfMultiProperty(eItem, propertyName)
+            var propertyEid = op.get(eItem, ['properties', propertyName, 'id'], false)
+            var idEntu = op.get(eItem, ['properties', propertyName, 'reference'], '')
+            if (idEntu !== op.get(mapPL2Entu, idPL, 0)) {
+                if (propertyEid !== false) {
+                    op.set(propertiesToUpdate, ['properties', propertyName, 'id'], propertyEid)
+                }
+                op.set(propertiesToUpdate, ['properties', propertyName, 'value'], op.get(mapPL2Entu, idPL, 0))
+            }
+        }
         function compare(eItem, propertyName, strPL) {
+            if (!strPL) {return}
             removeIfMultiProperty(eItem, propertyName)
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'], false)
             var strEntu = op.get(eItem, ['properties', propertyName, 'value'], '')
@@ -226,23 +213,48 @@ function syncWithEntu(plDefinition, plItem, eId, callback) {
         }
 
         if (eItem.definition === 'category') {
-            compare(      eItem, 'et-name', op.get(plItem, ['title', 'est'],    '') )
-            compare(      eItem, 'en-name', op.get(plItem, ['title', 'eng'],    '') )
-        } else if (eItem.definition === 'event') { // PL 'concert'
-            compareDates( eItem, 'start-time',   op.get(plItem, ['startTimestamp'],   0) )
-            compareDates( eItem, 'end-time',     op.get(plItem, ['endTimestamp'],     0) )
-            compareDates( eItem, 'sales-time',   op.get(plItem, ['salesTimestamp'],   0) )
-            compare(      eItem, 'sales-status', op.get(plItem, ['salesStatus'],     '') )
-            compare(      eItem, 'min-price',    op.get(plItem, ['minPrice'],        '') )
-            compare(      eItem, 'max-price',    op.get(plItem, ['maxPrice'],        '') )
+            compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
+            compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
+            if (doFullSync) {
+                compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
+            }
         } else if (eItem.definition === 'performance') { // PL 'show'
-            compare     ( eItem, 'photo-url',    op.get(plItem, ['originalImageUrl'], 0) )
-            compare     ( eItem, 'thumb-url',    op.get(plItem, ['shortImageUrl'], 0) )
+            debug ('photo-url', op.get(plItem, ['originalImageUrl'], '') )
+            compare ( eItem, 'photo-url', op.get(plItem, ['originalImageUrl'], '') )
+            compare ( eItem, 'thumb-url', op.get(plItem, ['shortImageUrl'], '') )
+            if (doFullSync) {
+                debug('pl-id', op.get(plItem, ['id'], '') )
+                compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
+                compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
+                compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
+                compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
+                compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
+                debug('category', op.get(plItem, ['categories'], '') )
+                compareReferences( eItem, 'category', op.get(plItem, ['categories'], []) )
+                // debug('properties To Update:', propertiesToUpdate)
+            }
+        } else if (eItem.definition === 'event') { // PL 'concert'
+            compareDates( eItem, 'start-time', op.get(plItem, ['startTimestamp'], 0) )
+            compareDates( eItem, 'end-time', op.get(plItem, ['endTimestamp'], 0) )
+            compareDates( eItem, 'sales-time', op.get(plItem, ['salesTimestamp'], 0) )
+            compare( eItem, 'sales-status', op.get(plItem, ['salesStatus'], '') )
+            compare( eItem, 'min-price', op.get(plItem, ['minPrice'], '') )
+            compare( eItem, 'max-price', op.get(plItem, ['maxPrice'], '') )
+            if (doFullSync) {
+                compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
+                compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
+                compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
+                compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
+                compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
+                compare( eItem, 'et-technical-information', op.get(plItem, ['purchaseDescription', 'est'], '') )
+                compare( eItem, 'en-technical-information', op.get(plItem, ['purchaseDescription', 'eng'], '') )
+                compareReference( eItem, 'performance', op.get(plItem, ['showId'], '') )
+            }
         }
 
         if (op.get(propertiesToUpdate, ['properties'], false) === false) {
-            // debug('== +++ === Good enough match for ' + eItem.definition, 'E' + eItem.id + ' ?= PL' + plItem.id)
-            callback(null)
+            debug('== +++ === Good enough match for ' + eItem.definition, 'E' + eItem.id + ' ?= PL' + plItem.id)
+            syncWithEntuCB(null)
         } else {
             cacheReloadSuggested = true
             debug('| Needs syncing', 'E' + eItem.id + ' ?= PL' + plItem.id, op.get(propertiesToUpdate, ['properties']))
@@ -255,57 +267,109 @@ function syncWithEntu(plDefinition, plItem, eId, callback) {
                     new_value: newValue.value
                 }
                 debug('|__ Needs syncing', 'E' + eItem.id + ' ?= PL' + plItem.id, properties)
-                entu.edit(properties).then(callback)
+                entu.edit(properties)
+                .then(function() { callback() })
+                .catch(function(reason) {
+                    callback(reason)
+                })
             }, function (err) {
-                if (err) return callback(err)
-                callback()
+                if (err) return syncWithEntuCB(err)
+                syncWithEntuCB(null)
             })
         }
     })
 }
 
-syncWaterfall.push(function compareToEntu(PLData, callback) {
-    // debug('compareToEntu', PLData, mapPL2Entu)
-    async.forEachOfSeries(mapPlDefinitions, function(eDefinition, plDefinition, callback) {
-        async.forEachOfSeries(PLData[plDefinition], function(val, key, callback) {
-            // debug('Compare: ', eDefinition.eDefinition, plDefinition, key)
-            if (op.get(mapPL2Entu, key, false) === false) {
-                createNewEntity(plDefinition, val)
-                .then(function(newEid) {
-                    debug('Success. id:' + newEid)
-                    op.set(mapPL2Entu, key, newEid)
-                    callback()
-                })
-                .catch(function(reason) {
-                    debug(reason)
-                    return callback(reason)
-                })
+syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
+    debug('compareToEntu started at ')
+    var entitiesToCreate = { category: [], show: [], concert: [] }
+
+    async.eachSeries(PLData, function iterator(byDefinition, iteratorCB) {
+        var plDefinition = byDefinition.plDefinition
+        var eDefinition = byDefinition.eDefinition
+        async.forEachOfSeries(byDefinition.plItems, function(plItem, plId, callback) {
+            debug('Compare: ', eDefinition, plDefinition, plId)
+            if (op.get(mapPL2Entu, plId, false) === false) {
+                op.push(entitiesToCreate, [plDefinition], plItem)
+                callback()
             } else {
-                syncWithEntu(plDefinition, val, op.get(mapPL2Entu, key), function(err) {
+                syncWithEntu(plDefinition, plItem, op.get(mapPL2Entu, plId), false, function(err) {
                     if (err) { return callback(err) }
                     callback()
                 })
             }
         }, function(err) {
-            if (err) { return callback(err) }
-            callback()
+            if (err) {
+                debug('Compare errored: ', eDefinition, plDefinition)
+                return iteratorCB(err)
+            }
+            debug('Compare succeeded: ', eDefinition, plDefinition)
+            iteratorCB()
         })
     }, function(err) {
-        if (err) { return callback(err) }
-        // debug('syncWithEntu finished')
-        callback()
+        if (err) {
+            debug('compareToEntu failed.')
+            return compareToEntuCB(err)
+        }
+        debug('compareToEntu succeeded.')
+        compareToEntuCB(null, entitiesToCreate)
+    })
+})
+
+syncWaterfall.push(function createInEntu(PLData, createInEntuCB) {
+    debug('createInEntu')
+    function createNewEntity(plDefinition) {
+        // var parentEid = false
+        var parentEid = op.get(mapPlDefinitions, [plDefinition, 'parentEid'], false)
+        var eDefinition = op.get(mapPlDefinitions, [plDefinition, 'eDefinition'], false)
+        return new Promise(function (fulfill, reject) {
+            if (!parentEid) { return reject( eDefinition + ' not mapped.') }
+            debug('Creating new ' + eDefinition)
+
+            entu.add(parentEid, eDefinition, null, null, null)
+            .then(function (newEid) {
+                debug('Created new ' + eDefinition, newEid)
+                return fulfill(newEid)
+            })
+            .catch(function(reason) {
+                debug('createNewEntity failed with reason:', reason)
+                return reject(reason)
+            })
+        })
+    }
+
+    async.forEachOfSeries(PLData, function iterator(byDefinition, plDefinition, iteratorCB) {
+        debug('create', plDefinition)
+        async.eachSeries(byDefinition, function(plItem, callback) {
+            createNewEntity(plDefinition)
+            .then(function(newEid) {
+                debug('Success. id:' + newEid)
+                op.set(mapPL2Entu, plItem.id, newEid)
+                syncWithEntu(plDefinition, plItem, newEid, true, callback)
+            })
+            .catch(function(reason) {
+                debug('createNewEntity failed with reason:', reason)
+                // return callback(reason)
+            })
+        }, function(err) {
+            if (err) { return iteratorCB(err) }
+            iteratorCB()
+        })
+    }, function(err) {
+        if (err) { return createInEntuCB(err) }
+        createInEntuCB()
     })
 })
 
 
 // Final cleanup
 syncWaterfall.push(function cleanup(callback) {
-    // debug('Routine finished OK')
+    debug('Final cleanup. Routine finished OK')
     callback()
 })
 
 
-function routine(CacheReloadCB) {
+function routine(routineCB) {
     debug('PL sync routine started at ' + Date().toString())
     function restartInFive() {
         // setTimeout(function(){debug('4')}, 1*1000)
@@ -314,7 +378,7 @@ function routine(CacheReloadCB) {
         // setTimeout(function(){debug('1')}, 4*1000)
         // debug('Restarting routine in 5')
         setTimeout(function() {
-            routine(CacheReloadCB)
+            routine(routineCB)
         }, 5*1000)
     }
     async.waterfall(syncWaterfall, function routineFinally(err) {
@@ -335,7 +399,8 @@ function routine(CacheReloadCB) {
         }
         if (cacheReloadSuggested) {
             cacheReloadSuggested = false
-            CacheReloadCB(null, 'Got updates from PL')
+            debug('Got updates from PL')
+            routineCB(null, 'Got updates from PL')
         }
         debug('Restarting routine in ' + FETCH_DELAY_MS/1000 + ' sec.')
         setTimeout(function() {
@@ -347,8 +412,10 @@ function routine(CacheReloadCB) {
 function preloadIdMapping(callback) {
     debug('PL sync preloader started at ' + Date().toString())
     async.forEachOfSeries(mapPlDefinitions, function iterator(eValue, plDefinition, callback) {
-        entu.getChilds(eValue.eId, eValue.eDefinition, null, null)
+        debug('loading from Entu ', eValue.parentEid, eValue.eDefinition)
+        entu.getChilds(eValue.parentEid, eValue.eDefinition, null, null)
         .then(function(opEntities) {
+            debug('loaded from Entu ' + opEntities.length)
             async.each(opEntities, function(opEntity, callback) {
                 if (opEntity.get(['properties', 'pl-id', 'value'], false) !== false) {
                     op.set(mapPL2Entu, String(opEntity.get(['properties', 'pl-id', 'value'])), String(opEntity.get(['id'])))
@@ -356,28 +423,30 @@ function preloadIdMapping(callback) {
                 callback()
             }, function(err) {
                 if (err) { return callback(err) }
+                debug('Existing ' + eValue.eDefinition + 's mapped to PL id\'s')
                 callback()
             })
         })
     }, function finalCB(err) {
         if (err) { return callback(err) }
-        // debug('Existing entities mapped to PL id\'s')
+        debug('Existing entities mapped to PL id\'s')
+        debug('PL sync preloader finished at ' + Date().toString())
         callback()
     })
 }
 
-function startRoutine(CacheReloadCB) {
+function startRoutine(startRoutineCB) {
     async.series([
         function preloader(callback) {
             preloadIdMapping(callback)
         },
         function runRoutine(callback) {
-            routine(CacheReloadCB)
+            routine(startRoutineCB)
             callback()
         }
     ], function(err) {
-        if (err) { return CacheReloadCB(err) }
-        // debug('PL sync routine started.')
+        if (err) { return startRoutineCB(err) }
+        debug('PL sync routine started.')
     })
 }
 module.exports.routine = startRoutine
