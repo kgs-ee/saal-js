@@ -29,7 +29,7 @@ if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
 var workers = []
 
 var cache = require('./helpers/cache')
-cache.routine(function cachedCB() {
+var cacheRoutine = cache.routine(function cachedCB() {
     // console.log('Reload workers')
     for (var i in workers) {
         if (workers.hasOwnProperty(i)) {
@@ -57,7 +57,7 @@ function startPLSync() {
                 throw 'PL sync totally messed up'
             }
             console.log(message + ' at ' + Date().toString())
-            cache.requestSync()
+            cacheRoutine.requestSync()
         })
     }
 }

@@ -339,50 +339,71 @@ cacheSeries.push(function cleanup(callback) {
 
 function routine(WorkerReloadCB) {
     // debug('Cache routine started')
+    var routineBusy = false
+    var routineTO
+
     function restartInFive() {
-        // setTimeout(function(){debug('4')}, 1*1000)
-        // setTimeout(function(){debug('3')}, 2*1000)
-        // setTimeout(function(){debug('2')}, 3*1000)
-        // setTimeout(function(){debug('1')}, 4*1000)
+        // setTimeout(function(){debug('4')}, 1e3)
+        // setTimeout(function(){debug('3')}, 2e3)
+        // setTimeout(function(){debug('2')}, 3e3)
+        // setTimeout(function(){debug('1')}, 4e3)
         // debug('Restarting routine in 5')
         setTimeout(function() {
-            routine(WorkerReloadCB)
-        }, 5*1000)
-        WorkerReloadCB()
+            performSync()
+        }, 5e3)
+        // WorkerReloadCB()
     }
-    async.series(cacheSeries, function routineFinally(err) {
-        if (err === 'Not published') {
-            debug('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
-            setTimeout(function() {
+    function performSync() {
+        if (routineBusy) { return 'routineBusy' }
+        routineBusy = true
+        clearTimeout(routineTO)
+        async.series(cacheSeries, function routineFinally(err) {
+            if (err === 'Not published') {
+                debug('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+                routineBusy = false
+                routineTO = setTimeout(function() {
+                    restartInFive()
+                }, CACHE_REFRESH_MS - 5e3)
+                return
+            }
+            else if (err) {
+                debug('Routine stumbled. Restart in 25', err)
+                routineBusy = false
+                routineTO = setTimeout(function() {
+                    restartInFive()
+                }, 20e3)
+                return
+            }
+            if (immediateReloadRequired) {
+                immediateReloadRequired = false
+                debug('Immediate reload requested')
                 restartInFive()
-            }, CACHE_REFRESH_MS - 5*1000)
-            return
-        }
-        else if (err) {
-            debug('Routine stumbled. Restart in 25', err)
-            setTimeout(function() {
+                return
+            }
+            WorkerReloadCB() // Routine finished successfully - tell workers to reload.
+            debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
+            routineBusy = false
+            routineTO = setTimeout(function() {
                 restartInFive()
-            }, 20*1000)
-            return
+            }, CACHE_REFRESH_MS - 5e3)
+        })
+    }
+
+    performSync()
+
+    function requestSync() {
+        debug('Sync request acknowledged.')
+        if (performSync() === 'routineBusy') {
+            immediateReloadRequired = true
         }
-        if (immediateReloadRequired) {
-            immediateReloadRequired = false
-            debug('Immediate reload requested')
-            restartInFive()
-            return
-        }
-        WorkerReloadCB() // Routine finished successfully - tell workers to reload.
-        debug('Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
-        setTimeout(function() {
-            restartInFive()
-        }, CACHE_REFRESH_MS - 5*1000)
-    })
+    }
+
+    return {
+        requestSync: requestSync
+    }
 }
 
-function requestedSync() {
-    debug('Sync request acknowledged.')
-}
 
 module.exports.routine = routine
 module.exports.state = state
-module.exports.requestSync = requestedSync
+// module.exports.requestSync = requestSync

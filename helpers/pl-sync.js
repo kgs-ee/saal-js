@@ -10,7 +10,7 @@ debug('PL sync loaded at ' + Date().toString())
 
 var entu      = require('../helpers/entu')
 
-FETCH_DELAY_MS = 5 * 60e3
+FETCH_DELAY_MS = 1 * 60e3
 
 var state = 'idle'
 
