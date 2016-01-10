@@ -43,6 +43,7 @@ var tempRelationships = {}
 
 var cacheSeries = []
 var immediateReloadRequired = false
+var syncRequested = false
 var isPublished = false
 var firstRun = true
 
@@ -50,7 +51,7 @@ var firstRun = true
 // Preload with stored data
 cacheSeries.push(function loadCache(callback) {
     state = 'busy'
-    // debug('Loading local cache')
+    debug('Loading local cache at ' + Date().toString())
     // debug(Object.keys(SDC.get()))
     var mandatoryFilenames = Object.keys(SDC.get())
     var existingFilenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
@@ -81,7 +82,7 @@ cacheSeries.push(function loadCache(callback) {
 
 // Cache root elements
 cacheSeries.push(function cacheRoot(callback) {
-    // debug('Caching root')
+    debug('Caching root at ' + Date().toString())
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.getEntity(APP_ENTU_ROOT, null, null)
     .then(function(institution) {
@@ -92,8 +93,11 @@ cacheSeries.push(function cacheRoot(callback) {
         isPublished = institution.get(['properties', 'published', 'value'], false) === 'True'
         var publishedPid = institution.get(['properties', 'published', 'id'], false)
         // SDC.set(['root', 'published'], isPublished)
-        // debug('Root cached', institution.get(['properties', 'published']))
+        debug('Root cached', institution.get(['properties', 'published']))
         if (firstRun === true) {
+            return callback()
+        } else if (syncRequested === true) {
+            syncRequested = false
             return callback()
         } else if (isPublished) {
             var params = {
@@ -105,8 +109,8 @@ cacheSeries.push(function cacheRoot(callback) {
             }
             entu.edit(params).then(callback)
         } else {
-            // debug('Is NOT published')
-            // callback('Not published')
+            debug('Is NOT published')
+            callback('Not published')
         }
     })
 })
@@ -208,10 +212,10 @@ function cacheEvent(opEntity, callback) {
 // Fetch from Entu
 cacheSeries.push(function fetchFromEntu(callback) {
     if (immediateReloadRequired) {
-        // debug('Skipping "Fetch from Entu"')
+        debug('Skipping "Fetch from Entu" at ' + Date().toString())
         return callback()
     }
-    // debug('Fetch from Entu')
+    debug('Fetch from Entu at ' + Date().toString())
 
     function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         async.each(entities, function(opEntity, callback) {
@@ -300,11 +304,11 @@ cacheSeries.push(function fetchFromEntu(callback) {
 // Save cache
 cacheSeries.push(function saveCache(callback) {
     if (immediateReloadRequired) {
-        debug('Skipping "Save Cache"')
+        debug('Skipping "Save Cache" at ' + Date().toString())
         callback()
         return
     }
-    // debug('Save Cache')
+    debug('Save Cache at ' + Date().toString())
     SDC.set('local_entities', tempLocalEntities)
     SDC.set('relationships', tempRelationships)
 
@@ -338,7 +342,7 @@ cacheSeries.push(function cleanup(callback) {
 
 
 function routine(WorkerReloadCB) {
-    debug('Cache routine started')
+    debug('Cache routine started at ' + Date().toString())
     var routineBusy = false
     var routineTO
 
@@ -358,7 +362,7 @@ function routine(WorkerReloadCB) {
             debug('routineBusy')
             return 'routineBusy'
         }
-        debug('Performing cache sync routine')
+        debug('Performing cache sync routine at ' + Date().toString())
         routineBusy = true
         clearTimeout(routineTO)
         async.series(cacheSeries, function routineFinally(err) {
@@ -380,7 +384,7 @@ function routine(WorkerReloadCB) {
             }
             if (immediateReloadRequired) {
                 immediateReloadRequired = false
-                debug('Immediate reload requested')
+                debug('Immediate reload requested at ' + Date().toString())
                 restartInFive()
                 return
             }
@@ -396,9 +400,10 @@ function routine(WorkerReloadCB) {
     performSync()
 
     function requestSync() {
-        debug('Sync request acknowledged.')
+        debug('Sync request acknowledged at ' + Date().toString())
+        syncRequested = true
         if (performSync() === 'routineBusy') {
-            debug('Request immediate reload')
+            debug('Request immediate reload at ' + Date().toString())
             immediateReloadRequired = true
         }
     }

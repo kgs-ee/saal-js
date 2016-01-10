@@ -71,12 +71,14 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
             async.each(plItems, function(item, callback) {
                 switch (plDefinition) {
                     case 'category':
+                        op.set(PLCategories, [item.id, 'raw', plLanguage], item)
                         // debug('Parse Piletilevi ' + plDefinition)
                         op.set(PLCategories, [item.id, 'id'], item.id)
                         op.set(PLCategories, [item.id, 'parent'], item.parentCategoryId)
                         op.set(PLCategories, [item.id, 'title', plLanguage], item.title)
                         break
-                    case 'show':
+                    case 'show': // performance
+                        op.set(PLShows, [item.id, 'raw', plLanguage], item)
                         // debug('Parse Piletilevi ' + plDefinition)
                         var descriptionLanguages = item.descriptionLanguages.split(',')
                         var translatedLang = false
@@ -91,23 +93,29 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
                         op.set(PLShows, [item.id, 'descriptionLanguages'], item.descriptionLanguages)
                         op.set(PLShows, [item.id, 'originalImageUrl'], item.originalImageUrl)
                         op.set(PLShows, [item.id, 'shortImageUrl'], item.shortImageUrl)
-                        if (translatedLang) {
+                        op.set(PLShows, [item.id, 'mobileUrl'], item.mobileUrl)
+                        // if (translatedLang) {
                             op.set(PLShows, [item.id, 'title', plLanguage], item.title)
                             op.set(PLShows, [item.id, 'description', plLanguage], item.description)
                             op.set(PLShows, [item.id, 'purchaseDescription', plLanguage], item.purchaseDescription)
-                        }
+                        // }
                         break
-                        case 'concert':
-                            // debug('Parse Piletilevi ' + plDefinition)
-                            op.set(PLConcerts, [item.id, 'id'],             parseInt(item.id, 10))
-                            op.set(PLConcerts, [item.id, 'showId'],         parseInt(item.showId, 10))
-                            op.set(PLConcerts, [item.id, 'startTimestamp'], parseInt(item.startTime.stamp, 10))
-                            op.set(PLConcerts, [item.id, 'endTimestamp'],   parseInt(item.endTime.stamp, 10))
-                            op.set(PLConcerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp, 10))
-                            op.set(PLConcerts, [item.id, 'salesStatus'],    item.salesStatus)
-                            op.set(PLConcerts, [item.id, 'minPrice'],       item.minPrice)
-                            op.set(PLConcerts, [item.id, 'maxPrice'],       item.maxPrice)
-                            break
+                    case 'concert': // event
+                        op.set(PLConcerts, [item.id, 'raw', plLanguage], item)
+                        // debug('Parse Piletilevi ' + plDefinition)
+                        // if (translatedLang) {
+                            op.set(PLConcerts, [item.id, 'title', plLanguage], item.title)
+                            op.set(PLConcerts, [item.id, 'description', plLanguage], item.description)
+                        // }
+                        op.set(PLConcerts, [item.id, 'id'], parseInt(item.id, 10))
+                        op.set(PLConcerts, [item.id, 'showId'], parseInt(item.showId, 10))
+                        op.set(PLConcerts, [item.id, 'startTimestamp'], parseInt(item.startTime.stamp, 10))
+                        op.set(PLConcerts, [item.id, 'endTimestamp'], parseInt(item.endTime.stamp, 10))
+                        op.set(PLConcerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp, 10))
+                        op.set(PLConcerts, [item.id, 'salesStatus'], item.salesStatus)
+                        op.set(PLConcerts, [item.id, 'minPrice'], item.minPrice)
+                        op.set(PLConcerts, [item.id, 'maxPrice'], item.maxPrice)
+                        break
                     default:
                         // debug('Ignore Piletilevi ' + plDefinition)
                         // break
@@ -217,20 +225,22 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
             compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
             if (doFullSync) {
+                debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
                 compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
             }
         } else if (eItem.definition === 'performance') { // PL 'show'
             // debug ('photo-url', op.get(plItem, ['originalImageUrl'], '') )
             compare ( eItem, 'photo-url', op.get(plItem, ['originalImageUrl'], '') )
             compare ( eItem, 'thumb-url', op.get(plItem, ['shortImageUrl'], '') )
+            compare ( eItem, 'pl-link', op.get(plItem, ['mobileUrl'], '') )
             if (doFullSync) {
+                debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
                 debug('pl-id', op.get(plItem, ['id'], '') )
                 compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
                 compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
                 compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
                 compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
                 compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
-                debug('category', op.get(plItem, ['categories'], '') )
                 compareReferences( eItem, 'category', op.get(plItem, ['categories'], []) )
                 // debug('properties To Update:', propertiesToUpdate)
             }
@@ -242,6 +252,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             compare( eItem, 'min-price', op.get(plItem, ['minPrice'], '') )
             compare( eItem, 'max-price', op.get(plItem, ['maxPrice'], '') )
             if (doFullSync) {
+                debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
                 compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
                 compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
                 compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
@@ -282,7 +293,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
 }
 
 syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
-    debug('compareToEntu started at ')
+    debug('compareToEntu started at ' + Date().toString())
     var entitiesToCreate = { category: [], show: [], concert: [] }
 
     async.eachSeries(PLData, function iterator(byDefinition, iteratorCB) {
@@ -327,7 +338,7 @@ syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
 })
 
 syncWaterfall.push(function createInEntu(PLData, createInEntuCB) {
-    debug('createInEntu')
+    debug('createInEntu', PLData)
     function createNewEntity(plDefinition) {
         // var parentEid = false
         var parentEid = op.get(mapPlDefinitions, [plDefinition, 'parentEid'], false)
