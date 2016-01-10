@@ -338,7 +338,7 @@ cacheSeries.push(function cleanup(callback) {
 
 
 function routine(WorkerReloadCB) {
-    // debug('Cache routine started')
+    debug('Cache routine started')
     var routineBusy = false
     var routineTO
 
@@ -354,7 +354,11 @@ function routine(WorkerReloadCB) {
         // WorkerReloadCB()
     }
     function performSync() {
-        if (routineBusy) { return 'routineBusy' }
+        if (routineBusy) {
+            debug('routineBusy')
+            return 'routineBusy'
+        }
+        debug('Performing cache sync routine')
         routineBusy = true
         clearTimeout(routineTO)
         async.series(cacheSeries, function routineFinally(err) {
@@ -394,6 +398,7 @@ function routine(WorkerReloadCB) {
     function requestSync() {
         debug('Sync request acknowledged.')
         if (performSync() === 'routineBusy') {
+            debug('Request immediate reload')
             immediateReloadRequired = true
         }
     }

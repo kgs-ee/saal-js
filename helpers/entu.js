@@ -47,8 +47,20 @@ function getEntity(id, authId, authToken) {
 
         // debug('getEntity: ' + APP_ENTU_URL + '/entity-' + id)
         request.get({url: APP_ENTU_URL + '/entity-' + id, headers: headers, qs: qs, strictSSL: true, json: true}, function(err, response, body) {
-            if (err) { return reject(err) }
-            if (response.statusCode !== 200 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
+            if (err) {
+                return reject(err)
+            }
+            if (response.statusCode !== 200) {
+                debug('Not OK on get ' + id + ' - ' + response.statusCode)
+                return reject({error: op.get(body, 'error', body), eID: id, status: response.statusCode})
+            }
+            if (!body.result) {
+                debug('Body w/o result ' + response.statusCode)
+                return reject(op.get(body, 'error', body))
+            }
+            if (body.error) {
+                return reject(op.get(body, 'error', body))
+            }
             var properties = op.get(body, 'result.properties', {})
             var entity = {
                 id: op.get(body, 'result.id', null),

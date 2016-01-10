@@ -140,10 +140,11 @@ var mapPlDefinitions = {
 }
 
 function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
-    debug('Matching with eId', eId, (doFullSync ? 'FULL' : 'PARTIAL'))
+    // debug('Matching with eId', eId, (doFullSync ? 'FULL' : 'PARTIAL'))
 
     entu.getEntity(eId, null, null)
-    .then(function (opEntity) {
+    .catch(function(reason) { return syncWithEntuCB(reason) })
+    .then(function(opEntity) {
         var eItem = opEntity.get()
         if (op.get(mapPlDefinitions, [plDefinition, 'eDefinition']) !== eItem.definition) {
             debug('PL definition ' + plDefinition + ' do not match Entu definition ' + eItem.definition)
@@ -219,7 +220,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
                 compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
             }
         } else if (eItem.definition === 'performance') { // PL 'show'
-            debug ('photo-url', op.get(plItem, ['originalImageUrl'], '') )
+            // debug ('photo-url', op.get(plItem, ['originalImageUrl'], '') )
             compare ( eItem, 'photo-url', op.get(plItem, ['originalImageUrl'], '') )
             compare ( eItem, 'thumb-url', op.get(plItem, ['shortImageUrl'], '') )
             if (doFullSync) {
@@ -253,7 +254,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
         }
 
         if (op.get(propertiesToUpdate, ['properties'], false) === false) {
-            debug('== +++ === Good enough match for ' + eItem.definition, 'E' + eItem.id + ' ?= PL' + plItem.id)
+            // debug('== +++ === Good enough match for ' + eItem.definition, 'E' + eItem.id + ' ?= PL' + plItem.id)
             syncWithEntuCB(null)
         } else {
             cacheReloadSuggested = true
@@ -294,7 +295,16 @@ syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
                 callback()
             } else {
                 syncWithEntu(plDefinition, plItem, op.get(mapPL2Entu, plId), false, function(err) {
-                    if (err) { return callback(err) }
+                    if (err) {
+                        if (err.status === 404 && err.eID === op.get(mapPL2Entu, plId)) {
+                            debug('Unmapping missing entity:', err.eID)
+                            op.del(mapPL2Entu, plId)
+                            op.push(entitiesToCreate, [plDefinition], plItem)
+                            return callback()
+                        }
+                        debug('syncWithEntu errored:', err)
+                        return callback(err)
+                    }
                     callback()
                 })
             }
