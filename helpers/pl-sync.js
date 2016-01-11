@@ -10,10 +10,10 @@ debug('PL sync loaded at ' + Date().toString())
 
 var entu      = require('../helpers/entu')
 
-FETCH_DELAY_MS = 10 * 60e3
+FETCH_DELAY_MS = 5 * 60e3
 
-var state = 'off'
-// var state = 'idle' // If initial state is anything but 'idle', sync should not launch.
+// var state = 'off'
+var state = 'idle' // If initial state is anything but 'idle', sync should not launch.
 
 
 cacheReloadSuggested = false
@@ -51,7 +51,7 @@ syncWaterfall.push(function fetchFromPL(callback) {
         })
     }, function(err) {
         if (err) { return callback(err) }
-        // debug('Fetched from Piletilevi')
+        debug('Fetched from Piletilevi')
         callback(null, PLData)
     })
 })
@@ -149,7 +149,7 @@ var mapPlDefinitions = {
 }
 
 function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
-    // debug('Matching with eId', eId, (doFullSync ? 'FULL' : 'PARTIAL'))
+    debug('Matching with eId', eId, (doFullSync ? 'FULL' : 'PARTIAL'))
 
     entu.getEntity(eId, null, null)
     .catch(function(reason) { return syncWithEntuCB(reason) })
@@ -434,10 +434,10 @@ function routine(routineCB) {
 function preloadIdMapping(callback) {
     debug('PL sync preloader started at ' + Date().toString())
     async.forEachOfSeries(mapPlDefinitions, function iterator(eValue, plDefinition, callback) {
-        // debug('loading from Entu ', eValue.parentEid, eValue.eDefinition)
+        debug('loading from Entu ', eValue.parentEid, eValue.eDefinition)
         entu.getChilds(eValue.parentEid, eValue.eDefinition, null, null)
         .then(function(opEntities) {
-            // debug('loaded from Entu ' + opEntities.length)
+            debug('loaded from Entu ' + opEntities.length)
             async.each(opEntities, function(opEntity, callback) {
                 if (opEntity.get(['properties', 'pl-id', 'value'], false) !== false) {
                     op.set(mapPL2Entu, String(opEntity.get(['properties', 'pl-id', 'value'])), String(opEntity.get(['id'])))
@@ -445,13 +445,13 @@ function preloadIdMapping(callback) {
                 callback()
             }, function(err) {
                 if (err) { return callback(err) }
-                // debug('Existing ' + eValue.eDefinition + 's mapped to PL id\'s')
+                debug('Existing ' + eValue.eDefinition + 's mapped to PL id\'s')
                 callback()
             })
         })
     }, function finalCB(err) {
         if (err) { return callback(err) }
-        // debug('Existing entities mapped to PL id\'s')
+        debug('Existing entities mapped to PL id\'s')
         debug('PL sync preloader finished at ' + Date().toString())
         callback()
     })

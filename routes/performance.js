@@ -27,9 +27,9 @@ router.get('/:id', function(req, res) {
     var rootCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'rootCategory'], {}))
         .map(function(eId) {
             var mappedCategory = mapper.category(eId)
-            eId = Number(eId)
+            eId = String(eId)
             mappedCategory.checked = false
-            var perfCatIds = performance.category.map(function(c) { return Number(c.id) })
+            var perfCatIds = SDC.get(['relationships', performance_eid, 'category'], [])
             // debug(perfCatIds, perfCatIds.indexOf(eId), eId)
             if (perfCatIds.indexOf(eId) > -1) {
                 mappedCategory.checked = true
@@ -51,5 +51,6 @@ router.get('/:id', function(req, res) {
     return
 })
 
+debug(path.basename(__filename).replace('.js', '') + ' controller loaded.')
 
 module.exports = router

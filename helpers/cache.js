@@ -307,7 +307,6 @@ cacheSeries.push(function fetchFromEntu(callback) {
         var definition = options.definition
         var eClass = options.class
         debug('Fetch ' + JSON.stringify(options) + ' from Entu.')
-        var eCount = 0
         if (options.parent) {
             var parentEid = options.parent
             // debug('Fetch ' + definition + '@' + parentEid + ' from Entu.')
