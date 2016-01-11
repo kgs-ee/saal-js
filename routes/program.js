@@ -1,7 +1,7 @@
 var express = require('express')
 var router  = express.Router()
-// var path    = require('path')
-// var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+var path    = require('path')
+var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var async   = require('async')
 var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
@@ -23,23 +23,25 @@ function renderProgram(res, year, month, categories) {
         // console.log(JSON.stringify(event, null, 2))
         if (event['start-time']) {
 
-            var pr_categories = op.get(event, ['performance', 'category'], []).map(function(category) { return category.id })
-            pr_categories.sort(function(a,b){return a-b})
-            // console.log(event.id, categories, '?==', JSON.stringify(pr_categories))
+            var performance_eid = op.get(event, ['performance', 'id'])
+            var perfCatIds = SDC.get(['relationships', performance_eid, 'category'], []).map(function(eId) { return parseInt(eId, 10) })
+            // debug('a', perfCatIds, pr_categories)
+            perfCatIds.sort(function(a,b){return a-b})
+            // debug('ab', perfCatIds, pr_categories)
 
             var intersects = false
             var ai = 0, bi = 0
-            while( ai < pr_categories.length && bi < categories.length && !intersects )
+            while( ai < perfCatIds.length && bi < categories.length && !intersects )
             {
-                if      (pr_categories[ai] < categories[bi]) { ai = ai + 1 }
-                else if (pr_categories[ai] > categories[bi]) { bi = bi + 1 }
+                if      (perfCatIds[ai] < categories[bi]) { ai = ai + 1 }
+                else if (perfCatIds[ai] > categories[bi]) { bi = bi + 1 }
                 else { intersects = true }
             }
 
             if (intersects) {
-                // console.log(event.id, categories, ' intersects ', JSON.stringify(pr_categories))
+                // console.log(event.id, categories, ' intersects ', JSON.stringify(perfCatIds))
             } else {
-                // console.log(event.id, categories, ' doesnot intersect ', JSON.stringify(pr_categories))
+                // console.log(event.id, categories, ' doesnot intersect ', JSON.stringify(perfCatIds))
                 return callback()
             }
 
