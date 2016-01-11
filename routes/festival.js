@@ -7,6 +7,8 @@ var op      = require('object-path')
 
 var mapper  = require('../helpers/mapper')
 
+var festivals = {}
+
 router.get('/:festival_id', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var festival = op.get(festivals, req.params.festival_id)
@@ -17,7 +19,7 @@ router.get('/:festival_id', function(req, res) {
 })
 
 function prepareFestivals(callback) {
-    var festivals = {}
+    // var festivals = {}
     async.each(SDC.get(['local_entities', 'by_class', 'festival']), function(festival_entity, callback) {
         op.set(festivals, festival_entity.id, mapper.event(festival_entity.id))
         // debug(JSON.stringify(event, null, 2))
