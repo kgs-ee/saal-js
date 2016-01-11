@@ -31,13 +31,12 @@ block content
                                         h1= op.get(feature, lang + '-name', '')
 
 
-                                - categoryEIDs = op.get(feature, 'category', []).map(function(c){return c.id})
+                                - categoryEIDs = SDC.get(['relationships', op.get(feature,'id'), 'category'], []).map(function(c){return Number(c)})
                                     ul.event-categories
-                                        each category in SDC.get(['local_entities', 'by_class', 'category'])
-                                            if op.get(category, ['properties', 'featured', 'value'], false) == 'True'
-                                                li.text-uppercase.h3(class=(categoryEIDs.indexOf(op.get(category, ['id'])) > -1 ? "" : "unactive"))
-                                                    span
-                                                        a(href='search?q=category:' + op.get(category, ['properties', lang+'-name', 'value']))= op.get(category, ['properties', lang+'-name', 'value'])
+                                        each category in SDC.get(['local_entities', 'by_class', 'rootCategory'])
+                                            li.text-uppercase.h3(class=(categoryEIDs.indexOf(op.get(category, ['id'])) > -1 ? "" : "unactive"))
+                                                span
+                                                    a(href='search?q=category:' + op.get(category, ['properties', lang+'-name', 'value']))= op.get(category, ['properties', lang+'-name', 'value'])
 
 
                     a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
