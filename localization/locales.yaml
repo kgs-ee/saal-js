@@ -10,6 +10,9 @@
         en: Season
         et: Hooaeg
         lv: Sezona
+Jon Doe:
+    et: Jon Doe: Nimeta
+    en: Jon Doe: Unnamed
 button:
     buy_ticket:
         en: Buy ticket
