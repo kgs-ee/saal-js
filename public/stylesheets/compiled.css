@@ -2372,7 +2372,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   .carousel-control .icon-next {
     width: 50px;
     height: 50px;
-    margin-top: -15px;
+    margin-top: 0;
     font-size: 30px;
   }
 
@@ -2434,6 +2434,16 @@ body {
   color: #000;
   -webkit-font-smoothing: subpixel-antialiased;
   padding-top: 60px;
+}
+
+.front-page-margin {
+  margin: 1.5em 0;
+}
+
+@media (min-width: 768px) {
+  .front-page-margin {
+    margin: 1.5em 3em;
+  }
 }
 
 .page-margin {
@@ -2568,6 +2578,12 @@ h2,
   padding: 5px 16px;
 }
 
+@media (max-width: 1250px) {
+  .main-nav li {
+    padding: 0 6px !important;
+  }
+}
+
 @media (min-width: 1200px) {
   .main-nav li {
     padding: 0 10px;
@@ -2598,16 +2614,7 @@ h3,
 .h3,
 .ui-datepicker-title {
   line-height: 1.3em;
-  font-size: 1.3em;
-}
-
-@media (min-width: 768px) {
-  h3,
-  .select-cat a,
-  .h3,
-  .ui-datepicker-title {
-    font-size: 1.6em;
-  }
+  font-size: 1.65em;
 }
 
 .season {
@@ -2854,8 +2861,20 @@ a.logo:hover {
   text-align: left;
 }
 
+.event-categories li a {
+  color: white;
+}
+
+.event-categories li a:hover {
+  color: #000 !important;
+}
+
 .event-categories li.unactive span {
   background-color: white;
+}
+
+.event-categories li.unactive span:hover {
+  background-color: transparent;
 }
 
 .event-categories .h3,
@@ -2900,7 +2919,49 @@ a.logo:hover {
   margin-top: 2em;
 }
 
+.archive .event-categories {
+  color: black;
+  margin-bottom: 1.5em;
+}
+
+.archive .event-categories li {
+  text-align: left;
+}
+
+.archive .event-categories li a {
+  color: black;
+}
+
+.archive .event-categories li a:hover {
+  background-color: black;
+  color: white;
+}
+
+.archive .event-categories li.active a {
+  background-color: black;
+  color: white;
+}
+
 @media (min-width: 992px) {
+  .archive .event-categories {
+    margin: 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    left: 0;
+    position: relative;
+  }
+
+  .archive .event-categories li {
+    display: table-cell;
+    text-align: center;
+  }
+
+  .archive .event-categories li.unactive span {
+    background-color: black;
+  }
+
+  .archive .event-categories .h3,
   .archive .event-categories .ui-datepicker-title {
     font-size: 1.5em;
   }

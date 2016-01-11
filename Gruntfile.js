@@ -60,7 +60,11 @@ module.exports = function(grunt) {
             '.artist:after',
             '.producer:after',
             '.subtitle',
-            '.front-banner'
+            '.front-banner',
+            /event-categories/,
+            '.front-page-margin',
+            '.page-margin'
+
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
         ignoreSheets : [/fonts.googleapis/],
