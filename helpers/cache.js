@@ -10,7 +10,7 @@ debug('Caching Started at ' + Date().toString())
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
 
-CACHE_REFRESH_MS = 2 * 60e3
+CACHE_REFRESH_MS = 15 * 60e3
 
 var state = 'idle'
 
@@ -22,7 +22,7 @@ SDC = op({
 })
 
 var cacheFromEntu = [
-    {'parent':'3808',                            'definition': 'category',    'class': 'category'},
+    {'parent':'3808',                            'definition': 'category',    'class': 'rootCategory'},
     {'parent':SDC.get(['mappings', 'festival']), 'definition': 'event',       'class': 'festival'},
     {'parent':'597',                             'definition': 'event',       'class': 'program'},
     {'parent':'1931',                            'definition': 'event',       'class': 'residency'},
@@ -91,7 +91,7 @@ cacheSeries.push(function cacheRoot(callback) {
         isPublished = institution.get(['properties', 'published', 'value'], false) === 'True'
         var publishedPid = institution.get(['properties', 'published', 'id'], false)
         // SDC.set(['root', 'published'], isPublished)
-        debug('Root cached', institution.get(['properties', 'published']), isPublished)
+        debug('Root cached, ' + (isPublished ? 'we have news published.' : 'reload not requested.'))
         if (firstRun === true) {
             return callback()
         } else if (syncRequested === true) {
@@ -161,12 +161,12 @@ cacheSeries.push(function fetchFromEntu(callback) {
         callback()
     }
     function cacheCategory(opEntity, eClass, definition, callback) {
-        debug('!!! Cacheing ', opEntity.get('id'), eClass, definition)
+        // debug('!!! Cacheing ', opEntity.get('id'), eClass, definition)
         var parentEid = opEntity.get('id')
         entu.getChilds(parentEid, definition, null, null)
         .then(function(opEntities) {
-            debug('!!! Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
-            myProcessEntities(parentEid, eClass, definition, opEntities, callback)
+            // debug('!!! Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
+            myProcessEntities(parentEid, definition, definition, opEntities, callback)
         })
     }
     function cachePerformance(opEntity, callback) {
@@ -180,14 +180,15 @@ cacheSeries.push(function fetchFromEntu(callback) {
         categoryRefs.forEach(function(categoryRef) {
             categoryRef = categoryRef.reference
             // var categoryRef = opEntity.get(['properties', 'category', 'reference'], false)
-            debug('cachePerformance ' + opEntity.get('id'), categoryRef)
+            // debug('cachePerformance ' + opEntity.get('id'), categoryRef)
             if (categoryRef) {
                 function relateParents(categoryRef) {
                     var parentCategoryRefs = op.get(tempRelationships, [String(categoryRef), 'parent'], [])
-                    debug('!!! parentCategoryRefs', parentCategoryRefs)
+                    // debug('!!! parentCategoryRefs', parentCategoryRefs)
                     parentCategoryRefs.forEach(function(parentCategoryRef) {
-                        if (op.get(tempLocalEntities, ['by_eid', String(parentCategoryRef), 'definition'], '') === 'category') {
-                            debug('relate', opEntity.get('id'), 'category', parentCategoryRef, 'performance')
+                        var parentDef = op.get(tempLocalEntities, ['by_eid', String(parentCategoryRef), 'definition'], null)
+                        if (parentDef === 'category') {
+                            // debug('relate', opEntity.get('id'), 'category', parentCategoryRef, 'performance')
                             relateParents(parentCategoryRef)
                             relate(opEntity.get('id'), 'category', parentCategoryRef, 'performance')
                         }
@@ -248,6 +249,8 @@ cacheSeries.push(function fetchFromEntu(callback) {
 
 
     function myProcessEntities(parentEid, eClass, definition, entities, callback) {
+        if (entities.length === 0) { return callback() }
+        debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
         async.each(entities, function(opEntity, callback) {
             var entity = opEntity.get()
             if (parentEid) {
@@ -304,6 +307,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
         var definition = options.definition
         var eClass = options.class
         debug('Fetch ' + JSON.stringify(options) + ' from Entu.')
+        var eCount = 0
         if (options.parent) {
             var parentEid = options.parent
             // debug('Fetch ' + definition + '@' + parentEid + ' from Entu.')

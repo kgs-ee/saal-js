@@ -10,9 +10,10 @@ debug('PL sync loaded at ' + Date().toString())
 
 var entu      = require('../helpers/entu')
 
-FETCH_DELAY_MS = 1 * 60e3
+FETCH_DELAY_MS = 10 * 60e3
 
-var state = 'idle'
+var state = 'off'
+// var state = 'idle' // If initial state is anything but 'idle', sync should not launch.
 
 
 cacheReloadSuggested = false
