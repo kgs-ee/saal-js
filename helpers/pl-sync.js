@@ -300,7 +300,7 @@ syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
         var plDefinition = byDefinition.plDefinition
         var eDefinition = byDefinition.eDefinition
         async.forEachOfSeries(byDefinition.plItems, function(plItem, plId, callback) {
-            debug('Compare: ', eDefinition, plDefinition, plId)
+            // debug('Compare: ', eDefinition, plDefinition, plId)
             if (op.get(mapPL2Entu, plId, false) === false) {
                 op.push(entitiesToCreate, [plDefinition], plItem)
                 callback()
@@ -324,7 +324,7 @@ syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
                 debug('Compare errored: ', eDefinition, plDefinition)
                 return iteratorCB(err)
             }
-            debug('Compare succeeded: ', eDefinition, plDefinition)
+            // debug('Compare succeeded: ', eDefinition, plDefinition)
             iteratorCB()
         })
     }, function(err) {
@@ -332,7 +332,7 @@ syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
             debug('compareToEntu failed.')
             return compareToEntuCB(err)
         }
-        debug('compareToEntu succeeded.')
+        // debug('compareToEntu succeeded.')
         compareToEntuCB(null, entitiesToCreate)
     })
 })
@@ -423,7 +423,7 @@ function routine(routineCB) {
             debug('Got updates from PL')
             routineCB(null, 'Got updates from PL')
         }
-        debug('Restarting routine in ' + FETCH_DELAY_MS/1000 + ' sec.')
+        debug('Restarting PL-Sync routine in ' + FETCH_DELAY_MS/1000 + ' sec.')
         setTimeout(function() {
             restartInFive()
         }, FETCH_DELAY_MS - 5*1000)
@@ -433,10 +433,10 @@ function routine(routineCB) {
 function preloadIdMapping(callback) {
     debug('PL sync preloader started at ' + Date().toString())
     async.forEachOfSeries(mapPlDefinitions, function iterator(eValue, plDefinition, callback) {
-        debug('loading from Entu ', eValue.parentEid, eValue.eDefinition)
+        // debug('loading from Entu ', eValue.parentEid, eValue.eDefinition)
         entu.getChilds(eValue.parentEid, eValue.eDefinition, null, null)
         .then(function(opEntities) {
-            debug('loaded from Entu ' + opEntities.length)
+            // debug('loaded from Entu ' + opEntities.length)
             async.each(opEntities, function(opEntity, callback) {
                 if (opEntity.get(['properties', 'pl-id', 'value'], false) !== false) {
                     op.set(mapPL2Entu, String(opEntity.get(['properties', 'pl-id', 'value'])), String(opEntity.get(['id'])))
@@ -444,13 +444,13 @@ function preloadIdMapping(callback) {
                 callback()
             }, function(err) {
                 if (err) { return callback(err) }
-                debug('Existing ' + eValue.eDefinition + 's mapped to PL id\'s')
+                // debug('Existing ' + eValue.eDefinition + 's mapped to PL id\'s')
                 callback()
             })
         })
     }, function finalCB(err) {
         if (err) { return callback(err) }
-        debug('Existing entities mapped to PL id\'s')
+        // debug('Existing entities mapped to PL id\'s')
         debug('PL sync preloader finished at ' + Date().toString())
         callback()
     })

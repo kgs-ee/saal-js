@@ -34,6 +34,7 @@ function prepareSideBanner(callback) {
     if (bannerEid) {
         sideBanner = mapper.banner(bannerEid)
     }
+    // debug('Side banners prepared.')
     callback()
 }
 
@@ -61,7 +62,7 @@ function prepareUpcomingEvents(callback) {
         var event = mapper.event(entity.id)
         if (event['start-time']) {
             if (new Date() > new Date(event['start-time'])) {
-                return
+                return callback()
             }
             // debug(new Date().toJSON(), event['start-time'], new Date(event['start-time']).toJSON())
             var event_date = (event['start-time']).slice(0,10)

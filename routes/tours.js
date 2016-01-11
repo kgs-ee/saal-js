@@ -79,6 +79,7 @@ router.prepare = function prepare(callback) {
             callback(err)
             return
         }
+        // debug('Tours prepared')
         callback()
     })
 }

@@ -39,7 +39,7 @@ prepare_controllers_fa.push(function loadCache(callback) {
         try {
             SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
         } catch(err) {
-            // debug('Not loaded: ', filename)
+            debug('Not loaded: ', filename)
             // op.del(filenames, filenames.indexOf(filename))
         }
         callback()
@@ -56,30 +56,35 @@ prepare_controllers_fa.push(function loadCache(callback) {
     })
 })
 
-prepare_controllers_fa.push(function prepareControllers(callback) {
+prepare_controllers_fa.push(function prepareControllers(prepareControllersCB) {
     // process.send({ cmd: 'log', log: 'Preparing data for controllers.' })
     // debug('Preparing data for controllers.')
     var controllers = fs.readdirSync(path.join(__dirname, 'routes')).map(function(filename) {
         return filename.split('.js')[0]
     })
-    async.each(controllers, function(controller, callback) {
-        var c = require(path.join(__dirname, 'routes', controller))
-        if (c.prepare !== undefined) {
-            // debug('Preparing ' + controller)
-            c.prepare(callback)
+    async.eachSeries(controllers, function(controller, callback) {
+        // debug('controller:', controller)
+        var cntrl = require(path.join(__dirname, 'routes', controller))
+        if (cntrl.prepare !== undefined) {
+            // process.send({ cmd: 'log', log: 'Preparing ' + controller })
+            cntrl.prepare(function() {
+                // process.send({ cmd: 'log', log: 'Callback from ' + controller })
+                callback()
+            })
         } else {
+            // process.send({ cmd: 'log', log: 'Not preparing ' + controller })
             callback()
         }
     }, function(err) {
         if (err) {
             // debug('Failed to prepare controllers.', err)
             process.send({ cmd: 'log', log: 'Failed to prepare controllers.', err: err })
-            callback(err)
+            prepareControllersCB(err)
             return
         }
         // process.send({ cmd: 'log', log: 'Controllers prepared.' })
-        // debug('Controllers prepared.')
-        callback()
+        debug('Controllers prepared.')
+        prepareControllersCB()
     })
 })
 
@@ -93,7 +98,7 @@ process.on('message', function(msg) {
         case 'reload':
             APP_CACHE_DIR = msg.dir
             // process.send({ cmd: 'log', log: 'Loading cache from ' + APP_CACHE_DIR })
-            // debug('Loading local cache')
+            process.send({ cmd: 'log', log: '(Re)loading local cache' })
 
             async.series(prepare_controllers_fa, function routineFinally(err) {
                 if (err) {
