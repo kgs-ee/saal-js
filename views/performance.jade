@@ -6,56 +6,58 @@ block content
 
     .container-fluid
     
-        if op.get(performance, 'photo.file')
-            .row
-                .event-banner.carousel.slide(id='front-carousel')
-                    .carousel-inner(role='listbox')
+        .row
+            .event-banner.carousel.slide(id='front-carousel')
+                .carousel-inner(role='listbox')
+                    if op.get(performance, 'photo.file')
                         figure(id='slide-'+op.get(performance, 'id')+'' style='background-image: url(' + op.get(performance, 'photo.file') + ');')
-                        header.col-md-8
-                            if op.get(performance, lang + '-subtitle', '')
-                                p= op.get(performance, lang + '-subtitle', '')
-                            p
-                                if op.get(performance, 'artist', '')
-                                    span.artist= op.get(performance, 'artist', '')
+                    else
+                        figure(id='slide-'+op.get(performance, 'id')+'' style='background-image:url("/images/placeholder.jpg");')
+                    header.col-md-8
+                        if op.get(performance, lang + '-subtitle', '')
+                            p= op.get(performance, lang + '-subtitle', '')
+                        p
+                            if op.get(performance, 'artist', '')
+                                span.artist= op.get(performance, 'artist', '')
+                            
+                            if op.get(performance, 'producer', '')    
+                                span.producer= op.get(performance, 'producer', '')
+                            
+                            if op.get(performance, 'town', '')    
+                                span.town= op.get(performance, 'town', '')
                                 
-                                if op.get(performance, 'producer', '')    
-                                    span.producer= op.get(performance, 'producer', '')
-                                
-                                if op.get(performance, 'town', '')    
-                                    span.town= op.get(performance, 'town', '')
-                                    
-                            h1= op.get(performance, lang + '-name', '')
+                        h1= op.get(performance, lang + '-name', '')
 
-                        - categoryNames = op.get(performance, 'category', []).map(function(c){return c.value});
-                        ul.event-categories
-                            li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
-                                span
-                                    a(href='search?q=category:Teater')= t('categories.theatre')
-                            li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
-                                span
-                                    a(href='search?q=category:Tants')= t('categories.dance')
-                            li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
-                                span
-                                    a(href='search?q=category:Performance')= t('categories.performance')
-                            li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
-                                span
-                                    a(href='search?q=category:Muusika')= t('categories.music')
-                            li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
-                                span
-                                    a(href='search?q=category:Loeng')= t('categories.lecture')
-                            li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
-                                span
-                                    a(href='search?q=category:Film')= t('categories.film')
-                            li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
-                                span
-                                    a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
-                        
-                        //- Gradient Map for images
-                        script.
-                            var slide#{id} = document.getElementById('slide-#{id}');
-                            var gradientMap = '#{SAAL.secondary_color}, #{SAAL.main_color}';
+                    - categoryNames = op.get(performance, 'category', []).map(function(c){return c.value});
+                    ul.event-categories
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
+                            span
+                                a(href='search?q=category:Teater')= t('categories.theatre')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
+                            span
+                                a(href='search?q=category:Tants')= t('categories.dance')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
+                            span
+                                a(href='search?q=category:Performance')= t('categories.performance')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
+                            span
+                                a(href='search?q=category:Muusika')= t('categories.music')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
+                            span
+                                a(href='search?q=category:Loeng')= t('categories.lecture')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
+                            span
+                                a(href='search?q=category:Film')= t('categories.film')
+                        li.text-uppercase.h3(class=(categoryNames.indexOf("Uus tsirkus") > -1 ? "" : "unactive"))
+                            span
+                                a(href='search?q=category:Uus tsirkus')= t('categories.new-circus')
+                    
+                    //- Gradient Map for images
+                    script.
+                        var slide#{id} = document.getElementById('slide-#{id}');
+                        var gradientMap = '#{SAAL.secondary_color}, #{SAAL.main_color}';
 
-                            GradientMaps.applyGradientMap(slide#{id}, gradientMap); 
+                        GradientMaps.applyGradientMap(slide#{id}, gradientMap); 
 
         .row.front-page-margin
             aside.video-sound.col-md-12.col-lg-3
