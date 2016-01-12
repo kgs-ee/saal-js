@@ -171,12 +171,16 @@ h2,
 	li {
 		padding: 5px 16px;
 
-		@media(max-width: 1250px) {
-			padding: 0 6px !important;
+		@media(min-width: $screen-md) {
+			padding: 5px 16px !important;
+		}
+
+		@media(min-width: 1250px) {
+			padding: 0 5px !important;
 		}
 
 		@media(min-width: $screen-lg) {
-			padding: 0 10px;
+			padding: 0 10px !important;
 		}
 	}
 
@@ -859,6 +863,8 @@ a.logo {
 .main-text {
 	//margin-top: 2em;
 	margin-bottom: 2em;
+	line-height: 1.3em;
+	font-size: 1.65em;
 
 	@media (min-width: $screen-desktop) {
 		margin-top: 0;
@@ -867,6 +873,11 @@ a.logo {
 
 	p {
 		margin-bottom: 1em;
+		font-size: .8em;
+
+		@media (min-width: $screen-tablet) {
+			font-size: 1em;
+		}
 	}
 
 	a {
@@ -1030,6 +1041,14 @@ a.logo {
 	}
 }
 
+.pager {
+	font-size: 12px;
+
+	@media(min-width: $screen-tablet) {
+		font-size: 14px;
+	}
+}
+
 footer {
 	color: white;
 	padding: 2em 0;
@@ -1078,6 +1097,7 @@ footer {
 .subtitle {
 	display: block;
 	font-size: .7em;
+	line-height: 1.2em;
 }
 
 .name {

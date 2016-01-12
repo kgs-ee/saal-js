@@ -148,7 +148,10 @@ function fancyBoxGallery() {
         padding: 0,
         helpers: {
             overlay: {
-                locked: false
+                locked: false,
+                css : {
+			        'background' : 'rgba(0, 0, 0, 0.8)'
+			    }
             }
         }
     })
