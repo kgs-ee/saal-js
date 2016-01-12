@@ -32,7 +32,7 @@ block content
                         each rootCategory in rootCategories
                             li.text-uppercase.h3(class=(rootCategory.checked ? "" : "unactive"))
                                 span
-                                    a(href='search?q=category:' + op.get(rootCategory, [lang+'-name'], t('Jon Doe')))= op.get(rootCategory, [lang+'-name'], t('Jon Doe'))
+                                    a(href='search?q=category:' + op.get(rootCategory, ['id'], t('Jon Doe')))= op.get(rootCategory, [lang+'-name'], t('Jon Doe'))
 
                     //- Gradient Map for images
                     script.

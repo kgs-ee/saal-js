@@ -223,6 +223,28 @@ cacheSeries.push(function fetchFromEntu(callback) {
         if (perfRef) {
             relate(opEntity.get('id'), 'performance', perfRef, 'event')
         }
+
+        // Relate all related categories
+        var categoryRefs = opEntity.get(['properties', 'category'], [])
+        categoryRefs.forEach(function(categoryRef) {
+            categoryRef = categoryRef.reference
+            if (categoryRef) {
+                function relateParents(categoryRef) {
+                    var parentCategoryRefs = op.get(tempRelationships, [String(categoryRef), 'parent'], [])
+                    parentCategoryRefs.forEach(function(parentCategoryRef) {
+                        var parentDef = op.get(tempLocalEntities, ['by_eid', String(parentCategoryRef), 'definition'], null)
+                        if (parentDef === 'category') {
+                            relateParents(parentCategoryRef)
+                            relate(opEntity.get('id'), 'category', parentCategoryRef, 'event')
+                        }
+                    })
+                }
+                relate(opEntity.get('id'), 'category', categoryRef, 'event')
+                relateParents(categoryRef)
+            }
+        })
+
+
         var parentEid = opEntity.get('id')
         entu.getChilds(parentEid, null, null, null)
         .then(function(entities) {

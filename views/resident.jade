@@ -17,22 +17,11 @@ block content
                         p= (moment(op.get(event,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
                         h1= op.get(event, lang + '-name')
 
-                    - categoryNames = op.get(event, 'category').map(function(c){return c.value});    
                     ul.event-categories
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Teater") > -1 ? "" : "unactive"))
-                            span= t('categories.theatre')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Tants") > -1 ? "" : "unactive"))
-                            span= t('categories.dance')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Performance") > -1 ? "" : "unactive"))
-                            span= t('categories.performance')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Muusika") > -1 ? "" : "unactive"))
-                            span= t('categories.music')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Loeng") > -1 ? "" : "unactive"))
-                            span= t('categories.lecture')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Film") > -1 ? "" : "unactive"))
-                            span= t('categories.film')
-                        li.text-uppercase.h3(class=(categoryNames.indexOf("Uus Tsirkus") > -1 ? "" : "unactive"))
-                            span= t('categories.new-circus')
+                        each rootCategory in rootCategories
+                            li.text-uppercase.h3(class=(rootCategory.checked ? "" : "unactive"))
+                                span
+                                    a(href='search?q=category:' + op.get(rootCategory, ['id'], t('Jon Doe')))= op.get(rootCategory, [lang+'-name'], t('Jon Doe'))
 
                     script.
                         var slide#{id} = document.getElementById('slide-#{id}');

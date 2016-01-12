@@ -46,33 +46,37 @@ router.get('/', function(req, res, next) {
         q_category.shift()
         q_category = q_category.join(':').toLowerCase()
         q_category = q_category.split(',')
-        debug('Looking for category "' + JSON.stringify(q_category) + '"')
-        async.each(SDC.get(['local_entities', 'by_definition', 'performance']), function(performance_e, callback) {
-            var performance = mapper.performance(performance_e.id)
-            var categories = op.get(performance, ['category'], [])
-            for (ix in categories) {
-                if (categories.hasOwnProperty(ix)) {
-                    var p_category = categories[ix]
-                    if (q_category.indexOf(op.get(p_category, [res.locals.lang + '-name'], '').toLowerCase()) > -1) {
-                        performances.push(performance)
-                    }
-                }
-            }
-            callback()
+        var queryCategory = q_category.map(function(eId) {
+            return op.get(mapper.category(eId), [res.locals.lang + '-name'])
+        })
+        debug('Looking for category "' + queryCategory + '"')
+        results = {
+            'query_type': 'category',
+            'query_category': queryCategory,
+            'performances': [],
+            'events': []
+        }
+        async.each(q_category, function(catEid, CB1) {
+            async.each(SDC.get(['relationships', catEid, 'event']), function(eventEid, CB2) {
+                op.push(results, ['events'], mapper.event(eventEid))
+                debug('Add event', eventEid)
+                CB2()
+            }, function(err) {
+                if (err) { return CB1(err) }
+                async.each(SDC.get(['relationships', catEid, 'performance']), function(performanceEid, CB3) {
+                    op.push(results, ['performances'], mapper.event(performanceEid))
+                    CB3()
+                }, function(err) {
+                    if (err) { return CB1(err) }
+                    CB1()
+                })
+            })
         }, function(err) {
             if (err) {
                 debug('Failed to search by category.', err)
-                callback(err)
-                return
+                return callback(err)
             }
-            results = {
-                'query_type': 'category',
-                'query_category': q_category.join(','),
-                'performances': performances,
-            }
-            res.render('search', {
-                results: results
-            })
+            res.render('search', { results: results })
             res.end()
         })
     } else if (query.split(':')[0] === 'person') {
