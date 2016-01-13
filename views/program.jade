@@ -53,7 +53,7 @@ block content
                                 each p in op.get(program, [datestring, timestring])
                                     .col-xs-12.col-sm-2.col-lg-2
                                         p= (moment(datestring).locale(lang).format('dddd'))
-                                        p= (moment(datestring).locale(lang).format('L'))
+                                        p= (moment(datestring).locale(lang).format('DD.MMM'))
                                         p= timestring
 
                                         //- Premiere
@@ -117,8 +117,9 @@ block content
                                                 p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
 
                                     if op.get(p, 'sales-status')
-                                        .col-xs-6.col-md-2.col-lg-2.text-right
-                                            a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                        if (new Date(datestring + ' ' + timestring) > new Date())
+                                            .col-xs-6.col-md-2.col-lg-2.text-right
+                                                a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
