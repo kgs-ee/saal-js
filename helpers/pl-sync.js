@@ -5,7 +5,7 @@ var async     = require('async')
 var op        = require('object-path')
 var fs        = require('fs')
 var Promise   = require('promise')
-var moment    = require('moment')
+var moment    = require('moment-timezone')
 
 debug('PL sync loaded at ' + Date().toString())
 
@@ -179,7 +179,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             // debug('compare ' + propertyName + ' pl:', tsPL, 'E:', eItem)
             if (op.get(eItem, ['properties', propertyName, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
             removeIfMultiProperty(eItem, propertyName)
-            var momentStrPL = moment((parseInt(tsPL, 10)) * 1000).format('YYYY-MM-DD HH:mm:ss')
+            var momentStrPL = moment((parseInt(tsPL, 10)) * 1000).tz('Europe/Tallinn').format('YYYY-MM-DD HH:mm:ss')
 
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'])
             var dateStringEntu = op.get(eItem, ['properties', propertyName, 'value'], false)
