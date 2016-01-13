@@ -53,7 +53,8 @@ module.exports = function(grunt) {
             '.front-banner',
             /event-categories/,
             '.front-page-margin',
-            '.page-margin'
+            '.page-margin',
+            '.tickets'
 
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
