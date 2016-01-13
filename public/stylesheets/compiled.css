@@ -2866,6 +2866,10 @@ a.logo:hover {
   margin-bottom: .3em;
 }
 
+.ui-datepicker-calendar > tbody > tr > td {
+  padding: 9px 10px;
+}
+
 .highlight {
   padding-top: 11px;
   background: none;

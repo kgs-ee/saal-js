@@ -64,5 +64,5 @@ block content
             ul.list-inline
                 each supporter in op.get(supporters, ['small', 'banners'], [])
                     li
-                        a(href=op.get(supporter, 'url'))
+                        a(href=op.get(supporter, 'url') target='_blank')
                             img(src=op.get(supporter, ['photos', 0, 'file']), alt=op.get(supporter, 'name'), class='img-responsive')

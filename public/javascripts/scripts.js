@@ -60,7 +60,7 @@ function datePickerInit() {
                             controller = "performance/"
                             eid = event.performance.id
                         }
-                        tooltip += "<li class='" + tag + "'><a href='" + controller + eid + "'>" + time.slice(11, -4) + " / " + name + " / " + event.location + "</a></li>"
+                        tooltip += "<li class='" + tag + "'><a href='" + controller + eid + "'>" + time.slice(11, -4) + " / " + name + "</a></li>"
 
                         tooltip += "</li>"
                     }
