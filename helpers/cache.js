@@ -152,7 +152,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
         }
     }
     function cacheBanner(opEntity, callback) {
-        var bannerTypes = opEntity.get(['properties', 'type'])
+        var bannerTypes = opEntity.get(['properties', 'type'], [])
         // debug(JSON.stringify(bannerTypes, null, 4))
         bannerTypes.forEach(function(bannerType) {
             // debug(JSON.stringify(bannerType, null, 4))

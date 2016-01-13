@@ -13,8 +13,8 @@ var entu      = require('../helpers/entu')
 
 FETCH_DELAY_MS = 5 * 60e3
 
-// var state = 'off'
 var state = 'idle' // If initial state is anything but 'idle', sync should not launch.
+// state = 'off'
 
 
 cacheReloadSuggested = false
