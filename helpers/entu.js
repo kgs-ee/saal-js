@@ -62,6 +62,7 @@ function getEntity(id, authId, authToken) {
                 return reject(op.get(body, 'error', body))
             }
             var properties = op.get(body, 'result.properties', {})
+            // debug( JSON.stringify(properties, null, 4) )
             var entity = {
                 id: op.get(body, 'result.id', null),
                 displayname: op.get(body, 'result.displayname', null),
@@ -77,24 +78,32 @@ function getEntity(id, authId, authToken) {
                         if (op.get(properties, [p, 'datatype']) === 'file') {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
+                                created: op.get(properties, [p, 'values', v, 'created']),
+                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                                 file: APP_ENTU_URL + '/file-' + op.get(properties, [p, 'values', v, 'db_value'])
                             })
                         } else if (op.get(properties, [p, 'datatype']) === 'text') {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
+                                created: op.get(properties, [p, 'values', v, 'created']),
+                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                                 md: md(op.get(properties, [p, 'values', v, 'db_value']))
                             })
                         } else if (op.get(properties, [p, 'datatype']) === 'reference') {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
+                                created: op.get(properties, [p, 'values', v, 'created']),
+                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                                 reference: op.get(properties, [p, 'values', v, 'db_value'])
                             })
                         } else {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
+                                created: op.get(properties, [p, 'values', v, 'created']),
+                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                             })
                         }

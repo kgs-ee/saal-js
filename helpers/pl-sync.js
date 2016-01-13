@@ -155,6 +155,8 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
     .catch(function(reason) { return syncWithEntuCB(reason) })
     .then(function(opEntity) {
         var eItem = opEntity.get()
+        // debug( JSON.stringify(eItem, null, 4) )
+        // process.exit(0)
         if (op.get(mapPlDefinitions, [plDefinition, 'eDefinition']) !== eItem.definition) {
             debug('PL definition ' + plDefinition + ' do not match Entu definition ' + eItem.definition)
             return syncWithEntuCB('PL definition ' + plDefinition + ' do not match Entu definition ' + eItem.definition)
@@ -174,6 +176,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
         }
         function compareDates(eItem, propertyName, tsPL) {
             // debug('compare ' + propertyName + ' pl:', tsPL, 'E:', eItem)
+            if (op.get(eItem, ['properties', propertyName, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
             removeIfMultiProperty(eItem, propertyName)
             tsPL = parseInt(tsPL, 10) * 1000
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'])
@@ -183,7 +186,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
                 tsE = (new Date(dateStringEntu + ' GMT+0000')).getTime()
             }
             if (tsE !== tsPL) {
-                debug('E' + eItem.id + ' ?= PL' + plItem.id, new Date(tsE) + '!==' + new Date(tsPL))
+                debug('Dates E' + eItem.id + ' ?= PL' + plItem.id, new Date(tsE) + '!==' + new Date(tsPL))
                 op.set(propertiesToUpdate, ['properties', propertyName, 'id'], propertyEid)
                 if (tsPL === 0) {
                     op.set(propertiesToUpdate, ['properties', propertyName, 'value'], '')
@@ -198,10 +201,12 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             idPLs.forEach(function(idPL) { compareReference(eItem, propertyName, idPL) })
         }
         function compareReference(eItem, propertyName, idPL) {
+            if (op.get(eItem, ['properties', propertyName, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
             removeIfMultiProperty(eItem, propertyName)
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'], false)
             var idEntu = op.get(eItem, ['properties', propertyName, 'reference'], '')
-            if (idEntu !== op.get(mapPL2Entu, idPL, 0)) {
+            if (Number(idEntu) !== Number(op.get(mapPL2Entu, idPL, 0))) {
+                debug(eItem.id, 'References ' + Number(idEntu) + ' !== ' + Number(op.get(mapPL2Entu, idPL, 0)))
                 if (propertyEid !== false) {
                     op.set(propertiesToUpdate, ['properties', propertyName, 'id'], propertyEid)
                 }
@@ -210,11 +215,14 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
         }
         function compare(eItem, propertyName, strPL) {
             if (!strPL) {return}
+            if (op.get(eItem, ['properties', propertyName, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
+            strPL = String(strPL)
             removeIfMultiProperty(eItem, propertyName)
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'], false)
-            var strEntu = op.get(eItem, ['properties', propertyName, 'value'], '')
+            var strEntu = String(op.get(eItem, ['properties', propertyName, 'value'], ''))
             // debug(eItem.id, strEntu + '?==' + strPL)
-            if (strEntu !== strPL) {
+            if (strEntu !== strPL && strPL !== '') {
+                debug(eItem.id, 'Strings ' + strEntu + ' !== ' + strPL)
                 if (propertyEid !== false) {
                     op.set(propertiesToUpdate, ['properties', propertyName, 'id'], propertyEid)
                 }
@@ -225,17 +233,17 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
         if (eItem.definition === 'category') {
             compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
             compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
-            if (doFullSync) {
-                debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
+            // if (doFullSync) {
+                // debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
                 compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
-            }
+            // }
         } else if (eItem.definition === 'performance') { // PL 'show'
             // debug ('photo-url', op.get(plItem, ['originalImageUrl'], '') )
             compare ( eItem, 'photo-url', op.get(plItem, ['originalImageUrl'], '') )
             compare ( eItem, 'thumb-url', op.get(plItem, ['shortImageUrl'], '') )
             compare ( eItem, 'pl-link', op.get(plItem, ['mobileUrl'], '') )
-            if (doFullSync) {
-                debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
+            // if (doFullSync) {
+                // debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
                 debug('pl-id', op.get(plItem, ['id'], '') )
                 compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
                 compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
@@ -243,8 +251,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
                 compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
                 compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
                 compareReferences( eItem, 'category', op.get(plItem, ['categories'], []) )
-                // debug('properties To Update:', propertiesToUpdate)
-            }
+            // }
         } else if (eItem.definition === 'event') { // PL 'concert'
             compareDates( eItem, 'start-time', op.get(plItem, ['startTimestamp'], 0) )
             compareDates( eItem, 'end-time', op.get(plItem, ['endTimestamp'], 0) )
@@ -252,8 +259,8 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             compare( eItem, 'sales-status', op.get(plItem, ['salesStatus'], '') )
             compare( eItem, 'min-price', op.get(plItem, ['minPrice'], '') )
             compare( eItem, 'max-price', op.get(plItem, ['maxPrice'], '') )
-            if (doFullSync) {
-                debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
+            // if (doFullSync) {
+                // debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
                 compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
                 compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
                 compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
@@ -262,7 +269,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
                 compare( eItem, 'et-technical-information', op.get(plItem, ['purchaseDescription', 'est'], '') )
                 compare( eItem, 'en-technical-information', op.get(plItem, ['purchaseDescription', 'eng'], '') )
                 compareReference( eItem, 'performance', op.get(plItem, ['showId'], '') )
-            }
+            // }
         }
 
         if (op.get(propertiesToUpdate, ['properties'], false) === false) {
