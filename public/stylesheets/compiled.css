@@ -3021,6 +3021,7 @@ a.logo:hover {
 }
 
 .event-categories li a:hover {
+  background-color: white;
   color: #000 !important;
 }
 
@@ -3029,7 +3030,7 @@ a.logo:hover {
 }
 
 .event-categories li.unactive span:hover {
-  background-color: transparent;
+  color: #000;
 }
 
 .event-categories .h3,

@@ -540,6 +540,7 @@ a.logo {
         	color: white;
 
         	&:hover {
+				background-color: white;
         		color: #000 !important;
         	}
 
@@ -549,7 +550,7 @@ a.logo {
         	background-color: white;
 
 			&:hover {
-				background-color: transparent;
+				color: #000;
 			}
 
         }

@@ -158,29 +158,14 @@ function fancyBoxGallery() {
 }
 
 
-/**
-**  Read More generator
-*/
-function shortenTexts() {
-    $(".readMore").shorten({
-        moreText: 'Loe edasi',
-        lessText: 'Loe vähem',
-        showChars: '1000'
-    })
-}
-
-
-
 $(document).ready(function() {
     datePickerInit()
     calToolTip()
     fancyBoxGallery()
-    shortenTexts()
     eventBannerHeight()
 })
 
 $(window).load(function() {
-    //eventBannerHeight();
     calToolTip()
     calendarWidth()
 })

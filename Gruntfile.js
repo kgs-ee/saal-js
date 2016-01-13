@@ -87,7 +87,6 @@ module.exports = function(grunt) {
           'public/javascripts/bootstrap/tooltip.js',
           'public/javascripts/bootstrap/popover.js',
           'public/javascripts/bootstrap/transition.js',
-          'public/javascripts/jquery.shorten/jquery.shorten.js',
           'public/javascripts/fancybox2/source/jquery.fancybox.pack.js',
           'public/javascripts/gradientmaps/gradientmaps.min.js',
           'public/javascripts/scripts.js'
