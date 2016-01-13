@@ -11,12 +11,15 @@
         et: Hooaeg
         lv: Sezona
 Jon Doe:
-    et: Nimeta
     en: Unnamed
+    et: Nimeta
 button:
     buy_ticket:
         en: Buy ticket
         et: Osta pilet
+        free_admission:
+            et: Vabapääse
+            en: Free Admission
         future_sale:
             et: button.buy_ticket.future_sale
         going_now:
