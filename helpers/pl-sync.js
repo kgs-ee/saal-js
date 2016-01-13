@@ -5,6 +5,7 @@ var async     = require('async')
 var op        = require('object-path')
 var fs        = require('fs')
 var Promise   = require('promise')
+var moment    = require('moment')
 
 debug('PL sync loaded at ' + Date().toString())
 
@@ -178,24 +179,25 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             // debug('compare ' + propertyName + ' pl:', tsPL, 'E:', eItem)
             if (op.get(eItem, ['properties', propertyName, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
             removeIfMultiProperty(eItem, propertyName)
-            tsPL = parseInt(tsPL, 10) * 1000
+            var momentStrPL = moment((parseInt(tsPL, 10)) * 1000).format('YYYY-MM-DD HH:mm:ss')
+
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'])
             var dateStringEntu = op.get(eItem, ['properties', propertyName, 'value'], false)
-            var tsE = 0
-            if (dateStringEntu) {
-                tsE = (new Date(dateStringEntu + ' GMT+0000')).getTime()
-            }
-            if (tsE !== tsPL) {
-                debug('Dates E' + eItem.id + ' ?= PL' + plItem.id, new Date(tsE) + '!==' + new Date(tsPL))
+            var momentStrEntu = ''
+            if (dateStringEntu) { momentStrEntu = moment(dateStringEntu).format('YYYY-MM-DD HH:mm:ss') }
+            // debug(eItem.id, 'Dates E: ', dateStringEntu,  momentStrEntu + ' ?= PL: ' + momentStrPL, tsPL)
+            if (momentStrEntu !== momentStrPL) {
+                debug('Dates E' + eItem.id + ' ?= PL' + plItem.id, momentStrEntu + '!==' + momentStrPL, tsPL)
                 op.set(propertiesToUpdate, ['properties', propertyName, 'id'], propertyEid)
                 if (tsPL === 0) {
                     op.set(propertiesToUpdate, ['properties', propertyName, 'value'], '')
                 } else {
-                    op.set(propertiesToUpdate, ['properties', propertyName, 'value'], (new Date(tsPL).toJSON().replace('T', ' ').slice(0,19)))
+                    op.set(propertiesToUpdate, ['properties', propertyName, 'value'], momentStrPL)
                 }
             } else {
                 // debug('E' + eItem.id + ' ?= PL' + plItem.id, new Date(tsE) + '===' + new Date(tsPL))
             }
+            // process.exit(0)
         }
         function compareReferences(eItem, propertyName, idPLs) {
             idPLs.forEach(function(idPL) { compareReference(eItem, propertyName, idPL) })
@@ -204,9 +206,9 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             if (op.get(eItem, ['properties', propertyName, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
             removeIfMultiProperty(eItem, propertyName)
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'], false)
-            var idEntu = op.get(eItem, ['properties', propertyName, 'reference'], '')
-            if (Number(idEntu) !== Number(op.get(mapPL2Entu, idPL, 0))) {
-                debug(eItem.id, 'References ' + Number(idEntu) + ' !== ' + Number(op.get(mapPL2Entu, idPL, 0)))
+            var idEntu = Number(op.get(eItem, ['properties', propertyName, 'reference'], 0))
+            if (idEntu !== Number(op.get(mapPL2Entu, idPL, 0))) {
+                debug(eItem.id, 'References ' + idEntu + ' !== ' + Number(op.get(mapPL2Entu, idPL, 0)))
                 if (propertyEid !== false) {
                     op.set(propertiesToUpdate, ['properties', propertyName, 'id'], propertyEid)
                 }
