@@ -211,11 +211,11 @@ p {
 h3, .h3 {
 	line-height: 1.3em;
 
-	font-size: 1.65em;
+	font-size: 1.2em;
 
-	// @media (min-width: $screen-tablet) {
-	// 	font-size: 1.6em;
-	// }
+	@media (min-width: $screen-tablet) {
+		font-size: 1.5em;
+	}
 }
 
 .season {
@@ -560,9 +560,9 @@ a.logo {
         }
     }
 
-    .h3 {
-    	font-size: 1.2em;
-    }
+    // .h3 {
+    // 	font-size: 1.2em;
+    // }
 }
 
 @media (min-width: $screen-desktop) {
@@ -877,7 +877,7 @@ a.logo {
 	//margin-top: 2em;
 	margin-bottom: 2em;
 	line-height: 1.3em;
-	font-size: 1.65em;
+	font-size: 1.5em;
 
 	@media (min-width: $screen-desktop) {
 		margin-top: 0;
@@ -886,7 +886,7 @@ a.logo {
 
 	p {
 		margin-bottom: 1em;
-		font-size: .8em;
+		font-size: .9em;
 
 		@media (min-width: $screen-tablet) {
 			font-size: 1em;
@@ -1129,8 +1129,12 @@ footer {
 
 .subtitle {
 	display: block;
-	font-size: .7em;
+	font-size: 1em;
 	line-height: 1.2em;
+
+	@media(min-width: $screen-tablet) {
+		font-size: .7em;
+	}
 }
 
 .name {

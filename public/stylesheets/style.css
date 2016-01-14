@@ -5400,7 +5400,13 @@ p {
 
 h3, .select-cat a, .h3, .ui-datepicker-title {
   line-height: 1.3em;
-  font-size: 1.65em;
+  font-size: 1.2em;
+}
+
+@media (min-width: 768px) {
+  h3, .select-cat a, .h3, .ui-datepicker-title {
+    font-size: 1.5em;
+  }
 }
 
 .season {
@@ -5682,10 +5688,6 @@ a.logo:hover {
 
 .event-categories li.unactive span:hover {
   color: #000;
-}
-
-.event-categories .h3, .event-categories .ui-datepicker-title {
-  font-size: 1.2em;
 }
 
 @media (min-width: 992px) {
@@ -5977,7 +5979,7 @@ a.logo:hover {
 .main-text {
   margin-bottom: 2em;
   line-height: 1.3em;
-  font-size: 1.65em;
+  font-size: 1.5em;
 }
 
 @media (min-width: 992px) {
@@ -5989,7 +5991,7 @@ a.logo:hover {
 
 .main-text p {
   margin-bottom: 1em;
-  font-size: .8em;
+  font-size: .9em;
 }
 
 @media (min-width: 768px) {
@@ -6235,8 +6237,14 @@ footer {
 
 .subtitle {
   display: block;
-  font-size: .7em;
+  font-size: 1em;
   line-height: 1.2em;
+}
+
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: .7em;
+  }
 }
 
 .name {
