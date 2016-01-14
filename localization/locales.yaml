@@ -43,8 +43,8 @@ button:
         en: Load more
         et: Lae veel
     on_tour:
-        en: button.on_tour
-        et: button.on_tour
+        en: On Tour
+        et: Tuuril
     premiere:
         en: 'Premiere!'
         et: 'Esietendus!'
