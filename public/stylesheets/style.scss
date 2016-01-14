@@ -770,8 +770,16 @@ a.logo {
 	max-width: 80%;
 }
 
-.supporter img {
-	margin-bottom: 1em;
+.supporter {
+
+	ul {
+
+		li {
+			padding-left: 0;
+			padding-right: 0;
+			margin: 0 2em 2em 0;
+		}
+	}
 }
 
 .news,
@@ -885,6 +893,17 @@ a.logo {
 		}
 	}
 
+	ul {
+		margin-bottom: 1em;
+		font-size: .8em;
+		line-height: 1.3em;
+		padding-left: 20px;
+
+		@media (min-width: $screen-tablet) {
+			font-size: 1em;
+		}
+	}
+
 	a {
 		border-bottom: 2px solid;
 
@@ -952,6 +971,14 @@ a.logo {
 		&:last-child {
 			margin-bottom: 0;
 		}
+	}
+}
+
+.projects-group {
+
+	img {
+		@extend .img-responsive;
+		@extend .center-block;
 	}
 }
 
@@ -1091,10 +1118,10 @@ footer {
 	text-transform: uppercase;
 }
 
-.artist,
+.town,
 .producer {
 
-	&:after {
+	&:before {
 		content: ' / ';
 		font-weight: normal;
 	}
