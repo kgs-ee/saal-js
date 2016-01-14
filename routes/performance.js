@@ -14,9 +14,10 @@ router.get('/:id', function(req, res) {
     var events = []
     var past_events = []
     var coverages = mapper.coverageByPerformanceSync(performance_eid)
-    SDC.get(['relationships', performance_eid, 'event'], []).forEach(function(event_eid) {
-        var event = mapper.event(event_eid)
-        //debug(JSON.stringify(event, null, 2))
+    SDC.get(['relationships', performance_eid, 'event'], [])
+    .map(function(eId) { return mapper.event(eId) })
+    .sort(function(a, b) { return (new Date(a['start-time'])) > (new Date(b['start-time'])) })
+    .forEach(function(event) {
         if (new Date() < new Date(event['start-time'])) {
             events.push(event)
         } else {
