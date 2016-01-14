@@ -82,10 +82,10 @@ function mapEvent(eid) {
         entityOut.set('performance', mapPerformance(performanceId))
         // debug('1: ' + JSON.stringify(entityOut.get('et-name'), null, 2))
         // debug('2: ' + JSON.stringify(entityOut.get(['performance', 'et-name']), null, 2))
-        if (entityOut.get('en-name') === undefined) {
+        if (entityOut.get('en-name') !== undefined) {
             entityOut.set('en-name', entityOut.get(['performance', 'en-name']))
         }
-        if (entityOut.get('et-name') === undefined) {
+        if (entityOut.get('et-name') !== undefined) {
             entityOut.set('et-name', entityOut.get(['performance', 'et-name']))
         }
         if (entityOut.get('en-description') === undefined) {
