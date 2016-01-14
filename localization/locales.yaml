@@ -18,8 +18,8 @@ button:
         en: Buy ticket
         et: Osta pilet
         free_admission:
-            et: Tasuta
             en: Free Admission
+            et: Tasuta
         future_sale:
             et: button.buy_ticket.future_sale
         going_now:
@@ -290,6 +290,9 @@ title:
     no-tours:
         en: No tours
         et: Tuuril ei ole hetkel ühtki lavastust
+    onsite-price:
+        en: At the door
+        et: Kohapealt
     past:
         en: Past
         et: Olnud

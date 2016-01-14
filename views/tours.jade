@@ -74,7 +74,9 @@ block content
                                                     span.name= op.get(p, lang + '-name')
 
                                     .col-xs-6.col-md-2.col-lg-2
-                                        p= op.get(p, 'location.'+ lang + '-name')
+                                        p= op.get(p, 'location')
+                                        P= op.get(p, ['saal-location', lang + '-name'])
+                                        
                                         if op.get(p, 'price') == 0
                                             p= t('title.free')
                                         else

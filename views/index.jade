@@ -117,7 +117,9 @@ block content
                                                     span.name= op.get(p, lang + '-name')
                                         
                                     .col-xs-6.col-md-2.col-lg-2
-                                        p= op.get(p, 'location.'+ lang + '-name')
+                                        p= op.get(p, 'location')
+                                        P= op.get(p, ['saal-location', lang + '-name'])
+                                                                                
                                         if op.get(p, 'price') == 0
                                             p= t('title.free')
                                         else
@@ -128,6 +130,9 @@ block content
                                                 p= op.get(p, 'min-price') + '€'
                                             else
                                                 p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                        
+                                        if op.get(p, 'onsite-price')
+                                            p= t('title.onsite-price') + ': ' + op.get(p, 'onsite-price')
 
                                     if op.get(p, 'sales-status')
                                         .col-xs-6.col-md-2.col-lg-2.text-right
@@ -138,7 +143,7 @@ block content
                         
                         if Object.keys(program).length > listlength
                             .col-xs-12.col-md-12        
-                                a.load-more.btn.btn-primary(href='/' + lang + '/program/')= t('button.view-all') + ' (' + Object.keys(program).length + ')'
+                                a.load-more.btn.btn-primary(href='/' + lang + '/program/')= t('button.view-all')
                             
                     else
                         .col-lg-12
@@ -206,6 +211,9 @@ block content
                                                         span.name= op.get(p, lang + '-name')
 
                                         .col-xs-6.col-md-2.col-lg-2
+                                            p= op.get(p, 'location')
+                                            P= op.get(p, ['saal-location', lang + '-name'])
+                                                                                        
                                             if op.get(p, 'price') == 0
                                                 p= t('title.free')
                                             else
@@ -218,8 +226,6 @@ block content
                                                     p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
                                     
                                         .col-xs-6.col-md-2.text-right
-                                            p= op.get(p, 'location')
-                                            
                                             if op.get(p, 'sales-status')
                                                 a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
@@ -228,7 +234,7 @@ block content
                         
                         if Object.keys(tours).length > listlength
                             .col-xs-12.col-md-12        
-                                a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all') + ' (' + Object.keys(tours).length + ')'
+                                a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all')
                                 
                     else
                         .col-lg-12
