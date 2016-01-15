@@ -54,8 +54,11 @@ function mapEvent(eid) {
 
     entityOut.set('color', opEntity.get('properties.color.value', '').split('; '))
     entityOut.set('tag', opEntity.get('properties.tag.value', '').split('; '))
+    entityOut.set('resident', opEntity.get('properties.resident'))
     entityOut.set('en-name', opEntity.get('properties.en-name.value'))
     entityOut.set('et-name', opEntity.get('properties.et-name.value'))
+    entityOut.set('en-subtitle', opEntity.get('properties.en-subtitle.value'))
+    entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value'))
     entityOut.set('en-description', opEntity.get('properties.en-description.md'))
     entityOut.set('et-description', opEntity.get('properties.et-description.md'))
     entityOut.set('photo', opEntity.get('properties.photo.0'))
