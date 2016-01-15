@@ -10,7 +10,7 @@ debug('Caching Started at ' + Date().toString())
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
 
-CACHE_REFRESH_MS = 15 * 60e3
+CACHE_REFRESH_MS = 1 * 60e3
 
 var state = 'idle'
 
