@@ -16,8 +16,8 @@ block content
                                 a(href='/' + lang + '/performance/' + op.get(feature,'id'))
                                     figure(id='slide-' + op.get(feature, 'id'), style='background-image: url(' + op.get(feature, ['photo', 'file'], op.get(feature, ['photo-url'], '/images/placeholder.jpg')) + ')')
                                     header.col-md-8
-                                        if op.get(feature, lang + '-subtitle', '')
-                                            p= op.get(feature, lang + '-subtitle', '')
+                                        if op.get(feature, lang + '-supertitle', '')
+                                            p= op.get(feature, lang + '-supertitle', '')
                                         h1
                                             if op.get(feature, 'artist', '')
                                                 span.artist= op.get(feature, 'artist', '')
@@ -29,7 +29,9 @@ block content
                                                 span.town= op.get(feature, 'town', '')
                                                 
                                         h1= op.get(feature, lang + '-name', '')
-
+                                        
+                                        if op.get(feature, lang + '-subtitle', '')
+                                            p= op.get(feature, lang + '-subtitle', '')
 
                                 - categoryEIDs = SDC.get(['relationships', op.get(feature,'id'), 'category'], []).map(function(c){return Number(c)})
                                     ul.event-categories
@@ -86,8 +88,8 @@ block content
                                         h3
                                             if op.get(p, 'performance.id', false)
                                                 a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                    if op.get(p, lang + '-subtitle', '')
-                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                    if op.get(p, lang + '-supertitle', '')
+                                                        span.subtitle= op.get(p, lang + '-supertitle', '')
                                                     
                                                     if op.get(p, 'performance.artist', '')    
                                                         span.artist= op.get(p, 'performance.artist', '')
@@ -99,11 +101,14 @@ block content
                                                         span.town= op.get(p, 'performance.town', '')
                                                     
                                                     span.name= op.get(p, lang + '-name')
+                                                    
+                                                    if op.get(p, lang + '-subtitle', '')
+                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
                                                 
                                             else
                                                 a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-                                                    if op.get(p, lang + '-subtitle', '')
-                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                    if op.get(p, lang + '-supertitle', '')
+                                                        span.subtitle= op.get(p, lang + '-supertitle', '')
                                                     
                                                     if op.get(p, 'performance.artist', '')    
                                                         span.artist= op.get(p, 'performance.artist', '')
@@ -115,6 +120,9 @@ block content
                                                         span.town= op.get(p, 'performance.town', '')
                                                     
                                                     span.name= op.get(p, lang + '-name')
+                                                    
+                                                    if op.get(p, lang + '-subtitle', '')
+                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
                                         
                                     .col-xs-6.col-md-2.col-lg-2
                                         p= op.get(p, 'location')
@@ -180,8 +188,8 @@ block content
                                             h3
                                                 if op.get(p, 'performance.id', false)
                                                     a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                        if op.get(p, lang + '-subtitle', '')
-                                                            span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                        if op.get(p, lang + '-supertitle', '')
+                                                            span.subtitle= op.get(p, lang + '-supertitle', '')
                                                         
                                                         if op.get(p, 'performance.artist', '')    
                                                             span.artist= op.get(p, 'performance.artist', '')
@@ -193,6 +201,9 @@ block content
                                                             span.town= op.get(p, 'performance.town', '')
                                                         
                                                         span.name= op.get(p, lang + '-name')
+                                                        
+                                                        if op.get(p, lang + '-subtitle', '')
+                                                            span.subtitle= op.get(p, lang + '-subtitle', '')
                                                     
                                                 else
                                                     a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')

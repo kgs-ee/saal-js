@@ -14,8 +14,8 @@ block content
                     else
                         figure(id='slide-'+op.get(performance, 'id')+'' style='background-image:url("/images/placeholder.jpg");')
                     header.col-md-8
-                        if op.get(performance, lang + '-subtitle', '')
-                            p= op.get(performance, lang + '-subtitle', '')
+                        if op.get(performance, lang + '-supertitle', '')
+                            p= op.get(performance, lang + '-supertitle', '')
                         h1
                             if op.get(performance, 'artist', '')
                                 span.artist= op.get(performance, 'artist', '')
@@ -27,6 +27,9 @@ block content
                                 span.town= op.get(performance, 'town', '')
                                 
                         h1= op.get(performance, lang + '-name', '')
+                        
+                        if op.get(performance, lang + '-subtitle', '')
+                            p= op.get(performance, lang + '-subtitle', '')
 
                     ul.event-categories
                         each rootCategory in rootCategories
@@ -62,9 +65,8 @@ block content
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('dddd'))
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('HH:mm'))
+
                             .col-xs-3.col-md-3.col-lg-3
-                                if SDC.get(['local_entities', 'by_class', 'tour', event.id], false)
-                                    p= t('button.on_tour')
                                 p= op.get(event, 'location')
                                 P= op.get(event, ['saal-location', lang + '-name'])    
                             
