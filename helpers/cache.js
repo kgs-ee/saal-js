@@ -139,7 +139,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
         debug('Skipping "Fetch from Entu" at ' + Date().toString())
         return callback()
     }
-    debug('Fetch from Entu at ' + Date().toString())
+    // debug('Fetch from Entu at ' + Date().toString())
 
     function relate(eid1, rel1, eid2, rel2) {
         if (op.get(tempRelationships, [String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
@@ -272,7 +272,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
 
     function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         if (entities.length === 0) { return callback() }
-        debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
+        // debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
         async.each(entities, function(opEntity, callback) {
             var entity = opEntity.get()
             if (parentEid) {
@@ -328,7 +328,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
     async.eachLimit(cacheFromEntu, 1, function(options, callback) {
         var definition = options.definition
         var eClass = options.class
-        debug('Fetch ' + JSON.stringify(options) + ' from Entu.')
+        // debug('Fetch ' + JSON.stringify(options) + ' from Entu.')
         if (options.parent) {
             var parentEid = options.parent
             // debug('Fetch ' + definition + '@' + parentEid + ' from Entu.')
@@ -365,19 +365,24 @@ cacheSeries.push(function saveCache(callback) {
     debug('Save Cache at ' + Date().toString())
     SDC.set('local_entities', tempLocalEntities)
     SDC.set('relationships', tempRelationships)
+    SDC.set('date', Date().toString())
 
 
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
-        debug('Saving ' + filename)
-        var entitiesWs = fs.createWriteStream(path.join(APP_CACHE_DIR, filename + '.json'))
-        entitiesWs.write(JSON.stringify(SDC.get(filename), null, 4), callback)
+        // debug('Saving ' + filename)
+        fs.writeFile(path.join(APP_CACHE_DIR, filename + '.json'), JSON.stringify(SDC.get(filename), null, 4), (err) => {
+            if (err) { return callback(err) }
+            callback()
+        })
+        // var entitiesWs = fs.createWriteStream(path.join(APP_CACHE_DIR, filename + '.json'))
+        // entitiesWs.write(JSON.stringify(SDC.get(filename), null, 4), callback)
     }, function(err) {
         if (err) {
             debug('Saving cache failed', err)
             return callback(err)
         }
-        debug('cache saved')
+        debug('Cache saved as of ' + SDC.get('date') )
         firstRun = false
         callback()
     })

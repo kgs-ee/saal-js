@@ -36,13 +36,16 @@ prepare_controllers_fa.push(function loadCache(callback) {
     async.each(filenames, function(filename, callback) {
         // process.send({ cmd: 'log', log: 'Loading cache from ' + filename })
         // debug(filename)
-        try {
-            SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
-        } catch(err) {
-            debug('Not loaded: ', filename)
-            // op.del(filenames, filenames.indexOf(filename))
-        }
-        callback()
+        // debug('Loading: ', path.join(APP_CACHE_DIR, filename))
+        fs.readFile(path.join(APP_CACHE_DIR, filename + '.json'), function(err, data) {
+            if (err) {
+                debug('Not loaded: ', path.join(APP_CACHE_DIR, filename), err)
+                return callback(err)
+            }
+            SDC.set(filename, JSON.parse(data))
+            // debug('Loaded: ', path.join(APP_CACHE_DIR, filename))
+            callback()
+        })
     }, function(err) {
         if (err) {
             debug('Failed to load local cache.', err)
@@ -98,7 +101,7 @@ process.on('message', function(msg) {
         case 'reload':
             APP_CACHE_DIR = msg.dir
             // process.send({ cmd: 'log', log: 'Loading cache from ' + APP_CACHE_DIR })
-            process.send({ cmd: 'log', log: '(Re)loading local cache' })
+            process.send({ cmd: 'log', log: '(Re)loading local cache from ' + SDC.get('date') })
 
             async.series(prepare_controllers_fa, function routineFinally(err) {
                 if (err) {
@@ -106,7 +109,7 @@ process.on('message', function(msg) {
                     // debug('Reload failed', err)
                     return
                 }
-                process.send({ cmd: 'log', log: 'Worker reloaded' })
+                process.send({ cmd: 'log', log: 'Worker reloaded with cache from ' + SDC.get('date') })
             })
         break
     }
