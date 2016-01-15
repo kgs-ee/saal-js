@@ -18,7 +18,7 @@ block content
                         
                         h1
                             if op.get(event, lang + '-subtitle', '')
-                                span.subtitle= op.get(event, lang + '-subtitle', '')
+                                span.name= op.get(event, lang + '-subtitle', '')
                                 
                             if op.get(event, 'resident', false)
                                 span.artist= op.get(event, 'resident', '')
@@ -39,14 +39,15 @@ block content
                         GradientMaps.applyGradientMap(slide#{id}, gradientMap);       
 
         .row.front-page-margin
-            article.main-text.col-md-12.col-lg-9.h3!= op.get(event, lang + '-description')
-
-            aside.video-sound.col-md-12.col-lg-3
-                if op.get(event, 'audio')
-                    div
-                        h2= t('title.sound')
-                        div!= op.get(event, 'audio')
-                if op.get(event, 'video')
-                    div
-                        h2= t('title.video')
-                        div!= op.get(event, 'video')
+            article.main-text.col-md-12.col-lg-12.h3!= op.get(event, lang + '-description')
+        
+        .row.page-margin
+            if op.get(event, 'audio')
+                div.col-xs-12.col-md-6
+                    h2= t('title.sound')
+                    div!= op.get(event, 'audio')
+                    
+            if op.get(event, 'video')
+                div.col-xs-12.col-md-6
+                    h2= t('title.video')
+                    div!= op.get(event, 'video')

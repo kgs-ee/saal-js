@@ -13,7 +13,7 @@ block content
                     each eventdate, datestring in resident.events
                         each event in eventdate
                             a.col-xs-12.col-sm-6.col-md-3.col-lg-3.resident(href='/' + lang + '/resident/' + op.get(event,'id'))
-                                img.img-responsive(src=''+ op.get(event, 'photo.file') +'')
+                                img.img-responsive(src=''+ op.get(event, 'photo-medium.file') +'')
                                 p= (moment(op.get(event,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
                                 
                                 p

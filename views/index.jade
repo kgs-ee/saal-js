@@ -14,7 +14,7 @@ block content
 
                             .item(class=(featureActive++ === 0 ? 'active' : ''))
                                 a(href='/' + lang + '/performance/' + op.get(feature,'id'))
-                                    figure(id='slide-' + op.get(feature, 'id'), style='background-image: url(' + op.get(feature, ['photo', 'file'], op.get(feature, ['photo-url'], '/images/placeholder.jpg')) + ')')
+                                    figure(id='slide-' + op.get(feature, 'id'), style='background-image: url(' + op.get(feature, ['photo-big', 'file'], op.get(feature, ['photo-url'], '/images/placeholder.jpg')) + ')')
                                     header.col-md-8
                                         if op.get(feature, lang + '-supertitle', '')
                                             p= op.get(feature, lang + '-supertitle', '')

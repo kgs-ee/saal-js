@@ -10,7 +10,7 @@ block content
             .event-banner.carousel.slide(id='front-carousel')
                 .carousel-inner(role='listbox')
                     if op.get(performance, 'photo.file')
-                        figure(id='slide-'+op.get(performance, 'id')+'' style='background-image: url(' + op.get(performance, 'photo.file') + ');')
+                        figure(id='slide-'+op.get(performance, 'id')+'' style='background-image: url(' + op.get(performance, 'photo-big.file') + ');')
                     else
                         figure(id='slide-'+op.get(performance, 'id')+'' style='background-image:url("/images/placeholder.jpg");')
                     header.col-md-8
@@ -85,11 +85,11 @@ block content
     
         .row.page-margin
             if op.get(performance, 'audio')
-                div.col-xs-6.col-md-6
+                div.col-xs-12.col-md-6
                     h2= t('title.sound')
                     div!= op.get(performance, 'audio')
             if op.get(performance, 'video')
-                div.col-xs-6.col-md-6
+                div.col-xs-12.col-md-6
                     h2= t('title.video')
                     div!= op.get(performance, 'video')
 
@@ -102,8 +102,8 @@ block content
                             .row
                                 each photo in op.get(performance, 'photos', [])
                                     .single-image.col-xs-6.col-sm-3.col-md-4
-                                          a.fancybox(rel='gallery' href=''+ photo.file + '')
-                                            img(src=''+ photo.file +'' class='img-responsive')
+                                          a.fancybox(rel='gallery' href=''+ photo-medium.file + '')
+                                            img(src=''+ photo-big.file +'' class='img-responsive')
 
                 .col-md-6
                   if coverage.length
