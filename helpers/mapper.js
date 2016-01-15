@@ -65,8 +65,13 @@ function mapEvent(eid) {
     entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value'))
     entityOut.set('en-description', opEntity.get('properties.en-description.md'))
     entityOut.set('et-description', opEntity.get('properties.et-description.md'))
-    entityOut.set('photo', opEntity.get('properties.photo.0'))
-    entityOut.set('photos', opEntity.get('properties.photo'))
+    entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
+    entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
+        return {
+            medium: phm,
+            big: opEntity.get(['properties', 'photo-big', ix])
+        }
+    }))
     entityOut.set('video', opEntity.get('properties.video.value'))
 
     var locationId = opEntity.get('properties.saal-location.reference')
