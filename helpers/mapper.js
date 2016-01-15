@@ -54,7 +54,11 @@ function mapEvent(eid) {
 
     entityOut.set('color', opEntity.get('properties.color.value', '').split('; '))
     entityOut.set('tag', opEntity.get('properties.tag.value', '').split('; '))
-    entityOut.set('resident', opEntity.get('properties.resident'))
+    if (opEntity.get('properties.resident', false)) {
+        // debug('resident', opEntity.get('properties.resident'))
+        entityOut.set('resident', opEntity.get('properties.resident', '').map(function(r) {return r.value}))
+    }
+
     entityOut.set('en-name', opEntity.get('properties.en-name.value'))
     entityOut.set('et-name', opEntity.get('properties.et-name.value'))
     entityOut.set('en-subtitle', opEntity.get('properties.en-subtitle.value'))
