@@ -65,16 +65,16 @@ startPLSync()
 
 
 // Broadcast a message to all other workers
-function broadcast(data, worker_id) {
-    if (!worker_id) {
-        worker_id = -1
+function broadcast(data, workerId) {
+    if (!workerId) {
+        workerId = -1
     }
-    console.log('Broadcast from ' + worker_id + '.')
+    console.log('Broadcast from ' + workerId + '.')
     for (var i in workers) {
         if (workers.hasOwnProperty(i)) {
             var worker = workers[i]
-            if (worker && worker.id !== worker_id) {
-                worker.send({ cmd: 'data', data: data, from: worker_id, chat: 'broadcast to ' + worker.id + ' initiated by ' + worker_id })
+            if (worker && worker.id !== workerId) {
+                worker.send({ cmd: 'data', data: data, from: workerId, chat: 'broadcast to ' + worker.id + ' initiated by ' + workerId })
             }
         }
     }

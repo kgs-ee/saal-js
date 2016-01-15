@@ -79,7 +79,7 @@ function getEntity(id, authId, authToken) {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
                                 created: op.get(properties, [p, 'values', v, 'created']),
-                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
+                                'created_by': op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                                 file: APP_ENTU_URL + '/file-' + op.get(properties, [p, 'values', v, 'db_value'])
                             })
@@ -87,7 +87,7 @@ function getEntity(id, authId, authToken) {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
                                 created: op.get(properties, [p, 'values', v, 'created']),
-                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
+                                'created_by': op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                                 md: md(op.get(properties, [p, 'values', v, 'db_value']))
                             })
@@ -95,7 +95,7 @@ function getEntity(id, authId, authToken) {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
                                 created: op.get(properties, [p, 'values', v, 'created']),
-                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
+                                'created_by': op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                                 reference: op.get(properties, [p, 'values', v, 'db_value'])
                             })
@@ -103,7 +103,7 @@ function getEntity(id, authId, authToken) {
                             op.push(entity, ['properties', p], {
                                 id: op.get(properties, [p, 'values', v, 'id']),
                                 created: op.get(properties, [p, 'values', v, 'created']),
-                                created_by: op.get(properties, [p, 'values', v, 'created_by']),
+                                'created_by': op.get(properties, [p, 'values', v, 'created_by']),
                                 value: op.get(properties, [p, 'values', v, 'value']),
                             })
                         }

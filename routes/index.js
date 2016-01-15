@@ -9,18 +9,18 @@ var mapper  = require('../helpers/mapper')
 
 
 var featured = []
-var program_upcoming = {}
-var tours_upcoming = {}
-var residency_past = {}
+var programUpcoming = {}
+var toursUpcoming = {}
+var residencyPast = {}
 var sideBanner
 
 router.get('/', function(req, res) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
     res.render('index', {
         'featured': featured,
-        'program': program_upcoming,
-        'tours': tours_upcoming,
-        'residencies': residency_past,
+        'program': programUpcoming,
+        'tours': toursUpcoming,
+        'residencies': residencyPast,
         'sideBanner': sideBanner,
         path: req.path
     })
@@ -57,7 +57,7 @@ function prepareFeatured(callback) {
 
 // Upcoming events
 function prepareUpcomingEvents(callback) {
-    program_upcoming = {}
+    programUpcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
         if (event['start-time']) {
@@ -65,11 +65,11 @@ function prepareUpcomingEvents(callback) {
                 return callback()
             }
             // debug(new Date().toJSON(), event['start-time'], new Date(event['start-time']).toJSON())
-            var event_date = (event['start-time']).slice(0,10)
-            var event_time = (event['start-time']).slice(11,16)
-            op.set(event, 'event-date', event_date)
-            op.set(event, 'event-time', event_time)
-            op.push(program_upcoming, [event_date, event_time], event)
+            var eventDate = (event['start-time']).slice(0,10)
+            var eventTime = (event['start-time']).slice(11,16)
+            op.set(event, 'event-date', eventDate)
+            op.set(event, 'event-time', eventTime)
+            op.push(programUpcoming, [eventDate, eventTime], event)
         }
         callback()
     }, function(err) {
@@ -85,16 +85,16 @@ function prepareUpcomingEvents(callback) {
 
 // Upcoming tours
 function prepareUpcomingTours(callback) {
-    tours_upcoming = {}
+    toursUpcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'tour']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
         if (event['start-time']) {
-            var event_date = (event['start-time']).slice(0,10)
-            var event_time = (event['start-time']).slice(11,16)
-            op.set(event, 'event-date', event_date)
-            op.set(event, 'event-time', event_time)
-            op.push(tours_upcoming, [event_date, event_time], event)
+            var eventDate = (event['start-time']).slice(0,10)
+            var eventTime = (event['start-time']).slice(11,16)
+            op.set(event, 'event-date', eventDate)
+            op.set(event, 'event-time', eventTime)
+            op.push(toursUpcoming, [eventDate, eventTime], event)
         }
         callback()
     }, function(err) {
@@ -110,16 +110,16 @@ function prepareUpcomingTours(callback) {
 
 // Past residency
 function preparePastResidency(callback) {
-    residency_past = {}
+    residencyPast = {}
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // console.log(JSON.stringify(event, null, 2))
         if (event['start-time']) {
-            var event_date = (event['start-time']).slice(0,10)
-            var event_time = (event['start-time']).slice(11,16)
-            op.set(event, 'event-date', event_date)
-            op.set(event, 'event-time', event_time)
-            op.push(residency_past, [event_date, event_time], event)
+            var eventDate = (event['start-time']).slice(0,10)
+            var eventTime = (event['start-time']).slice(11,16)
+            op.set(event, 'event-date', eventDate)
+            op.set(event, 'event-time', eventTime)
+            op.push(residencyPast, [eventDate, eventTime], event)
         }
         callback()
     }, function(err) {

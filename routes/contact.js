@@ -7,22 +7,22 @@ var async   = require('async')
 
 var mapper  = require('../helpers/mapper')
 
-var prepped_users = []
+var preppedUsers = []
 
 router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     res.render('contact', {
-    	'users': prepped_users
+    	'users': preppedUsers
     })
     res.end()
 })
 
 // Users
 function prepareUsers(callback) {
-    prepped_users = []
+    preppedUsers = []
     async.each(SDC.get(['local_entities', 'by_definition', 'person'], []), function(entity, callback) {
-        prepped_users.push(mapper.user(entity.id))
+        preppedUsers.push(mapper.user(entity.id))
         callback()
     }, function(err) {
         if (err) {

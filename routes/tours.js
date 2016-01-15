@@ -11,7 +11,7 @@ var helper  = require('../helpers/helper')
 function renderTours(res, year, month) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
-    var tours_a = {}
+    var toursA = {}
     async.each(SDC.get(['local_entities', 'by_class', 'tour']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // console.log(JSON.stringify(event, null, 2))
@@ -26,11 +26,11 @@ function renderTours(res, year, month) {
                 return callback()
             }
 
-            var event_date = (event['start-time']).slice(0,10)
-            var event_time = (event['start-time']).slice(11,16)
-            op.set(event, 'event-date', event_date)
-            op.set(event, 'event-time', event_time)
-            op.push(tours_a, [event_date, event_time], event)
+            var eventDate = (event['start-time']).slice(0,10)
+            var eventTime = (event['start-time']).slice(11,16)
+            op.set(event, 'event-date', eventDate)
+            op.set(event, 'event-time', eventTime)
+            op.push(toursA, [eventDate, eventTime], event)
         }
         callback()
     }, function(err) {
@@ -41,7 +41,7 @@ function renderTours(res, year, month) {
         }
         res.render('tours', {
             'monthNav': helper.monthNav(year, month),
-            'tours': tours_a,
+            'tours': toursA,
         })
         res.end()
     })
@@ -66,11 +66,11 @@ router.prepare = function prepare(callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
         if (event['start-time']) {
-            var event_date = (event['start-time']).slice(0,10)
-            var event_time = (event['start-time']).slice(11,16)
-            op.set(event, 'event-date', event_date)
-            op.set(event, 'event-time', event_time)
-            op.push(tours_upcoming, [event_date, event_time], event)
+            var eventDate = (event['start-time']).slice(0,10)
+            var eventTime = (event['start-time']).slice(11,16)
+            op.set(event, 'event-date', eventDate)
+            op.set(event, 'event-time', eventTime)
+            op.push(tours_upcoming, [eventDate, eventTime], event)
         }
         callback()
     }, function(err) {

@@ -8,15 +8,15 @@ var mapper  = require('../helpers/mapper')
 
 router.get('/:id', function(req, res) {
 
-    var event_eid = req.path.split('/')[1]
-    var event = mapper.event(event_eid)
+    var eventEid = req.path.split('/')[1]
+    var event = mapper.event(eventEid)
 
     var rootCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'rootCategory'], {}))
         .map(function(eId) {
             var mappedCategory = mapper.category(eId)
             eId = String(eId)
             mappedCategory.checked = false
-            var eventCatIds = SDC.get(['relationships', event_eid, 'category'], [])
+            var eventCatIds = SDC.get(['relationships', eventEid, 'category'], [])
             // debug(eventCatIds, eventCatIds.indexOf(eId), eId)
             if (eventCatIds.indexOf(eId) > -1) {
                 mappedCategory.checked = true

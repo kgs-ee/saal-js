@@ -68,11 +68,11 @@ block content
                             .col-xs-12.col-md-12.col-lg-12
                                 hr                  
                     
-                if past_events.length
+                if pastEvents.length
                     .past
                         h2= t('title.past')
                         .row
-                            each event in past_events
+                            each event in pastEvents
                                 .col-md-3
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
                                 .col-md-8

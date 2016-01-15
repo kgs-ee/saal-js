@@ -8,20 +8,20 @@ var mapper  = require('../helpers/mapper')
 
 router.get('/:id', function(req, res) {
 
-    var performance_eid = req.path.split('/')[1]
-    var performance = mapper.performance(performance_eid)
+    var performanceEid = req.path.split('/')[1]
+    var performance = mapper.performance(performanceEid)
     // debug(JSON.stringify(performance, null, 4))
     var events = []
-    var past_events = []
-    var coverages = mapper.coverageByPerformanceSync(performance_eid)
-    SDC.get(['relationships', performance_eid, 'event'], [])
+    var pastEvents = []
+    var coverages = mapper.coverageByPerformanceSync(performanceEid)
+    SDC.get(['relationships', performanceEid, 'event'], [])
     .map(function(eId) { return mapper.event(eId) })
     .sort(function(a, b) { return (new Date(a['start-time'])) > (new Date(b['start-time'])) })
     .forEach(function(event) {
         if (new Date() < new Date(event['start-time'])) {
             events.push(event)
         } else {
-            past_events.push(event)
+            pastEvents.push(event)
         }
     })
 
@@ -30,7 +30,7 @@ router.get('/:id', function(req, res) {
             var mappedCategory = mapper.category(eId)
             eId = String(eId)
             mappedCategory.checked = false
-            var perfCatIds = SDC.get(['relationships', performance_eid, 'category'], [])
+            var perfCatIds = SDC.get(['relationships', performanceEid, 'category'], [])
             // debug(perfCatIds, perfCatIds.indexOf(eId), eId)
             if (perfCatIds.indexOf(eId) > -1) {
                 mappedCategory.checked = true
@@ -43,7 +43,7 @@ router.get('/:id', function(req, res) {
     res.render('performance', {
         'performance': performance,
         'events': events,
-        'past_events': past_events,
+        'pastEvents': pastEvents,
         'coverage': coverages,
         'id': performance.id,
         'rootCategories': rootCategories

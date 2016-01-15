@@ -9,15 +9,15 @@ var helper  = require('../helpers/helper')
 
 function renderProgram(res, year, month, categories) {
     // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
-    var all_categories = SDC.get(['local_entities', 'by_class', 'rootCategory'], {})
+    var allCategories = SDC.get(['local_entities', 'by_class', 'rootCategory'], {})
     if (!categories) {
-        categories = Object.keys(all_categories).map( function(key) { return parseInt(key, 10) })
+        categories = Object.keys(allCategories).map( function(key) { return parseInt(key, 10) })
     } else {
         categories = categories.split(',').map(function(eid) { return parseInt(eid, 10) })
     }
     categories.sort(function(a,b) { return a-b })
 
-    var program_a = {}
+    var programA = {}
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // console.log(JSON.stringify(event, null, 2))
@@ -53,11 +53,11 @@ function renderProgram(res, year, month, categories) {
             return callback()
         }
 
-        var event_date = (event['start-time']).slice(0,10)
-        var event_time = (event['start-time']).slice(11,16)
-        op.set(event, 'event-date', event_date)
-        op.set(event, 'event-time', event_time)
-        op.push(program_a, [event_date, event_time], event)
+        var eventDate = (event['start-time']).slice(0,10)
+        var eventTime = (event['start-time']).slice(11,16)
+        op.set(event, 'event-date', eventDate)
+        op.set(event, 'event-time', eventTime)
+        op.push(programA, [eventDate, eventTime], event)
 
         callback()
     }, function(err) {
@@ -69,8 +69,8 @@ function renderProgram(res, year, month, categories) {
         res.render('program', {
             'monthNav': helper.monthNav(year, month),
             'categories': categories,
-            'all_categories': all_categories,
-            'program': program_a,
+            'all_categories': allCategories,
+            'program': programA,
             'arraySubtract': helper.arraySubtract,
         })
         res.end()

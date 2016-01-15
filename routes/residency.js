@@ -30,13 +30,13 @@ function prepareResidency(callback) {
             debug('Skipping residency eid=' + event.id + ' because missing location.')
             return callback()
         }
-        var event_date = op.get(event, ['start-time'].slice(0,10))
-        var location_eid = op.get(event, ['saal-location', 'id'])
-        op.set(residency, [location_eid], op.get(residency, [location_eid], mapper.location(location_eid)))
-        op.set(residency, [location_eid, 'events', event_date], op.get(residency, [location_eid, 'events', event_date], []))
+        var eventDate = op.get(event, ['start-time'].slice(0,10))
+        var locationEid = op.get(event, ['saal-location', 'id'])
+        op.set(residency, [locationEid], op.get(residency, [locationEid], mapper.location(locationEid)))
+        op.set(residency, [locationEid, 'events', eventDate], op.get(residency, [locationEid, 'events', eventDate], []))
         // debug(JSON.stringify(residency, null, 2))
         // debug(JSON.stringify(event, null, 2))
-        op.push(residency, [location_eid, 'events', event_date], event)
+        op.push(residency, [locationEid, 'events', eventDate], event)
         callback()
     }, function(err) {
         if (err) {

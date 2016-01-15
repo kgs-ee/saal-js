@@ -7,8 +7,8 @@ var mapper  = require('../helpers/mapper')
 
 router.get('/:id', function(req, res) {
 
-    var event_eid = req.path.split('/')[1]
-    var event = mapper.event(event_eid)
+    var eventEid = req.path.split('/')[1]
+    var event = mapper.event(eventEid)
 
     res.render('resident', {
         'event': event,

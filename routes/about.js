@@ -8,44 +8,43 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 
-var prepped_news = {}
-var prepped_locations = []
-var prepped_supporters = {}
+var preppedNews = {}
+var preppedLocations = []
+var preppedSupporters = {}
 
 router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     //debug(op.get(SDC.get(['root', 'gallery'], []))
 
     res.render('about', {
-    	'news'       : prepped_news,
-    	'locations'  : prepped_locations,
-    	'supporters' : prepped_supporters,
+    	'news'       : preppedNews,
+    	'locations'  : preppedLocations,
+    	'supporters' : preppedSupporters,
     })
     res.end()
-    // debug(JSON.stringify(prepped_locations, null, 4))
+    // debug(JSON.stringify(preppedLocations, null, 4))
 })
 
 // News
 function prepareNews(callback) {
-    var display_top_news_count = 5
+    var displayTopNewsCount = 5
     var news_eids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'], {})).filter(function (eid) {
         if (SDC.get(['local_entities', 'by_eid', eid, 'properties', 'time', 'value'], false) === false) { return false }
         return true
     })
     news_eids.sort(function(a, b) {
-        var a_date = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 'value']))
-        var b_date = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 'value']))
-        // debug(a, a_date, b, b_date, a_date < b_date)
-        return (a_date < b_date)
+        var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 'value']))
+        var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 'value']))
+        // debug(a, aDate, b, bDate, aDate < bDate)
+        return (aDate < bDate)
     })
-    prepped_news = {}
-    async.each(news_eids.slice(0, display_top_news_count), function(eid, callback) {
+    preppedNews = {}
+    async.each(news_eids.slice(0, displayTopNewsCount), function(eid, callback) {
         var news = mapper.news(eid)
         if (!news.time) { return callback() }
         // debug(JSON.stringify(news, null, 2))
-        var news_date = op.get(news, ['time']).slice(0,10)
-        // var news_time = news.time.slice(11,16)
-        op.push(prepped_news, news_date, news)
+        var newsDate = op.get(news, ['time']).slice(0,10)
+        op.push(preppedNews, newsDate, news)
         callback()
     }, function(err) {
         if (err) {
@@ -58,11 +57,11 @@ function prepareNews(callback) {
 
 // Locations
 function prepareLocations(callback) {
-    prepped_locations = []
+    preppedLocations = []
     async.each(SDC.get(['local_entities', 'by_class', 'location'], []), function(entity, callback) {
         var location = mapper.location(entity.id)
         if (!location.floorplan) { return callback() }
-        prepped_locations.push(location)
+        preppedLocations.push(location)
         callback()
     }, function(err) {
         if (err) {
@@ -80,14 +79,14 @@ function prepareSupporters(callback) {
         2788: 'big',
         2787: 'small'
     }
-    prepped_supporters = {}
+    preppedSupporters = {}
     async.each(SDC.get(['local_entities', 'by_class', 'supporters'], []), function(entity, callback) {
         var supporter = mapper.banner(entity.id)
         // debug('supporter', JSON.stringify(supporter, null, 4))
         op.get(supporter, ['type'], []).forEach(function(type) {
-            var banner_size = op.get(BANNER_SIZES, type, false)
-            if (!banner_size) { return }
-            op.push(prepped_supporters, [banner_size, 'banners'], supporter)
+            var bannerSize = op.get(BANNER_SIZES, type, false)
+            if (!bannerSize) { return }
+            op.push(preppedSupporters, [bannerSize, 'banners'], supporter)
         })
         callback()
     }, function(err) {
@@ -95,7 +94,7 @@ function prepareSupporters(callback) {
             debug('Failed to prepare supporters.', err)
             return callback(err)
         }
-        // debug('Supporters prepared.', JSON.stringify(prepped_supporters, null, 4))
+        // debug('Supporters prepared.', JSON.stringify(preppedSupporters, null, 4))
         callback()
     })
 }

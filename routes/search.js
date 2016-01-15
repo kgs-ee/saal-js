@@ -41,12 +41,12 @@ router.get('/', function(req, res, next) {
         })
         res.end()
     } else if (query.split(':')[0] === 'category') {
-        var performances = []
-        var q_category = query.split(':')
-        q_category.shift()
-        q_category = q_category.join(':').toLowerCase()
-        q_category = q_category.split(',')
-        var queryCategory = q_category.map(function(eId) {
+        // var performances = []
+        var qCategory = query.split(':')
+        qCategory.shift()
+        qCategory = qCategory.join(':').toLowerCase()
+        qCategory = qCategory.split(',')
+        var queryCategory = qCategory.map(function(eId) {
             return op.get(mapper.category(eId), [res.locals.lang + '-name'])
         })
         debug('Looking for category "' + queryCategory + '"')
@@ -56,7 +56,7 @@ router.get('/', function(req, res, next) {
             'performances': [],
             'events': []
         }
-        async.each(q_category, function(catEid, CB1) {
+        async.each(qCategory, function(catEid, CB1) {
             async.each(SDC.get(['relationships', catEid, 'event']), function(eventEid, CB2) {
                 op.push(results, ['events'], mapper.event(eventEid))
                 debug('Add event', eventEid)
