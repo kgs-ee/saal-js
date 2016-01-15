@@ -16,5 +16,5 @@ block content
                         each performance in performances
                             a.col-xs-12.col-sm-4.col-md-3.col-lg-2.co-production(href='/' + lang + '/performance/' + op.get(performance,'id'))
                                 img.img-responsive(src=op.get(performance, ['photos', 0, 'medium', 'file']))
-                                p= op.get(performance, ['artist'], '')
+                                p.artist= op.get(performance, ['artist'], '')
                                 p= op.get(performance, [lang+'-name'], '')
