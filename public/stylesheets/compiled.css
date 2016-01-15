@@ -3318,11 +3318,13 @@ a.logo:hover {
 	padding: 6px 12px;*/
 }
 
-.resident {
+.resident,
+.co-production {
   margin-bottom: 4em;
 }
 
-.resident img {
+.resident img,
+.co-production img {
   margin-bottom: 1em;
 }
 
