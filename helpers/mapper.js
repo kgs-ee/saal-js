@@ -153,8 +153,13 @@ function mapPerformance(eid) {
     entityOut.set('artist', opEntity.get('properties.artist.value'))
     entityOut.set('producer', opEntity.get('properties.producer.value'))
     entityOut.set('town', opEntity.get('properties.town.value'))
-    entityOut.set('photo', opEntity.get('properties.photo.0'))
-    entityOut.set('photos', opEntity.get('properties.photo'))
+    entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
+    entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
+        return {
+            medium: phm,
+            big: opEntity.get(['properties', 'photo-big', ix])
+        }
+    }))
     entityOut.set('audio', opEntity.get('properties.audio.value'))
     entityOut.set('video', opEntity.get('properties.video.value'))
     entityOut.set('featured', opEntity.get('properties.featured.value') === 'True')
