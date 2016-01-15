@@ -6229,12 +6229,12 @@ footer {
   text-transform: uppercase;
 }
 
-.town:before,
 .producer:before {
   content: ' / ';
   font-weight: normal;
 }
 
+.town,
 .subtitle {
   display: block;
   font-size: 1em;
@@ -6242,7 +6242,29 @@ footer {
 }
 
 @media (min-width: 768px) {
+  .town,
   .subtitle {
+    font-size: .7em;
+  }
+}
+
+.town {
+  font-size: .4em;
+  letter-spacing: 0;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.tour .town,
+.programme .town {
+  font-size: 1em;
+  line-height: 1.2em;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .tour .town,
+  .programme .town {
     font-size: .7em;
   }
 }

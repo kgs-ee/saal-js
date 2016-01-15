@@ -1118,7 +1118,6 @@ footer {
 	text-transform: uppercase;
 }
 
-.town,
 .producer {
 
 	&:before {
@@ -1127,10 +1126,30 @@ footer {
 	}
 }
 
+
+.town,
 .subtitle {
 	display: block;
 	font-size: 1em;
 	line-height: 1.2em;
+
+	@media(min-width: $screen-tablet) {
+		font-size: .7em;
+	}
+}
+
+.town {
+	font-size: .4em;
+	letter-spacing: 0;
+	text-align: right;
+	text-transform: uppercase;
+}
+
+.tour .town,
+.programme .town {
+	font-size: 1em;
+	line-height: 1.2em;
+	text-align: left;
 
 	@media(min-width: $screen-tablet) {
 		font-size: .7em;
