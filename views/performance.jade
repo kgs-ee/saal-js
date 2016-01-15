@@ -16,7 +16,7 @@ block content
                     header.col-md-8
                         if op.get(performance, lang + '-subtitle', '')
                             p= op.get(performance, lang + '-subtitle', '')
-                        p
+                        h1
                             if op.get(performance, 'artist', '')
                                 span.artist= op.get(performance, 'artist', '')
                             
@@ -58,15 +58,18 @@ block content
                 if events.length
                     .tickets.row
                         each event in events
-                            .col-xs-6.col-md-6
+                            .col-xs-4.col-md-4.col-lg-4
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('dddd'))
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('HH:mm'))
-                            if SDC.get(['local_entities', 'by_class', 'tour', event.id], false)
-                                .col-xs-6.col-md-6.text-right
+                            .col-xs-3.col-md-3.col-lg-3
+                                if SDC.get(['local_entities', 'by_class', 'tour', event.id], false)
                                     p= t('button.on_tour')
+                                p= op.get(event, 'location')
+                                P= op.get(event, ['saal-location', lang + '-name'])    
+                            
                             if op.get(event, ['sales-status'])
-                                .col-xs-6.col-md-6.text-right
+                                .col-xs-5.col-md-5.col-lg-5.text-right
                                     a.btn.btn-primary(target='_blank' class=(op.get(event, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
                             .col-xs-12.col-md-12.col-lg-12

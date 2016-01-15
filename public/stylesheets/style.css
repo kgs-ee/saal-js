@@ -5644,7 +5644,7 @@ a.logo:hover {
 
 .event-banner header h1,
 .event-banner header h2 {
-  line-height: .9em;
+  line-height: .9em !important;
 }
 
 @media (min-width: 768px) {

@@ -44,6 +44,10 @@ a:hover {
   outline: 0;
 }
 
+strong {
+  font-weight: bold;
+}
+
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
@@ -343,12 +347,17 @@ ul ul {
 .col-sm-2,
 .col-md-2,
 .col-lg-2,
+.col-xs-3,
 .col-sm-3,
 .col-md-3,
 .col-lg-3,
+.col-xs-4,
 .col-sm-4,
 .col-md-4,
 .col-lg-4,
+.col-xs-5,
+.col-md-5,
+.col-lg-5,
 .col-xs-6,
 .col-sm-6,
 .col-md-6,
@@ -368,9 +377,24 @@ ul ul {
   padding-right: 15px;
 }
 
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
 .col-xs-6,
 .col-xs-12 {
   float: left;
+}
+
+.col-xs-3 {
+  width: 25%;
+}
+
+.col-xs-4 {
+  width: 33.33333%;
+}
+
+.col-xs-5 {
+  width: 41.66667%;
 }
 
 .col-xs-6 {
@@ -420,6 +444,7 @@ ul ul {
   .col-md-2,
   .col-md-3,
   .col-md-4,
+  .col-md-5,
   .col-md-6,
   .col-md-8,
   .col-md-10,
@@ -437,6 +462,10 @@ ul ul {
 
   .col-md-4 {
     width: 33.33333%;
+  }
+
+  .col-md-5 {
+    width: 41.66667%;
   }
 
   .col-md-6 {
@@ -465,6 +494,7 @@ ul ul {
   .col-lg-2,
   .col-lg-3,
   .col-lg-4,
+  .col-lg-5,
   .col-lg-6,
   .col-lg-9,
   .col-lg-11,
@@ -486,6 +516,10 @@ ul ul {
 
   .col-lg-4 {
     width: 33.33333%;
+  }
+
+  .col-lg-5 {
+    width: 41.66667%;
   }
 
   .col-lg-6 {
@@ -3007,7 +3041,7 @@ a.logo:hover {
 }
 
 .event-banner header h1 {
-  line-height: .9em;
+  line-height: .9em !important;
 }
 
 @media (min-width: 768px) {
@@ -3465,7 +3499,6 @@ a.logo:hover {
   }
 }
 
-.press,
 .gallery {
   margin-top: 4em;
 }

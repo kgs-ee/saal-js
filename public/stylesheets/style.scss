@@ -492,7 +492,7 @@ a.logo {
 
 		h1,
 		h2 {
-			line-height: .9em;
+			line-height: .9em !important;
 			//padding-top: .2em;
 		}
 		@media (min-width: $screen-tablet) {
