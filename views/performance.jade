@@ -102,8 +102,8 @@ block content
                             .row
                                 each photo in op.get(performance, 'photos', [])
                                     .single-image.col-xs-6.col-sm-3.col-md-4
-                                          a.fancybox(rel='gallery' href=''+ photo-medium.file + '')
-                                            img(src=''+ photo-big.file +'' class='img-responsive')
+                                          a.fancybox(rel='gallery' href=''+ photo-big.file + '')
+                                            img(src=''+ photo-medium.file +'' class='img-responsive')
 
                 .col-md-6
                   if coverage.length
