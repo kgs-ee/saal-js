@@ -15,7 +15,16 @@ block content
                         figure(id='slide-'+op.get(event, 'id')+'' style='background-image:url("/images/placeholder.jpg");')
                     header.col-md-8
                         p= (moment(op.get(event,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
-                        h1= op.get(event, lang + '-name')
+                        
+                        h1
+                            if op.get(event, lang + '-subtitle', '')
+                                span.subtitle= op.get(event, lang + '-subtitle', '')
+                                
+                            if op.get(event, 'resident', false)
+                                span.artist= op.get(event, 'resident', '')
+                                
+                            if op.get(event, lang + '-name')
+                                span.name= op.get(event, lang + '-name')
 
                     ul.event-categories
                         each rootCategory in rootCategories

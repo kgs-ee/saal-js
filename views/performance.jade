@@ -46,14 +46,8 @@ block content
 
         .row.front-page-margin
             aside.video-sound.col-md-12.col-lg-3
-                if op.get(performance, 'audio')
-                    div
-                        h2= t('title.sound')
-                        div!= op.get(performance, 'audio')
-                if op.get(performance, 'video')
-                    div
-                        h2= t('title.video')
-                        div!= op.get(performance, 'video')
+                if op.get(performance, lang + '-technical-information')
+                    .meta-info!= op.get(performance, lang + '-technical-information') 
 
             article.readMore.main-text.col-md-8.col-lg-6.h3!= op.get(performance, lang + '-description')
 
@@ -75,10 +69,7 @@ block content
                                     a.btn.btn-primary(target='_blank' class=(op.get(event, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
                             .col-xs-12.col-md-12.col-lg-12
-                                hr
-                
-                if op.get(performance, lang + '-technical-information')
-                    .meta-info!= op.get(performance, lang + '-technical-information')                    
+                                hr                  
                     
                 if past_events.length
                     .past
@@ -92,6 +83,15 @@ block content
                                 .col-md-12
                                     hr
     
+        .row.page-margin
+            if op.get(performance, 'audio')
+                div.col-xs-6.col-md-6
+                    h2= t('title.sound')
+                    div!= op.get(performance, 'audio')
+            if op.get(performance, 'video')
+                div.col-xs-6.col-md-6
+                    h2= t('title.video')
+                    div!= op.get(performance, 'video')
 
         .row.page-margin
                 .col-md-6
