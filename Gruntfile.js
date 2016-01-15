@@ -57,7 +57,8 @@ module.exports = function(grunt) {
             '.tickets',
             '.projects-group img',
             '.co-production',
-            '.co-production img'
+            '.co-production img',
+            /disabled/
 
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
