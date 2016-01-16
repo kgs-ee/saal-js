@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
         return next()
     }
 
-    var fuse_options = {}
+    var fuseOptions = {}
 
     if (query.split(':')[0] === 'date') {
         var date = query.split(':')
@@ -84,7 +84,7 @@ router.get('/', function(req, res, next) {
         person.shift()
         person = person.join(':')
         debug('Looking for person "' + person + '"')
-        fuse_options = {
+        fuseOptions = {
             includeScore: true,
             keys: [
                 'name',
@@ -95,7 +95,7 @@ router.get('/', function(req, res, next) {
         results = {
             'query_type': 'person'
             , 'query_person': person
-            , 'fuse_js': new fuse(require(path.join(APP_CACHE_DIR, 'users_all.json')), fuse_options).search(person)
+            , 'fuse_js': new fuse(require(path.join(APP_CACHE_DIR, 'users_all.json')), fuseOptions).search(person)
         }
         debug(JSON.stringify(results, null, '  '))
         res.render('search', {
@@ -128,7 +128,7 @@ router.get('/', function(req, res, next) {
         })
     } else if (query) {
         // console.log('Looking for "' + query + '"')
-        fuse_options = {
+        fuseOptions = {
             caseSensitive: false,
             includeScore: true,
             shouldSort: true,
@@ -149,7 +149,7 @@ router.get('/', function(req, res, next) {
         results = {
             'query_type': 'query'
             , 'query': req.query.q
-            , 'fuse_js': new fuse(allPerformances, fuse_options).search(req.query.q)
+            , 'fuse_js': new fuse(allPerformances, fuseOptions).search(req.query.q)
             // , 'fuzzy': fuzzy.filter(req.query.q, allPerformances, fuzzy_options)
         }
         // console.log(JSON.stringify(results, null, '  '))

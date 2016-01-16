@@ -127,7 +127,7 @@ i18n.configure({
 
 
 // initialize getsentry.com client
-var raven_client = new raven.Client({
+var ravenClient = new raven.Client({
     release: APP_VERSION,
     dataCallback: function(data) {
         delete data.request.env
@@ -144,7 +144,7 @@ app
     .set('view engine', 'jade')
 
     // logs to getsentry.com - start
-    .use(raven.middleware.express.requestHandler(raven_client))
+    .use(raven.middleware.express.requestHandler(ravenClient))
 
     // cookies
     .use(cookie(APP_COOKIE_SECRET))
@@ -207,7 +207,7 @@ app
     .use('/:lang/calendar_json', require('./routes/calendar_json'))
 
     // logs to getsentry.com - error
-    .use(raven.middleware.express.errorHandler(raven_client))
+    .use(raven.middleware.express.errorHandler(ravenClient))
 
     // 404
     .use(function(req, res, next) {

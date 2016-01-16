@@ -28,18 +28,18 @@ router.get('/', function(req, res) {
 // News
 function prepareNews(callback) {
     var displayTopNewsCount = 5
-    var news_eids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'], {})).filter(function (eid) {
+    var newsEids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'], {})).filter(function (eid) {
         if (SDC.get(['local_entities', 'by_eid', eid, 'properties', 'time', 'value'], false) === false) { return false }
         return true
     })
-    news_eids.sort(function(a, b) {
+    newsEids.sort(function(a, b) {
         var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 'value']))
         var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 'value']))
         // debug(a, aDate, b, bDate, aDate < bDate)
         return (aDate < bDate)
     })
     preppedNews = {}
-    async.each(news_eids.slice(0, displayTopNewsCount), function(eid, callback) {
+    async.each(newsEids.slice(0, displayTopNewsCount), function(eid, callback) {
         var news = mapper.news(eid)
         if (!news.time) { return callback() }
         // debug(JSON.stringify(news, null, 2))

@@ -139,8 +139,8 @@ function getEntities(definition, limit, authId, authToken) {
             var entities = []
             async.eachSeries(op.get(body, 'result', []), function(e, callback) {
                 getEntity(e.id, authId, authToken)
-                .then(function(op_entity) {
-                    entities.push(op_entity)
+                .then(function(opEntity) {
+                    entities.push(opEntity)
                     callback()
                 })
             }, function(error) {
@@ -188,9 +188,9 @@ function getChilds(parentEid, definition, authId, authToken) {
                     var loop = ['result', definition, 'entities']
                     async.each(op.get(body, loop, []), function(e, eachCB) {
                         getEntity(e.id, authId, authToken)
-                        .then(function(child_e) {
-                            child_e.set('_display', {name: e.name, info: e.info})
-                            childs.push(child_e)
+                        .then(function(childE) {
+                            childE.set('_display', {name: e.name, info: e.info})
+                            childs.push(childE)
                             eachCB()
                         })
                     }, function gotByDef(error) {

@@ -18,11 +18,11 @@ module.exports.monthNav = function monthNav(year, month) {
 }
 
 module.exports.arraySubtract = function arraySubtract(arr, val) {
-    var ret_arr = []
+    var retArr = []
     arr.forEach(function(el) {
         if (String(val) !== String(el)) {
-            ret_arr.push(el)
+            retArr.push(el)
         }
     })
-    return ret_arr
+    return retArr
 }

@@ -61,7 +61,7 @@ router
     })
 
 router.prepare = function prepare(callback) {
-    var tours_upcoming = {}
+    var toursUpcoming = {}
     async.each(SDC.get(['local_entities', 'by_class', 'tour']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // debug(JSON.stringify(event, null, 2))
@@ -70,7 +70,7 @@ router.prepare = function prepare(callback) {
             var eventTime = (event['start-time']).slice(11,16)
             op.set(event, 'event-date', eventDate)
             op.set(event, 'event-time', eventTime)
-            op.push(tours_upcoming, [eventDate, eventTime], event)
+            op.push(toursUpcoming, [eventDate, eventTime], event)
         }
         callback()
     }, function(err) {

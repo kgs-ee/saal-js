@@ -23,8 +23,8 @@ function renderProgram(res, year, month, categories) {
         // console.log(JSON.stringify(event, null, 2))
         if (!event['start-time']) { return callback() }
 
-        var performance_eid = op.get(event, ['performance', 'id'])
-        var perfCatIds = SDC.get(['relationships', performance_eid, 'category'], []).map(function(eId) { return parseInt(eId, 10) })
+        var performanceEid = op.get(event, ['performance', 'id'])
+        var perfCatIds = SDC.get(['relationships', performanceEid, 'category'], []).map(function(eId) { return parseInt(eId, 10) })
         // debug('a', perfCatIds, pr_categories)
         perfCatIds.sort(function(a,b) { return a-b })
 
