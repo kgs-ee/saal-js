@@ -50,9 +50,9 @@ function renderProgram(res, year, month, categories) {
         }
 
         if (intersects) {
-            console.log(event.id + '[performance_eid]', categories, ' intersects ', JSON.stringify(perfCatIds))
+            // console.log(event.id + '[performance_eid]', categories, ' intersects ', JSON.stringify(perfCatIds))
         } else {
-            console.log(event.id + '[performance_eid]', categories, ' doesnot intersect ', JSON.stringify(perfCatIds))
+            // console.log(event.id + '[performance_eid]', categories, ' doesnot intersect ', JSON.stringify(perfCatIds))
             return callback()
         }
 
