@@ -35,12 +35,14 @@ block content
                 .row
                     .col-sm-12.col-md-12.col-lg-12
                         ul.pager
-                            li.previous
-                                a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))
-                                    span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                            li.next
-                                a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month + '/' + categories.join(','))
-                                    span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
+                            if monthNav.prev.year > 2015
+                                li.previous
+                                    a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))
+                                        span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
+                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
+                                li.next
+                                    a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month + '/' + categories.join(','))
+                                        span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
 
             .col-md-12
                 .programme.row
@@ -142,9 +144,11 @@ block content
                 .row
                     .col-sm-12.col-md-12.col-lg-12
                         ul.pager
-                            li.previous
-                                a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))
-                                    span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                            li.next
-                                a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month + '/' + categories.join(','))
-                                    span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
+                            if monthNav.prev.year > 2015
+                                li.previous
+                                    a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))
+                                        span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
+                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
+                                li.next
+                                    a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month + '/' + categories.join(','))
+                                        span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'

@@ -18,10 +18,13 @@ function renderProgram(res, year, month, categories) {
     categories.sort(function(a,b) { return a-b })
 
     var programA = {}
+    var maxDate = new Date()
     async.each(SDC.get(['local_entities', 'by_class', 'program']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // console.log(JSON.stringify(event, null, 2))
         if (!event['start-time']) { return callback() }
+
+        if (new Date(event['start-time']) > maxDate) { maxDate = new Date(event['start-time']) }
 
         var performanceEid = op.get(event, ['performance', 'id'])
         var perfCatIds = SDC.get(['relationships', performanceEid, 'category'], []).map(function(eId) { return parseInt(eId, 10) })
@@ -72,6 +75,7 @@ function renderProgram(res, year, month, categories) {
             'all_categories': allCategories,
             'program': programA,
             'arraySubtract': helper.arraySubtract,
+            'maxDate': maxDate
         })
         res.end()
     })
