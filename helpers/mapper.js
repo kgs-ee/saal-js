@@ -82,7 +82,7 @@ function mapEvent(eid) {
     entityOut.set('onsite-price', opEntity.get(['properties', 'onsite-price', 'value']))
     entityOut.set('min-price', opEntity.get('properties.min-price.value'))
     entityOut.set('max-price', opEntity.get('properties.max-price.value'))
-    entityOut.set('ticket-api', opEntity.get('properties.ticket-api.value'))
+    entityOut.set('ticket-api', opEntity.get('properties.pl-link.value'))
     entityOut.set('sales-status', opEntity.get('properties.sales-status.value'))
     entityOut.set('en-technical-information', opEntity.get('properties.en-technical-information.md'))
     entityOut.set('et-technical-information', opEntity.get('properties.et-technical-information.md'))

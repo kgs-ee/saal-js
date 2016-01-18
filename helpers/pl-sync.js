@@ -244,9 +244,9 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             // }
         } else if (eItem.definition === 'performance') { // PL 'show'
             // debug ('photo-url', op.get(plItem, ['originalImageUrl'], '') )
-            compare ( eItem, 'photo-url', op.get(plItem, ['originalImageUrl'], '') )
-            compare ( eItem, 'thumb-url', op.get(plItem, ['shortImageUrl'], '') )
-            compare ( eItem, 'pl-link', op.get(plItem, ['mobileUrl'], '') )
+            compare( eItem, 'photo-url', op.get(plItem, ['originalImageUrl'], '') )
+            compare( eItem, 'thumb-url', op.get(plItem, ['shortImageUrl'], '') )
+            compare( eItem, 'pl-link', op.get(plItem, ['url'], '') )
             compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
             compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
             compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
@@ -258,13 +258,14 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             compareDates( eItem, 'end-time', op.get(plItem, ['endTimestamp'], 0) )
             compareDates( eItem, 'sales-time', op.get(plItem, ['salesTimestamp'], 0) )
             compare( eItem, 'sales-status', op.get(plItem, ['salesStatus'], '') )
-            compare( eItem, 'pl-link', op.get(plItem, ['shopUrl'], '') )
             compare( eItem, 'min-price', op.get(plItem, ['minPrice'], '') )
             compare( eItem, 'max-price', op.get(plItem, ['maxPrice'], '') )
             // if (doFullSync) {
             //     debug ('doFullSync', JSON.stringify(eItem, null, 4), JSON.stringify(plItem, null, 4))
             // }
             compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
+            compare( eItem, 'ticket-api', op.get(plItem, ['shopUrl'], '') )
+            compare( eItem, 'pl-link', op.get(plItem, ['shopUrl'], '') )
             compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
             compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
             compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
