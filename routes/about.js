@@ -80,9 +80,10 @@ function prepareSupporters(callback) {
         2787: 'small'
     }
     preppedSupporters = {}
-    async.each(SDC.get(['local_entities', 'by_class', 'supporters'], []), function(entity, callback) {
-        var supporter = mapper.banner(entity.id)
-        // debug('supporter', JSON.stringify(supporter, null, 4))
+    var supporters = Object.keys(SDC.get(['local_entities', 'by_class', 'supporters'], {}))
+        .map(function(eId) { return mapper.banner(eId) })
+        .sort(function(a, b) { return op.get(a, ['ordinal'], 0) > op.get(b, ['ordinal'], 0) })
+    async.each(supporters, function(supporter, callback) {
         op.get(supporter, ['type'], []).forEach(function(type) {
             var bannerSize = op.get(BANNER_SIZES, type, false)
             if (!bannerSize) { return }

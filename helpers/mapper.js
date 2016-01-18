@@ -241,7 +241,7 @@ function mapBanner(eid) {
     entityOut.set('id', opEntity.get('id'))
     entityOut.set('photos', opEntity.get(['properties', 'photo']))
     entityOut.set('name', opEntity.get(['properties', 'name', 'value']))
-    entityOut.set('ordinal', opEntity.get(['properties', 'ordinal', 'value']))
+    entityOut.set('ordinal', opEntity.get(['properties', 'ordinal', 'value'], 0))
     entityOut.set('url', opEntity.get(['properties', 'url', 'value']))
     entityOut.set('start', opEntity.get(['properties', 'start', 'value']))
     entityOut.set('end', opEntity.get(['properties', 'end', 'value']))
