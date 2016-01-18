@@ -115,6 +115,7 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
                         op.set(PLConcerts, [item.id, 'endTimestamp'], parseInt(item.endTime.stamp, 10))
                         op.set(PLConcerts, [item.id, 'salesTimestamp'], parseInt(item.salesTime.stamp, 10))
                         op.set(PLConcerts, [item.id, 'salesStatus'], item.salesStatus)
+                        op.set(PLConcerts, [item.id, 'shopUrl'], item.shopUrl)
                         op.set(PLConcerts, [item.id, 'minPrice'], item.minPrice)
                         op.set(PLConcerts, [item.id, 'maxPrice'], item.maxPrice)
                         break
@@ -257,6 +258,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             compareDates( eItem, 'end-time', op.get(plItem, ['endTimestamp'], 0) )
             compareDates( eItem, 'sales-time', op.get(plItem, ['salesTimestamp'], 0) )
             compare( eItem, 'sales-status', op.get(plItem, ['salesStatus'], '') )
+            compare( eItem, 'pl-link', op.get(plItem, ['shopUrl'], '') )
             compare( eItem, 'min-price', op.get(plItem, ['minPrice'], '') )
             compare( eItem, 'max-price', op.get(plItem, ['maxPrice'], '') )
             // if (doFullSync) {
