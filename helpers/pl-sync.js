@@ -31,7 +31,7 @@ syncWaterfall.push(function startSync(callback) {
 // Fetch from PL
 syncWaterfall.push(function fetchFromPL(callback) {
     debug('Fetch from Piletilevi')
-    var url = 'http://www.piletilevi.ee/api/action/filter/?types=category,show,concert,venue&export=venue&order=date,desc&filter=venueId/245;concertActive&limit=10000&start=0&language='
+    var url = 'http://www.piletilevi.ee/api/action/filter/?types=category,show,concert,venue&export=venue&order=date,desc&filter=venueId/245;concertActive&limit=10000&start=0&shop_provider=kanutigs&language='
     var PLData = {}
     async.each(plLanguages, function(plLanguage, callback) {
         request({
