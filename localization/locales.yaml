@@ -111,6 +111,14 @@ error:
     program_upcoming is not defined:
         en: Loading data. Should be ready in a minute
         et: Laadin andmeid. Minuti pärast peaks valmis olema
+label:
+    duration:
+        et: Kestus
+        en: Duration
+    minutes:
+        short:
+            et: min
+            en: min
 lang:
     en:
         en: EN

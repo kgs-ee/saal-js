@@ -89,6 +89,7 @@ function mapEvent(eid) {
 
     entityOut.set('start-time', opEntity.get('properties.start-time.value'))
     entityOut.set('end-time', opEntity.get('properties.end-time.value'))
+    entityOut.set('duration', opEntity.get('properties.duration.value'))
 
     var performanceId = opEntity.get('properties.performance.reference')
     if (performanceId) {

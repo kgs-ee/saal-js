@@ -204,7 +204,6 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
             idPLs.forEach(function(idPL) { compareReference(eItem, propertyName, idPL) })
         }
         function compareReference(eItem, propertyName, idPL) {
-            removeIfMultiProperty(eItem, propertyName)
             var propertyEid = op.get(eItem, ['properties', propertyName, 'id'], false)
             var idEntu = Number(op.get(eItem, ['properties', propertyName, 'reference'], 0))
             if (idEntu > 0 && op.get(eItem, ['properties', propertyName, 'created_by'], false) !== String(APP_ENTU_USER)) { return }

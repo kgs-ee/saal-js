@@ -224,6 +224,17 @@ cacheSeries.push(function fetchFromEntu(callback) {
             relate(opEntity.get('id'), 'performance', perfRef, 'event')
         }
 
+        // Calculate duration of event
+        var duration = (
+            (   ( new Date(opEntity.get(['properties', 'end-time', 'value'], 0)) ).getTime()
+                -
+                ( new Date(opEntity.get(['properties', 'start-time', 'value'], 0)) ).getTime()
+            ) / 1e3 / 60)
+        if (duration > 0) {
+            // debug(new Date(opEntity.get(['properties', 'start-time', 'value'], 0)), new Date(opEntity.get(['properties', 'end-time', 'value'], 0)))
+            opEntity.set(['properties', 'duration', 'value'], duration)
+        }
+
         // Relate all related categories
         var categoryRefs = opEntity.get(['properties', 'category'], [])
         categoryRefs.forEach(function(categoryRef) {

@@ -43,8 +43,10 @@ block content
 
         .row.front-page-margin
             aside.col-md-12.col-lg-3
-                if op.get(performance, lang + '-technical-information')
-                    .meta-info!= op.get(performance, lang + '-technical-information') 
+                if op.get(performance, [lang + '-technical-information'], false)
+                    .meta-info!= op.get(performance, [lang + '-technical-information'])
+                if op.get(events, [0, 'duration'], false)
+                    .meta-info= t('label.duration') + ': ' + op.get(events, [0, 'duration'], false) + ' ' + t('label.minutes.short')
 
             article.readMore.main-text.col-md-8.col-lg-6.h3!= op.get(performance, lang + '-description')
 
