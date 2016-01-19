@@ -30,13 +30,18 @@ router.prepare = function prepare(callback) {
         var oneEvent = mapper.event(event.id)
         //debug(JSON.stringify(oneEvent, null, 2))
         if (oneEvent['start-time']) {
-            var startTime = '00:00'
-            if (oneEvent['start-time'].length === 16) {
-                startTime = oneEvent['start-time'].slice(11,16)
-            }
-            oneEvent.time = startTime
             if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) === -1) {
-                op.push(eventCalendar, oneEvent['start-time'].slice(0,10), oneEvent)
+                var startTime = '00:00'
+                if (oneEvent['start-time'].length === 16) {
+                    startTime = oneEvent['start-time'].slice(11,16)
+                }
+                oneEvent.time = startTime
+
+                var oneLocation = op.get(oneEvent, ['location'], '')
+                oneEvent.location = {}
+                oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], oneLocation)
+                oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], oneLocation)
+                op.push(eventCalendar, [oneEvent['start-time'].slice(0,10)], oneEvent)
             }
         }
         callback()
