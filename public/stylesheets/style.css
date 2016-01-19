@@ -5390,7 +5390,7 @@ h2,
 
 h2 {
   font-size: 1.65em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 p {
@@ -5543,6 +5543,10 @@ a.logo:hover {
 
 .highlight:hover {
   color: #000;
+}
+
+.popover-content .tour {
+  margin-bottom: 0;
 }
 
 .highlight.tour a,
@@ -5770,6 +5774,7 @@ a.logo:hover {
 }
 
 .select-cat a {
+  font-size: 1.65em;
   padding: 0 .5em 0 0;
   display: inline;
 }
@@ -5939,22 +5944,6 @@ a.logo:hover {
   }
 }
 
-#mailchimp-sign-up {
-  margin-top: 2em;
-}
-
-@media (min-width: 992px) {
-  #mailchimp-sign-up {
-    margin-top: 0;
-  }
-}
-
-@media (min-width: 992px) {
-  #mailchimp-sign-up {
-    margin-top: 2em;
-  }
-}
-
 #mailchimp-sign-up input[type="text"] {
   border: 2px solid #0A2A6B;
   border-top-right-radius: 5px;
@@ -6033,13 +6022,7 @@ a.logo:hover {
 }
 
 .banner {
-  margin-top: 5em;
-}
-
-@media (min-width: 992px) {
-  .banner {
-    margin-top: 0;
-  }
+  margin-bottom: 2em;
 }
 
 .volunteer {
@@ -6062,7 +6045,6 @@ a.logo:hover {
   margin-top: 2em;
 }
 
-.banner div,
 .video-sound div {
   margin-bottom: 2em;
 }
@@ -6118,14 +6100,7 @@ a.logo:hover {
 }
 
 .meta-info {
-  margin-top: 4em;
   margin-bottom: 4em;
-}
-
-@media (min-width: 992px) {
-  .meta-info {
-    margin-top: 0;
-  }
 }
 
 .press,
@@ -6170,9 +6145,14 @@ a.logo:hover {
   }
 }
 
-.tickets,
 .location {
-  margin-bottom: 4em;
+  margin-bottom: 1em;
+}
+
+@media (min-width: 992px) {
+  .tickets {
+    margin-bottom: 4em;
+  }
 }
 
 .member {

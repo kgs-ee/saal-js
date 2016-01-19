@@ -125,8 +125,8 @@ block content
                                                         span.subtitle= op.get(p, lang + '-subtitle', '')
                                         
                                     .col-xs-6.col-md-2.col-lg-2
-                                        p= op.get(p, 'location')
-                                        P= op.get(p, ['saal-location', lang + '-name'])
+                                        p.location= op.get(p, 'location')
+                                        P.location= op.get(p, ['saal-location', lang + '-name'])
                                             
                                         if op.get(p, 'price') == 0
                                             p= t('title.free')
@@ -222,8 +222,11 @@ block content
                                                         span.name= op.get(p, lang + '-name')
 
                                         .col-xs-6.col-md-2.col-lg-2
-                                            p= op.get(p, 'location')
-                                            P= op.get(p, ['saal-location', lang + '-name'])
+                                            if op.get(p, 'location')
+                                                p.location= op.get(p, 'location')
+                                                
+                                            if op.get(p, ['saal-location', lang + '-name'])
+                                                p.location= op.get(p, ['saal-location', lang + '-name'])
                                                                                         
                                             if op.get(p, 'price') == 0
                                                 p= t('title.free')
@@ -260,10 +263,10 @@ block content
                         each datestring in Object.keys(residencies).sort().slice(0, listlength)
                             each timestring in Object.keys(op.get(residencies, [datestring])).sort()
                                 each p in op.get(residencies, [datestring, timestring])
-                                    .col-xs-6.col-sm-2.col-lg-2
+                                    .col-xs-12.col-sm-2.col-lg-2
                                         p= (moment(op.get(p,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(p,['end-time'])).locale('et').format('L')
 
-                                    .col-xs-6.col-md-6.col-lg-6
+                                    .col-xs-12.col-md-6.col-lg-6
                                         h3
                                             a(href='/' + lang + '/resident/' + op.get(p,'id'))
                                                 //- if op.get(p, lang + '-subtitle', '')
@@ -276,15 +279,18 @@ block content
                                                     span.name= op.get(p, lang + '-name')
                                             
                                     .col-xs-12.col-md-4.col-lg-4
-                                        p= op.get(p, 'location')
-                                        P= op.get(p, ['saal-location', lang + '-name'])
+                                        if op.get(p, 'location')
+                                            p.location= op.get(p, 'location')
+                                        
+                                        if op.get(p, ['saal-location', lang + '-name'])
+                                            p.location= op.get(p, ['saal-location', lang + '-name'])
                                         
                                     .col-xs-12.col-md-12
                                         hr
                     
                         if Object.keys(residencies).length > listlength
                             .col-xs-12.col-md-12        
-                                a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all') + ' (' + Object.keys(residencies).length + ')'
+                                a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all')
                     else
                         .col-lg-12
                             h2= t('title.no-residencies')
@@ -299,7 +305,7 @@ block content
                             li.event= t('title.event')
                             li.tour= t('title.tour')
 
-                    .col-xs-12.col-sm-6.col-md-4.col-lg-12
+                    .banner.col-xs-12.col-sm-6.col-md-4.col-lg-12
                         a.text-center.h3.volunteer(href='mailto:vabatahtlik@saal.ee')= t('button.volunteer')
                         
                         if sideBanner

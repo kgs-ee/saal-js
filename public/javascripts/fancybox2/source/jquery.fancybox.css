@@ -100,8 +100,8 @@
 .fancybox-close {
 	color: white;
 	position: fixed;
-	top: .8em;
-	right: .7em;
+	top: .3em;
+	right: .3em;
 	cursor: pointer;
 	z-index: 10000;
 	font-size: 4em;

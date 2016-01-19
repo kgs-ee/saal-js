@@ -42,7 +42,7 @@ block content
                         GradientMaps.applyGradientMap(slide#{id}, gradientMap); 
 
         .row.front-page-margin
-            aside.video-sound.col-md-12.col-lg-3
+            aside.col-md-12.col-lg-3
                 if op.get(performance, lang + '-technical-information')
                     .meta-info!= op.get(performance, lang + '-technical-information') 
 
@@ -79,16 +79,16 @@ block content
                                     p= op.get(event, 'location')    
                                 .col-md-12
                                     hr
-    
-        .row.page-margin
-            if op.get(performance, 'audio')
-                div.col-xs-12.col-md-6
-                    h2= t('title.sound')
-                    div!= op.get(performance, 'audio')
-            if op.get(performance, 'video')
-                div.col-xs-12.col-md-6
-                    h2= t('title.video')
-                    div!= op.get(performance, 'video')
+        if op.get(performance, 'audio') || op.get(performance, 'video')
+            .video-sound.row.page-margin
+                if op.get(performance, 'audio')
+                    div.col-xs-12.col-md-6
+                        h2= t('title.sound')
+                        div!= op.get(performance, 'audio')
+                if op.get(performance, 'video')
+                    div.col-xs-12.col-md-6
+                        h2= t('title.video')
+                        div!= op.get(performance, 'video')
 
         .row.page-margin
                 .col-md-6
