@@ -53,6 +53,7 @@ function datePickerInit() {
                         extraClass += " " + tag
                         var time = (event['start-time'] != "00:00") ? (event['start-time']) + ' ' : ""
                         var name = (locale == "et") ? event['et-name'] : event['en-name']
+                        var location = event['location'][locale]
 
                         var controller = "event/"
                         var eid = event.id
@@ -60,7 +61,7 @@ function datePickerInit() {
                             controller = "performance/"
                             eid = event.performance.id
                         }
-                        tooltip += "<li class='" + tag + "'><a href='" + controller + eid + "'>" + time.slice(11, -4) + " / " + name + " / " + event.location + "</a></li>"
+                        tooltip += "<li class='" + tag + "'><a href='" + controller + eid + "'>" + time.slice(11, -4) + " / " + name + " / " + location + "</a></li>"
 
                         tooltip += "</li>"
                     }
