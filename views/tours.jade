@@ -9,12 +9,14 @@ block content
             
             nav.archive.top.col-sm-12.col-md-12.col-lg-12
                 ul.pager
-                    li.previous
-                        a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
-                            span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                    li.next
-                        a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
-                            span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
+                    if monthNav.prev.year > minDate.getUTCFullYear() || ( monthNav.prev.year == minDate.getUTCFullYear() && monthNav.prev.month > minDate.getUTCMonth())
+                        li.previous
+                            a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
+                                span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
+                    if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
+                        li.next
+                            a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
+                                span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
 
             .col-md-12
                 .programme.row
@@ -111,9 +113,11 @@ block content
                 .row
                     .col-sm-12.col-md-12.col-lg-12
                         ul.pager
-                            li.previous
-                                a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
-                                    span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                            li.next
-                                a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
-                                    span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
+                            if monthNav.prev.year > minDate.getUTCFullYear() || ( monthNav.prev.year == minDate.getUTCFullYear() && monthNav.prev.month > minDate.getUTCMonth())
+                                li.previous
+                                    a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
+                                        span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
+                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
+                                li.next
+                                    a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
+                                        span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
