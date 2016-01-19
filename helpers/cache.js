@@ -203,6 +203,9 @@ cacheSeries.push(function fetchFromEntu(callback) {
         entu.getChilds(parentEid, null, null, null)
         .then(function(entities) {
             async.each(entities, function(opEntity, callback) {
+                if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+                    return callback(null)
+                }
                 var entity = opEntity.get()
                 relate(entity.id, 'parent', parentEid, entity.definition)
                 add2cache(entity)
@@ -260,6 +263,9 @@ cacheSeries.push(function fetchFromEntu(callback) {
         entu.getChilds(parentEid, null, null, null)
         .then(function(entities) {
             async.each(entities, function(opEntity, callback) {
+                if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+                    return callback(null)
+                }
                 var entity = opEntity.get()
                 relate(entity.id, 'parent', parentEid, entity.definition)
 
@@ -267,7 +273,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
                 if (opEntity.get('definition') === 'event') {
                     cacheEvent(opEntity, callback)
                 } else {
-                    callback()
+                    return callback()
                 }
             }, function(err) {
                 if (err) {
@@ -285,6 +291,9 @@ cacheSeries.push(function fetchFromEntu(callback) {
         if (entities.length === 0) { return callback() }
         // debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
         async.each(entities, function(opEntity, callback) {
+            if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+                return callback(null)
+            }
             var entity = opEntity.get()
             if (parentEid) {
                 if (op.get(tempRelationships, [String(entity.id), 'parent'], []).indexOf(String(parentEid)) === -1) {

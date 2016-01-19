@@ -150,12 +150,15 @@ var mapPlDefinitions = {
     'concert': {parentEid: 597, eDefinition: 'event'},
 }
 
-function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
-    // debug('Matching with eId', eId, (doFullSync ? 'FULL' : 'PARTIAL'))
+function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
+    // debug('Matching with eID', eID, (doFullSync ? 'FULL' : 'PARTIAL'))
 
-    entu.getEntity(eId, null, null)
+    entu.getEntity(eID, null, null)
     .catch(function(reason) { return syncWithEntuCB(reason) })
     .then(function(opEntity) {
+        if (opEntity.get(['properties', 'nosync', 'value']) === 'True') {
+            syncWithEntuCB(null)
+        }
         var eItem = opEntity.get()
         // debug( JSON.stringify(eItem, null, 4) )
         // process.exit(0)
@@ -165,7 +168,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
         }
 
         // debug('Matching ', 'E' + eItem.id + ' ?= PL' + plItem.id)
-        var propertiesToUpdate = {'eId': eItem.id, 'definition': eItem.definition}
+        var propertiesToUpdate = {'eID': eItem.id, 'definition': eItem.definition}
 
         function removeIfMultiProperty(eItem, propertyName) {
             var propertyArray = op.get(eItem, ['properties', propertyName])
@@ -237,10 +240,7 @@ function syncWithEntu(plDefinition, plItem, eId, doFullSync, syncWithEntuCB) {
         if (eItem.definition === 'category') {
             compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
             compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
-            // if (doFullSync) {
-                // debug ('doFullSync', eItem.definition, JSON.stringify(plItem, null, 4))
-                compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
-            // }
+            compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
         } else if (eItem.definition === 'performance') { // PL 'show'
             // debug ('photo-url', op.get(plItem, ['originalImageUrl'], '') )
             compare( eItem, 'photo-url', op.get(plItem, ['originalImageUrl'], '') )
@@ -311,13 +311,14 @@ syncWaterfall.push(function compareToEntu(PLData, compareToEntuCB) {
         var eDefinition = byDefinition.eDefinition
         async.forEachOfSeries(byDefinition.plItems, function(plItem, plId, callback) {
             // debug('Compare: ', eDefinition, plDefinition, plId)
-            if (op.get(mapPL2Entu, plId, false) === false) {
+            var eID = op.get(mapPL2Entu, plId, false)
+            if (eID === false) {
                 op.push(entitiesToCreate, [plDefinition], plItem)
                 callback()
             } else {
-                syncWithEntu(plDefinition, plItem, op.get(mapPL2Entu, plId), false, function(err) {
+                syncWithEntu(plDefinition, plItem, eID, false, function(err) {
                     if (err) {
-                        if (err.status === 404 && err.eID === op.get(mapPL2Entu, plId)) {
+                        if (err.status === 404 && err.eID === eID) {
                             debug('Unmapping missing entity:', err.eID)
                             op.del(mapPL2Entu, plId)
                             op.push(entitiesToCreate, [plDefinition], plItem)
