@@ -113,6 +113,12 @@ function mapEvent(eid) {
         if (entityOut.get('et-subtitle') === undefined) {
             entityOut.set('et-subtitle', entityOut.get(['performance', 'et-subtitle']))
         }
+        if (entityOut.get('en-supertitle') === undefined) {
+            entityOut.set('en-supertitle', entityOut.get(['performance', 'en-supertitle']))
+        }
+        if (entityOut.get('et-supertitle') === undefined) {
+            entityOut.set('et-supertitle', entityOut.get(['performance', 'et-supertitle']))
+        }
         // debug('3: ' + JSON.stringify(entityOut.get('et-name'), null, 2))
     }
 
