@@ -158,7 +158,7 @@ app
 
     // static files path & favicon
     .use(express.static(path.join(__dirname, 'public')))
-    .use(favicon(path.join(__dirname, 'public', 'images', 'kgs-logo.ico')))
+    // .use(favicon(path.join(__dirname, 'public', 'images', 'kgs-logo.ico')))
 
     // set defaults for views
     .use(function(req, res, next) {
