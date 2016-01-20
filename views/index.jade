@@ -147,7 +147,7 @@ block content
 
                                     if op.get(p, 'sales-status')
                                         .col-xs-6.col-md-2.col-lg-2.text-right
-                                            a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                            a.btn.btn-primary(class=((op.get(p, 'sales-status') == 'sold_out') || (op.get(p, 'sales-status') == 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
@@ -244,7 +244,7 @@ block content
                                     
                                         .col-xs-6.col-md-2.text-right
                                             if op.get(p, 'sales-status')
-                                                a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                                a.btn.btn-primary(class=((op.get(p, 'sales-status') == 'sold_out') || (op.get(p, 'sales-status') == 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
                                         .col-xs-12.col-md-12.col-lg-12
                                             hr
