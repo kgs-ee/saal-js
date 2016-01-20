@@ -1,0 +1,70 @@
+extends layout
+
+block vars
+
+block content
+
+    .container-fluid
+        .row.page-margin
+            
+
+            .col-md-12
+                .programme.row
+
+                    if echo
+                        each yearString in Object.keys(echo).sort()
+                            each monthString in Object.keys(op.get(echo, [yearString], [])).sort()
+                                each dayString in Object.keys(op.get(echo, [yearString, monthString], [])).sort()
+                                    each p in op.get(echo, [yearString, monthString, dayString], [])
+                                        .col-xs-12.col-sm-2.col-lg-2
+                                            p= (moment(op.get(p, ['date'])).locale(lang).format('dddd'))
+                                            p= (moment(op.get(p, ['date'])).locale(lang).format('L'))
+                                            p= op.get(p, ['date'])
+
+                                            //- Premiere
+                                            if op.get(p, 'performance.premiere.start-time')
+                                                if (moment(yearString).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                                    p.today= t('button.premiere')
+
+                                            //- Today
+                                            if (moment(yearString).format('M') + ' ' + moment(yearString).format('D')) == ((moment().month()+1) + ' ' + moment().date())
+                                                div.today= t('button.today')
+
+                                        .col-xs-12.col-md-6.col-lg-6
+                                            h3
+                                                a(href='/' + lang + '/echo/' + op.get(p,'id'))= op.get(p, lang + '-title')
+                                                    if op.get(p, 'author', [])
+                                                        span.artist= op.get(p, 'author', []).join(', ')
+                                                    
+                                                    span.name= op.get(p, lang + '-title')
+                                                    
+                                                    if op.get(p, lang + '-subtitle', '')
+                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
+
+                                        .col-xs-6.col-md-2.col-lg-2
+                                            if op.get(p, 'location')
+                                                p.location= op.get(p, 'location')
+                                                
+                                            if op.get(p, ['saal-location', lang + '-title'])  
+                                                p.location= op.get(p, ['saal-location', lang + '-title'])
+                                            
+                                            if op.get(p, 'price') == 0
+                                                p= t('title.free')
+                                            else
+                                                p= op.get(p, 'price')
+
+                                            if op.get(p, 'min-price')
+                                                if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                                    p= op.get(p, 'min-price') + '€'
+                                                else
+                                                    p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+
+                                        if op.get(p, 'sales-status')
+                                            .col-xs-6.col-md-2.col-lg-2.text-right
+                                                a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+
+                                        .col-xs-12.col-md-12.col-lg-12
+                                            hr
+                    else
+                        .col-lg-12
+                            h2= t('title.no-echo')

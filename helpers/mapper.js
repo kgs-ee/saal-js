@@ -90,6 +90,7 @@ function mapEvent(eid) {
     entityOut.set('start-time', opEntity.get('properties.start-time.value'))
     entityOut.set('end-time', opEntity.get('properties.end-time.value'))
     entityOut.set('duration', opEntity.get('properties.duration.value'))
+    entityOut.set('ordinal', opEntity.get('properties.ordinal.value'))
 
     var performanceId = opEntity.get('properties.performance.reference')
     if (performanceId) {
@@ -178,6 +179,38 @@ function mapPerformance(eid) {
     entityOut.set('et-technical-information', opEntity.get('properties.et-technical-information.md'))
     entityOut.set('en-technical-information', opEntity.get('properties.en-technical-information.md'))
     entityOut.set('premiere.start-time', opEntity.get('properties.premiere-time.value'))
+    return entityOut.get()
+}
+
+function mapEcho(eid) {
+    var entity = SDC.get(['local_entities', 'by_eid', eid])
+    var opEntity = op(entity)
+    var entityOut = op({})
+    entityOut.set('id', opEntity.get('id'))
+
+    var categories = []
+    opEntity.get('properties.category', []).forEach(function catiterator(category) {
+        categories.push(mapCategory(category.reference))
+    })
+    entityOut.set('category', categories.filter(function(category) { if (category) { return 1 } }))
+
+    entityOut.set('en-title', opEntity.get('properties.en-title.value'))
+    entityOut.set('et-title', opEntity.get('properties.et-title.value'))
+    entityOut.set('en-subtitle', opEntity.get('properties.en-subtitle.value'))
+    entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value'))
+    entityOut.set('en-contents', opEntity.get('properties.en-contents.md'))
+    entityOut.set('et-contents', opEntity.get('properties.et-contents.md'))
+    entityOut.set('author', opEntity.get('properties.author.value'))
+    entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
+    entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
+        return {
+            medium: phm,
+            big: opEntity.get(['properties', 'photo-big', ix])
+        }
+    }))
+    entityOut.set('audio', opEntity.get('properties.audio.value'))
+    entityOut.set('video', opEntity.get('properties.video.value'))
+    entityOut.set('date', opEntity.get('properties.date.value'))
     return entityOut.get()
 }
 
@@ -280,6 +313,7 @@ exports.news        = mapNews
 exports.location    = mapLocation
 exports.performance = mapPerformance
 exports.user        = mapUser
+exports.echo        = mapEcho
 exports.banner      = mapBanner
 exports.bannerType  = mapBannerType
 

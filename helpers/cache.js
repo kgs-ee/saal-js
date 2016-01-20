@@ -34,6 +34,7 @@ var cacheFromEntu = [
     {'parent':'2107',                            'definition': 'event',       'class': 'project'},
     {'parent':'1',                               'definition': 'banner',      'class': 'supporters'},
     {'parent':'2786',                            'definition': 'banner-type', 'class': 'banner types'},
+    {'parent':'4024',                            'definition': 'echo',        'class': 'echo'},
 ]
 
 var tempLocalEntities = {}
@@ -157,6 +158,27 @@ cacheSeries.push(function fetchFromEntu(callback) {
         bannerTypes.forEach(function(bannerType) {
             // debug(JSON.stringify(bannerType, null, 4))
             relate(bannerType.reference, 'banner', opEntity.get(['id']), 'type')
+        })
+        callback()
+    }
+    function cacheEcho(opEntity, callback) {
+        var categoryRefs = opEntity.get(['properties', 'category'], [])
+        categoryRefs.forEach(function(categoryRef) {
+            categoryRef = categoryRef.reference
+            if (categoryRef) {
+                function relateParents(categoryRef) {
+                    var parentCategoryRefs = op.get(tempRelationships, [String(categoryRef), 'parent'], [])
+                    parentCategoryRefs.forEach(function(parentCategoryRef) {
+                        var parentDef = op.get(tempLocalEntities, ['by_eid', String(parentCategoryRef), 'definition'], null)
+                        if (parentDef === 'category') {
+                            relateParents(parentCategoryRef)
+                            relate(opEntity.get('id'), 'category', parentCategoryRef, 'echo')
+                        }
+                    })
+                }
+                relate(opEntity.get('id'), 'category', categoryRef, 'echo')
+                relateParents(categoryRef)
+            }
         })
         callback()
     }
@@ -329,6 +351,9 @@ cacheSeries.push(function fetchFromEntu(callback) {
                     break
                 case 'banner':
                     cacheBanner(opEntity, callback)
+                    break
+                case 'echo':
+                    cacheEcho(opEntity, callback)
                     break
                 default:
                     debug('Unhandled definition: ' + definition)
