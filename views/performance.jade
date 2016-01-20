@@ -75,11 +75,11 @@ block content
                         h2= t('title.past')
                         .row
                             each event in pastEvents
-                                .col-md-3
+                                .col-xs-6.col-md-6.col-lg-4
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
-                                .col-md-8
+                                .col-xs-6.col-md-6.col-lg-8
                                     p= op.get(event, ['saal-location', lang+'-name'], op.get(event, ['location'], ''))
-                                .col-md-12
+                                .col-xs-12.col-md-12.col-lg-12
                                     hr
         if op.get(performance, 'audio') || op.get(performance, 'video')
             .video-sound.row.page-margin

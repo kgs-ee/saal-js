@@ -21,10 +21,21 @@ function datePickerInit() {
             arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response[key]
         }
 
+        // Get the last event in Calndar
+        var lastDate = Object.keys(arrEvents)[Object.keys(arrEvents).length-1];
+
         $("#datepicker").datepicker({
             dateFormat : "yy-mm-dd",
             prevText : '<',
             nextText : '>',
+
+            /**
+            *  Show events starting from January 2016.
+            *  Somehow I need to show the date in a wierd way.
+            *  POSSIBLE BUG
+            **/
+            minDate : new Date(2015, 12, 01),
+            maxDate : new Date(lastDate),
 
             beforeShowDay: function(date) {
 

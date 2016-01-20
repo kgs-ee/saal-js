@@ -55,7 +55,7 @@ block content
                                 each p in op.get(program, [datestring, timestring])
                                     .col-xs-12.col-sm-2.col-lg-2
                                         p= (moment(datestring).locale(lang).format('dddd'))
-                                        p= (moment(datestring).locale(lang).format('DD.MMM'))
+                                        p= (moment(datestring).locale(lang).format('L'))
                                         p= timestring
 
                                         //- Premiere
