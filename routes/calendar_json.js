@@ -22,6 +22,10 @@ router.get('/', function(req, res) {
 
 router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    minDate = new Date()
+    minDate.setDate(1)
+    minDate.setMonth(minDate.getMonth() - 2)
+
     eventCalendar = {}
     var residenciesEid = '1931'
     var events = SDC.get(['local_entities', 'by_definition', 'event'], [])
@@ -29,20 +33,21 @@ router.prepare = function prepare(callback) {
     async.each(events, function(event, callback) {
         var oneEvent = mapper.event(event.id)
         //debug(JSON.stringify(oneEvent, null, 2))
-        if (oneEvent['start-time']) {
-            if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) === -1) {
-                var startTime = '00:00'
-                if (oneEvent['start-time'].length === 16) {
-                    startTime = oneEvent['start-time'].slice(11,16)
-                }
-                oneEvent.time = startTime
-
-                var oneLocation = op.get(oneEvent, ['location'], '')
-                oneEvent.location = {}
-                oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], oneLocation)
-                oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], oneLocation)
-                op.push(eventCalendar, [oneEvent['start-time'].slice(0,10)], oneEvent)
+        if (!oneEvent['start-time']) { return callback() }
+        if (new Date(oneEvent['start-time']) < minDate) { return callback() }
+        // debug('Compare dates', new Date(oneEvent['start-time']), minDate, new Date(oneEvent['start-time']) > minDate )
+        if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) === -1) {
+            var startTime = '00:00'
+            if (oneEvent['start-time'].length === 16) {
+                startTime = oneEvent['start-time'].slice(11,16)
             }
+            oneEvent.time = startTime
+
+            var oneLocation = op.get(oneEvent, ['location'], '')
+            oneEvent.location = {}
+            oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], oneLocation)
+            oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], oneLocation)
+            op.push(eventCalendar, [oneEvent['start-time'].slice(0,10)], oneEvent)
         }
         callback()
     }, function(err) {
