@@ -201,7 +201,7 @@ app
     .use('/:lang/resident/',     require('./routes/resident'))
     .use('/:lang/projects/',     require('./routes/projects'))
     .use('/:lang/contact/',      require('./routes/contact'))
-    .use('/:lang/echo/',         require('./routes/echo'))
+    .use('/:lang/magazine/',     require('./routes/magazine'))
     .use('/:lang/search',        require('./routes/search'))
     // .use('/:lang/signin',        require('./routes/signin'))
     .use('/:lang/festival',      require('./routes/festival'))

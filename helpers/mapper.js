@@ -183,7 +183,21 @@ function mapPerformance(eid) {
 }
 
 function mapEcho(eid) {
+    if (!eid) {
+        debug('mapEcho: No entity ID')
+        throw new EvalError('No entity ID')
+    }
     var entity = SDC.get(['local_entities', 'by_eid', eid])
+    if (!entity) {
+        throw new ReferenceError('No entity cached by ID:' + eid)
+        debug('mapEcho: No entity cached by ID:' + eid)
+    }
+    if (entity.definition !== 'echo') {
+        debug('mapEcho: Entity ' + eid + ' is not an Echo')
+        throw new TypeError('Entity ' + eid + ' is not an Echo')
+    }
+    debug('mapEcho: Mapping Echo ' + eid + '.') 
+
     var opEntity = op(entity)
     var entityOut = op({})
     entityOut.set('id', opEntity.get('id'))
@@ -210,7 +224,13 @@ function mapEcho(eid) {
     }))
     entityOut.set('audio', opEntity.get('properties.audio.value'))
     entityOut.set('video', opEntity.get('properties.video.value'))
-    entityOut.set('date', opEntity.get('properties.date.value'))
+
+    var date = opEntity.get('properties.date.value')
+    entityOut.set('date', date)
+    entityOut.set('year',  date.slice(0,4))
+    entityOut.set('month', date.slice(5,7))
+    entityOut.set('day',   date.slice(8,10))
+
     return entityOut.get()
 }
 

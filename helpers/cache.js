@@ -35,6 +35,7 @@ var cacheFromEntu = [
     {'parent':'1',                               'definition': 'banner',      'class': 'supporters'},
     {'parent':'2786',                            'definition': 'banner-type', 'class': 'banner types'},
     {'parent':'4024',                            'definition': 'echo',        'class': 'echo'},
+    {'parent':'4024',                            'definition': 'category',    'class': 'echoCategory'},
 ]
 
 var tempLocalEntities = {}
@@ -94,6 +95,7 @@ cacheSeries.push(function cacheRoot(callback) {
         // SDC.set(['root', 'published'], isPublished)
         debug('Root cached, ' + (isPublished ? 'we have news published.' : 'reload not requested.'))
         if (firstRun === true) {
+            debug('1st run.')
             return callback()
         } else if (syncRequested === true) {
             syncRequested = false

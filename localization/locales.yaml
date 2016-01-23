@@ -113,12 +113,12 @@ error:
         et: Laadin andmeid. Minuti pärast peaks valmis olema
 label:
     duration:
-        et: Kestus
         en: Duration
+        et: Kestus
     minutes:
         short:
-            et: min
             en: min
+            et: min
 lang:
     en:
         en: EN
@@ -288,6 +288,9 @@ title:
     news:
         en: News
         et: Uudised
+    no-echo:
+        en: No Posts
+        et: Artikleid pole
     no-events:
         en: No events
         et: Sündmusi ei toimu

@@ -8,7 +8,7 @@ var mapper  = require('../helpers/mapper')
 var helper  = require('../helpers/helper')
 
 
-function renderEcho(res, id) {
+function renderEcho(res, echoId) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     var echoA = {}
@@ -22,13 +22,7 @@ function renderEcho(res, id) {
         if (minDate === false) { minDate = new Date(echo['date']) }
         if (new Date(echo['date']) < minDate) { minDate = new Date(echo['date']) }
 
-        var echoYear = (echo['date']).slice(0,4)
-        var echoMonth = (echo['date']).slice(5,7)
-        var echoDay = (echo['date']).slice(8,10)
-        op.set(echo, 'echoYear', echoYear)
-        op.set(echo, 'echoMonth', echoMonth)
-        op.set(echo, 'echoDay', echoDay)
-        op.push(echoA, [echoYear, echoMonth, echoDay], echo)
+        op.push(echoA, [echo.year, echo.month, echo.day], echo)
         callback()
     }, function(err) {
         if (err) {
@@ -37,7 +31,8 @@ function renderEcho(res, id) {
         }
 
         res.render('echo', {
-            'echo': echoA,
+            'echo': (echoId ? mapper.echo(echoId) : null),
+            'echoArray': echoA,
             'minDate': minDate,
             'maxDate': maxDate
         })
@@ -50,9 +45,9 @@ router
         renderEcho(res)
         res.end()
     })
-    .get('/:date', function(req, res) {
-        // debug('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
-        renderEcho(res, req.params.date)
+    .get('/:id', function(req, res) {
+        debug('Requested "' + req.url + '"' + JSON.stringify(req.params, null, 2))
+        renderEcho(res, req.params.id)
     })
 
 
