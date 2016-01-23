@@ -18,15 +18,9 @@ block content
                                 h1
                                     if op.get(echo, 'author', '')
                                         span.artist= op.get(echo, 'author', '')
-                                    
-                                    //- if op.get(echo, 'producer', '')    
-                                    //-     span.producer= op.get(echo, 'producer', '')
-                                    //- 
-                                    //- if op.get(echo, 'town', '')    
-                                    //-     span.town= op.get(echo, 'town', '')
-                                        
+
                                 h1= op.get(echo, lang + '-title', '')
-                                
+
                                 if op.get(echo, lang + '-subtitle', '')
                                     p= op.get(echo, lang + '-subtitle', '')
 
@@ -41,9 +35,8 @@ block content
                                 var gradientMap = '#{SAAL.secondary_color}, #{SAAL.main_color}';
 
                                 GradientMaps.applyGradientMap(slide#{id}, gradientMap); 
-                        
+
         .row.page-margin
-            
 
             .col-md-12
                 .programme.row
@@ -63,9 +56,9 @@ block content
                                                 a(href='./magazine/' + op.get(p,'id'))= op.get(p, lang + '-title')
                                                     if op.get(p, 'author', [])
                                                         span.artist= op.get(p, 'author', []).join(', ')
-                                                    
+
                                                     span.name= op.get(p, lang + '-title')
-                                                    
+
                                                     if op.get(p, lang + '-subtitle', '')
                                                         span.subtitle= op.get(p, lang + '-subtitle', '')
 
@@ -79,5 +72,4 @@ block content
                         .col-lg-12
                             h2= op.get(echo, [lang + '-title'])
                             p.subtitle= op.get(echo, [lang + '-subtitle'])
-                            p.article= op.get(echo, [lang + '-contents'])
-                
+                            p.article!= op.get(echo, [lang + '-contents'])
