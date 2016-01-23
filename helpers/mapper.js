@@ -196,7 +196,7 @@ function mapEcho(eid) {
         debug('mapEcho: Entity ' + eid + ' is not an Echo')
         throw new TypeError('Entity ' + eid + ' is not an Echo')
     }
-    debug('mapEcho: Mapping Echo ' + eid + '.') 
+    debug('mapEcho: Mapping Echo ' + eid + '.')
 
     var opEntity = op(entity)
     var entityOut = op({})
@@ -218,6 +218,7 @@ function mapEcho(eid) {
     entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
     entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
         return {
+            ix: ix,
             medium: phm,
             big: opEntity.get(['properties', 'photo-big', ix])
         }

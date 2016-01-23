@@ -5,17 +5,54 @@ block vars
 block content
 
     .container-fluid
+
+        if op.get(echo, ['photos'], false)
+            .row
+                .event-banner.carousel.slide(id='front-carousel')
+                    .carousel-inner(role='listbox')
+                        each photo in op.get(echo, ['photos'], [])
+                            figure(id = 'slide-' + photo.ix, style='background-image: url(' + op.get(photo, ['big'], op.get(photo, ['medium'], '/images/placeholder.jpg')) + ');')
+                            header.col-md-8
+                                if op.get(echo, lang + '-supertitle', '')
+                                    p= op.get(echo, lang + '-supertitle', '')
+                                h1
+                                    if op.get(echo, 'author', '')
+                                        span.artist= op.get(echo, 'author', '')
+                                    
+                                    //- if op.get(echo, 'producer', '')    
+                                    //-     span.producer= op.get(echo, 'producer', '')
+                                    //- 
+                                    //- if op.get(echo, 'town', '')    
+                                    //-     span.town= op.get(echo, 'town', '')
+                                        
+                                h1= op.get(echo, lang + '-title', '')
+                                
+                                if op.get(echo, lang + '-subtitle', '')
+                                    p= op.get(echo, lang + '-subtitle', '')
+
+                            ul.event-categories
+                                each echoCategory in echoCategories
+                                    li.text-uppercase.h3(class=(echoCategory.checked ? "" : "unactive"))
+                                        span= op.get(echoCategory, [lang+'-name'], t('Jon Doe'))
+
+                            //- Gradient Map for images
+                            script.
+                                var slide#{id} = document.getElementById('slide-#{id}');
+                                var gradientMap = '#{SAAL.secondary_color}, #{SAAL.main_color}';
+
+                                GradientMaps.applyGradientMap(slide#{id}, gradientMap); 
+                        
         .row.page-margin
             
 
             .col-md-12
                 .programme.row
 
-                    if echo
-                        each yearString in Object.keys(echo).sort()
-                            each monthString in Object.keys(op.get(echo, [yearString], [])).sort()
-                                each dayString in Object.keys(op.get(echo, [yearString, monthString], [])).sort()
-                                    each p in op.get(echo, [yearString, monthString, dayString], [])
+                    if echoArray
+                        each yearString in Object.keys(echoArray).sort()
+                            each monthString in Object.keys(op.get(echoArray, [yearString], [])).sort()
+                                each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort()
+                                    each p in op.get(echoArray, [yearString, monthString, dayString], [])
                                         .col-xs-12.col-sm-2.col-lg-2
                                             p= (moment(op.get(p, ['date'])).locale(lang).format('dddd'))
                                             p= (moment(op.get(p, ['date'])).locale(lang).format('L'))
@@ -32,7 +69,7 @@ block content
 
                                         .col-xs-12.col-md-6.col-lg-6
                                             h3
-                                                a(href='/' + lang + '/echo/' + op.get(p,'id'))= op.get(p, lang + '-title')
+                                                a(href='./magazine/' + op.get(p,'id'))= op.get(p, lang + '-title')
                                                     if op.get(p, 'author', [])
                                                         span.artist= op.get(p, 'author', []).join(', ')
                                                     
@@ -68,3 +105,10 @@ block content
                     else
                         .col-lg-12
                             h2= t('title.no-echo')
+
+                    if echo
+                        .col-lg-12
+                            h2= op.get(echo, [lang + '-title'])
+                            p.subtitle= op.get(echo, [lang + '-subtitle'])
+                            p.article= op.get(echo, [lang + '-contents'])
+                

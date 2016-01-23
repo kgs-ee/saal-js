@@ -30,9 +30,24 @@ function renderEcho(res, echoId) {
             return
         }
 
-        res.render('echo', {
+
+        var echoCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'echoCategory'], {}))
+            .map(function(eId) {
+                var mappedCategory = mapper.category(eId)
+                eId = String(eId)
+                mappedCategory.checked = false
+                var echoCatIds = SDC.get(['relationships', echoId, 'category'], [])
+                // debug(echoCatIds, echoCatIds.indexOf(eId), eId)
+                if (echoCatIds.indexOf(eId) > -1) {
+                    mappedCategory.checked = true
+                }
+                return mappedCategory
+            })
+
+        res.render('magazine', {
             'echo': (echoId ? mapper.echo(echoId) : null),
             'echoArray': echoA,
+            'echoCategories': echoCategories,
             'minDate': minDate,
             'maxDate': maxDate
         })
