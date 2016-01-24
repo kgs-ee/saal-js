@@ -12,8 +12,19 @@ function datePickerInit() {
     )
     $.datepicker.setDefaults(options)
 
-    // var arrEvents = {}
-    $.getJSON('calendar_json', function(arrEvents){
+    var arrEvents = {}
+    $.getJSON('calendar_json', function(response){
+
+        for (var key in response) {
+            var keys = key.split("-")
+            var d = new Date(keys[0], keys[1] - 1, keys[2])
+            arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response[key]
+        }
+
+        // Get the last event in Calndar
+        var firstDate = Object.keys(arrEvents)[0],
+            lastDate = Object.keys(arrEvents)[Object.keys(arrEvents).length-1];
+
 
         $("#datepicker").datepicker({
             dateFormat : "yy-mm-dd",
@@ -25,8 +36,8 @@ function datePickerInit() {
             *  Somehow I need to show the date in a wierd way.
             *  POSSIBLE BUG
             **/
-            minDate : new Date(Object.keys(arrEvents)[0]),
-            maxDate : new Date(Object.keys(arrEvents)[Object.keys(arrEvents).length-1]),
+            minDate : firstDate,
+            maxDate : lastDate,
 
             beforeShowDay: function(date) {
 
