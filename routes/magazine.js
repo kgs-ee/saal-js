@@ -8,19 +8,22 @@ var mapper  = require('../helpers/mapper')
 var helper  = require('../helpers/helper')
 
 
-function renderEcho(res, echoId) {
+function renderEcho(res, currentEchoId) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     var echoA = {}
     var minDate = false
-    var maxDate = new Date()
+    var maxDate = false
+    var latestEcho = {}
     async.each(SDC.get(['local_entities', 'by_class', 'echo']), function(entity, callback) {
         var echo = mapper.echo(entity.id)
         if (!echo['date']) { return callback() }
 
-        if (new Date(echo['date']) > maxDate) { maxDate = new Date(echo['date']) }
-        if (minDate === false) { minDate = new Date(echo['date']) }
-        if (new Date(echo['date']) < minDate) { minDate = new Date(echo['date']) }
+        if (maxDate === false || new Date(echo['date']) > maxDate) {
+            maxDate = new Date(echo['date'])
+            latestEcho = echo
+        }
+        if (minDate === false || new Date(echo['date']) < minDate) { minDate = new Date(echo['date']) }
 
         op.push(echoA, [echo.year, echo.month, echo.day], echo)
         callback()
@@ -30,13 +33,14 @@ function renderEcho(res, echoId) {
             return
         }
 
+        currentEchoId = (currentEchoId ? currentEchoId : latestEcho.id)
 
         var echoCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'echoCategory'], {}))
             .map(function(eId) {
                 var mappedCategory = mapper.category(eId)
                 eId = String(eId)
                 mappedCategory.checked = false
-                var echoCatIds = SDC.get(['relationships', echoId, 'category'], [])
+                var echoCatIds = SDC.get(['relationships', currentEchoId, 'category'], [])
                 // debug(echoCatIds, echoCatIds.indexOf(eId), eId)
                 if (echoCatIds.indexOf(eId) > -1) {
                     mappedCategory.checked = true
@@ -45,7 +49,7 @@ function renderEcho(res, echoId) {
             })
 
         res.render('magazine', {
-            'echo': (echoId ? mapper.echo(echoId) : null),
+            'echo': mapper.echo(currentEchoId),
             'echoArray': echoA,
             'echoCategories': echoCategories,
             'minDate': minDate,
