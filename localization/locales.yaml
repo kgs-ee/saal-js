@@ -192,6 +192,9 @@ nav:
     festivals:
         en: Festivals
         et: Festivalid
+    magazine:
+        et: Magasin
+        en: Magazine
     media:
         en: Media
         et: Meedia
