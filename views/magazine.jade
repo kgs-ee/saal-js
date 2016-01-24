@@ -51,12 +51,14 @@ block content
 
                     .article.col-sm-12.col-md-8.col-lg-8
                         h2= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ')
-                        i= moment(op.get(posting, ['date'])).locale(lang).format('L')
+                        i= moment(op.get(echo, ['date'])).locale(lang).format('L')
 
                         h2= op.get(echo, [lang + '-title'])
                         p.subtitle= op.get(echo, [lang + '-subtitle'])
                         
                         p!= op.get(echo, [lang + '-contents'])
+                        
+                        i= op.get(echo, 'author', []).map(function(a){return a.value}).join(',') + '@' + moment(op.get(echo, ['date'])).locale(lang).format('L')
                     
                     - var postCount = 0
                     .col-sm-12.col-md-4.col-lg-4
