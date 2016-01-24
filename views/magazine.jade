@@ -47,16 +47,16 @@ block content
         .row.page-margin
 
             .col-md-12
-                .article.row
+                .row
 
-                    .col-sm-12.col-md-8.col-lg-8
+                    .article.col-sm-12.col-md-8.col-lg-8
                         h2= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ')
                         i= moment(op.get(posting, ['date'])).locale(lang).format('L')
 
                         h2= op.get(echo, [lang + '-title'])
                         p.subtitle= op.get(echo, [lang + '-subtitle'])
                         
-                        p.article!= op.get(echo, [lang + '-contents'])
+                        p!= op.get(echo, [lang + '-contents'])
                     
                     - var postCount = 0
                     .col-sm-12.col-md-4.col-lg-4
