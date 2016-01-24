@@ -214,7 +214,7 @@ function mapEcho(eid) {
     entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value'))
     entityOut.set('en-contents', opEntity.get('properties.en-contents.md'))
     entityOut.set('et-contents', opEntity.get('properties.et-contents.md'))
-    entityOut.set('author', opEntity.get('properties.author.value'))
+    entityOut.set('author', opEntity.get('properties.author', []))
     entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
     entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
         return {

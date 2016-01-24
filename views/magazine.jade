@@ -50,9 +50,12 @@ block content
                 .programme.row
 
                     .col-sm-12.col-md-8.col-lg-8
+                        h2= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ')
+                        i= moment(op.get(posting, ['date'])).locale(lang).format('L')
+
                         h2= op.get(echo, [lang + '-title'])
-                        
                         p.subtitle= op.get(echo, [lang + '-subtitle'])
+                        
                         p.article!= op.get(echo, [lang + '-contents'])
                     
                     - var postCount = 0
@@ -60,19 +63,19 @@ block content
                         each yearString in Object.keys(echoArray).sort().reverse()
                             each monthString in Object.keys(op.get(echoArray, [yearString], [])).sort().reverse()
                                 each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort().reverse()
-                                    each p in op.get(echoArray, [yearString, monthString, dayString], [])
+                                    each posting in op.get(echoArray, [yearString, monthString, dayString], [])
                                         if postCount++ < 12
                                             .col-xs-12.col-sm-12.col-lg-12
-                                                a(href='./magazine/' + op.get(p,'id'))
-                                                    p= 'Aeg: ' + (moment(op.get(p, ['date'])).locale(lang).format('L'))
+                                                a(href='./magazine/' + op.get(posting,'id'))
+                                                    p= 'Aeg: ' + (moment(op.get(posting, ['date'])).locale(lang).format('L'))
                                                     h3
-                                                        if op.get(p, 'author', false)
-                                                            span.artist= 'Autor: ' + op.get(p, 'author', []).join(', ')
+                                                        if op.get(posting, 'author', []).length
+                                                            span.artist= 'Autor: ' + op.get(posting, 'author', []).map(function(a){return a.value}).join(', ')
 
-                                                    span.name= 'Pealkiri: ' + op.get(p, lang + '-title')
+                                                    span.name= 'Pealkiri: ' + op.get(posting, lang + '-title')
 
-                                                    if op.get(p, lang + '-subtitle', '')
-                                                        span.subtitle= 'Alapealkiri: ' + op.get(p, lang + '-subtitle', '')
+                                                    if op.get(posting, lang + '-subtitle', '')
+                                                        span.subtitle= 'Alapealkiri: ' + op.get(posting, lang + '-subtitle', '')
 
                                         if postCount < 12
                                             .col-xs-12.col-md-12.col-lg-12
