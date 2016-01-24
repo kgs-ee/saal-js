@@ -67,6 +67,8 @@ block content
                                 each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort().reverse()
                                     each posting in op.get(echoArray, [yearString, monthString, dayString], [])
                                         if postCount++ < 12
+                                            .col-xs-12.col-md-12.col-lg-12
+                                                hr
                                             .col-xs-12.col-sm-12.col-lg-12
                                                 a(href='./magazine/' + op.get(posting,'id'))
                                                     p= 'Aeg: ' + (moment(op.get(posting, ['date'])).locale(lang).format('L'))
@@ -79,6 +81,5 @@ block content
                                                     if op.get(posting, lang + '-subtitle', '')
                                                         span.subtitle= 'Alapealkiri: ' + op.get(posting, lang + '-subtitle', '')
 
-                                        if postCount < 12
-                                            .col-xs-12.col-md-12.col-lg-12
-                                                hr
+                        .col-xs-12.col-md-12.col-lg-12
+                            hr
