@@ -216,13 +216,15 @@ function mapEcho(eid) {
     entityOut.set('et-contents', opEntity.get('properties.et-contents.md'))
     entityOut.set('author', opEntity.get('properties.author', []))
     entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
-    entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
-        return {
-            ix: ix,
-            medium: phm,
-            big: opEntity.get(['properties', 'photo-big', ix])
-        }
-    }))
+    if (opEntity.get('properties.photo-medium', false)) {
+        entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
+            return {
+                ix: ix,
+                medium: phm,
+                big: opEntity.get(['properties', 'photo-big', ix])
+            }
+        }))
+    }
     entityOut.set('audio', opEntity.get('properties.audio.value'))
     entityOut.set('video', opEntity.get('properties.video.value'))
 

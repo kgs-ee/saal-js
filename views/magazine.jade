@@ -6,44 +6,43 @@ block content
 
     .container-fluid
 
-        if op.get(echo, ['photos'], false)
-            .row
-                section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
-                    .carousel-inner(role='listbox')
-                        - var photoActive = 0
-                        each photo in op.get(echo, ['photos'], [])
-                            .item(class=(photoActive++ === 0 ? 'active' : ''))
-                                figure(id = 'slide-' + photo.ix, style='background-image: url(' + op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) + ');')
-                                header.col-md-8
-                                    if op.get(echo, lang + '-supertitle', '')
-                                        p= op.get(echo, lang + '-supertitle', '')
-                                    h1
-                                        if op.get(echo, 'author', false)
-                                            span.artist= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ')
+        .row
+            section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                .carousel-inner(role='listbox')
+                    - var photoActive = 0
+                    each photo in op.get(echo, ['photos'], [{ix: 0, big: {file: '/images/placeholder.jpg'}}])
+                        .item(class=(photoActive++ === 0 ? 'active' : ''))
+                            figure(id = 'slide-' + photo.ix, style='background-image: url(' + op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) + ');')
+                            header.col-md-8
+                                if op.get(echo, lang + '-supertitle', '')
+                                    p= op.get(echo, lang + '-supertitle', '')
+                                h1
+                                    if op.get(echo, 'author', false)
+                                        span.artist= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ')
 
-                                    h1= op.get(echo, lang + '-title', '')
+                                h1= op.get(echo, lang + '-title', '')
 
-                                    if op.get(echo, lang + '-subtitle', '')
-                                        p= op.get(echo, lang + '-subtitle', '')
+                                if op.get(echo, lang + '-subtitle', '')
+                                    p= op.get(echo, lang + '-subtitle', '')
 
-                                ul.event-categories
-                                    each echoCategory in echoCategories
-                                        li.text-uppercase.h3(class=(echoCategory.checked ? "" : "unactive"))
-                                            span= op.get(echoCategory, [lang+'-name'], t('Jon Doe'))
+                            ul.event-categories
+                                each echoCategory in echoCategories
+                                    li.text-uppercase.h3(class=(echoCategory.checked ? "" : "unactive"))
+                                        span= op.get(echoCategory, [lang+'-name'], t('Jon Doe'))
 
-                    if op.get(echo, ['photos'], []).length > 1
-                        a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
-                            span.icon-prev.arrow-left(aria-hidden='true')
-                            span.sr-only Previous
-                        a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
-                            span.icon-next.arrow-right(aria-hidden='true')
-                            span.sr-only Next
+                if op.get(echo, ['photos'], []).length > 1
+                    a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
+                        span.icon-prev.arrow-left(aria-hidden='true')
+                        span.sr-only Previous
+                    a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
+                        span.icon-next.arrow-right(aria-hidden='true')
+                        span.sr-only Next
 
-                    //- Gradient Map for images
-                    each photo in op.get(echo, ['photos'], [])
-                        script.
-                            var slide#{photo.ix} = document.getElementById('slide-#{photo.ix}');
-                            GradientMaps.applyGradientMap(slide#{photo.ix}, '#{SAAL.secondary_color}, #{SAAL.main_color}'); 
+                //- Gradient Map for images
+                each photo in op.get(echo, ['photos'], [{ix: 0, big: {file: '/images/placeholder.jpg'}}])
+                    script.
+                        var slide#{photo.ix} = document.getElementById('slide-#{photo.ix}');
+                        GradientMaps.applyGradientMap(slide#{photo.ix}, '#{SAAL.secondary_color}, #{SAAL.main_color}'); 
 
         .row.page-margin
 
