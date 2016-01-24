@@ -59,7 +59,7 @@ block content
                         p.article!= op.get(echo, [lang + '-contents'])
                     
                     - var postCount = 0
-                    .col-lg-4
+                    .col-sm-12.col-md-4.col-lg-4
                         each yearString in Object.keys(echoArray).sort().reverse()
                             each monthString in Object.keys(op.get(echoArray, [yearString], [])).sort().reverse()
                                 each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort().reverse()
