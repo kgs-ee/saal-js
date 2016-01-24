@@ -58,7 +58,7 @@ block content
                         
                         p!= op.get(echo, [lang + '-contents'])
                         
-                        i= op.get(echo, 'author', []).map(function(a){return a.value}).join(',') + '@' + moment(op.get(echo, ['date'])).locale(lang).format('L')
+                        i.signature= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ') + ' @ ' + moment(op.get(echo, ['date'])).locale(lang).format('L')
                     
                     - var postCount = 0
                     .col-sm-12.col-md-4.col-lg-4
