@@ -23,6 +23,8 @@ nav.navbar.navbar-default.navbar-fixed-top
                     a(href='/' + lang + '/residency')= t('nav.residency')
                 li(class= route == 'projects' ? 'active' : undefined )
                     a(href='/' + lang + '/projects')= t('nav.projects')
+                li(class= route == 'magazine' ? 'active' : undefined )
+                    a(href='/' + lang + '/magazine')= t('nav.magazine')    
                 li(class= route == 'contact' ? 'active' : undefined )
                     a(href='/' + lang + '/contact')= t('nav.contact')
                 //- if SDC.get(['local_entities', 'by_class', 'festival'])
