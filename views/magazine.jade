@@ -53,8 +53,8 @@ block content
                         h2= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ')
                         i= moment(op.get(echo, ['date'])).locale(lang).format('L')
 
-                        h2= op.get(echo, [lang + '-title'])
-                        p.subtitle= op.get(echo, [lang + '-subtitle'])
+                        h1= op.get(echo, [lang + '-title'])
+                        h3= op.get(echo, [lang + '-subtitle'])
                         
                         p!= op.get(echo, [lang + '-contents'])
                         
