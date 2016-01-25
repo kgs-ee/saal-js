@@ -507,7 +507,7 @@ a.logo {
 			h1,
 			h2 {
 				font-size: 5em;
-				letter-spacing: -2px;
+				letter-spacing: -1px;
 				line-height: .8em;
 			}
 		}
@@ -1150,6 +1150,55 @@ footer {
 
 .name {
 	display: block;
+}
+
+/**	- - - - - - - - - - - - - - - - - - - - */
+
+
+/**	MAGAZINE
+***	- - - - - - - - - - - - - - - - - - - - */
+
+.article {
+
+	p:first-child::first-letter {
+		line-height: 1em;
+		float: left;
+		font-size: 2.6em;
+		margin: 0 0.2em -0.1em 0;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	pre,
+	blockquote {
+		font-family: flyerblack, sans-serif;
+		font-size: 1.1em;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-top: 2.5em;
+	}
+
+	pre,
+	blockquote {
+		padding: 1em 0 1em 8em;
+		border-left: 0;
+		@extend .text-uppercase;
+
+	}
+
+	.signature {
+		margin-top: 2.5em;
+	}
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */

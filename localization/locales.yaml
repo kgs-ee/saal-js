@@ -193,8 +193,8 @@ nav:
         en: Festivals
         et: Festivalid
     magazine:
-        et: Magasin
         en: Magazine
+        et: Kaja
     media:
         en: Media
         et: Meedia
@@ -260,6 +260,9 @@ title:
     archive:
         en: Archive
         et: Arhiiv
+    articles:
+        en: Other posts
+        et: Teised postitused
     basement:
         en: Basement
         et: Kelder
