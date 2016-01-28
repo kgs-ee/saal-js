@@ -18,8 +18,7 @@ router.get('/', function(req, res) {
     res.end()
 })
 
-// Users
-function prepareUsers(callback) {
+router.prepare = function prepare(callback) {
     preppedUsers = []
     async.each(SDC.get(['local_entities', 'by_definition', 'person'], []), function(entity, callback) {
         preppedUsers.push(mapper.user(entity.id))
@@ -27,21 +26,9 @@ function prepareUsers(callback) {
     }, function(err) {
         if (err) {
             debug('Failed to prepare users.', err)
-            callback(err)
-            return
+            return callback(err)
         }
-        // debug('Users prepared.')
-        callback()
-    })
-}
-
-router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    var parallelf = []
-    parallelf.push(prepareUsers)
-    async.parallel(parallelf, function(err) {
-        if (err) { return callback(err) }
-        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
+        preppedUsers.sort(function(a,b) { return a.ordinal - b.ordinal })
         callback()
     })
 }

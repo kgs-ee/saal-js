@@ -28,7 +28,7 @@ var cacheFromEntu = [
     {'parent':'1931',                            'definition': 'event',       'class': 'residency'},
     {'parent':'1929',                            'definition': 'event',       'class': 'tour'},
     {'parent':'1953',                            'definition': 'news',        'class': 'news'},
-    {'parent':'1918',                            'definition': 'person',      'class': 'team'},
+    {'parent':'4051',                            'definition': 'person',      'class': 'team'},
     {'parent':'1935',                            'definition': 'performance', 'class': 'performance'},
     {'parent':'2109',                            'definition': 'location',    'class': 'location'},
     {'parent':'2107',                            'definition': 'event',       'class': 'project'},

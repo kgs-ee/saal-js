@@ -290,6 +290,7 @@ function mapUser(eid) {
     entityOut.set('name', opEntity.get('displayname'))
     entityOut.set('phone', opEntity.get(['properties', 'phone', 'value']))
     entityOut.set('email', opEntity.get(['properties', 'email', 'value']))
+    entityOut.set('ordinal', opEntity.get(['properties', 'ordinal', 'value'], 0))
     opEntity.get(['properties', 'occupation'], []).forEach(function stiterator(occupation) {
         entityOut.push('occupation', occupation.value)
     })
