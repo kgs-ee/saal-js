@@ -21,7 +21,7 @@ button:
             en: Free Admission
             et: Tasuta
         future_sale:
-            et: button.buy_ticket.future_sale
+            et: Tuleb müüki
         going_now:
             en: Buy ticket
             et: Osta pilet
