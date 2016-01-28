@@ -14,7 +14,6 @@ var allEvents = [] // = SDC.get(['local_entities', 'by_definition', 'performance
 
 
 router.get('/', function(req, res, next) {
-    // console.log('querystring ', req.query)
 
     var results = {}
     var query = req.query.q
@@ -128,18 +127,8 @@ router.get('/', function(req, res, next) {
             }
         })
     } else if (query) {
-        // console.log('Looking for "' + query + '"')
 
         var keys = [
-            // ['performances', 'artist'],
-            // ['performances', 'producer'],
-            // ['performances', res.locals.lang + '-name'],
-            // ['performances', res.locals.lang + '-subtitle'],
-            // ['performances', res.locals.lang + '-supertitle'],
-            // ['performances', res.locals.lang + '-description'],
-            // ['performances', res.locals.lang + '-technical-information'],
-            // ['artist'],
-            // ['producer'],
             [res.locals.lang + '-name'],
             [res.locals.lang + '-subtitle'],
             [res.locals.lang + '-description'],
@@ -153,25 +142,28 @@ router.get('/', function(req, res, next) {
             ['performance', res.locals.lang + '-technical-information'],
             ]
 
+        var re = new RegExp(query, "gi")
+        function highlight(str) { return '<span style="background-color: yellow;">' + str + '</span>' }
         async.filter(allEvents, function iterator(event, iteratorCB) {
-            debug('scan ' + JSON.stringify(event.id, null, 4))
+            var returnValue = false
             var length = keys.length
             for (var i = 0; i < length; i++) {
                 if (op.get(event, keys[i], false) === false) {
-                    debug( event.id + ' doesnot have ' + keys[i])
+                    // debug( event.id + ' doesnot have ' + keys[i])
                     continue
                 }
-                debug( event.id + ' has ' + keys[i] + '. search for ' + query)
-                if (op.get(event, keys[i]).toLowerCase().search(query) === -1) {
-                    debug( 'Cant find ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
+                // debug( event.id + ' has ' + keys[i] + '. search for ' + query)
+                var foundAt = op.get(event, keys[i]).toLowerCase().search(query)
+                if (foundAt === -1) {
+                    // debug( 'Cant find ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
                     continue
                 }
-                debug( 'Found ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
-                return iteratorCB(true)
+                // debug( 'Found ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
+                op.set(event, keys[i], op.get(event, keys[i]).replace(re, highlight))
+                returnValue = true
             }
-            return iteratorCB(false)
+            return iteratorCB(returnValue)
         }, function filtered(filteredEvents) {
-            console.log(filteredEvents)
             // debug(JSON.stringify(filteredEvents, null, 4))
 
             results = {
@@ -203,7 +195,6 @@ router.prepare = function prepare(callback) {
             callback(err)
             return
         }
-        debug('Prepared ', allPerformances.map(function(performance) { return performance.id }))
     })
     async.each(SDC.get(['local_entities', 'by_definition', 'event']), function(event, callback) {
         allEvents.push(mapper.event(event.id))
@@ -214,7 +205,6 @@ router.prepare = function prepare(callback) {
             callback(err)
             return
         }
-        debug('Prepared ', allEvents.map(function(event) { return event.id }))
     })
 }
 

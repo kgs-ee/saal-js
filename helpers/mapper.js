@@ -38,13 +38,21 @@ function mapCategory(eid) {
     return entityOut.get()
 }
 
-function mapEvent(eid) {
+function mapEvent(eid, querystring) {
     eid = String(eid)
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var opEntity = op(entity)
     var entityOut = op({})
     entityOut.set('id', eid)
     entityOut.set('pl-id', opEntity.get('properties.pl-id.value'))
+
+    var re = new RegExp(null, 'gi')
+    function highlight(str) {
+        return '<span style="background-color: yellow;">' + str + '</span>'
+    }
+    if (querystring) {
+        re = new RegExp(querystring, 'gi')
+    }
 
     var categories = []
     opEntity.get('properties.category', []).forEach(function catiterator(category) {
@@ -59,12 +67,12 @@ function mapEvent(eid) {
         entityOut.set('resident', opEntity.get('properties.resident', '').map(function(r) {return r.value}))
     }
 
-    entityOut.set('en-name', opEntity.get('properties.en-name.value'))
-    entityOut.set('et-name', opEntity.get('properties.et-name.value'))
-    entityOut.set('en-subtitle', opEntity.get('properties.en-subtitle.value'))
-    entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value'))
-    entityOut.set('en-description', opEntity.get('properties.en-description.md'))
-    entityOut.set('et-description', opEntity.get('properties.et-description.md'))
+    entityOut.set('en-name', opEntity.get('properties.en-name.value', '').replace(re, highlight))
+    entityOut.set('et-name', opEntity.get('properties.et-name.value', '').replace(re, highlight))
+    entityOut.set('en-subtitle', opEntity.get('properties.en-subtitle.value', '').replace(re, highlight))
+    entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value', '').replace(re, highlight))
+    entityOut.set('en-description', opEntity.get('properties.en-description.md', '').replace(re, highlight))
+    entityOut.set('et-description', opEntity.get('properties.et-description.md', '').replace(re, highlight))
     entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
     entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
         return {
@@ -84,8 +92,8 @@ function mapEvent(eid) {
     entityOut.set('max-price', opEntity.get('properties.max-price.value'))
     entityOut.set('ticket-api', opEntity.get('properties.pl-link.value'))
     entityOut.set('sales-status', opEntity.get('properties.sales-status.value'))
-    entityOut.set('en-technical-information', opEntity.get('properties.en-technical-information.md'))
-    entityOut.set('et-technical-information', opEntity.get('properties.et-technical-information.md'))
+    entityOut.set('en-technical-information', opEntity.get('properties.en-technical-information.md', '').replace(re, highlight))
+    entityOut.set('et-technical-information', opEntity.get('properties.et-technical-information.md', '').replace(re, highlight))
 
     entityOut.set('start-time', opEntity.get('properties.start-time.value'))
     entityOut.set('end-time', opEntity.get('properties.end-time.value'))
@@ -98,28 +106,28 @@ function mapEvent(eid) {
         // debug('1: ' + JSON.stringify(entityOut.get('et-name'), null, 2))
         // debug('2: ' + JSON.stringify(entityOut.get(['performance', 'et-name']), null, 2))
         if (entityOut.get('en-name') !== undefined) {
-            entityOut.set('en-name', entityOut.get(['performance', 'en-name']))
+            entityOut.set('en-name', entityOut.get(['performance', 'en-name'], '').replace(re, highlight))
         }
         if (entityOut.get('et-name') !== undefined) {
-            entityOut.set('et-name', entityOut.get(['performance', 'et-name']))
+            entityOut.set('et-name', entityOut.get(['performance', 'et-name'], '').replace(re, highlight))
         }
         if (entityOut.get('en-description') === undefined) {
-            entityOut.set('en-description', entityOut.get(['performance', 'en-description']))
+            entityOut.set('en-description', entityOut.get(['performance', 'en-description'], '').replace(re, highlight))
         }
         if (entityOut.get('et-description') === undefined) {
-            entityOut.set('et-description', entityOut.get(['performance', 'et-description']))
+            entityOut.set('et-description', entityOut.get(['performance', 'et-description'], '').replace(re, highlight))
         }
         if (entityOut.get('en-subtitle') === undefined) {
-            entityOut.set('en-subtitle', entityOut.get(['performance', 'en-subtitle']))
+            entityOut.set('en-subtitle', entityOut.get(['performance', 'en-subtitle'], '').replace(re, highlight))
         }
         if (entityOut.get('et-subtitle') === undefined) {
-            entityOut.set('et-subtitle', entityOut.get(['performance', 'et-subtitle']))
+            entityOut.set('et-subtitle', entityOut.get(['performance', 'et-subtitle'], '').replace(re, highlight))
         }
         if (entityOut.get('en-supertitle') === undefined) {
-            entityOut.set('en-supertitle', entityOut.get(['performance', 'en-supertitle']))
+            entityOut.set('en-supertitle', entityOut.get(['performance', 'en-supertitle'], '').replace(re, highlight))
         }
         if (entityOut.get('et-supertitle') === undefined) {
-            entityOut.set('et-supertitle', entityOut.get(['performance', 'et-supertitle']))
+            entityOut.set('et-supertitle', entityOut.get(['performance', 'et-supertitle'], '').replace(re, highlight))
         }
         // debug('3: ' + JSON.stringify(entityOut.get('et-name'), null, 2))
     }
@@ -142,11 +150,19 @@ function mapEvent(eid) {
     return entityOut.get()
 }
 
-function mapPerformance(eid) {
+function mapPerformance(eid, querystring) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var opEntity = op(entity)
     var entityOut = op({})
     entityOut.set('id', opEntity.get('id'))
+
+    var re = new RegExp(null, 'gi')
+    function highlight(str) {
+        return '<span style="background-color: yellow;">' + str + '</span>'
+    }
+    if (querystring) {
+        re = new RegExp(querystring, 'gi')
+    }
 
     var categories = []
     opEntity.get('properties.category', []).forEach(function catiterator(category) {
@@ -155,17 +171,17 @@ function mapPerformance(eid) {
     entityOut.set('category', categories.filter(function(category) { if (category) { return 1 } }))
 
     entityOut.set('pl-id', opEntity.get('properties.pl-id.value'))
-    entityOut.set('en-name', opEntity.get('properties.en-name.value'))
-    entityOut.set('et-name', opEntity.get('properties.et-name.value'))
-    entityOut.set('en-subtitle', opEntity.get('properties.en-subtitle.value'))
-    entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value'))
-    entityOut.set('en-supertitle', opEntity.get('properties.en-supertitle.value'))
-    entityOut.set('et-supertitle', opEntity.get('properties.et-supertitle.value'))
-    entityOut.set('en-description', opEntity.get('properties.en-description.md'))
-    entityOut.set('et-description', opEntity.get('properties.et-description.md'))
-    entityOut.set('artist', opEntity.get('properties.artist.value'))
-    entityOut.set('producer', opEntity.get('properties.producer.value'))
-    entityOut.set('town', opEntity.get('properties.town.value'))
+    entityOut.set('en-name', opEntity.get('properties.en-name.value', '').replace(re, highlight))
+    entityOut.set('et-name', opEntity.get('properties.et-name.value', '').replace(re, highlight))
+    entityOut.set('en-subtitle', opEntity.get('properties.en-subtitle.value', '').replace(re, highlight))
+    entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value', '').replace(re, highlight))
+    entityOut.set('en-supertitle', opEntity.get('properties.en-supertitle.value', '').replace(re, highlight))
+    entityOut.set('et-supertitle', opEntity.get('properties.et-supertitle.value', '').replace(re, highlight))
+    entityOut.set('en-description', opEntity.get('properties.en-description.md', '').replace(re, highlight))
+    entityOut.set('et-description', opEntity.get('properties.et-description.md', '').replace(re, highlight))
+    entityOut.set('artist', opEntity.get('properties.artist.value', '').replace(re, highlight))
+    entityOut.set('producer', opEntity.get('properties.producer.value', '').replace(re, highlight))
+    entityOut.set('town', opEntity.get('properties.town.value', '').replace(re, highlight))
     entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
     entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
         return {
@@ -176,8 +192,8 @@ function mapPerformance(eid) {
     entityOut.set('audio', opEntity.get('properties.audio.value'))
     entityOut.set('video', opEntity.get('properties.video.value'))
     entityOut.set('featured', opEntity.get('properties.featured.value') === 'True')
-    entityOut.set('et-technical-information', opEntity.get('properties.et-technical-information.md'))
-    entityOut.set('en-technical-information', opEntity.get('properties.en-technical-information.md'))
+    entityOut.set('et-technical-information', opEntity.get('properties.et-technical-information.md', '').replace(re, highlight))
+    entityOut.set('en-technical-information', opEntity.get('properties.en-technical-information.md', '').replace(re, highlight))
     entityOut.set('premiere.start-time', opEntity.get('properties.premiere-time.value'))
     return entityOut.get()
 }

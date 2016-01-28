@@ -2,20 +2,21 @@ var express = require('express')
 var router  = express.Router()
 var path    = require('path')
 var debug   = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
-// var op      = require('object-path')
+var op      = require('object-path')
 
 var mapper  = require('../helpers/mapper')
 
 router.get('/:id', function(req, res) {
+    debug('querystring ', req.query)
 
     var performanceEid = req.path.split('/')[1]
-    var performance = mapper.performance(performanceEid)
+    var performance = mapper.performance(performanceEid, op.get(req, ['query', 'q'], null))
     // debug(JSON.stringify(performance, null, 4))
     var events = []
     var pastEvents = []
     var coverages = mapper.coverageByPerformanceSync(performanceEid)
     SDC.get(['relationships', performanceEid, 'event'], [])
-    .map(function(eId) { return mapper.event(eId) })
+    .map(function(eId) { return mapper.event(eId, op.get(req, ['query', 'q'], null)) })
     .sort(function(a, b) { return (new Date(a['start-time'])) > (new Date(b['start-time'])) })
     .forEach(function(event) {
         if (new Date() < new Date(event['start-time'])) {

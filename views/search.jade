@@ -57,7 +57,7 @@ block content
                             .col-xs-12.col-md-12.col-lg-12
                                 each event in op.get(results, ['events'], [])
                                     h3
-                                        a(href='/' + lang + '/performance/' + op.get(event, ['performance', 'id']))= op.get(event, [lang + '-name'])
+                                        a(href='/' + lang + '/performance/' + op.get(event, ['performance', 'id'], op.get(event, ['id'])) + '?q=' + results.query)!= op.get(event, [lang + '-name'])
                                     hr
                         when 'category'
                             .col-xs-12.col-md-12.col-lg-12
