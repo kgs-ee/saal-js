@@ -24,7 +24,7 @@ block content
                     p!= SDC.get(['root', 'description'])
             
             section.news.col-md-6
-                if news.length
+                if Object.keys(news).length
                     h2= t('title.news')
 
                     .panel-group(id='accordion' role='tablist' multiselectable='true')

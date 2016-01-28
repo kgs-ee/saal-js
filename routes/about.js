@@ -14,7 +14,6 @@ var preppedSupporters = {}
 
 router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
-    //debug(op.get(SDC.get(['root', 'gallery'], []))
 
     res.render('about', {
     	'news'       : preppedNews,

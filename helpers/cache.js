@@ -123,10 +123,6 @@ function add2cache(entity, eClass) {
         op.set(tempLocalEntities, ['by_class', eClass, String(entity.id)], entity)
     }
     op.set(tempLocalEntities, ['by_definition', entity.definition, String(entity.id)], entity)
-    // var plId = op.get(entity, 'properties.pl-id.value', false)
-    // if (plId) {
-    //     op.set(tempLocalEntities, ['by_plid', String(plId)], entity)
-    // }
 
     if (op.get(entity, ['properties', 'featured', 'value']) === 'True') {
         if (op.get(entity, ['definition']) === 'performance') {
