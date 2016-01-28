@@ -196,7 +196,6 @@ app
     // routes mapping
     .use('/:lang',               require('./routes/index'))
     .use('/:lang/about/',        require('./routes/about'))
-    .use('/:lang/dev/',          require('./routes/dev'))
     .use('/:lang/performance/',  require('./routes/performance'))
     .use('/:lang/tours/',        require('./routes/tours'))
     .use('/:lang/program/',      require('./routes/program'))
