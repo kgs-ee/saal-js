@@ -25,14 +25,14 @@ nav.navbar.navbar-default.navbar-fixed-top
                     a(href='/' + lang + '/projects')= t('nav.projects')
                 li(class= route == 'magazine' ? 'active' : undefined )
                     a(href='/' + lang + '/magazine')= t('nav.magazine')
-                //- if SDC.get(['local_entities', 'by_class', 'festival'])
-                //-     li.dropdown.festivals(class=(route == 'festival' ? ' active' : undefined))
-                //-         a(href='#' class='dropdown-toggle', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')= t('nav.festivals')
-                //-             span.caret
-                //-         ul.dropdown-menu
-                //-             each festival, fid in SDC.get(['local_entities', 'by_class', 'festival'])
-                //-                 li(class=(path == 'festival/' + op.get(festival, ['id']) ? ' active' : undefined))
-                //-                     a(href='festival/' + op.get(festival, ['id']))= op.get(festival, ['properties', lang+'-name', 'value'])    
+                if SDC.get(['local_entities', 'by_class', 'festival'])
+                    li.dropdown.festivals(class=(route == 'festival' ? ' active' : undefined))
+                        a(href='#' class='dropdown-toggle', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')= t('nav.festivals')
+                            span.caret
+                        ul.dropdown-menu
+                            each festival, fid in SDC.get(['local_entities', 'by_class', 'festival'])
+                                li(class=(path == 'festival/' + op.get(festival, ['id']) ? ' active' : undefined))
+                                    a(href='festival/' + op.get(festival, ['id']))= op.get(festival, ['properties', lang+'-name', 'value'])    
                 li(class= route == 'contact' ? 'active' : undefined )
                     a(href='/' + lang + '/contact')= t('nav.contact')
         
