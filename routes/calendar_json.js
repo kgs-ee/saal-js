@@ -43,10 +43,9 @@ router.prepare = function prepare(callback) {
             }
             oneEvent.time = startTime
 
-            var oneLocation = op.get(oneEvent, ['location'], '')
             oneEvent.location = {}
-            oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], oneLocation)
-            oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], oneLocation)
+            oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], ''))
+            oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], ''))
             op.push(eventCalendar, [oneEvent['start-time'].slice(0,10)], oneEvent)
         }
         callback()

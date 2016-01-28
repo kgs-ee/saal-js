@@ -112,8 +112,8 @@ block content
                                                         span.subtitle= op.get(p, lang + '-subtitle', '')
 
                                     .col-xs-6.col-md-2.col-lg-2
-                                        if op.get(p, ['location'], false) || op.get(p, ['saal-location', lang + '-name'], false)
-                                            p.location= op.get(p, ['saal-location', lang + '-name'], op.get(p, 'location'))
+                                        if op.get(p, [lang + '-location'], false) || op.get(p, ['saal-location', lang + '-name'], false)
+                                            p.location= op.get(p, ['saal-location', lang + '-name'], op.get(p, [lang + '-location']))
                                         
                                         if op.get(p, 'price') == 0
                                             p= t('title.free')

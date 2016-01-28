@@ -125,8 +125,8 @@ block content
                                                         span.subtitle= op.get(p, lang + '-subtitle', '')
                                         
                                     .col-xs-6.col-md-2.col-lg-2
-                                        if op.get(p, 'location')
-                                            p.location= op.get(p, 'location')
+                                        if op.get(p, [lang + '-location'], false)
+                                            p.location= op.get(p, [lang + '-location'])
                                             
                                         if op.get(p, ['saal-location', lang + '-name'])
                                             p.location= op.get(p, ['saal-location', lang + '-name'])
@@ -225,8 +225,8 @@ block content
                                                         span.name= op.get(p, lang + '-name')
 
                                         .col-xs-6.col-md-2.col-lg-2
-                                            if op.get(p, 'location')
-                                                p.location= op.get(p, 'location')
+                                            if op.get(p, [lang + '-location'], false)
+                                                p.location= op.get(p, [lang + '-location'])
                                                 
                                             if op.get(p, ['saal-location', lang + '-name'])
                                                 p.location= op.get(p, ['saal-location', lang + '-name'])
@@ -282,8 +282,8 @@ block content
                                                     span.name= op.get(p, lang + '-name')
                                             
                                     .col-xs-12.col-md-4.col-lg-4
-                                        if op.get(p, 'location')
-                                            p.location= op.get(p, 'location')
+                                        if op.get(p, [lang + '-location'], false)
+                                            p.location= op.get(p, [lang + '-location'])
                                         
                                         if op.get(p, ['saal-location', lang + '-name'])
                                             p.location= op.get(p, ['saal-location', lang + '-name'])

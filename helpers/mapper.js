@@ -85,7 +85,8 @@ function mapEvent(eid, querystring) {
     var locationId = opEntity.get('properties.saal-location.reference')
     if (locationId) { entityOut.set('saal-location', mapLocation(locationId)) }
 
-    entityOut.set('location', opEntity.get('properties.location.value'))
+    entityOut.set('et-location', opEntity.get('properties.et-location.value'))
+    entityOut.set('en-location', opEntity.get('properties.en-location.value'))
     entityOut.set('price', opEntity.get('properties.price.value'))
     entityOut.set('onsite-price', opEntity.get(['properties', 'onsite-price', 'value']))
     entityOut.set('min-price', opEntity.get('properties.min-price.value'))
@@ -98,7 +99,7 @@ function mapEvent(eid, querystring) {
     entityOut.set('start-time', opEntity.get('properties.start-time.value'))
     entityOut.set('end-time', opEntity.get('properties.end-time.value'))
     entityOut.set('duration', opEntity.get('properties.duration.value'))
-    entityOut.set('ordinal', opEntity.get('properties.ordinal.value'))
+    entityOut.set('ordinal', opEntity.get(['properties', 'ordinal', 'value'], 0))
 
     var performanceId = opEntity.get('properties.performance.reference')
     if (performanceId) {
@@ -181,7 +182,8 @@ function mapPerformance(eid, querystring) {
     entityOut.set('et-description', opEntity.get('properties.et-description.md', '').replace(re, highlight))
     entityOut.set('artist', opEntity.get('properties.artist.value', ''))
     entityOut.set('producer', opEntity.get('properties.producer.value', ''))
-    entityOut.set('town', opEntity.get('properties.town.value', ''))
+    entityOut.set('et-town', opEntity.get('properties.et-town.value', ''))
+    entityOut.set('en-town', opEntity.get('properties.en-town.value', ''))
     entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
     entityOut.set('photos', opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
         return {

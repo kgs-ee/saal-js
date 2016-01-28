@@ -9,24 +9,24 @@ block content
         .row
             .event-banner.carousel.slide(id='front-carousel')
                 .carousel-inner(role='listbox')
-                    figure(id = 'slide-' + op.get(performance, 'id'), style='background-image: url(' + op.get(performance, ['photo', 'file'], '/images/placeholder.jpg') + ');')
+                    figure(id = 'slide-' + op.get(performance, ['id']), style='background-image: url(' + op.get(performance, ['photo', 'file'], '/images/placeholder.jpg') + ');')
                     header.col-md-8
-                        if op.get(performance, lang + '-supertitle', '')
-                            p= op.get(performance, lang + '-supertitle', '')
+                        if op.get(performance, [lang + '-supertitle'], '')
+                            p= op.get(performance, [lang + '-supertitle'], '')
                         h1
                             if op.get(performance, 'artist', '')
-                                span.artist= op.get(performance, 'artist', '')
+                                span.artist= op.get(performance, ['artist'], '')
                             
                             if op.get(performance, 'producer', '')    
-                                span.producer= op.get(performance, 'producer', '')
+                                span.producer= op.get(performance, ['producer'], '')
                             
-                            if op.get(performance, 'town', '')    
-                                span.town= op.get(performance, 'town', '')
+                            if op.get(performance, [lang + 'town'], '')    
+                                span.town= op.get(performance, [lang + 'town'], '')
                                 
-                        h1= op.get(performance, lang + '-name', '')
+                        h1= op.get(performance, [lang + '-name'], '')
                         
-                        if op.get(performance, lang + '-subtitle', '')
-                            p= op.get(performance, lang + '-subtitle', '')
+                        if op.get(performance, [lang + '-subtitle'], '')
+                            p= op.get(performance, [lang + '-subtitle'], '')
 
                     ul.event-categories
                         each rootCategory in rootCategories
@@ -65,7 +65,7 @@ block content
                             
                             if op.get(event, ['sales-status'])
                                 .col-xs-5.col-md-5.col-lg-5.text-right
-                                    a.btn.btn-primary(target='_blank' class=((op.get(event, 'sales-status') == 'sold_out') || (op.get(event, 'sales-status') == 'free_admission') ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
+                                    a.btn.btn-primary(target='_blank' class=((op.get(event, ['sales-status']) == 'sold_out') || (op.get(event, ['sales-status']) == 'free_admission') ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
                             .col-xs-12.col-md-12.col-lg-12
                                 hr                  
@@ -78,28 +78,28 @@ block content
                                 .col-xs-6.col-md-6.col-lg-4
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
                                 .col-xs-6.col-md-6.col-lg-8
-                                    p= op.get(event, ['saal-location', lang+'-name'], op.get(event, ['location'], ''))
+                                    p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
                                 .col-xs-12.col-md-12.col-lg-12
                                     hr
-        if op.get(performance, 'audio') || op.get(performance, 'video')
+        if op.get(performance, ['audio']) || op.get(performance, ['video'])
             .video-sound.row.page-margin
-                if op.get(performance, 'audio')
+                if op.get(performance, ['audio'])
                     div.col-xs-12.col-md-6
                         h2= t('title.sound')
-                        div!= op.get(performance, 'audio')
+                        div!= op.get(performance, ['audio'])
                 if op.get(performance, 'video')
                     div.col-xs-12.col-md-6
                         h2= t('title.video')
-                        div!= op.get(performance, 'video')
+                        div!= op.get(performance, ['video'])
 
         .row.page-margin
                 .col-md-6
                     
-                    if op.get(performance, 'photos')
+                    if op.get(performance, ['photos'])
                         .gallery
                             h2= t('title.gallery')
                             .row
-                                each photo in op.get(performance, 'photos', [])
+                                each photo in op.get(performance, ['photos'], [])
                                     .single-image.col-xs-6.col-sm-3.col-md-4
                                           a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
                                             img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
