@@ -24,7 +24,7 @@ router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
     minDate = new Date()
     minDate.setDate(1)
-    minDate.setMonth(minDate.getMonth() - 1)
+    minDate.setMonth(minDate.getMonth() - 0)
 
     eventCalendar = {}
     var residenciesEid = '1931'
