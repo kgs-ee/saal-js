@@ -44,8 +44,8 @@ router.prepare = function prepare(callback) {
             oneEvent.time = startTime
 
             oneEvent.location = {}
-            oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], ''))
-            oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], ''))
+            oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], 'Asukoht määramata!'))
+            oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], 'Location missing'))
             op.push(eventCalendar, [oneEvent['start-time'].slice(0,10)], oneEvent)
         }
         callback()
