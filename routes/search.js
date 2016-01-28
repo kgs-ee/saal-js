@@ -10,6 +10,7 @@ var fuse    = require('fuse.js')                // http://kiro.me/exp/fuse.html
 var mapper  = require('../helpers/mapper')
 
 var allPerformances = [] // = SDC.get(['local_entities', 'by_definition', 'performance'])
+var allEvents = [] // = SDC.get(['local_entities', 'by_definition', 'performance'])
 
 
 router.get('/', function(req, res, next) {
@@ -128,35 +129,61 @@ router.get('/', function(req, res, next) {
         })
     } else if (query) {
         // console.log('Looking for "' + query + '"')
-        fuseOptions = {
-            caseSensitive: false,
-            includeScore: true,
-            shouldSort: true,
-            threshold: 0.6,
-            location: 0,
-            distance: 100,
-            maxPatternLength: 32,
-            keys: [
-                res.locals.lang + '-name',
-                res.locals.lang + '-description',
-                res.locals.lang + '-technical-information',
-                'performance.' + res.locals.lang + '-name',
-                'performance.' + res.locals.lang + '-description',
-                'performance.' + res.locals.lang + '-technical-information'
-                ]
-        }
 
-        results = {
-            'query_type': 'query'
-            , 'query': req.query.q
-            , 'fuse_js': new fuse(allPerformances, fuseOptions).search(req.query.q)
-            // , 'fuzzy': fuzzy.filter(req.query.q, allPerformances, fuzzy_options)
-        }
-        // console.log(JSON.stringify(results, null, '  '))
-        res.render('search', {
-            results: results
+        var keys = [
+            // ['performances', 'artist'],
+            // ['performances', 'producer'],
+            // ['performances', res.locals.lang + '-name'],
+            // ['performances', res.locals.lang + '-subtitle'],
+            // ['performances', res.locals.lang + '-supertitle'],
+            // ['performances', res.locals.lang + '-description'],
+            // ['performances', res.locals.lang + '-technical-information'],
+            // ['artist'],
+            // ['producer'],
+            [res.locals.lang + '-name'],
+            [res.locals.lang + '-subtitle'],
+            [res.locals.lang + '-description'],
+            [res.locals.lang + '-technical-information'],
+            ['performance', 'artist'],
+            ['performance', 'producer'],
+            ['performance', res.locals.lang + '-name'],
+            ['performance', res.locals.lang + '-subtitle'],
+            ['performance', res.locals.lang + '-supertitle'],
+            ['performance', res.locals.lang + '-description'],
+            ['performance', res.locals.lang + '-technical-information'],
+            ]
+
+        async.filter(allEvents, function iterator(event, iteratorCB) {
+            debug('scan ' + JSON.stringify(event.id, null, 4))
+            var length = keys.length
+            for (var i = 0; i < length; i++) {
+                if (op.get(event, keys[i], false) === false) {
+                    debug( event.id + ' doesnot have ' + keys[i])
+                    continue
+                }
+                debug( event.id + ' has ' + keys[i] + '. search for ' + query)
+                if (op.get(event, keys[i]).toLowerCase().search(query) === -1) {
+                    debug( 'Cant find ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
+                    continue
+                }
+                debug( 'Found ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
+                return iteratorCB(true)
+            }
+            return iteratorCB(false)
+        }, function filtered(filteredEvents) {
+            console.log(filteredEvents)
+            // debug(JSON.stringify(filteredEvents, null, 4))
+
+            results = {
+                'query_type': 'query'
+                , 'query': req.query.q
+                , 'events': filteredEvents
+            }
+            res.render('search', {
+                results: results
+            })
+            res.end()
         })
-        res.end()
     } else {
         return next()
     }
@@ -164,17 +191,30 @@ router.get('/', function(req, res, next) {
 
 
 router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    debug('Preparing ' + path.basename(__filename).replace('.js', ''))
+    callback()
+
     async.each(SDC.get(['local_entities', 'by_definition', 'performance']), function(performance, callback) {
         allPerformances.push(mapper.performance(performance.id))
         callback()
     }, function(err) {
         if (err) {
-            debug('Failed to prepare performances forsearch.', err)
+            debug('Failed to prepare performances for search.', err)
             callback(err)
             return
         }
+        debug('Prepared ', allPerformances.map(function(performance) { return performance.id }))
+    })
+    async.each(SDC.get(['local_entities', 'by_definition', 'event']), function(event, callback) {
+        allEvents.push(mapper.event(event.id))
         callback()
+    }, function(err) {
+        if (err) {
+            debug('Failed to prepare events for search.', err)
+            callback(err)
+            return
+        }
+        debug('Prepared ', allEvents.map(function(event) { return event.id }))
     })
 }
 

@@ -13,12 +13,12 @@ block content
                     case results.query_type
                         when 'query'
                             .col-xs-12.col-md-12.col-lg-12
-                                if results.fuse_js.length == 0
+                                if results.events.length == 0
                                     h2= t('q.query') + ': ' + results.query + ' • ' + t('q.results.0')
-                                else if results.fuse_js.length == 1
+                                else if results.events.length == 1
                                     h2= t('q.query') + ': ' + results.query + ' • ' + t('q.results.1')
                                 else
-                                    h2= t('q.query') + ': ' + results.query + ' • ' + t('q.results') + ' ' + (results.fuse_js.length)
+                                    h2= t('q.query') + ': ' + results.query + ' • ' + t('q.results') + ' ' + (results.events.length)
                         when 'category'
                             .col-xs-12.col-md-12.col-lg-12
                                 if results.performances.length == 0
@@ -55,22 +55,22 @@ block content
                     case results.query_type
                         when 'query'
                             .col-xs-12.col-md-12.col-lg-12
-                                each performance in op.get(results, 'fuse_js', [])
+                                each event in op.get(results, ['events'], [])
                                     h3
-                                        a(href='/' + lang + '/performance/' + op.get(performance,'id'))= op.get(performance, lang + '-name')
+                                        a(href='/' + lang + '/performance/' + op.get(event, ['performance', 'id']))= op.get(event, [lang + '-name'])
                                     hr
                         when 'category'
                             .col-xs-12.col-md-12.col-lg-12
                                 each performance in op.get(results, 'performances', [])
                                     h3
-                                        a(href='/' + lang + '/performance/' + op.get(performance,'id'))= op.get(performance, lang + '-name')
+                                        a(href='/' + lang + '/performance/' + op.get(performance,'id'))= op.get(performance, [lang + '-name'])
                                     hr
                         when 'date'
                             .col-xs-12.col-md-12.col-lg-12
                                 each event in op.get(results, 'events', [])
                                     p= t('weekdays.' + new Date(q_date).getDay()) + ', ' + (moment(q_date).locale(lang).format('L'))
                                     h3
-                                        a(href='/' + lang + '/event/' + event.id)!= op.get(event, 'category.' + lang + '-name')
+                                        a(href='/' + lang + '/event/' + event.id)!= op.get(event, 'category.' + [lang + '-name'])
                                     hr
                         when 'person'
                             .col-xs-12.col-md-12.col-lg-12
