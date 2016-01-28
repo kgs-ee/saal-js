@@ -33,8 +33,8 @@ block content
                                         p= timestring
 
                                         //- Premiere
-                                        if op.get(p, 'performance.premiere.start-time')
-                                            if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                                        if op.get(p, ['performance', 'premiere', 'start-time'])
+                                            if (moment(datestring).locale(lang).format('L') === moment(op.get(p, ['performance', 'premiere', 'start-time'])).locale(lang).format('L'))
                                                 p.today= t('button.premiere')
 
                                         //- Today
@@ -43,43 +43,43 @@ block content
 
                                     .col-xs-12.col-md-6.col-lg-6
                                         h3
-                                            if op.get(p, 'performance.id', false)
-                                                a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
-                                                    if op.get(p, lang + '-supertitle', '')
-                                                        span.subtitle= op.get(p, lang + '-supertitle', '')
+                                            if op.get(p, ['performance', 'id'], false)
+                                                a(href='/' + lang + '/performance/' + op.get(p, ['performance', 'id']))
+                                                    if op.get(p, [lang + '-supertitle'], '')
+                                                        span.subtitle= op.get(p, [lang + '-supertitle'], '')
                                                     
-                                                    if op.get(p, 'performance.artist', '')    
-                                                        span.artist= op.get(p, 'performance.artist', '')
+                                                    if op.get(p, ['performance', 'artist'], '')    
+                                                        span.artist= op.get(p, ['performance', 'artist'], '')
                                                     
-                                                    if op.get(p, 'performance.producer', '')    
-                                                        span.producer= op.get(p, 'performance.producer', '')
+                                                    if op.get(p, ['performance', 'producer'], '')    
+                                                        span.producer= op.get(p, ['performance', 'producer'], '')
                                                     
-                                                    if op.get(p, 'performance.town', '')
-                                                        span.town= op.get(p, 'performance.town', '')
+                                                    if op.get(p, ['performance', lang + '-town'], '')
+                                                        span.town= op.get(p, ['performance', lang + '-town'], '')
                                                     
-                                                    span.name= op.get(p, lang + '-name')
+                                                    span.name= op.get(p, [lang + '-name'])
                                                     
-                                                    if op.get(p, lang + '-subtitle', '')
-                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                    if op.get(p, [lang + '-subtitle'], '')
+                                                        span.subtitle= op.get(p, [lang + '-subtitle'], '')
 
                                             else
-                                                a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-                                                    if op.get(p, lang + '-supertitle', '')
-                                                        span.subtitle= op.get(p, lang + '-supertitle', '')
+                                                a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, [lang + '-name'])
+                                                    if op.get(p, [lang + '-supertitle'], '')
+                                                        span.subtitle= op.get(p, [lang + '-supertitle'], '')
                                                     
-                                                    if op.get(p, 'performance.artist', '')    
-                                                        span.artist= op.get(p, 'performance.artist', '')
+                                                    if op.get(p, ['performance', 'artist'], '')    
+                                                        span.artist= op.get(p, ['performance', 'artist'], '')
                                                     
-                                                    if op.get(p, 'performance.producer', '')    
-                                                        span.producer= op.get(p, 'performance.producer', '')
+                                                    if op.get(p, ['performance', 'producer'], '')    
+                                                        span.producer= op.get(p, ['performance', 'producer'], '')
                                                     
-                                                    if op.get(p, 'performance.town', '')
-                                                        span.town= op.get(p, 'performance.town', '')
+                                                    if op.get(p, ['performance', lang + '-town'], '')
+                                                        span.town= op.get(p, ['performance', lang + '-town'], '')
                                                     
-                                                    span.name= op.get(p, lang + '-name')
+                                                    span.name= op.get(p, [lang + '-name'])
                                                     
-                                                    if op.get(p, lang + '-subtitle', '')
-                                                        span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                    if op.get(p, [lang + '-subtitle'], '')
+                                                        span.subtitle= op.get(p, [lang + '-subtitle'], '')
 
                                     .col-xs-6.col-md-2.col-lg-2
                                         if op.get(p, [lang + '-location'], false)
@@ -88,20 +88,20 @@ block content
                                         if op.get(p, ['saal-location', lang + '-name'])  
                                             p.location= op.get(p, ['saal-location', lang + '-name'])
                                         
-                                        if op.get(p, 'price') == 0
+                                        if op.get(p, ['price']) == 0
                                             p= t('title.free')
                                         else
-                                            p= op.get(p, 'price')
+                                            p= op.get(p, ['price'])
 
-                                        if op.get(p, 'min-price')
-                                            if op.get(p, 'min-price') == op.get(p, 'max-price')
-                                                p= op.get(p, 'min-price') + '€'
+                                        if op.get(p, ['min-price'])
+                                            if op.get(p, ['min-price']) == op.get(p, ['max-price'])
+                                                p= op.get(p, ['min-price']) + '€'
                                             else
-                                                p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                                p= op.get(p, ['min-price']) + '/' + op.get(p, ['max-price']) + '€'
 
-                                    if op.get(p, 'sales-status')
+                                    if op.get(p, ['sales-status'])
                                         .col-xs-6.col-md-2.col-lg-2.text-right
-                                            a.btn.btn-primary(class=(op.get(p, 'sales-status') == 'sold_out' ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                            a.btn.btn-primary(class=(op.get(p, ['sales-status']) == 'sold_out' ? "disabled" : "") href=op.get(p, ['ticket-api']) target='_blank')= t('button.buy_ticket.' + op.get(p, ['sales-status']))
 
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr

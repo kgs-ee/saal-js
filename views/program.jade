@@ -84,8 +84,8 @@ block content
                                                     if op.get(p, ['performance', 'producer'], false)
                                                         span.producer= op.get(p, ['performance', 'producer'])
                                                     
-                                                    if op.get(p, ['performance', 'town'], false)
-                                                        span.town= op.get(p, ['performance', 'town'])
+                                                    if op.get(p, ['performance', lang + '-town'], false)
+                                                        span.town= op.get(p, ['performance', lang + '-town'])
                                                     
                                                     span.name= op.get(p, [lang + '-name'])
                                                     
@@ -103,8 +103,8 @@ block content
                                                     if op.get(p, 'performance.producer', '')    
                                                         span.producer= op.get(p, 'performance.producer', '')
                                                     
-                                                    if op.get(p, 'performance.town', '')
-                                                        span.town= op.get(p, 'performance.town', '')
+                                                    if op.get(p, ['performance', lang + '-town'], '')
+                                                        span.town= op.get(p, ['performance', lang + '-town'], '')
                                                     
                                                     span.name= op.get(p, lang + '-name')
                                                     
