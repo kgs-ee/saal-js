@@ -25,9 +25,9 @@ router.prepare = function prepare(callback) {
     }, function(err) {
         if (err) {
             debug('Failed to prepare projects.', err)
-            callback(err)
-            return
+            return callback(err)
         }
+        projects.sort(function(a,b) { return a.ordinal - b.ordinal })
         callback()
         // debug('Projects prepared - ', JSON.stringify(projects, null, 4))
     })
