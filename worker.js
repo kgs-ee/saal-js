@@ -109,7 +109,11 @@ process.on('message', function(msg) {
                     // debug('Reload failed', err)
                     return
                 }
-                process.send({ cmd: 'log', log: 'Worker reloaded with cache from ' + SDC.get('date') })
+                if (SDC.get('date')) {
+                    process.send({ cmd: 'log', log: 'Worker reloaded with cache from ' + SDC.get('date') })
+                } else {
+                    process.send({ cmd: 'log', log: 'Worker reloaded with no cache.' })
+                }
             })
         break
     }
