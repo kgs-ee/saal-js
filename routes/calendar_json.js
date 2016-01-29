@@ -9,22 +9,47 @@ var mapper  = require('../helpers/mapper')
 
 var eventCalendar = {}
 
+function pad2(d) {
+    return (d < 10) ? '0' + d.toString() : d.toString()
+}
+function truncDate(date) {
+    date.setHours(0)
+    date.setMinutes(0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+}
+function formatDate(date) {
+    return date.getFullYear() + '-' + pad2(date.getMonth()+1) + '-' + pad2(date.getDate())
+}
+
+var minDate = new Date()
+minDate.setDate(1)
+minDate.setMonth(minDate.getMonth() - 1)
+truncDate(minDate)
+
 router.get('/', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     var date = op.get(req, 'query.date')
     if (date) {
         res.send(eventCalendar[date])
     } else {
-        res.send(eventCalendar)
+        var maxDate = new Date(Object.keys(eventCalendar)[Object.keys(eventCalendar).length-1])
+        maxDate.setDate(1)
+        maxDate.setMonth(maxDate.getMonth() + 1)
+        maxDate.setDate(maxDate.getDate() - 1)
+        truncDate(maxDate)
+
+        res.send({
+            minDate: formatDate(minDate),
+            maxDate: formatDate(maxDate),
+            events: eventCalendar,
+        })
     }
     res.end()
 })
 
 router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    minDate = new Date()
-    minDate.setDate(1)
-    minDate.setMonth(minDate.getMonth() - 2)
 
     eventCalendar = {}
     var residenciesEid = '1931'
