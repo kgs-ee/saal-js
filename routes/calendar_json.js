@@ -25,6 +25,7 @@ function formatDate(date) {
 var minDate = new Date()
 minDate.setDate(1)
 minDate.setMonth(minDate.getMonth() - 1)
+if (minDate < new Date("2016-01-01")) { minDate = new Date("2016-01-01") }
 truncDate(minDate)
 
 router.get('/', function(req, res) {
