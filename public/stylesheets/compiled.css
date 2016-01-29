@@ -305,7 +305,6 @@ ul {
 .list-inline {
   padding-left: 0;
   list-style: none;
-  margin-left: -5px;
 }
 
 .list-inline > li {
@@ -2951,7 +2950,7 @@ h2,
   }
 }
 
-@media (min-width: 1250px) {
+@media (min-width: 1199px) {
   .main-nav li {
     padding: 0 5px !important;
   }
@@ -2959,7 +2958,7 @@ h2,
 
 @media (min-width: 1200px) {
   .main-nav li {
-    padding: 0 10px !important;
+    padding: 0 8px !important;
   }
 }
 
@@ -2987,7 +2986,7 @@ h3,
 .h3,
 .ui-datepicker-title {
   line-height: 1.3em;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 
 @media (min-width: 768px) {
@@ -3064,16 +3063,14 @@ a.logo:hover {
 }
 
 .social li {
-  margin-top: 1em;
   display: inline-block !important;
   font-size: 2em;
+  padding: 0 5px;
 }
 
 @media (min-width: 1200px) {
   .social li {
-    margin-top: 0;
     font-size: 1.6em;
-    padding: 0 5px;
   }
 }
 
@@ -3084,18 +3081,15 @@ a.logo:hover {
 .social li.lang {
   font-family: flyerblack, sans-serif;
   font-size: 1.6em;
-  float: right !important;
   padding-top: .3em;
+  padding-left: 10px;
 }
 
 @media (min-width: 1200px) {
   .social li.lang {
     padding-top: 0;
+    float: right !important;
   }
-}
-
-.social li.lang a {
-  color: #000 !important;
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
@@ -3699,29 +3693,17 @@ a.logo:hover {
 }
 
 .meta-info {
-  margin-bottom: 4em;
+  margin-bottom: 2em;
 }
 
-.press .select-cat a,
-.select-cat .press a,
 .upcoming .select-cat a,
-.select-cat
-.upcoming a,
-.gallery .select-cat a,
-.select-cat
-.gallery a {
+.select-cat .upcoming a {
   margin: 1em 0;
 }
 
 @media (min-width: 992px) {
-  .press .select-cat a,
-  .select-cat .press a,
   .upcoming .select-cat a,
-  .select-cat
-  .upcoming a,
-  .gallery .select-cat a,
-  .select-cat
-  .gallery a {
+  .select-cat .upcoming a {
     margin: 0;
   }
 }

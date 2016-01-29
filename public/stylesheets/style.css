@@ -613,7 +613,6 @@ ol ol {
 .list-inline {
   padding-left: 0;
   list-style: none;
-  margin-left: -5px;
 }
 
 .list-inline > li {
@@ -5401,7 +5400,7 @@ p {
 
 h3, .select-cat a, .h3, .ui-datepicker-title {
   line-height: 1.3em;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 
 @media (min-width: 768px) {
@@ -5490,6 +5489,7 @@ a.logo:hover {
   font-family: flyerblack, sans-serif;
   font-size: 1.6em;
   padding-top: .3em;
+  padding-left: 10px;
 }
 
 @media (min-width: 1200px) {
@@ -6095,33 +6095,19 @@ a.logo:hover {
 }
 
 .meta-info {
-  margin-bottom: 4em;
+  margin-bottom: 2em;
 }
 
-.press,
-.upcoming,
-.gallery {
-  margin-top: 4em;
+.upcoming {
+  margin-top: 2em;
 }
 
-.press h3, .press .select-cat a, .select-cat .press a,
-.upcoming h3,
-.upcoming .select-cat a, .select-cat
-.upcoming a,
-.gallery h3,
-.gallery .select-cat a, .select-cat
-.gallery a {
+.upcoming h3, .upcoming .select-cat a, .select-cat .upcoming a {
   margin: 1em 0;
 }
 
 @media (min-width: 992px) {
-  .press h3, .press .select-cat a, .select-cat .press a,
-  .upcoming h3,
-  .upcoming .select-cat a, .select-cat
-  .upcoming a,
-  .gallery h3,
-  .gallery .select-cat a, .select-cat
-  .gallery a {
+  .upcoming h3, .upcoming .select-cat a, .select-cat .upcoming a {
     margin: 0;
   }
 }
