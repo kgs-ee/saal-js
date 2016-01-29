@@ -14,7 +14,6 @@ function datePickerInit() {
 
     var arrEvents = {}
     $.getJSON('calendar_json', function(response){
-        console.log(response['events'][1]);
 
         // Get the last event in Calndar
         var firstDate = response['minDate'],
@@ -23,7 +22,7 @@ function datePickerInit() {
         for (var key in response['events']) {
             var keys = key.split("-")
             var d = new Date(keys[0], keys[1] - 1, keys[2])
-            arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response[key]
+            arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response.events[key]
 
         }
 

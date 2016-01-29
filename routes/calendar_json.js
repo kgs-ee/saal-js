@@ -19,7 +19,7 @@ function truncDate(date) {
     date.setMilliseconds(0)
 }
 function formatDate(date) {
-    return date.getFullYear() + '-' + pad2(date.getMonth()+1) + '-' + pad2(date.getDate())
+    return date.getFullYear() + '-' + date.getMonth()+1 + '-' + date.getDate()
 }
 
 var minDate = new Date()
