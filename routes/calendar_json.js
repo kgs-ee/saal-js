@@ -74,7 +74,6 @@ router.prepare = function prepare(callback) {
         op.set(calEvent, ['name', 'en'], op.get(oneEvent, ['en-name']))
 
         calEvent.time = ''
-        calEvent.startTime = oneEvent['start-time']
         if (oneEvent['start-time'].length >= 16) {
             calEvent.time = oneEvent['start-time'].slice(11,16).replace('00:00', '')
         }
