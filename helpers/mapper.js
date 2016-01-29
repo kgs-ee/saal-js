@@ -191,6 +191,7 @@ function mapPerformance(eid, querystring) {
             big: opEntity.get(['properties', 'photo-big', ix])
         }
     }))
+    entityOut.set('logo', opEntity.get(['properties', 'logo'], []))
     entityOut.set('audio', opEntity.get('properties.audio.value'))
     entityOut.set('video', opEntity.get('properties.video.value'))
     entityOut.set('featured', opEntity.get('properties.featured.value') === 'True')

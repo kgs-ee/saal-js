@@ -107,12 +107,9 @@ block content
                     
                     .supporter
                         ul.list-inline
-                            li
-                                img(src='http://placehold.it/150x50', class='img-responsive')
-                            li
-                                img(src='http://placehold.it/150x50', class='img-responsive')
-                            li
-                                img(src='http://placehold.it/150x50', class='img-responsive')    
+                            each logo in op.get(performance, ['logo'], [])
+                                li
+                                    img(src=logo.file, class='img-responsive', width=150, height=50)
 
                 .col-md-6
                   if coverage.length
