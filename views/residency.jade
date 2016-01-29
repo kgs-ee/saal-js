@@ -21,7 +21,7 @@ block content
                                     //-     span.subtitle= op.get(event, lang + '-subtitle', '')
                                         
                                     if op.get(event, 'resident', false)
-                                        span.artist= op.get(event, 'resident', '')
+                                        span.artist= op.get(event, 'resident', '').join(', ')
                                         
                                     if op.get(event, lang + '-name')
                                         span.name= op.get(event, lang + '-name')
