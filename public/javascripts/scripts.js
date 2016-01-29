@@ -14,18 +14,19 @@ function datePickerInit() {
 
     var arrEvents = {}
     $.getJSON('calendar_json', function(response){
-        console.log(response);
+        console.log(response['events'][1]);
 
-        for (var key in response) {
+        // Get the last event in Calndar
+        var firstDate = response['minDate'],
+            lastDate = response['maxDate'];
+
+        for (var key in response['events']) {
             var keys = key.split("-")
             var d = new Date(keys[0], keys[1] - 1, keys[2])
             arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response[key]
 
         }
 
-        // Get the last event in Calndar
-        var firstDate = Object.keys(arrEvents)[0],
-            lastDate = Object.keys(arrEvents)[Object.keys(arrEvents).length-1];
 
         $("#datepicker").datepicker({
             dateFormat : "yy-mm-dd",
