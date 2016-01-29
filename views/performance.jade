@@ -104,6 +104,15 @@ block content
                                     .single-image.col-xs-6.col-sm-3.col-md-4
                                           a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
                                             img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                    
+                    .supporter
+                        ul.list-inline
+                            li
+                                img(src='http://placehold.it/150x50', class='img-responsive')
+                            li
+                                img(src='http://placehold.it/150x50', class='img-responsive')
+                            li
+                                img(src='http://placehold.it/150x50', class='img-responsive')    
 
                 .col-md-6
                   if coverage.length
