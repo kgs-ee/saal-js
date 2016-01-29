@@ -14,35 +14,29 @@ function datePickerInit() {
 
     var arrEvents = {}
     $.getJSON('calendar_json', function(response){
+        console.log(response);
 
         for (var key in response) {
             var keys = key.split("-")
             var d = new Date(keys[0], keys[1] - 1, keys[2])
             arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response[key]
+
         }
 
         // Get the last event in Calndar
         var firstDate = Object.keys(arrEvents)[0],
             lastDate = Object.keys(arrEvents)[Object.keys(arrEvents).length-1];
 
-
         $("#datepicker").datepicker({
             dateFormat : "yy-mm-dd",
             prevText : '<',
             nextText : '>',
-
-            /**
-            *  Show events starting from January 2016.
-            *  Somehow I need to show the date in a wierd way.
-            *  POSSIBLE BUG
-            **/
             minDate : firstDate,
             maxDate : lastDate,
 
             beforeShowDay: function(date) {
 
                 var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-
                 var eventsByDate = arrEvents[dateString]
 
                 var isClickable = false
