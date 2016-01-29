@@ -286,7 +286,9 @@ p {
 }
 
 .text-uppercase,
-.ui-datepicker-title {
+.ui-datepicker-title,
+.article pre,
+.article blockquote {
   text-transform: uppercase;
 }
 
@@ -3253,7 +3255,7 @@ a.logo:hover {
 
   .event-banner header h1 {
     font-size: 5em;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
     line-height: .8em;
   }
 }
@@ -3840,6 +3842,55 @@ footer {
 
 .name {
   display: block;
+}
+
+/**	- - - - - - - - - - - - - - - - - - - - */
+
+/**	MAGAZINE
+***	- - - - - - - - - - - - - - - - - - - - */
+
+.article p:first-child::first-letter {
+  line-height: 1em;
+  float: left;
+  font-size: 2.6em;
+  margin: 0 0.2em -0.1em 0;
+}
+
+.article h1,
+.article h2,
+.article h3,
+.article .select-cat a,
+.select-cat
+.article a,
+.article h4,
+.article h5,
+.article h6,
+.article pre,
+.article blockquote {
+  font-family: flyerblack, sans-serif;
+  font-size: 1.1em;
+}
+
+.article h1,
+.article h2,
+.article h3,
+.article .select-cat a,
+.select-cat
+.article a,
+.article h4,
+.article h5,
+.article h6 {
+  margin-top: 2.5em;
+}
+
+.article pre,
+.article blockquote {
+  padding: 1em 0 1em 8em;
+  border-left: 0;
+}
+
+.article .signature {
+  margin-top: 2.5em;
 }
 
 /**	- - - - - - - - - - - - - - - - - - - - */
