@@ -32,7 +32,7 @@ nav.navbar.navbar-default.navbar-fixed-top
                         ul.dropdown-menu
                             each festival, fid in SDC.get(['local_entities', 'by_class', 'festival'])
                                 li(class=(path == 'festival/' + op.get(festival, ['id']) ? ' active' : undefined))
-                                    a(href='festival/' + op.get(festival, ['id']))= op.get(festival, ['properties', lang+'-name', 'value'])    
+                                    a(href='#')= op.get(festival, ['properties', lang+'-name', 'value'])    
                 li(class= route == 'contact' ? 'active' : undefined )
                     a(href='/' + lang + '/contact')= t('nav.contact')
         
