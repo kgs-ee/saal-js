@@ -59,26 +59,31 @@ router.prepare = function prepare(callback) {
 
     async.each(events, function(event, callback) {
         var oneEvent = mapper.event(event.id)
-        oneEvent.performanceEid = op.get(oneEvent, ['performance', 'id'], false)
-        op.del(oneEvent, ['performance'])
+        var calEvent = {}
 
         //debug(JSON.stringify(oneEvent, null, 2))
         if (!oneEvent['start-time']) { return callback() }
         if (new Date(oneEvent['start-time']) < minDate) { return callback() }
+        if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) !== -1) { return callback() }
         if (new Date(oneEvent['start-time']) > maxDate) { maxDate = new Date(oneEvent['start-time']) }
-        // debug('Compare dates', new Date(oneEvent['start-time']), minDate, new Date(oneEvent['start-time']) > minDate )
-        if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) === -1) {
-            var startTime = '00:00'
-            if (oneEvent['start-time'].length === 16) {
-                startTime = oneEvent['start-time'].slice(11,16)
-            }
-            oneEvent.time = startTime
 
-            oneEvent.location = {}
-            oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], 'Asukoht määramata!'))
-            oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], 'Location missing'))
-            op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], oneEvent)
+        calEvent.eid = op.get(oneEvent, ['performance', 'id'], op.get(oneEvent, ['id']))
+        calEvent.controller = op.get(oneEvent, ['performance', 'id'], false) ? 'performance' : 'event'
+        calEvent.tag = op.get(oneEvent, ['tag'], [])
+        op.set(calEvent, ['name', 'et'], op.get(oneEvent, ['et-name']))
+        op.set(calEvent, ['name', 'en'], op.get(oneEvent, ['en-name']))
+
+        calEvent.time = ''
+        calEvent.startTime = oneEvent['start-time']
+        if (oneEvent['start-time'].length >= 16) {
+            calEvent.time = oneEvent['start-time'].slice(11,16).replace('00:00', '')
         }
+
+        calEvent.location = {}
+        calEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], 'Asukoht määramata!'))
+        calEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], 'Location missing'))
+
+        op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], calEvent)
         callback()
     }, function(err) {
         if (err) {
