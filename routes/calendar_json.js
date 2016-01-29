@@ -60,6 +60,7 @@ router.prepare = function prepare(callback) {
     async.each(events, function(event, callback) {
         var oneEvent = mapper.event(event.id)
         oneEvent.performanceEid = op.get(oneEvent, ['performance', 'id'], false)
+        op.del(oneEvent, ['performance'])
 
         //debug(JSON.stringify(oneEvent, null, 2))
         if (!oneEvent['start-time']) { return callback() }
