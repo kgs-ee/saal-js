@@ -127,7 +127,7 @@ router.get('/', function(req, res, next) {
             }
         })
     } else if (query) {
-
+        query = query.toLowerCase()
         var keys = [
             [res.locals.lang + '-name'],
             [res.locals.lang + '-subtitle'],

@@ -7,7 +7,7 @@ var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
 
 router.get('/:id', function(req, res) {
-    debug('querystring ', req.query)
+    // debug('querystring ', req.query)
 
     var performanceEid = req.path.split('/')[1]
     var performance = mapper.performance(performanceEid, op.get(req, ['query', 'q'], null))
