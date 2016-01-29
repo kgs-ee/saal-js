@@ -19,7 +19,8 @@ function truncDate(date) {
     date.setMilliseconds(0)
 }
 function formatDate(date) {
-    return date.getFullYear() + '-' + date.getMonth()+1 + '-' + date.getDate()
+    if (Object.prototype.toString.call(date) !== '[object Date]') { date = new Date(date) }
+    return date.getFullYear() + '-' + (Number(date.getMonth())+1) + '-' + date.getDate()
 }
 
 var minDate = new Date()
@@ -72,7 +73,7 @@ router.prepare = function prepare(callback) {
             oneEvent.location = {}
             oneEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], 'Asukoht määramata!'))
             oneEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], 'Location missing'))
-            op.push(eventCalendar, [oneEvent['start-time'].slice(0,10)], oneEvent)
+            op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], oneEvent)
         }
         callback()
     }, function(err) {

@@ -12,20 +12,12 @@ function datePickerInit() {
     )
     $.datepicker.setDefaults(options)
 
-    var arrEvents = {}
     $.getJSON('calendar_json', function(response){
+        console.log(response.events);
 
         // Get the last event in Calndar
         var firstDate = response['minDate'],
             lastDate = response['maxDate'];
-
-        for (var key in response['events']) {
-            var keys = key.split("-")
-            var d = new Date(keys[0], keys[1] - 1, keys[2])
-            arrEvents[d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()] = response.events[key]
-
-        }
-
 
         $("#datepicker").datepicker({
             dateFormat : "yy-mm-dd",
@@ -37,7 +29,7 @@ function datePickerInit() {
             beforeShowDay: function(date) {
 
                 var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-                var eventsByDate = arrEvents[dateString]
+                var eventsByDate = response.events[dateString]
 
                 var isClickable = false
                 var extraClass = ""
