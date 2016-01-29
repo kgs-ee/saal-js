@@ -13,7 +13,7 @@ function datePickerInit() {
     $.datepicker.setDefaults(options)
 
     $.getJSON('calendar_json', function(response){
-        console.log(response.events);
+        //console.log(response.events);
 
         // Get the last event in Calndar
         var firstDate = response['minDate'],
