@@ -23,6 +23,7 @@ function formatDate(date) {
     return date.getFullYear() + '-' + (Number(date.getMonth())+1) + '-' + date.getDate()
 }
 
+var maxDate = new Date()
 var minDate = new Date()
 minDate.setDate(1)
 minDate.setMonth(minDate.getMonth() - 1)
@@ -35,7 +36,6 @@ router.get('/', function(req, res) {
     if (date) {
         res.send(eventCalendar[date])
     } else {
-        var maxDate = new Date(Object.keys(eventCalendar)[Object.keys(eventCalendar).length-1])
         maxDate.setDate(1)
         maxDate.setMonth(maxDate.getMonth() + 1)
         maxDate.setDate(maxDate.getDate() - 1)
@@ -59,9 +59,12 @@ router.prepare = function prepare(callback) {
 
     async.each(events, function(event, callback) {
         var oneEvent = mapper.event(event.id)
+        oneEvent.performanceEid = op.get(oneEvent, ['performance', 'id'], false)
+
         //debug(JSON.stringify(oneEvent, null, 2))
         if (!oneEvent['start-time']) { return callback() }
         if (new Date(oneEvent['start-time']) < minDate) { return callback() }
+        if (new Date(oneEvent['start-time']) > maxDate) { maxDate = new Date(oneEvent['start-time']) }
         // debug('Compare dates', new Date(oneEvent['start-time']), minDate, new Date(oneEvent['start-time']) > minDate )
         if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) === -1) {
             var startTime = '00:00'
