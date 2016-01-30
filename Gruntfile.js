@@ -60,7 +60,8 @@ module.exports = function(grunt) {
             '.co-production img',
             /disabled/,
             '.banner',
-            /article/
+            /article/,
+            '.single-image'
 
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],

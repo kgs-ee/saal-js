@@ -157,6 +157,11 @@ $(document).ready(function() {
     calToolTip()
     fancyBoxGallery()
     eventBannerHeight()
+
+    // Prevent linking to front page
+    $('.festivals .dropdown-menu a').click(function(event) {
+        event.preventDefault();
+    });
 })
 
 $(window).load(function() {
