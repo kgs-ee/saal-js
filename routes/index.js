@@ -14,17 +14,42 @@ var toursUpcoming = {}
 var residencyPast = {}
 var sideBanner
 
+var cachedPage
+
+
 router.get('/', function(req, res) {
-    // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
-    res.render('index', {
-        'featured': featured,
-        'program': programUpcoming,
-        'tours': toursUpcoming,
-        'residencies': residencyPast,
-        'sideBanner': sideBanner,
-        path: req.path
-    })
-    res.end()
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
+    if (cachedPage) {
+        debug('Found cache')
+        res.write(cachedPage)
+        res.end()
+    } else {
+        debug('Prerendering "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
+        var translate = require(require.resolve('../helpers/i18n')).translate
+        var locales = require(require.resolve('../helpers/i18n')).locales
+        var lang = require(require.resolve('../helpers/i18n')).lang
+        // res.locals.t = require(require.resolve('../helpers/i18n')).translate
+        var templatePath = require.resolve('../views/index.jade')
+        var templateFn = require('jade').compileFile(templatePath)
+        cachedPage = templateFn ({
+            t: translate,
+            locales: locales,
+            lang: lang,
+            op: op,
+            SAAL: SDC.get('root'),
+            moment: require('moment'),
+            'featured': featured,
+            'program': programUpcoming,
+            'tours': toursUpcoming,
+            'residencies': residencyPast,
+            'sideBanner': sideBanner
+        })
+        debug('Done cacheing')
+        res.write(cachedPage)
+        res.end()
+    }
+    debug('Rendered "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
+    // res.end()
 })
 
 
@@ -133,6 +158,12 @@ function preparePastResidency(callback) {
     })
 }
 
+// Past residency
+function clearCachedRender(callback) {
+    debug('Clearing cached render from ' + path.basename(__filename).replace('.js', ''))
+    cachedPage = undefined
+}
+
 
 router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
@@ -142,6 +173,7 @@ router.prepare = function prepare(callback) {
     parallelf.push(prepareUpcomingTours)
     parallelf.push(preparePastResidency)
     parallelf.push(prepareSideBanner)
+    parallelf.push(clearCachedRender)
     async.parallel(parallelf, function(err) {
         if (err) { return callback(err) }
         // debug('Prepared ' + path.basename(__filename).replace('.js', ''))

@@ -141,25 +141,30 @@ var ravenClient = new raven.Client({
 
 
 var app     = express()
-
+debug('Start jade engine')
 app
     // jade view engine
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'jade')
 
+debug('Start getsentry logs')
+app
     // logs to getsentry.com - start
     .use(raven.middleware.express.requestHandler(ravenClient))
 
+debug('Cookies')
+app
     // cookies
     .use(cookie(APP_COOKIE_SECRET))
 
+debug('Body parser')
+app
     // parse POST requests
     .use(bparser.json())
     .use(bparser.urlencoded({extended: true}))
 
-    // stylus to css converter
-    // .use(stylus.middleware({src: path.join(__dirname, 'public'), compress: true}))
-
+debug('Static and favicon')
+app
     // static files path & favicon
     .use(express.static(path.join(__dirname, 'public')))
     // .use(favicon(path.join(__dirname, 'public', 'images', 'kgs-logo.ico')))
