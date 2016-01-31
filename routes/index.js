@@ -14,27 +14,28 @@ var toursUpcoming = {}
 var residencyPast = {}
 var sideBanner
 
-var cachedPage
+var templatePath = require.resolve('../views/index.jade')
+var templateFn = require('jade').compileFile(templatePath)
+var cachedPage = {}
 
 
 router.get('/', function(req, res) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
-    if (cachedPage) {
+    if (cachedPage[res.locals.lang]) {
         debug('Found cache')
-        res.write(cachedPage)
+        res.write(cachedPage[res.locals.lang])
         res.end()
     } else {
         debug('Prerendering "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
         var translate = require(require.resolve('../helpers/i18n')).translate
         var locales = require(require.resolve('../helpers/i18n')).locales
-        var lang = require(require.resolve('../helpers/i18n')).lang
+        // var lang = res.locals.lang,
         // res.locals.t = require(require.resolve('../helpers/i18n')).translate
-        var templatePath = require.resolve('../views/index.jade')
-        var templateFn = require('jade').compileFile(templatePath)
-        cachedPage = templateFn ({
+        cachedPage[res.locals.lang] = templateFn ({
+            path: '',
             t: translate,
             locales: locales,
-            lang: lang,
+            lang: res.locals.lang,
             op: op,
             SAAL: SDC.get('root'),
             moment: require('moment'),
@@ -45,7 +46,7 @@ router.get('/', function(req, res) {
             'sideBanner': sideBanner
         })
         debug('Done cacheing')
-        res.write(cachedPage)
+        res.write(cachedPage[res.locals.lang])
         res.end()
     }
     debug('Rendered "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
@@ -161,7 +162,7 @@ function preparePastResidency(callback) {
 // Past residency
 function clearCachedRender(callback) {
     debug('Clearing cached render from ' + path.basename(__filename).replace('.js', ''))
-    cachedPage = undefined
+    cachedPage = {}
 }
 
 
