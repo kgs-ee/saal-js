@@ -3,7 +3,7 @@ var path  = require('path')
 var yaml  = require('js-yaml')
 var op    = require('object-path')
 var md    = require('marked')
-// var debug = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+var debug = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 
 var i18nConfig = {}
 
@@ -49,6 +49,10 @@ exports.init = function init(req, res, next) {
     res.locals.t = translate
     res.locals.md = md
     res.locals.locales = i18nConfig.locales
+    exports.lang = i18nConfig.lang
+    exports.locales = i18nConfig.locales
+    exports.lang = i18nConfig.lang
+    debug('locales prepped', i18nConfig.locales)
     next()
 }
 

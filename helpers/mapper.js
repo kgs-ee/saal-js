@@ -180,6 +180,7 @@ function mapPerformance(eid, querystring) {
     entityOut.set('et-supertitle', opEntity.get('properties.et-supertitle.value', ''))
     entityOut.set('en-description', opEntity.get('properties.en-description.md', '').replace(re, highlight))
     entityOut.set('et-description', opEntity.get('properties.et-description.md', '').replace(re, highlight))
+    entityOut.set('duration', opEntity.get('properties.duration.value'))
     entityOut.set('artist', opEntity.get('properties.artist.value', ''))
     entityOut.set('producer', opEntity.get('properties.producer.value', ''))
     entityOut.set('et-town', opEntity.get('properties.et-town.value', ''))
