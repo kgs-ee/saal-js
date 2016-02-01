@@ -163,6 +163,7 @@ function preparePastResidency(callback) {
 function clearCachedRender(callback) {
     debug('Clearing cached render from ' + path.basename(__filename).replace('.js', ''))
     cachedPage = {}
+    callback()
 }
 
 
