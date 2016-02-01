@@ -65,12 +65,13 @@ block content
                                             a(href='./magazine/' + op.get(posting,'id'))
                                                 p= (moment(op.get(posting, ['date'])).locale(lang).format('L'))
                                                 h3
-                                                    if op.get(posting, 'author', []).length
-                                                        span.artist= op.get(posting, lang + '-title')
+                                                    //- if op.get(posting, 'author', []).length
+                                                    span.artist= op.get(posting, lang + '-title')
                                                     
                                                     if op.get(posting, lang + '-subtitle', '')
                                                         span.artist= ' / ' + op.get(posting, lang + '-subtitle', '')    
 
-                                                span.author= op.get(posting, 'author', []).map(function(a){return a.value}).join(', ')
+                                                if op.get(posting, 'author', []).length
+                                                    span.author= op.get(posting, 'author', []).map(function(a){return a.value}).join(', ')
                                                 
                                             hr
