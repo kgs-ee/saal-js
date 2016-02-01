@@ -61,7 +61,8 @@ module.exports = function(grunt) {
             /disabled/,
             '.banner',
             /article/,
-            '.single-image'
+            '.single-image',
+            '.comments'
 
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],

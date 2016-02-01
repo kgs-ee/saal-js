@@ -3886,6 +3886,7 @@ footer {
   }
 }
 
+.article .comments,
 .article .signature {
   margin-top: 2.5em;
 }
