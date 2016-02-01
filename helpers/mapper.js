@@ -205,16 +205,16 @@ function mapPerformance(eid, querystring) {
 function mapEcho(eid) {
     if (!eid) {
         debug('mapEcho: No entity ID')
-        throw new EvalError('No entity ID')
+        // throw new EvalError('No entity ID')
     }
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     if (!entity) {
-        throw new ReferenceError('No entity cached by ID:' + eid)
+        // throw new ReferenceError('No entity cached by ID:' + eid)
         debug('mapEcho: No entity cached by ID:' + eid)
     }
     if (entity.definition !== 'echo') {
         debug('mapEcho: Entity ' + eid + ' is not an Echo')
-        throw new TypeError('Entity ' + eid + ' is not an Echo')
+        // throw new TypeError('Entity ' + eid + ' is not an Echo')
     }
     debug('mapEcho: Mapping Echo ' + eid + '.')
 
