@@ -10,10 +10,29 @@ var mapper  = require('../helpers/mapper')
 var projects = []
 
 router.get('/', function(req, res) {
-    res.render('projects', {
-        projects: projects
-    })
-    res.end()
+    if (projects.length === 0) {
+        async.each(SDC.get(['local_entities', 'by_class', 'project']), function(entity, callback) {
+            var event = mapper.event(entity.id)
+            projects.push(event)
+            callback()
+        }, function(err) {
+            if (err) {
+                debug('Failed to prepare projects.', err)
+                return callback(err)
+            }
+            projects.sort(function(a,b) { return a.ordinal - b.ordinal })
+            debug('Projects prepared - ', JSON.stringify(projects, null, 4))
+            res.render('projects', {
+                projects: projects
+            })
+            res.end()
+        })
+    } else {
+        res.render('projects', {
+            projects: projects
+        })
+        res.end()
+    }
 })
 
 router.prepare = function prepare(callback) {
@@ -29,7 +48,7 @@ router.prepare = function prepare(callback) {
         }
         projects.sort(function(a,b) { return a.ordinal - b.ordinal })
         callback()
-        // debug('Projects prepared - ', JSON.stringify(projects, null, 4))
+        debug('Projects prepared - ', JSON.stringify(projects, null, 4))
     })
 }
 
