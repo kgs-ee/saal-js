@@ -60,6 +60,27 @@ block content
                         .comments
                             .fb-comments(data-href="http://saal.ee/et/magazine", data-width="100%", data-numposts="10")
                     
+                    
+                        div(id="disqus_thread")
+                        script.
+                            /**
+                            * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                            * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+                            */
+                            var disqus_config = function () {
+                                this.page.url = 'saal.ee/' + lang + '/magazine'; // Replace PAGE_URL with your page's canonical URL variable
+                                this.page.identifier = 'SAAL_PAGE_IDENTIFIER' // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                            };
+                            (function() { // DON'T EDIT BELOW THIS LINE
+                                var d = document, s = d.createElement('script')
+                                s.src = '//saal.disqus.com/embed.js'
+                                s.setAttribute('data-timestamp', +new Date())
+                                (d.head || d.body).appendChild(s)
+                            })();
+
+                        script(id="dsq-count-scr" src="//saal.disqus.com/count.js" async)
+
+                    
                     - var postCount = 0
                     .col-sm-12.col-md-4.col-lg-4
                         h2= t('title.articles')
