@@ -112,13 +112,26 @@ block content
                                     img(src=logo.file, class='img-responsive')
 
                 .col-md-6
-                  if coverage.length
-                      .press
-                          h2= t('title.press')
-                          .row
-                              each press in coverage
-                                  .col-md-12.h3
-                                      a(target='_blank' href='' + press.url + '')= (moment(press.date).locale(lang).format('L')) + " " + press.source + ": " + press.title
-
-                                  .col-xs-12.col-md-12
-                                      hr
+                    if coverage.length
+                        style.
+                            .source {
+                                text-align:right;
+                                font-style: oblique;
+                            }
+                        .press
+                            h2= t('title.press')
+                            .row
+                                each press in coverage
+                                    .col-md-12.h3(id='coverage_'+press.id)
+                                        if press.photo
+                                            a(target='_blank' href=press.photo.file)
+                                                img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
+                                                p= (moment(press.date).locale(lang).format('L')) + ": " + press.title
+                                            a(target='_blank' href=press.url)
+                                                p.source= press.source
+                                        else
+                                            a(target='_blank' href=press.url)= (moment(press.date).locale(lang).format('L')) + ':' + press.title
+                                                p.source= press.source
+                                        
+                                    .col-xs-12.col-md-12
+                                        hr

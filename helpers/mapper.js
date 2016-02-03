@@ -267,7 +267,7 @@ function mapCoverage(eid) {
     entityOut.set('text', opEntity.get(['properties', 'text', 'md']))
     // TODO: make sure URL starts with http://
     entityOut.set('url', opEntity.get(['properties', 'url', 'value']))
-    entityOut.set('photo', opEntity.get(['properties', 'photo', 0]))
+    entityOut.set('photo', opEntity.get(['properties', 'photo', 0], opEntity.get(['properties', 'photo'])))
     entityOut.set('source', opEntity.get(['properties', 'source', 'value']))
     return entityOut.get()
 }
