@@ -261,13 +261,14 @@ function mapCoverage(eid) {
     var entity = SDC.get(['local_entities', 'by_eid', eid])
     var opEntity = op(entity)
     var entityOut = op({})
-    entityOut.set('id', opEntity.get('id'))
-    entityOut.set('title', opEntity.get('properties.title.value'))
-    entityOut.set('date', opEntity.get('properties.date.value'))
-    entityOut.set('text', opEntity.get('properties.text.md'))
+    entityOut.set('id', opEntity.get(['id']))
+    entityOut.set('title', opEntity.get(['properties', 'title', 'value']))
+    entityOut.set('date', opEntity.get(['properties', 'date', 'value']))
+    entityOut.set('text', opEntity.get(['properties', 'text', 'md']))
     // TODO: make sure URL starts with http://
-    entityOut.set('url', opEntity.get('properties.url.value'))
-    entityOut.set('source', opEntity.get('properties.source.value'))
+    entityOut.set('url', opEntity.get(['properties', 'url', 'value']))
+    entityOut.set('photo', opEntity.get(['properties', 'photo', 0]))
+    entityOut.set('source', opEntity.get(['properties', 'source', 'value']))
     return entityOut.get()
 }
 
