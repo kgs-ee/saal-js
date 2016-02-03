@@ -157,7 +157,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
     .catch(function(reason) { return syncWithEntuCB(reason) })
     .then(function(opEntity) {
         if (opEntity.get(['properties', 'nosync', 'value']) === 'True') {
-            syncWithEntuCB(null)
+            return syncWithEntuCB(null)
         }
         var eItem = opEntity.get()
         // debug( JSON.stringify(eItem, null, 4) )
@@ -276,7 +276,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
 
         if (op.get(propertiesToUpdate, ['properties'], false) === false) {
             // debug('== +++ === Good enough match for ' + eItem.definition, 'E' + eItem.id + ' ?= PL' + plItem.id)
-            syncWithEntuCB(null)
+            return syncWithEntuCB(null)
         } else {
             cacheReloadSuggested = true
             debug('| Needs syncing', 'E' + eItem.id + ' ?= PL' + plItem.id, op.get(propertiesToUpdate, ['properties']))
@@ -296,7 +296,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
                 })
             }, function (err) {
                 if (err) return syncWithEntuCB(err)
-                syncWithEntuCB(null)
+                return syncWithEntuCB(null)
             })
         }
     })
