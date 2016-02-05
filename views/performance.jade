@@ -69,8 +69,8 @@ block content
                                     a.btn.btn-primary(target='_blank' class=((op.get(event, ['sales-status']) == 'sold_out') || (op.get(event, ['sales-status']) == 'free_admission') ? "disabled" : "") href=op.get(event, 'ticket-api'))= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
                             .col-xs-12.col-md-12.col-lg-12
-                                hr                  
-                    
+                                hr
+
                 if pastEvents.length
                     .past
                         h2= t('title.past')
@@ -95,7 +95,7 @@ block content
 
         .row.front-page-margin
                 .col-md-6
-                    
+
                     if op.get(performance, ['photos'])
                         .gallery
                             h2= t('title.gallery')
@@ -104,7 +104,7 @@ block content
                                     .single-image.col-xs-6.col-sm-3.col-md-4
                                           a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
                                             img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
-                    
+
                     .supporter
                         ul.list-inline
                             each logo in op.get(performance, ['logo'], [])

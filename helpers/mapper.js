@@ -234,6 +234,7 @@ function mapEcho(eid) {
     entityOut.set('et-subtitle', opEntity.get('properties.et-subtitle.value'))
     entityOut.set('en-contents', opEntity.get('properties.en-contents.md'))
     entityOut.set('et-contents', opEntity.get('properties.et-contents.md'))
+    entityOut.set('featured', opEntity.get('properties.featured.value') === 'True')
     entityOut.set('author', opEntity.get('properties.author', []))
     entityOut.set('photo', opEntity.get(['properties', 'photo-big', 0]))
     if (opEntity.get('properties.photo-medium', false)) {

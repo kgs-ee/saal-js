@@ -14,14 +14,18 @@ function renderEcho(res, currentEchoId) {
     var echoA = {}
     var minDate = false
     var maxDate = false
-    var latestEcho = {}
+    var latestEchoId
+    var featuredEchoId
     async.each(SDC.get(['local_entities', 'by_class', 'echo']), function(entity, callback) {
         var echo = mapper.echo(entity.id)
         if (!echo['date']) { return callback() }
 
+        if (echo.featured) {
+            featuredEchoId = echo.id
+        }
         if (maxDate === false || new Date(echo['date']) > maxDate) {
             maxDate = new Date(echo['date'])
-            latestEcho = echo
+            latestEchoId = echo.id
         }
         if (minDate === false || new Date(echo['date']) < minDate) { minDate = new Date(echo['date']) }
 
@@ -33,7 +37,7 @@ function renderEcho(res, currentEchoId) {
             return
         }
 
-        currentEchoId = (currentEchoId ? currentEchoId : latestEcho.id)
+        currentEchoId = (currentEchoId ? currentEchoId : (featuredEchoId ? featuredEchoId : latestEchoId))
 
         var echoCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'echoCategory'], {}))
             .map(function(eId) {
