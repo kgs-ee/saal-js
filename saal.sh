@@ -18,6 +18,7 @@ docker run -d \
     --memory="512m" \
     --env="PORT=80" \
     --env="COOKIE_SECRET=" \
+    --env="DEPLOYMENT=debug" \
     --env="NEW_RELIC_APP_NAME=saal" \
     --env="NEW_RELIC_LICENSE_KEY=" \
     --env="NEW_RELIC_LOG=stdout" \

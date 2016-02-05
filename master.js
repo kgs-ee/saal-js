@@ -12,6 +12,7 @@ APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
 APP_ENTU_URL        = process.env.ENTU_URL || 'https://saal.entu.ee/api2'
 APP_ENTU_USER       = process.env.ENTU_USER
 APP_ENTU_KEY        = process.env.ENTU_KEY
+APP_DEPLOYMENT      = process.env.DEPLOYMENT
 
 if (!process.env.ENTU_USER) {
     throw '"ENTU_USER" missing in environment'
@@ -42,26 +43,28 @@ var cacheRoutine = cache.routine(function cacheRoutineCB() {
     }
 })
 
-var plSync = require('./helpers/pl-sync')
-function startPLSync() {
-    if (plSync.state === undefined) {
-        debug('PLSync not ready, try in a sec')
-        setTimeout(function () {
-            startPLSync()
-        }, 1000)
-    } else if (plSync.state === 'idle') {
-        plSync.routine(function plSyncCB(err, message) {
-            if (err) {
-                console.log(err)
-                console.log(message)
-                throw 'PL sync totally messed up'
-            }
-            console.log(message + ' at ' + Date().toString())
-            cacheRoutine.requestSync()
-        })
+if (APP_DEPLOYMENT === 'live' || APP_DEPLOYMENT === 'dev') {
+    var plSync = require('./helpers/pl-sync')
+    function startPLSync() {
+        if (plSync.state === undefined) {
+            debug('PLSync not ready, try in a sec')
+            setTimeout(function () {
+                startPLSync()
+            }, 1000)
+        } else if (plSync.state === 'idle') {
+            plSync.routine(function plSyncCB(err, message) {
+                if (err) {
+                    console.log(err)
+                    console.log(message)
+                    throw 'PL sync totally messed up'
+                }
+                console.log(message + ' at ' + Date().toString())
+                cacheRoutine.requestSync()
+            })
+        }
     }
+    startPLSync()
 }
-startPLSync()
 
 
 // Broadcast a message to all other workers
