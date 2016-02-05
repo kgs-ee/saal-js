@@ -286,9 +286,7 @@ p {
 }
 
 .text-uppercase,
-.ui-datepicker-title,
-.article pre,
-.article blockquote {
+.ui-datepicker-title {
   text-transform: uppercase;
 }
 
@@ -3839,13 +3837,6 @@ footer {
 /**	MAGAZINE
 ***	- - - - - - - - - - - - - - - - - - - - */
 
-.article p:first-child::first-letter {
-  line-height: 1em;
-  float: left;
-  font-size: 2.645em;
-  margin: 0 0.2em -0.1em 0;
-}
-
 .article h1,
 .article h2,
 .article h3,
@@ -3871,19 +3862,6 @@ footer {
 .article h5,
 .article h6 {
   margin-top: 2.5em;
-}
-
-.article pre,
-.article blockquote {
-  padding: 1em 0 1em 0;
-  border-left: 0;
-}
-
-@media (min-width: 992px) {
-  .article pre,
-  .article blockquote {
-    padding: 1em 0 1em 8em;
-  }
 }
 
 .article .comments,
