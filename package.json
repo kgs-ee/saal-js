@@ -40,7 +40,6 @@
     "raven": "0.x",
     "request": "2.x",
     "sanitize-html": "1.x",
-    "serve-favicon": "2.x",
     "stylus": "0.x"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@ var cookie   = require('cookie-parser')
 var path     = require('path')
 var debug    = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var express  = require('express')
-var favicon  = require('serve-favicon')
+// var favicon  = require('serve-favicon')
 var fs       = require('fs')
 var moment   = require('moment')
 var op       = require('object-path')
@@ -26,9 +26,9 @@ APP_PORT            = process.env.PORT || 3000
 
 SDC = op({})
 
-var prepare_controllers_fa = []
+var prepareControllersFa = []
 
-prepare_controllers_fa.push(function loadCache(callback) {
+prepareControllersFa.push(function loadCache(callback) {
     var filenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
         return filename.split('.json')[0]
     })
@@ -59,7 +59,7 @@ prepare_controllers_fa.push(function loadCache(callback) {
     })
 })
 
-prepare_controllers_fa.push(function prepareControllers(prepareControllersCB) {
+prepareControllersFa.push(function prepareControllers(prepareControllersCB) {
     // process.send({ cmd: 'log', log: 'Preparing data for controllers.' })
     // debug('Preparing data for controllers.')
     var controllers = fs.readdirSync(path.join(__dirname, 'routes')).map(function(filename) {
@@ -103,7 +103,7 @@ process.on('message', function(msg) {
             // process.send({ cmd: 'log', log: 'Loading cache from ' + APP_CACHE_DIR })
             process.send({ cmd: 'log', log: '(Re)loading local cache from ' + SDC.get('date') })
 
-            async.series(prepare_controllers_fa, function routineFinally(err) {
+            async.series(prepareControllersFa, function routineFinally(err) {
                 if (err) {
                     process.send({ cmd: 'log', log: 'Reload failed', err: err })
                     // debug('Reload failed', err)

@@ -3,7 +3,6 @@ var debug     = require('debug')('app:' + path.basename(__filename).replace('.js
 var request   = require('request')
 var async     = require('async')
 var op        = require('object-path')
-var fs        = require('fs')
 var Promise   = require('promise')
 var moment    = require('moment-timezone')
 
@@ -83,10 +82,10 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
                         op.set(PLShows, [item.id, 'raw', plLanguage], item)
                         // debug('Parse Piletilevi ' + plDefinition)
                         var descriptionLanguages = item.descriptionLanguages.split(',')
-                        var translatedLang = false
+                        // var translatedLang = false
                         for (i in descriptionLanguages) {
                             if (descriptionLanguages[i] === plLanguage) {
-                                translatedLang = true
+                                // translatedLang = true
                                 break
                             }
                         }
@@ -295,7 +294,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
                     callback(reason)
                 })
             }, function (err) {
-                if (err) return syncWithEntuCB(err)
+                if (err) { return syncWithEntuCB(err) }
                 return syncWithEntuCB(null)
             })
         }

@@ -5,7 +5,7 @@ var debug   = require('debug')('app:' + path.basename(__filename).replace('.js',
 var async   = require('async')
 var op      = require('object-path')
 var mapper  = require('../helpers/mapper')
-var helper  = require('../helpers/helper')
+// var helper  = require('../helpers/helper')
 
 
 function renderEcho(res, currentEchoId) {
@@ -18,16 +18,16 @@ function renderEcho(res, currentEchoId) {
     var featuredEchoId
     async.each(SDC.get(['local_entities', 'by_class', 'echo']), function(entity, callback) {
         var echo = mapper.echo(entity.id)
-        if (!echo['date']) { return callback() }
+        if (!echo.date) { return callback() }
 
         if (echo.featured) {
             featuredEchoId = echo.id
         }
-        if (maxDate === false || new Date(echo['date']) > maxDate) {
-            maxDate = new Date(echo['date'])
+        if (maxDate === false || new Date(echo.date) > maxDate) {
+            maxDate = new Date(echo.date)
             latestEchoId = echo.id
         }
-        if (minDate === false || new Date(echo['date']) < minDate) { minDate = new Date(echo['date']) }
+        if (minDate === false || new Date(echo.date) < minDate) { minDate = new Date(echo.date) }
 
         op.push(echoA, [echo.year, echo.month, echo.day], echo)
         callback()

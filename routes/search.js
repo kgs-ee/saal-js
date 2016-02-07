@@ -142,7 +142,7 @@ router.get('/', function(req, res, next) {
             ['performance', res.locals.lang + '-technical-information'],
             ]
 
-        var re = new RegExp(query, "gi")
+        var re = new RegExp(query, 'gi')
         function highlight(str) { return '<span style="background-color: yellow;">' + str + '</span>' }
         async.filter(allEvents, function iterator(event, iteratorCB) {
             var returnValue = false

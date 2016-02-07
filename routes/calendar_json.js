@@ -9,9 +9,7 @@ var mapper  = require('../helpers/mapper')
 
 var eventCalendar = {}
 
-function pad2(d) {
-    return (d < 10) ? '0' + d.toString() : d.toString()
-}
+// function pad2(d) { return (d < 10) ? '0' + d.toString() : d.toString() }
 function truncDate(date) {
     date.setHours(0)
     date.setMinutes(0)
@@ -27,7 +25,7 @@ var maxDate = new Date()
 var minDate = new Date()
 minDate.setDate(1)
 minDate.setMonth(minDate.getMonth() - 1)
-if (minDate < new Date("2016-01-01")) { minDate = new Date("2016-01-01") }
+if (minDate < new Date('2016-01-01')) { minDate = new Date('2016-01-01') }
 truncDate(minDate)
 
 router.get('/', function(req, res) {

@@ -8,7 +8,7 @@ var mapper  = require('../helpers/mapper')
 var helper  = require('../helpers/helper')
 
 function renderProgram(res, year, month, categories) {
-    // console.log('Loading "' + path.basename(__filename).replace('.js', '') + '"')
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
     var allCategories = SDC.get(['local_entities', 'by_class', 'rootCategory'], {})
     if (!categories) {
         categories = Object.keys(allCategories).map( function(key) { return parseInt(key, 10) })

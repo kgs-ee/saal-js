@@ -44,7 +44,7 @@ function renderTours(res, year, month) {
             return
         }
         if (year < minDate.getUTCFullYear() ||
-            ( year == minDate.getUTCFullYear() && month < minDate.getUTCMonth() + 1 )) {
+            ( year === minDate.getUTCFullYear() && month < minDate.getUTCMonth() + 1 )) {
             debug('Correcting date from Y:' + year + ' M:' + month + ' to Y:' + minDate.getUTCFullYear() + ' M:' + (minDate.getUTCMonth() + 1))
             renderTours(res, minDate.getUTCFullYear(), minDate.getUTCMonth() + 1)
             return
