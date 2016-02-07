@@ -65,6 +65,7 @@ function getEntity(id, authId, authToken) {
             // debug( JSON.stringify(properties, null, 4) )
             var entity = {
                 id: op.get(body, 'result.id', null),
+                changedTs: new Date(op.get(body, 'result.changed', 0)).getTime() / 1e3,
                 displayname: op.get(body, 'result.displayname', null),
                 displayinfo: op.get(body, 'result.displayinfo', null),
                 definition: op.get(body, 'result.definition.keyname', null),
@@ -275,31 +276,40 @@ function add(parentEid, definition, properties, authId, authToken) {
 
 
 
-//Share entity
-// function rights(id, person_id, right, authId, authToken, callback) {
-//     var body = {
-//         entity: person_id,
-//         right: right
-//     }
-//     var headers = {}
-//     var qb = body
-//     if(authId && authToken) {
-//         headers = {'X-Auth-UserId': authId, 'X-Auth-Token': authToken}
-//     } else {
-//         qb = signData(body)
-//     }
-//
-//     request.post({url: APP_ENTU_URL + '/entity-' + id + '/rights', headers: headers, body: qb, strictSSL: true, json: true}, function(error, response, body) {
-//         if(error) { return callback(error) }
-//         if(response.statusCode !== 200) { return callback(new Error(op.get(body, 'error', body))) }
-//
-//         callback(null, id)
-//     })
+// Poll Entu for updated entities
+// options: {
+//     definition: definition,
+//     timestamp: unix_timestamp,
+//     limit: limit
 // }
+// As of API2@2016-02-05, limit < 500, default 50
+function pollUpdates(options, authId, authToken) {
+    debug('Polling from ' + APP_ENTU_URL + '/changed' + ' with ', JSON.stringify(options, null, 4))
+    return new Promise(function (fulfill, reject) {
+        var qs = {}
+        op.set(qs, ['limit'], op.get(options, ['limit'], 50))
+        if (options.definition) { qs.definition = options.definition }
+        if (options.timestamp) { qs.timestamp = options.timestamp }
+
+        var headers = {}
+        if (authId && authToken) {
+            headers = {'X-Auth-UserId': authId, 'X-Auth-Token': authToken}
+        } else {
+            qs = signData(qs)
+        }
+
+        request.get({url: APP_ENTU_URL + '/changed', headers: headers, qs: qs, strictSSL: true, json: true}, function(error, response, body) {
+            if (error) { return reject(error) }
+            if (response.statusCode !== 200 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
+            fulfill(op.get(body, 'result', []))
+        })
+    })
+}
 
 
 
 module.exports = {
+    pollUpdates: pollUpdates,
     getEntity: getEntity,
     getChilds: getChilds,
     getEntities: getEntities,

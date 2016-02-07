@@ -10,7 +10,9 @@ debug('Caching Started at ' + Date().toString())
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
 
-CACHE_REFRESH_MS = 1 * 60e3
+POLLING_INTERVAL_MS = 3e3
+CACHE_LOADED_MESSAGE = 'Cache successfully loaded'
+CACHE_RELOAD_REQUIRED_MESSAGE = 'Full cache reload required'
 
 var state = 'idle'
 
@@ -19,6 +21,8 @@ SDC = op({
     'root': {},
     'local_entities': {},
     'relationships': {},
+    'lastPollTs': 0,
+    // 'lastPollTs': new Date().getTime() / 1e3,
 })
 
 var cacheFromEntu = [
@@ -42,17 +46,12 @@ var tempLocalEntities = {}
 var tempRelationships = {}
 
 var cacheSeries = []
-var immediateReloadRequired = false
-var syncRequested = false
-var isPublished = false
-var firstRun = true
 
 
 // Preload with stored data
 cacheSeries.push(function loadCache(callback) {
     state = 'busy'
     debug('Loading local cache at ' + Date().toString())
-    // debug(Object.keys(SDC.get()))
     var mandatoryFilenames = Object.keys(SDC.get())
     var existingFilenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
         return filename.split('.json')[0]
@@ -65,17 +64,15 @@ cacheSeries.push(function loadCache(callback) {
         try {
             SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
         } catch(err) {
-            // debug('Not loaded: ', filename)
-            op.del(filenames, filenames.indexOf(filename))
+            debug('Missing ' + filename + ' - ' + CACHE_RELOAD_REQUIRED_MESSAGE)
+            return callback(CACHE_RELOAD_REQUIRED_MESSAGE)
         }
         callback()
     }, function(err) {
-        if (err) {
-            callback(err)
-            return
-        }
+        if (err === CACHE_RELOAD_REQUIRED_MESSAGE) { return callback() }
+        if (err) { throw err }
         // debug('Cache loaded.')
-        callback()
+        callback(CACHE_LOADED_MESSAGE)
     })
 })
 
@@ -90,29 +87,7 @@ cacheSeries.push(function cacheRoot(callback) {
         SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
         SDC.set(['root', 'description'], institution.get(['properties', 'description', 'md']))
         SDC.set(['root', 'gallery'], institution.get(['properties', 'photo']))
-        isPublished = institution.get(['properties', 'published', 'value'], false) === 'True'
-        var publishedPid = institution.get(['properties', 'published', 'id'], false)
-        // SDC.set(['root', 'published'], isPublished)
-        debug('Root cached, ' + (isPublished ? 'we have news published.' : 'reload not requested.'))
-        if (firstRun === true) {
-            debug('1st run.')
-            return callback()
-        } else if (syncRequested === true) {
-            syncRequested = false
-            return callback()
-        } else if (isPublished) {
-            var params = {
-                entity_id: APP_ENTU_ROOT,
-                entity_definition: 'institution',
-                dataproperty: 'published',
-                property_id: publishedPid,
-                new_value: ''
-            }
-            entu.edit(params).then(callback)
-        } else {
-            debug('Is NOT published')
-            callback('Not published')
-        }
+        return callback()
     })
 })
 
@@ -132,14 +107,8 @@ function add2cache(entity, eClass) {
     return
 }
 
-// Fetch from Entu
-cacheSeries.push(function fetchFromEntu(callback) {
-    if (immediateReloadRequired) {
-        debug('Skipping "Fetch from Entu" at ' + Date().toString())
-        return callback()
-    }
-    // debug('Fetch from Entu at ' + Date().toString())
 
+function myProcessEntities(parentEid, eClass, definition, entities, callback) {
     function relate(eid1, rel1, eid2, rel2) {
         if (op.get(tempRelationships, [String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
             op.push(tempRelationships, [String(eid1), rel1], String(eid2))
@@ -306,67 +275,70 @@ cacheSeries.push(function fetchFromEntu(callback) {
         })
     }
 
+    if (entities.length === 0) { return callback() }
+    // debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
+    async.each(entities, function(opEntity, callback) {
+        if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+            return callback(null)
+        }
+        var entity = opEntity.get()
+        if (parentEid) {
+            if (op.get(tempRelationships, [String(entity.id), 'parent'], []).indexOf(String(parentEid)) === -1) {
+                op.push(tempRelationships, [String(entity.id), 'parent'], String(parentEid))
+            }
+            if (op.get(tempRelationships, [String(parentEid), 'child'], []).indexOf(String(entity.id)) === -1) {
+                op.push(tempRelationships, [String(parentEid), 'child'], String(entity.id))
+            }
+        }
 
-    function myProcessEntities(parentEid, eClass, definition, entities, callback) {
-        if (entities.length === 0) { return callback() }
-        // debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
-        async.each(entities, function(opEntity, callback) {
-            if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
-                return callback(null)
-            }
-            var entity = opEntity.get()
-            if (parentEid) {
-                if (op.get(tempRelationships, [String(entity.id), 'parent'], []).indexOf(String(parentEid)) === -1) {
-                    op.push(tempRelationships, [String(entity.id), 'parent'], String(parentEid))
-                }
-                if (op.get(tempRelationships, [String(parentEid), 'child'], []).indexOf(String(entity.id)) === -1) {
-                    op.push(tempRelationships, [String(parentEid), 'child'], String(entity.id))
-                }
-            }
+        add2cache(entity, eClass)
+        switch (definition) {
+            case 'category':
+                cacheCategory(opEntity, eClass, definition, callback)
+                break
+            case 'event':
+                cacheEvent(opEntity, callback)
+                break
+            case 'performance':
+                cachePerformance(opEntity, callback)
+                break
+            case 'news':
+                callback()
+                break
+            case 'person':
+                callback()
+                break
+            case 'location':
+                callback()
+                break
+            case 'banner-type':
+                callback()
+                break
+            case 'banner':
+                cacheBanner(opEntity, callback)
+                break
+            case 'echo':
+                cacheEcho(opEntity, callback)
+                break
+            default:
+                debug('Unhandled definition: ' + definition)
+                break
+        }
+        // debug(opEntity.get('id'))
+    }, function(err) {
+        if (err) {
+            debug('Each failed for myProcessEntities')
+            callback(err)
+            return
+        }
+        callback()
+    })
+}
 
-            add2cache(entity, eClass)
-            switch (definition) {
-                case 'category':
-                    cacheCategory(opEntity, eClass, definition, callback)
-                    break
-                case 'event':
-                    cacheEvent(opEntity, callback)
-                    break
-                case 'performance':
-                    cachePerformance(opEntity, callback)
-                    break
-                case 'news':
-                    callback()
-                    break
-                case 'person':
-                    callback()
-                    break
-                case 'location':
-                    callback()
-                    break
-                case 'banner-type':
-                    callback()
-                    break
-                case 'banner':
-                    cacheBanner(opEntity, callback)
-                    break
-                case 'echo':
-                    cacheEcho(opEntity, callback)
-                    break
-                default:
-                    debug('Unhandled definition: ' + definition)
-                    break
-            }
-            // debug(opEntity.get('id'))
-        }, function(err) {
-            if (err) {
-                debug('Each failed for myProcessEntities')
-                callback(err)
-                return
-            }
-            callback()
-        })
-    }
+
+// Fetch from Entu
+cacheSeries.push(function fetchFromEntu(callback) {
+    // debug('Fetch from Entu at ' + Date().toString())
 
     async.eachLimit(cacheFromEntu, 1, function(options, callback) {
         var definition = options.definition
@@ -398,19 +370,25 @@ cacheSeries.push(function fetchFromEntu(callback) {
 })
 
 
+function getLastPollTs() {
+    var ts = Math.max.apply(
+        Math,
+        Object.keys(SDC.get(['local_entities', 'by_eid'], []))
+            .map(function(key) {
+                return SDC.get(['local_entities', 'by_eid', key, 'changedTs'])
+            })
+    )
+    debug('getLastPollTs: ' + ts)
+    return ts
+}
+
+
 // Save cache
 cacheSeries.push(function saveCache(callback) {
-    if (immediateReloadRequired) {
-        debug('Skipping "Save Cache" at ' + Date().toString())
-        callback()
-        return
-    }
-    debug('Save Cache at ' + Date().toString())
     SDC.set('local_entities', tempLocalEntities)
     SDC.set('relationships', tempRelationships)
-    SDC.set('date', Date().toString())
-
-
+    SDC.set('lastPollTs', getLastPollTs())
+    debug('Save Cache at ' + Date().toString())
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
         // debug('Saving ' + filename)
@@ -418,15 +396,12 @@ cacheSeries.push(function saveCache(callback) {
             if (err) { return callback(err) }
             callback()
         })
-        // var entitiesWs = fs.createWriteStream(path.join(APP_CACHE_DIR, filename + '.json'))
-        // entitiesWs.write(JSON.stringify(SDC.get(filename), null, 4), callback)
     }, function(err) {
         if (err) {
             debug('Saving cache failed', err)
             return callback(err)
         }
         debug('Cache saved as of ' + SDC.get('date') )
-        firstRun = false
         callback()
     })
 })
@@ -442,80 +417,64 @@ cacheSeries.push(function cleanup(callback) {
 
 
 
+function pollEntu(workerReloadCB) {
+    debug('Polling Entu')
+    var updated = false
 
-function routine(WorkerReloadCB) {
-    debug('Cache routine started at ' + Date().toString())
-    var routineBusy = false
-    var routineTimeOut
-
-    function restartInFive() {
-        // setTimeout(function(){debug('4')}, 1e3)
-        // setTimeout(function(){debug('3')}, 2e3)
-        // setTimeout(function(){debug('2')}, 3e3)
-        // setTimeout(function(){debug('1')}, 4e3)
-        // debug('Restarting routine in 5')
-        setTimeout(function() {
-            performSync()
-        }, 5e3)
-        // WorkerReloadCB()
-    }
-    function performSync() {
-        if (routineBusy) {
-            debug('routineBusy')
-            return 'routineBusy'
-        }
-        debug('Performing cache sync routine at ' + Date().toString())
-        routineBusy = true
-        clearTimeout(routineTimeOut)
-        async.series(cacheSeries, function routineFinally(err) {
-            if (err === 'Not published') {
-                debug('No news. Restarting routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
-                routineBusy = false
-                routineTimeOut = setTimeout(function() {
-                    restartInFive()
-                }, CACHE_REFRESH_MS - 5e3)
-                return
+    entu.pollUpdates({
+        timestamp: SDC.get(['lastPollTs'], 1454661210) + 1,
+        limit: 100
+    }, null, null)
+    .then(function(result) {
+        async.each(result, function(update, callback) {
+            debug(JSON.stringify(update, null, 4))
+            entu.getEntity(update.id, null, null)
+            .then(function(opEntity) {
+                debug(opEntity.get(['id']), JSON.stringify(opEntity.get(['definition']), null, 4))
+                if (SDC.get(['lastPollTs']) < update.changed_ts) {
+                    SDC.set(['lastPollTs'], update.changed_ts)
+                }
+            })
+            .then(callback)
+            // try {
+            //     SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
+            // } catch(err) {
+            //     // debug('Not loaded: ', filename)
+            //     op.del(filenames, filenames.indexOf(filename))
+            // }
+        }, function(err) {
+            if (err) { return callback(err) }
+            setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)
+            if (updated) {
+                updated = false
+                workerReloadCB()
             }
-            else if (err) {
-                debug('Routine stumbled. Restart in 25', err)
-                routineBusy = false
-                routineTimeOut = setTimeout(function() {
-                    restartInFive()
-                }, 20e3)
-                return
-            }
-            if (immediateReloadRequired) {
-                immediateReloadRequired = false
-                debug('Immediate reload requested at ' + Date().toString())
-                restartInFive()
-                return
-            }
-            WorkerReloadCB() // Routine finished successfully - tell workers to reload.
-            debug('Restarting cache routine in ' + CACHE_REFRESH_MS/1000 + ' sec.')
-            routineBusy = false
-            routineTimeOut = setTimeout(function() {
-                restartInFive()
-            }, CACHE_REFRESH_MS - 5e3)
         })
-    }
-
-    performSync()
-
-    function requestSync() {
-        debug('Sync request acknowledged at ' + Date().toString())
-        syncRequested = true
-        if (performSync() === 'routineBusy') {
-            debug('Request immediate reload at ' + Date().toString())
-            immediateReloadRequired = true
-        }
-    }
-
-    return {
-        requestSync: requestSync
-    }
+    })
 }
 
 
-module.exports.routine = routine
+
+function performInitialSync(workerReloadCB) {
+    // Set lastPollTs from freshly cached data
+
+    debug('Performing cache sync at ' + Date().toString())
+    async.series(cacheSeries, function syncFinally(err) {
+        if (err === CACHE_LOADED_MESSAGE) {
+            debug('*NOTE*: Cache sync succeeded. ' + CACHE_LOADED_MESSAGE)
+            workerReloadCB()
+            return pollEntu(workerReloadCB)
+        }
+        else if (err) {
+            debug('*NOTE*: Cache sync stumbled. Restart in 25', err)
+            return setTimeout(function() { performInitialSync(workerReloadCB) }, 25e3)
+        }
+        debug('*NOTE*: Cache sync succeeded. Expecting "' + CACHE_LOADED_MESSAGE + '" on next try.')
+        performInitialSync(workerReloadCB)
+    })
+}
+
+
+
+module.exports.sync = performInitialSync
 module.exports.state = state
-// module.exports.requestSync = requestSync

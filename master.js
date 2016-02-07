@@ -30,13 +30,12 @@ if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
 var workers = []
 
 var cache = require('./helpers/cache')
-var cacheRoutine = cache.routine(function cacheRoutineCB() {
-    // console.log('cacheRoutineCB: Reload workers')
+cache.sync(function cacheSyncCB() {
     for (var i in workers) {
         if (workers.hasOwnProperty(i)) {
             var worker = workers[i]
             if (worker) {
-                console.log('cacheRoutineCB: Reload worker ' + worker.id)
+                console.log('cacheSyncCB: Reload worker ' + worker.id)
                 worker.send({ cmd: 'reload', dir: APP_CACHE_DIR })
             }
         }
@@ -59,7 +58,6 @@ if (APP_DEPLOYMENT === 'live' || APP_DEPLOYMENT === 'dev') {
                     throw 'PL sync totally messed up'
                 }
                 console.log(message + ' at ' + Date().toString())
-                cacheRoutine.requestSync()
             })
         }
     }
