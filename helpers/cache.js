@@ -10,7 +10,7 @@ debug('Caching Started at ' + Date().toString())
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
 
-POLLING_INTERVAL_MS = 3e3
+POLLING_INTERVAL_MS = 1e3
 CACHE_LOADED_MESSAGE = 'Cache successfully loaded'
 CACHE_RELOAD_REQUIRED_MESSAGE = 'Full cache reload required'
 
@@ -92,23 +92,21 @@ cacheSeries.push(function cacheRoot(callback) {
 })
 
 
-function add2cache(entity, eClass) {
-    SDC.set(['local_entities', 'by_eid', String(entity.id)], entity)
-    if (eClass) {
-        SDC.set(['local_entities', 'by_class', eClass, String(entity.id)], entity)
-    }
-    SDC.set(['local_entities', 'by_definition', entity.definition, String(entity.id)], entity)
-
-    if (op.get(entity, ['properties', 'featured', 'value']) === 'True') {
-        if (op.get(entity, ['definition']) === 'performance') {
-            SDC.set(['local_entities', 'featured', String(entity.id)], entity)
-        }
-    }
-    return
-}
-
-
 function myProcessEntities(parentEid, eClass, definition, entities, callback) {
+    function add2cache(entity, eClass) {
+        SDC.set(['local_entities', 'by_eid', String(entity.id)], entity)
+        if (eClass) {
+            SDC.set(['local_entities', 'by_class', eClass, String(entity.id)], entity)
+        }
+        SDC.set(['local_entities', 'by_definition', entity.definition, String(entity.id)], entity)
+
+        if (op.get(entity, ['properties', 'featured', 'value']) === 'True') {
+            if (op.get(entity, ['definition']) === 'performance') {
+                SDC.set(['local_entities', 'featured', String(entity.id)], entity)
+            }
+        }
+        return
+    }
     function relate(eid1, rel1, eid2, rel2) {
         if (SDC.get(['relationships', String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
             SDC.push(['relationships', String(eid1), rel1], String(eid2))
@@ -276,7 +274,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
     }
 
     if (entities.length === 0) { return callback() }
-    // debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
+    debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
     async.each(entities, function(opEntity, callback) {
         if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
             return callback(null)
@@ -384,8 +382,13 @@ function getLastPollTs() {
 
 
 // Save cache
-cacheSeries.push(function saveCache(callback) {
-    SDC.set('lastPollTs', getLastPollTs())
+function saveCache(callback) {
+    debug('LASTTS 1: ' + SDC.get('lastPollTs'))
+    var maxTs = getLastPollTs()
+    if (maxTs > SDC.get(['lastPollTs'], 0)) {
+        SDC.set('lastPollTs', getLastPollTs())
+    }
+    debug('LASTTS 2: ' + SDC.get('lastPollTs'))
     debug('Save Cache at ' + Date().toString())
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
@@ -402,7 +405,8 @@ cacheSeries.push(function saveCache(callback) {
         debug('Cache saved as of ' + SDC.get('date') )
         callback()
     })
-})
+}
+cacheSeries.push(saveCache)
 
 
 // Final cleanup
@@ -421,23 +425,38 @@ function pollEntu(workerReloadCB) {
         timestamp: SDC.get(['lastPollTs'], 1454661210) + 1,
         limit: 100
     }, null, null)
-    .then(function(result) {
-        async.each(result, function(update, callback) {
-            debug(JSON.stringify(update, null, 4))
-            entu.getEntity(update.id, null, null)
-            .then(function(opEntity) {
-                debug(opEntity.get(['id']), JSON.stringify(opEntity.get(['definition']), null, 4))
-                if (SDC.get(['lastPollTs']) < update.changed_ts) {
-                    SDC.set(['lastPollTs'], update.changed_ts)
-                }
+    .then(function(updates) {
+        updates.sort(function(a,b) { return a.changed_ts - b.changed_ts }) // Ascending sort by timestamp
+        async.eachSeries(updates, function(update, callback) {
+            debug('Updating ' + update.definition + ' ' + update.id + ' @ ' + update.changed_ts)
+            entu.pollParents(update.id, null, null)
+            .then(function(parents) {
+                var currentParents = parents.map(function(element) { return Number(element.id) })
+                var filteredCFE = cacheFromEntu.filter(function(n) {
+                    return currentParents.indexOf(Number(n.parent)) !== -1
+                })
+                return filteredCFE
             })
-            .then(callback)
-            // try {
-            //     SDC.set(filename, require(path.join(APP_CACHE_DIR, filename)))
-            // } catch(err) {
-            //     // debug('Not loaded: ', filename)
-            //     op.del(filenames, filenames.indexOf(filename))
-            // }
+            .then(function(parents) {
+                debug('1. Filtered parents of ', update, ': ', parents)
+                entu.getEntity(update.id, null, null)
+                .then(function(opEntity) {
+                    parents = parents.filter(function(element) {
+                        return opEntity.get(['definition']) === element.definition
+                    })
+                    debug('2. Filtered parents of ', update, ': ', parents)
+                    async.each(parents, function(parent, callback) {
+                        myProcessEntities(null, parent.class, parent.definition, [opEntity], callback)
+                    }, function(err) {
+                        if (err) { return callback(err) }
+                        debug('1.Entity: ' + JSON.stringify(opEntity.get(['definition']) + ' ' + opEntity.get(['id']), null, 4), 'Parents: ', parents)
+                        debug('SDC.set([\'lastPollTs\'], ' + update.changed_ts)
+                        SDC.set(['lastPollTs'], update.changed_ts)
+                        updated = true
+                        saveCache(callback)
+                    })
+                })
+            })
         }, function(err) {
             if (err) { return callback(err) }
             setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)

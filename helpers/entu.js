@@ -284,7 +284,7 @@ function add(parentEid, definition, properties, authId, authToken) {
 // }
 // As of API2@2016-02-05, limit < 500, default 50
 function pollUpdates(options, authId, authToken) {
-    debug('Polling from ' + APP_ENTU_URL + '/changed' + ' with ', JSON.stringify(options, null, 4))
+    // debug('Polling from ' + APP_ENTU_URL + '/changed' + ' with ', JSON.stringify(options, null, 4))
     return new Promise(function (fulfill, reject) {
         var qs = {}
         op.set(qs, ['limit'], op.get(options, ['limit'], 50))
@@ -308,11 +308,33 @@ function pollUpdates(options, authId, authToken) {
 
 
 
+function pollParents(id, authId, authToken) {
+    var requestUrl = APP_ENTU_URL + '/entity-' + id + '/parents'
+    // debug('Checking for parents of ' + id + ' from ' + requestUrl)
+    return new Promise(function (fulfill, reject) {
+        var headers = {}
+        var qs = {}
+        if (authId && authToken) {
+            headers = {'X-Auth-UserId': authId, 'X-Auth-Token': authToken}
+        } else {
+            qs = signData()
+        }
+        request.get({url: requestUrl, headers: headers, qs: qs, strictSSL: true, json: true}, function(error, response, body) {
+            if (error) { return reject(error) }
+            if (response.statusCode !== 200 || !body.result) { return reject(new Error(op.get(body, 'error', body))) }
+            fulfill(op.get(body, 'result', []))
+        })
+    })
+}
+
+
+
 module.exports = {
     pollUpdates: pollUpdates,
     getEntity: getEntity,
     getChilds: getChilds,
     getEntities: getEntities,
+    pollParents: pollParents,
     edit: edit,
     add: add
 }

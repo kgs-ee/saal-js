@@ -101,16 +101,19 @@ process.on('message', function(msg) {
         case 'reload':
             APP_CACHE_DIR = msg.dir
             // process.send({ cmd: 'log', log: 'Loading cache from ' + APP_CACHE_DIR })
-            process.send({ cmd: 'log', log: '(Re)loading local cache from ' + SDC.get('date') })
+            if (SDC.get(['lastPollTs'])) {
+                process.send({ cmd: 'log', log: 'Loading local cache from ' + new Date(SDC.get(['lastPollTs'])) })
+            } else {
+                process.send({ cmd: 'log', log: 'Waiting for cache...' })
+            }
 
             async.series(prepareControllersFa, function routineFinally(err) {
                 if (err) {
                     process.send({ cmd: 'log', log: 'Reload failed', err: err })
-                    // debug('Reload failed', err)
                     return
                 }
-                if (SDC.get('date')) {
-                    process.send({ cmd: 'log', log: 'Worker reloaded with cache from ' + SDC.get('date') })
+                if (SDC.get(['lastPollTs'])) {
+                    process.send({ cmd: 'log', log: 'Worker reloaded with cache from ' + new Date(SDC.get(['lastPollTs'])) })
                 } else {
                     process.send({ cmd: 'log', log: 'Worker reloaded with no cache.' })
                 }
