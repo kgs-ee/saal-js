@@ -42,8 +42,8 @@ var cacheFromEntu = [
     {'parent':'4024',                            'definition': 'category',    'class': 'echoCategory'},
 ]
 
-var tempLocalEntities = {}
-var tempRelationships = {}
+// var tempLocalEntities = {}
+// var tempRelationships = {}
 
 var cacheSeries = []
 
@@ -93,15 +93,15 @@ cacheSeries.push(function cacheRoot(callback) {
 
 
 function add2cache(entity, eClass) {
-    op.set(tempLocalEntities, ['by_eid', String(entity.id)], entity)
+    SDC.set(['local_entities', 'by_eid', String(entity.id)], entity)
     if (eClass) {
-        op.set(tempLocalEntities, ['by_class', eClass, String(entity.id)], entity)
+        SDC.set(['local_entities', 'by_class', eClass, String(entity.id)], entity)
     }
-    op.set(tempLocalEntities, ['by_definition', entity.definition, String(entity.id)], entity)
+    SDC.set(['local_entities', 'by_definition', entity.definition, String(entity.id)], entity)
 
     if (op.get(entity, ['properties', 'featured', 'value']) === 'True') {
         if (op.get(entity, ['definition']) === 'performance') {
-            op.set(tempLocalEntities, ['featured', String(entity.id)], entity)
+            SDC.set(['local_entities', 'featured', String(entity.id)], entity)
         }
     }
     return
@@ -110,12 +110,12 @@ function add2cache(entity, eClass) {
 
 function myProcessEntities(parentEid, eClass, definition, entities, callback) {
     function relate(eid1, rel1, eid2, rel2) {
-        if (op.get(tempRelationships, [String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
-            op.push(tempRelationships, [String(eid1), rel1], String(eid2))
+        if (SDC.get(['relationships', String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
+            SDC.push(['relationships', String(eid1), rel1], String(eid2))
         }
         if (rel2) {
-            if (op.get(tempRelationships, [String(eid2), rel2], []).indexOf(String(eid1)) === -1) {
-                op.push(tempRelationships, [String(eid2), rel2], String(eid1))
+            if (SDC.get(['relationships', String(eid2), rel2], []).indexOf(String(eid1)) === -1) {
+                SDC.push(['relationships', String(eid2), rel2], String(eid1))
             }
         }
     }
@@ -134,9 +134,9 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
             categoryRef = categoryRef.reference
             if (categoryRef) {
                 function relateParents(categoryRef) {
-                    var parentCategoryRefs = op.get(tempRelationships, [String(categoryRef), 'parent'], [])
+                    var parentCategoryRefs = SDC.get(['relationships', String(categoryRef), 'parent'], [])
                     parentCategoryRefs.forEach(function(parentCategoryRef) {
-                        var parentDef = op.get(tempLocalEntities, ['by_eid', String(parentCategoryRef), 'definition'], null)
+                        var parentDef = SDC.get(['local_entities', 'by_eid', String(parentCategoryRef), 'definition'], null)
                         if (parentDef === 'category') {
                             relateParents(parentCategoryRef)
                             relate(opEntity.get('id'), 'category', parentCategoryRef, 'echo')
@@ -172,10 +172,10 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
             // debug('cachePerformance ' + opEntity.get('id'), categoryRef)
             if (categoryRef) {
                 function relateParents(categoryRef) {
-                    var parentCategoryRefs = op.get(tempRelationships, [String(categoryRef), 'parent'], [])
+                    var parentCategoryRefs = SDC.get(['relationships', String(categoryRef), 'parent'], [])
                     // debug('!!! parentCategoryRefs', parentCategoryRefs)
                     parentCategoryRefs.forEach(function(parentCategoryRef) {
-                        var parentDef = op.get(tempLocalEntities, ['by_eid', String(parentCategoryRef), 'definition'], null)
+                        var parentDef = SDC.get(['local_entities', 'by_eid', String(parentCategoryRef), 'definition'], null)
                         if (parentDef === 'category') {
                             // debug('relate', opEntity.get('id'), 'category', parentCategoryRef, 'performance')
                             relateParents(parentCategoryRef)
@@ -233,9 +233,9 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
             categoryRef = categoryRef.reference
             if (categoryRef) {
                 function relateParents(categoryRef) {
-                    var parentCategoryRefs = op.get(tempRelationships, [String(categoryRef), 'parent'], [])
+                    var parentCategoryRefs = SDC.get(['relationships', String(categoryRef), 'parent'], [])
                     parentCategoryRefs.forEach(function(parentCategoryRef) {
-                        var parentDef = op.get(tempLocalEntities, ['by_eid', String(parentCategoryRef), 'definition'], null)
+                        var parentDef = SDC.get(['local_entities', 'by_eid', String(parentCategoryRef), 'definition'], null)
                         if (parentDef === 'category') {
                             relateParents(parentCategoryRef)
                             relate(opEntity.get('id'), 'category', parentCategoryRef, 'event')
@@ -283,11 +283,11 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         }
         var entity = opEntity.get()
         if (parentEid) {
-            if (op.get(tempRelationships, [String(entity.id), 'parent'], []).indexOf(String(parentEid)) === -1) {
-                op.push(tempRelationships, [String(entity.id), 'parent'], String(parentEid))
+            if (SDC.get(['relationships', String(entity.id), 'parent'], []).indexOf(String(parentEid)) === -1) {
+                SDC.push(['relationships', String(entity.id), 'parent'], String(parentEid))
             }
-            if (op.get(tempRelationships, [String(parentEid), 'child'], []).indexOf(String(entity.id)) === -1) {
-                op.push(tempRelationships, [String(parentEid), 'child'], String(entity.id))
+            if (SDC.get(['relationships', String(parentEid), 'child'], []).indexOf(String(entity.id)) === -1) {
+                SDC.push(['relationships', String(parentEid), 'child'], String(entity.id))
             }
         }
 
@@ -385,8 +385,6 @@ function getLastPollTs() {
 
 // Save cache
 cacheSeries.push(function saveCache(callback) {
-    SDC.set('local_entities', tempLocalEntities)
-    SDC.set('relationships', tempRelationships)
     SDC.set('lastPollTs', getLastPollTs())
     debug('Save Cache at ' + Date().toString())
 
@@ -409,8 +407,6 @@ cacheSeries.push(function saveCache(callback) {
 
 // Final cleanup
 cacheSeries.push(function cleanup(callback) {
-    tempLocalEntities = {}
-    tempRelationships = {}
     callback()
     state = 'sleeping'
 })
