@@ -454,6 +454,7 @@ function pollEntu(workerReloadCB) {
                     SDC.del(['relationships', String(eId1)])
                 })
             }, function(err) {
+                if (err) { return callback(err) }
                 SDC.del(['relationships', String(eId1)])
                 // Relationships are destroyed. Remove entities from SDC as well
                 var definitions = cacheFromEntu
