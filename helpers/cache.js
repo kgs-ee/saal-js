@@ -17,17 +17,15 @@ CACHE_RELOAD_REQUIRED_MESSAGE = 'Full cache reload required'
 var state = 'idle'
 
 SDC = op({
-    'mappings': {'festival': 1930},
     'root': {},
     'local_entities': {},
     'relationships': {},
     'lastPollTs': 0,
-    // 'lastPollTs': new Date().getTime() / 1e3,
 })
 
 var cacheFromEntu = [
     {'parent':'3808',                            'definition': 'category',    'class': 'rootCategory'},
-    {'parent':SDC.get(['mappings', 'festival']), 'definition': 'event',       'class': 'festival'},
+    {'parent':'1930',                            'definition': 'event',       'class': 'festival'},
     {'parent':'597',                             'definition': 'event',       'class': 'program'},
     {'parent':'1931',                            'definition': 'event',       'class': 'residency'},
     {'parent':'1929',                            'definition': 'event',       'class': 'tour'},
@@ -107,13 +105,13 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         }
         return
     }
-    function relate(eid1, rel1, eid2, rel2) {
-        if (SDC.get(['relationships', String(eid1), rel1], []).indexOf(String(eid2)) === -1) {
-            SDC.push(['relationships', String(eid1), rel1], String(eid2))
+    function relate(eId1, rel1, eId2, rel2) {
+        if (SDC.get(['relationships', String(eId1), rel1], []).indexOf(String(eId2)) === -1) {
+            SDC.push(['relationships', String(eId1), rel1], String(eId2))
         }
         if (rel2) {
-            if (SDC.get(['relationships', String(eid2), rel2], []).indexOf(String(eid1)) === -1) {
-                SDC.push(['relationships', String(eid2), rel2], String(eid1))
+            if (SDC.get(['relationships', String(eId2), rel2], []).indexOf(String(eId1)) === -1) {
+                SDC.push(['relationships', String(eId2), rel2], String(eId1))
             }
         }
     }
@@ -421,14 +419,76 @@ function pollEntu(workerReloadCB) {
     debug('Polling Entu')
     var updated = false
 
+    function removeFromCache(eId1, callback) {
+        // 1st we remove relationships to and from eId1
+        var relationshipDefinitions = Object.keys(SDC.get(['relationships', String(eId1)], {}))
+        var affectedEIds = []
+        async.each(relationshipDefinitions, function(rDef, callback) {
+            async.each(SDC.get(['relationships', String(eId1), rDef], []), function(eId2, callback) {
+                affectedEIds.push(eId2)
+                callback()
+            }, function(err) {
+                if (err) { return callback(err) }
+                callback()
+            })
+        }, function(err) {
+            if (err) { return callback(err) }
+            async.each(affectedEIds, function(eId2, callback) {
+                var reverseRlationshipDefinitions = Object.keys(SDC.get(['relationships', String(eId2)], {}))
+                async.each(reverseRlationshipDefinitions, function(rDef, callback) {
+                    async.each(SDC.get(['relationships', String(eId1), rDef], []), function(eId2, callback) {
+                        SDC.del(['relationships', String(eId1), rDef, eId2])
+                        callback()
+                    }, function(err) {
+                        if (err) { return callback(err) }
+                        if (SDC.get(['relationships', String(eId1), rDef], []).length === 0) {
+                            SDC.del(['relationships', String(eId1), rDef])
+                        }
+                        callback()
+                    })
+                }, function(err) {
+                    if (err) { return callback(err) }
+                    if (relationshipDefinitions.length === 0) {
+                        SDC.del(['relationships', String(eId1)])
+                    }
+                    SDC.del(['relationships', String(eId1)])
+                })
+            }, function(err) {
+                SDC.del(['relationships', String(eId1)])
+                // Relationships are destroyed. Remove entities from SDC as well
+                var definitions = cacheFromEntu
+                    .map(function(a) { return a.definition })
+                    .filter(function(a, ix, self) { return self.indexOf(a) === ix })
+                debug('Candidate definitions', definitions)
+                definitions.forEach(function(a) { SDC.del(['local_entities', 'by_definition', a, eId1]) })
+                var classes = cacheFromEntu
+                    .map(function(a) { return a.class })
+                    .filter(function(a, ix, self) { return self.indexOf(a) === ix })
+                debug('Candidate classes', classes)
+                classes.forEach(function(a) { SDC.del(['local_entities', 'by_class', a, eId1]) })
+                SDC.del(['local_entities', 'featured', eId1])
+                SDC.del(['local_entities', 'by_eid', eId1])
+                callback()
+            })
+        })
+    }
+
     entu.pollUpdates({
         timestamp: SDC.get(['lastPollTs'], 1454661210) + 1,
         limit: 100
     }, null, null)
     .then(function(updates) {
-        updates.sort(function(a,b) { return a.changed_ts - b.changed_ts }) // Ascending sort by timestamp
+        updates.sort(function(a,b) { return a.timestamp - b.timestamp }) // Ascending sort by timestamp
         async.eachSeries(updates, function(update, callback) {
-            debug('Updating ' + update.definition + ' ' + update.id + ' @ ' + update.changed_ts)
+            if (update.action === 'created at') { return callback }
+            if (update.action === 'deleted at') {
+                debug('Removing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
+                return removeFromCache(update.id, callback)
+            }
+            if (update.changed_ts) {
+                update.timestamp = update.changed_ts
+            }
+            debug('Updating ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
             entu.pollParents(update.id, null, null)
             .then(function(parents) {
                 var currentParents = parents.map(function(element) { return Number(element.id) })
@@ -450,8 +510,8 @@ function pollEntu(workerReloadCB) {
                     }, function(err) {
                         if (err) { return callback(err) }
                         debug('1.Entity: ' + JSON.stringify(opEntity.get(['definition']) + ' ' + opEntity.get(['id']), null, 4), 'Parents: ', parents)
-                        debug('SDC.set([\'lastPollTs\'], ' + update.changed_ts)
-                        SDC.set(['lastPollTs'], update.changed_ts)
+                        debug('SDC.set([\'lastPollTs\'], ' + update.timestamp)
+                        SDC.set(['lastPollTs'], update.timestamp)
                         updated = true
                         saveCache(callback)
                     })

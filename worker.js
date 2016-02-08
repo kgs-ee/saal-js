@@ -102,7 +102,7 @@ process.on('message', function(msg) {
             APP_CACHE_DIR = msg.dir
             // process.send({ cmd: 'log', log: 'Loading cache from ' + APP_CACHE_DIR })
             if (SDC.get(['lastPollTs'])) {
-                process.send({ cmd: 'log', log: 'Loading local cache from ' + new Date(SDC.get(['lastPollTs'])) })
+                process.send({ cmd: 'log', log: 'Loading local cache from ' + new Date(SDC.get(['lastPollTs'])*1e3) })
             } else {
                 process.send({ cmd: 'log', log: 'Waiting for cache...' })
             }
@@ -113,7 +113,7 @@ process.on('message', function(msg) {
                     return
                 }
                 if (SDC.get(['lastPollTs'])) {
-                    process.send({ cmd: 'log', log: 'Worker reloaded with cache from ' + new Date(SDC.get(['lastPollTs'])) })
+                    process.send({ cmd: 'log', log: 'Worker reloaded with cache from ' + new Date(SDC.get(['lastPollTs'])*1e3) })
                 } else {
                     process.send({ cmd: 'log', log: 'Worker reloaded with no cache.' })
                 }
