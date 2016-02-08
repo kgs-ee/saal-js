@@ -16,15 +16,15 @@ function datePickerInit() {
         //console.log(response.events);
 
         // Get the last event in Calndar
-        var firstDate = response['minDate'],
-            lastDate = response['maxDate'];
+        var firstDate = ,
+            lastDate = ;
 
         $("#datepicker").datepicker({
             dateFormat : "yy-mm-dd",
             prevText : '<',
             nextText : '>',
-            minDate : firstDate,
-            maxDate : lastDate,
+            minDate : response.minDate,
+            maxDate : response.maxDate,
 
             beforeShowDay: function(date) {
 
