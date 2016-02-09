@@ -63,7 +63,10 @@ module.exports = function(grunt) {
             /article/,
             '.single-image',
             '.comments',
-            '.source'
+            '.source',
+            '.video-sound',
+            '.video-sound iframe',
+            '.video-sound iframe:last-child'
 
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],
