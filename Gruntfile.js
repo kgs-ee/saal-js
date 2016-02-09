@@ -97,7 +97,7 @@ module.exports = function(grunt) {
           'public/javascripts/bootstrap/popover.js',
           'public/javascripts/bootstrap/transition.js',
           'public/javascripts/fancybox2/source/jquery.fancybox.pack.js',
-          'public/javascripts/gradientmaps/gradientmaps.min.js',
+          'public/javascripts/gradientmaps/gradientmaps.js',
           'public/javascripts/scripts.js'
           ]
         }
