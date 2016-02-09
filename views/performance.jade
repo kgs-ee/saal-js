@@ -113,11 +113,6 @@ block content
 
                 .col-md-6
                     if coverage.length
-                        style.
-                            .source {
-                                text-align:right;
-                                font-style: oblique;
-                            }
                         .press
                             h2= t('title.press')
                             .row
@@ -130,7 +125,7 @@ block content
                                             a(target='_blank' href=press.url)
                                                 p.source= press.source
                                         else
-                                            a(target='_blank' href=press.url)= (moment(press.date).locale(lang).format('L')) + ':' + press.title
+                                            a(target='_blank' href=press.url)= (moment(press.date).locale(lang).format('L')) + ': ' + press.title
                                                 p.source= press.source
                                         
                                     .col-xs-12.col-md-12

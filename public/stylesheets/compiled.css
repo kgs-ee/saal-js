@@ -3756,6 +3756,10 @@ a.logo:hover {
   }
 }
 
+.source {
+  font-size: 14px;
+}
+
 footer {
   color: white;
   padding: 2em 0;
