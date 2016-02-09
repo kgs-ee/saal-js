@@ -1,24 +1,30 @@
 #!/bin/bash
 
-mkdir -p /data/saal/code /data/saal/log /data/saal/ssl
+mkdir -p /data/saal/code /data/saal/log
 cd /data/saal/code
 
-git clone https://github.com/kgs-ee/saal-js.git ./
-git checkout master
+git clone -q https://github.com/kgs-ee/saal-js.git ./
+git checkout -q master
 git pull
 
+printf "\n\n"
 version=`date +"%y%m%d.%H%M%S"`
+docker build --quiet --pull --tag=saal:$version ./ && docker tag saal:$version saal:latest
 
-docker build -q -t saal:$version ./ && docker tag -f saal:$version saal:latest
-docker kill saal
+printf "\n\n"
+docker stop saal
 docker rm saal
 docker run -d \
+    --net="entu" \
     --name="saal" \
     --restart="always" \
-    --memory="512m" \
+    --cpu-shares=256 \
+    --memory="1g" \
+    --env="NODE_ENV=production" \
+    --env="VERSION=$version" \
     --env="PORT=80" \
     --env="COOKIE_SECRET=" \
-    --env="DEPLOYMENT=debug" \
+    --env="DEPLOYMENT=live" \
     --env="NEW_RELIC_APP_NAME=saal" \
     --env="NEW_RELIC_LICENSE_KEY=" \
     --env="NEW_RELIC_LOG=stdout" \
@@ -26,7 +32,9 @@ docker run -d \
     --env="NEW_RELIC_NO_CONFIG_FILE=true" \
     --env="ENTU_USER=" \
     --env="ENTU_KEY=" \
+    --env="SENTRY_DSN=" \
     --volume="/data/saal/log:/usr/src/saal/log" \
     saal:latest
 
-/data/nginx.sh
+printf "\n\n"
+docker exec nginx /etc/init.d/nginx reload
