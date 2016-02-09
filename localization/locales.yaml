@@ -37,7 +37,7 @@ button:
             lv: Pirkt biļeti
         sold_out:
             en: Sold out
-            et: Väljamüüdud
+            et: Välja müüdud
     category:
         en: Category
         et: Kategooria
