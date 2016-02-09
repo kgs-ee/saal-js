@@ -24,7 +24,7 @@ docker run -d \
     --env="VERSION=$version" \
     --env="PORT=80" \
     --env="COOKIE_SECRET=" \
-    --env="DEPLOYMENT=live" \
+    --env="DEPLOYMENT=debug" \
     --env="NEW_RELIC_APP_NAME=saal" \
     --env="NEW_RELIC_LICENSE_KEY=" \
     --env="NEW_RELIC_LOG=stdout" \
