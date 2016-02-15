@@ -37,7 +37,10 @@ function renderEcho(res, currentEchoId) {
             return
         }
 
-        currentEchoId = (currentEchoId ? currentEchoId : (featuredEchoId ? featuredEchoId : latestEchoId))
+        if(!currentEchoId) {
+            currentEchoId = (currentEchoId ? currentEchoId : (featuredEchoId ? featuredEchoId : latestEchoId))
+            return res.redirect('magazine/' + currentEchoId)
+        }
 
         var echoCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'echoCategory'], {}))
             .map(function(eId) {
@@ -53,7 +56,6 @@ function renderEcho(res, currentEchoId) {
             })
 
         res.render('magazine', {
-            'path': 'magazine/' + currentEchoId,
             'echo': mapper.echo(currentEchoId),
             'echoArray': echoA,
             'echoCategories': echoCategories,
