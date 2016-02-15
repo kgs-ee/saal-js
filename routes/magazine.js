@@ -53,7 +53,7 @@ function renderEcho(res, currentEchoId) {
             })
 
         res.render('magazine', {
-            'path': '/magazine/' + currentEchoId,
+            'path': 'magazine/' + currentEchoId,
             'echo': mapper.echo(currentEchoId),
             'echoArray': echoA,
             'echoCategories': echoCategories,
