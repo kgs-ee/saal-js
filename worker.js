@@ -224,9 +224,11 @@ app
     // 404
     .use(function(req, res, next) {
         console.log(new Date(), '404:' + req.path)
-        var err = new Error('Not Found')
-        err.status = 404
-        next(err)
+        return res.redirect('/')
+
+        // var err = new Error('Not Found')
+        // err.status = 404
+        // next(err)
     })
 
     // error
