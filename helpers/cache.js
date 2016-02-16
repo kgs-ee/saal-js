@@ -519,7 +519,10 @@ function pollEntu(workerReloadCB) {
                 })
             })
         }, function(err) {
-            if (err) { return callback(err) }
+            if (err) {
+                console.log(err)
+                // return callback(err) 
+            }
             setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)
             if (updated) {
                 updated = false
