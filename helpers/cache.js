@@ -520,13 +520,15 @@ function pollEntu(workerReloadCB) {
             })
         }, function(err) {
             if (err) {
-                console.log(err)
-                // return callback(err) 
+                console.log('Cache routine stumbled', err)
+                setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS * 5)
             }
-            setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)
-            if (updated) {
-                updated = false
-                workerReloadCB()
+            else {
+                setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)
+                if (updated) {
+                    updated = false
+                    workerReloadCB()
+                }
             }
         })
     })
@@ -548,6 +550,7 @@ function performInitialSync(workerReloadCB) {
             debug('*NOTE*: Cache sync stumbled. Restart in 25', err)
             return setTimeout(function() { performInitialSync(workerReloadCB) }, 25e3)
         }
+        // successful initial sync should error with CACHE_LOADED_MESSAGE 
         debug('*NOTE*: Cache sync succeeded. Expecting "' + CACHE_LOADED_MESSAGE + '" on next try.')
         performInitialSync(workerReloadCB)
     })
