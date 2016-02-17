@@ -520,10 +520,11 @@ function pollEntu(workerReloadCB) {
             })
         }, function(err) {
             if (err) {
-                console.log('Cache routine stumbled', err)
+                console.log('Cache routine stumbled', new Date(), err)
                 setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS * 10)
             }
             else {
+                console.log('Cache routine finished', new Date())
                 setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)
                 if (updated) {
                     updated = false
