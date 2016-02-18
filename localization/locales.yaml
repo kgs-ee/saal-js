@@ -14,6 +14,9 @@ Jon Doe:
     en: Unnamed
     et: Nimeta
 button:
+    artist-talk:
+        en: Artist talk
+        et: Vestlus
     buy_ticket:
         en: Buy ticket
         et: Osta pilet
