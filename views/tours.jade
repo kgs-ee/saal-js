@@ -13,7 +13,7 @@ block content
                         li.previous
                             a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
                                 span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                    if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
+                    if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth() + 1)
                         li.next
                             a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
                                 span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
@@ -118,7 +118,7 @@ block content
                                 li.previous
                                     a(href = 'tours/' + monthNav.prev.year + '/' + monthNav.prev.month)
                                         span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
+                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth() + 1)
                                 li.next
                                     a(href = 'tours/' + monthNav.next.year + '/' + monthNav.next.month)
                                         span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
