@@ -40,7 +40,8 @@ router.get('/', function(req, res, next) {
             results: results
         })
         res.end()
-    } else if (query.split(':')[0] === 'category') {
+    }
+    else if (query.split(':')[0] === 'category') {
         // var performances = []
         var qCategory = query.split(':')
         qCategory.shift()
@@ -79,7 +80,8 @@ router.get('/', function(req, res, next) {
             res.render('search', { results: results })
             res.end()
         })
-    } else if (query.split(':')[0] === 'person') {
+    }
+    else if (query.split(':')[0] === 'person') {
         var person = query.split(':')
         person.shift()
         person = person.join(':')
@@ -102,7 +104,8 @@ router.get('/', function(req, res, next) {
             results: results
         })
         res.end()
-    } else if (query.split(':')[0] === 'giphy') {
+    }
+    else if (query.split(':')[0] === 'giphy') {
         var giphy = query.split(':')
         giphy.shift()
         giphy = giphy.join(':')
@@ -126,57 +129,104 @@ router.get('/', function(req, res, next) {
                 res.end()
             }
         })
-    } else if (query) {
+    }
+    else if (query) {
         query = query.toLowerCase()
-        var keys = [
-            [res.locals.lang + '-name'],
-            [res.locals.lang + '-subtitle'],
-            [res.locals.lang + '-description'],
-            [res.locals.lang + '-technical-information'],
+        var lang = res.locals.lang
+        var keys4event = [
+            [lang + '-name'],
+            [lang + '-subtitle'],
+            [lang + '-description'],
+            [lang + '-technical-information'],
             ['performance', 'artist'],
             ['performance', 'producer'],
-            ['performance', res.locals.lang + '-name'],
-            ['performance', res.locals.lang + '-subtitle'],
-            ['performance', res.locals.lang + '-supertitle'],
-            ['performance', res.locals.lang + '-description'],
-            ['performance', res.locals.lang + '-technical-information'],
-            ]
+            ['performance', lang + '-name'],
+            ['performance', lang + '-subtitle'],
+            ['performance', lang + '-supertitle'],
+            ['performance', lang + '-description'],
+            ['performance', lang + '-technical-information'],
+        ]
+        var keys4performance = [
+            ['artist'],
+            ['producer'],
+            [lang + '-name'],
+            [lang + '-subtitle'],
+            [lang + '-supertitle'],
+            [lang + '-description'],
+            [lang + '-technical-information'],
+        ]
 
         var re = new RegExp(query, 'gi')
         function highlight(str) { return '<span style="background-color: yellow;">' + str + '</span>' }
-        async.filter(allEvents, function iterator(event, iteratorCB) {
-            var returnValue = false
-            var length = keys.length
-            for (var i = 0; i < length; i++) {
-                if (op.get(event, keys[i], false) === false) {
-                    // debug( event.id + ' doesnot have ' + keys[i])
-                    continue
-                }
-                // debug( event.id + ' has ' + keys[i] + '. search for ' + query)
-                var foundAt = op.get(event, keys[i]).toLowerCase().search(query)
-                if (foundAt === -1) {
-                    // debug( 'Cant find ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
-                    continue
-                }
-                // debug( 'Found ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
-                op.set(event, keys[i], op.get(event, keys[i]).replace(re, highlight))
-                returnValue = true
-            }
-            return iteratorCB(returnValue)
-        }, function filtered(filteredEvents) {
-            // debug(JSON.stringify(filteredEvents, null, 4))
 
-            results = {
-                'query_type': 'query'
-                , 'query': req.query.q
-                , 'events': filteredEvents
-            }
-            res.render('search', {
-                results: results
+        var filteredPerformances = allPerformances.filter(function(performance, ix, arr) {
+            return keys4performance.some(function(key) {
+                return op.get(performance, key, '').toLowerCase().indexOf(query) !== -1
             })
-            res.end()
         })
-    } else {
+
+        var filteredEvents = allEvents.filter(function(event, ix, arr) {
+            return keys4event.some(function(key) {
+                if (op.get(event, key, '').toLowerCase().indexOf(query) === -1) { return false }
+                return filteredPerformances.map(function(a){ return Number(a.id) }).indexOf(op.get(event, ['performance', 'id'])) === -1
+            })
+        })
+
+        // keep only unique performances
+        // var uniquePerformances = filteredPerformances.filter(function(performance, ix, arr) {
+        //     return arr.indexOf(e) === i
+        // })
+
+        results = {
+            'query_type': 'query'
+            , 'query': req.query.q
+            , 'performances': filteredPerformances
+            , 'events': filteredEvents
+            , 'count': filteredEvents.length + filteredPerformances.length
+        }
+        res.render('search', {
+            results: results
+        })
+        res.end()
+
+        // async.filter(allEvents, function iterator(event, iteratorCB) {
+        //     var returnValue = false
+        //     var length = keys.length
+        //     for (var i = 0; i < length; i++) {
+        //         if (op.get(event, keys[i], false) === false) {
+        //             // debug( event.id + ' doesnot have ' + keys[i])
+        //             continue
+        //         }
+        //         // debug( event.id + ' has ' + keys[i] + '. search for ' + query)
+        //         var foundAt = op.get(event, keys[i]).toLowerCase().search(query)
+        //         if (foundAt === -1) {
+        //             debug( 'Cant find ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
+        //             continue
+        //         }
+        //         // debug( 'Found ' + query + ' in ' + op.get(event, keys[i]).toLowerCase())
+        //         op.set(event, keys[i], op.get(event, keys[i]).replace(re, highlight))
+        //         returnValue = true
+        //     }
+        //     return iteratorCB(returnValue)
+        // }, function filtered(filteredEvents) {
+        //     // debug(JSON.stringify(filteredEvents, null, 4))
+        //
+        //     // keep only unique events
+        //     // filteredEvents = filteredEvents.filter(function(e, i, arr) {
+        //     //     return arr.indexOf(e) === i
+        //     // })
+        //     results = {
+        //         'query_type': 'query'
+        //         , 'query': req.query.q
+        //         , 'events': filteredEvents
+        //     }
+        //     res.render('search', {
+        //         results: results
+        //     })
+        //     res.end()
+        // })
+    }
+    else {
         return next()
     }
 })

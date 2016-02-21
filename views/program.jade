@@ -11,7 +11,7 @@ block content
                 .row    
                     .col-xs-12.col-sm-10.col-md-10.col-lg-11.select-cat 
                         each cat in all_categories
-                            if categories.indexOf(cat.id) == -1
+                            if categories.indexOf(cat.id) === -1
                                 a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
                                     = op.get(cat, ['properties', lang + '-name', 'value'])
                                     span.icon-checkmark2
@@ -27,7 +27,7 @@ block content
                                 li.previous
                                     a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))
                                         span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= (maxDate.getUTCMonth() + 1))
+                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year === maxDate.getUTCFullYear() && monthNav.next.month <= (maxDate.getUTCMonth() + 1))
                                 li.next
                                     a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month + '/' + categories.join(','))
                                         span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
@@ -107,13 +107,13 @@ block content
                                         if op.get(p, [lang + '-location'], false) || op.get(p, ['saal-location', lang + '-name'], false)
                                             p.location= op.get(p, ['saal-location', lang + '-name'], op.get(p, [lang + '-location']))
                                         
-                                        if op.get(p, 'price') == 0
+                                        if op.get(p, 'price') === 0
                                             p= t('title.free')
                                         else
                                             p= op.get(p, 'price')
 
                                         if op.get(p, 'min-price')
-                                            if op.get(p, 'min-price') == op.get(p, 'max-price')
+                                            if op.get(p, 'min-price') === op.get(p, 'max-price')
                                                 p= op.get(p, 'min-price') + '€'
                                             else
                                                 p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
@@ -124,7 +124,7 @@ block content
                                     if op.get(p, 'sales-status')
                                         if (new Date(datestring + ' ' + timestring) > new Date())
                                             .col-xs-6.col-md-2.col-lg-2.text-right
-                                                a.btn.btn-primary(class=((op.get(p, 'sales-status') == 'sold_out') || (op.get(p, 'sales-status') == 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                                a.btn.btn-primary(class=((op.get(p, 'sales-status') === 'sold_out') || (op.get(p, 'sales-status') === 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
@@ -140,7 +140,7 @@ block content
                                 li.previous
                                     a(href = 'program/' + monthNav.prev.year + '/' + monthNav.prev.month + '/' + categories.join(','))
                                         span= '← ' + t('month.' + monthNav.prev.month) + ' ' + monthNav.prev.year
-                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year == maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
+                            if monthNav.next.year < maxDate.getUTCFullYear() || ( monthNav.next.year === maxDate.getUTCFullYear() && monthNav.next.month <= maxDate.getUTCMonth())
                                 li.next
                                     a(href = 'program/' + monthNav.next.year + '/' + monthNav.next.month + '/' + categories.join(','))
                                         span= t('month.' + monthNav.next.month) + ' ' + monthNav.next.year + ' →'
