@@ -156,16 +156,13 @@ router.get('/', function(req, res, next) {
             [lang + '-technical-information'],
         ]
 
-        var re = new RegExp(query, 'gi')
-        function highlight(str) { return '<span style="background-color: yellow;">' + str + '</span>' }
-
-        var filteredPerformances = allPerformances.filter(function(performance, ix, arr) {
+        var filteredPerformances = allPerformances.filter(function(performance) {
             return keys4performance.some(function(key) {
                 return op.get(performance, key, '').toLowerCase().indexOf(query) !== -1
             })
         })
 
-        var filteredEvents = allEvents.filter(function(event, ix, arr) {
+        var filteredEvents = allEvents.filter(function(event) {
             return keys4event.some(function(key) {
                 if (op.get(event, key, '').toLowerCase().indexOf(query) === -1) { return false }
                 return filteredPerformances.map(function(a){ return Number(a.id) }).indexOf(op.get(event, ['performance', 'id'])) === -1
