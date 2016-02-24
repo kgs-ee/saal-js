@@ -42,7 +42,13 @@ prepareControllersFa.push(function loadCache(callback) {
                 debug('Not loaded: ', path.join(APP_CACHE_DIR, filename), err)
                 return callback(err)
             }
-            SDC.set(filename, JSON.parse(data))
+            debug('filename', filename)
+            try {
+                SDC.set(filename, JSON.parse(data))
+            } catch (e) {
+                console.log('e', e)
+                SDC.set(filename, data)
+            }
             // debug('Loaded: ', path.join(APP_CACHE_DIR, filename))
             callback()
         })
