@@ -18,7 +18,7 @@ block content
 
                                 p
                                     if op.get(event, 'resident', false)
-                                        span.artist= op.get(event, 'resident', '').join(', ')
+                                        span.artist= op.get(event, 'resident', []).join(', ')
 
                                     if op.get(event, lang + '-name')
                                         span.name= op.get(event, lang + '-name')

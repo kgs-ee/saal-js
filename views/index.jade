@@ -276,7 +276,7 @@ block content
                                                 //-     span.subtitle= op.get(p, lang + '-subtitle', '')
                                                     
                                                 if op.get(p, 'resident', false)
-                                                    span.artist= op.get(p, 'resident', '')
+                                                    span.artist= op.get(p, 'resident', []).join(', ')
                                                     
                                                 if op.get(p, lang + '-name')
                                                     span.name= op.get(p, lang + '-name')
