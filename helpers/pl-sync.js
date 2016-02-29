@@ -246,10 +246,12 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
             compare( eItem, 'thumb-url', op.get(plItem, ['shortImageUrl'], '') )
             compare( eItem, 'pl-link', op.get(plItem, ['url'], '') )
             compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
-            compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
-            compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
-            compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
-            compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
+            if (doFullSync) {
+                compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
+                compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
+                compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
+                compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
+            }
             compareReferences( eItem, 'category', op.get(plItem, ['categories'], []) )
         } else if (eItem.definition === 'event') { // PL 'concert'
             compareDates( eItem, 'start-time', op.get(plItem, ['startTimestamp'], 0) )
@@ -258,18 +260,18 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
             compare( eItem, 'sales-status', op.get(plItem, ['salesStatus'], '') )
             compare( eItem, 'min-price', op.get(plItem, ['minPrice'], '') )
             compare( eItem, 'max-price', op.get(plItem, ['maxPrice'], '') )
-            // if (doFullSync) {
-            //     debug ('doFullSync', JSON.stringify(eItem, null, 4), JSON.stringify(plItem, null, 4))
-            // }
+            if (doFullSync) {
+                debug ('doFullSync', JSON.stringify(eItem, null, 4), JSON.stringify(plItem, null, 4))
+                compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
+                compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
+                compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
+                compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
+                compare( eItem, 'et-technical-information', op.get(plItem, ['purchaseDescription', 'est'], '') )
+                compare( eItem, 'en-technical-information', op.get(plItem, ['purchaseDescription', 'eng'], '') )
+            }
             compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
             compare( eItem, 'ticket-api', op.get(plItem, ['shopUrl'], '') )
             compare( eItem, 'pl-link', op.get(plItem, ['shopUrl'], '') )
-            compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
-            compare( eItem, 'en-name', op.get(plItem, ['title', 'eng'], '') )
-            compare( eItem, 'et-description', op.get(plItem, ['description', 'est'], '') )
-            compare( eItem, 'en-description', op.get(plItem, ['description', 'eng'], '') )
-            compare( eItem, 'et-technical-information', op.get(plItem, ['purchaseDescription', 'est'], '') )
-            compare( eItem, 'en-technical-information', op.get(plItem, ['purchaseDescription', 'eng'], '') )
             compareReference( eItem, 'performance', op.get(plItem, ['showId'], '') )
         }
 
