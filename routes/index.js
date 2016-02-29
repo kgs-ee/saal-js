@@ -117,6 +117,7 @@ function prepareUpcomingTours(callback) {
         // debug(JSON.stringify(event, null, 2))
         if (event['start-time']) {
             var eventDate = (event['start-time']).slice(0,10)
+            if (eventDate < new Date().toJSON().slice(0,10)) { return callback(null) }
             var eventTime = (event['start-time']).slice(11,16)
             op.set(event, 'event-date', eventDate)
             op.set(event, 'event-time', eventTime)
