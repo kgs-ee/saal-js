@@ -10,7 +10,7 @@ debug('Caching Started at ' + Date().toString())
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
 
-POLLING_INTERVAL_MS = 1e3
+POLLING_INTERVAL_MS = 10e3
 CACHE_LOADED_MESSAGE = 'Cache successfully loaded'
 CACHE_RELOAD_REQUIRED_MESSAGE = 'Full cache reload required'
 
