@@ -5,14 +5,14 @@ var async     = require('async')
 var op        = require('object-path')
 var fs        = require('fs')
 
-debug('Caching Started at ' + Date().toString())
 
 var entu      = require('../helpers/entu')
 // var rearrange = require('../helpers/rearrange')
-
-POLLING_INTERVAL_MS = 10e3
+POLLING_INTERVAL_MS = process.env.ENTU_POLL_SEC * 1e3 || 10e3
 CACHE_LOADED_MESSAGE = 'Cache successfully loaded'
 CACHE_RELOAD_REQUIRED_MESSAGE = 'Full cache reload required'
+
+debug('Caching Started at ' + Date().toString() + ' with interval of ' + POLLING_INTERVAL_MS + 'ms.')
 
 var state = 'idle'
 
@@ -479,9 +479,9 @@ function pollEntu(workerReloadCB) {
         limit: 100
     }, null, null)
     .then(function(updates) {
+        updates = updates.filter(function(a) { return a.action !== 'created at' })
         updates.sort(function(a,b) { return a.timestamp - b.timestamp }) // Ascending sort by timestamp
         async.eachSeries(updates, function(update, callback) {
-            if (update.action === 'created at') { return callback }
             if (update.action === 'deleted at') {
                 debug('Removing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
                 return removeFromCache(update.id, callback)
