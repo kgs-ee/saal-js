@@ -452,6 +452,7 @@ function pollEntu(workerReloadCB) {
                         SDC.del(['relationships', String(eId1)])
                     }
                     SDC.del(['relationships', String(eId1)])
+                    callback()
                 })
             }, function(err) {
                 if (err) { return callback(err) }
