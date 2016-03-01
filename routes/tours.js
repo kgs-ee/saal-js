@@ -16,7 +16,7 @@ function renderTours(res, year, month) {
     var maxDate = new Date()
     async.each(SDC.get(['local_entities', 'by_class', 'tour']), function(entity, callback) {
         var event = mapper.event(entity.id)
-        // console.log(JSON.stringify(event, null, 2))
+        debug('tour.start-time', JSON.stringify(event['start-time'], null, 4))
         if (!event['start-time']) { return callback() }
 
         if (new Date(event['start-time']) > maxDate) { maxDate = new Date(event['start-time']) }
