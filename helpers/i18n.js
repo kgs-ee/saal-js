@@ -52,7 +52,7 @@ exports.init = function init(req, res, next) {
     exports.lang = i18nConfig.lang
     exports.locales = i18nConfig.locales
     exports.lang = i18nConfig.lang
-    debug('locales prepped', i18nConfig.locales)
+    // debug('locales prepped', i18nConfig.locales)
     next()
 }
 

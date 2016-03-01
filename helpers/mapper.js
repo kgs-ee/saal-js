@@ -218,7 +218,7 @@ function mapEcho(eid) {
         return debug('mapEcho: Entity ' + eid + ' is not an Echo')
         // throw new TypeError('Entity ' + eid + ' is not an Echo')
     }
-    debug('mapEcho: Mapping Echo ' + eid + '.')
+    // debug('mapEcho: Mapping Echo ' + eid + '.')
 
     var opEntity = op(entity)
     var entityOut = op({})
