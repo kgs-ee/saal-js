@@ -262,7 +262,7 @@ block content
                     .col-xs-12.col-md-12
                         h2= t('nav.residency')
 
-                    if residencies
+                    if Object.keys(residencies).length > 0
                         each datestring in Object.keys(residencies).sort().slice(0, listlength)
                             each timestring in Object.keys(op.get(residencies, [datestring])).sort()
                                 each p in op.get(residencies, [datestring, timestring])
