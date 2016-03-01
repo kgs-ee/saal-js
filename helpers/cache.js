@@ -420,6 +420,7 @@ function pollEntu(workerReloadCB) {
     var updated = false
 
     function removeFromCache(eId1, callback) {
+        debug('removeFromCache(' + eId1 + ').')
         // 1st we remove relationships to and from eId1
         var relationshipDefinitions = Object.keys(SDC.get(['relationships', String(eId1)], {}))
         var affectedEIds = []
@@ -470,6 +471,7 @@ function pollEntu(workerReloadCB) {
                 classes.forEach(function(a) { SDC.del(['local_entities', 'by_class', a, eId1]) })
                 SDC.del(['local_entities', 'featured', eId1])
                 SDC.del(['local_entities', 'by_eid', eId1])
+                debug('removeFromCache(' + eId1 + ') done.')
                 callback()
             })
         })
@@ -482,6 +484,7 @@ function pollEntu(workerReloadCB) {
     .then(function(updates) {
         updates = updates.filter(function(a) { return a.action !== 'created at' })
         updates.sort(function(a,b) { return a.timestamp - b.timestamp }) // Ascending sort by timestamp
+        debug('pollUpdates got ' + updates.length + ' tasks to check.')
         async.eachSeries(updates, function(update, callback) {
             if (update.action === 'deleted at') {
                 debug('Removing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
