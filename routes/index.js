@@ -141,6 +141,11 @@ function preparePastResidency(callback) {
     async.each(SDC.get(['local_entities', 'by_class', 'residency']), function(entity, callback) {
         var event = mapper.event(entity.id)
         // console.log(JSON.stringify(event, null, 2))
+        if (event['end-time']) {
+            var eventEndDate = (event['end-time']).slice(0,10)
+            if (eventEndDate < new Date().toJSON().slice(0,10)) { return callback(null) }
+        }
+        else { return callback(null) }
         if (event['start-time']) {
             var eventDate = (event['start-time']).slice(0,10)
             var eventTime = (event['start-time']).slice(11,16)
