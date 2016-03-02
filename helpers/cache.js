@@ -366,26 +366,29 @@ cacheSeries.push(function fetchFromEntu(callback) {
 })
 
 
-function getLastPollTs() {
-    var ts = Math.max.apply(
-        Math,
-        Object.keys(SDC.get(['local_entities', 'by_eid'], []))
+function setLastPollTs(newTs) {
+    if (newTs && newTs > SDC.get(['lastPollTs'], 1)) {
+        SDC.set(['lastPollTs'], newTs)
+    }
+    else {
+        var currentTs = Math.max.apply(
+            Math,
+            Object.keys(SDC.get(['local_entities', 'by_eid'], []))
             .map(function(key) {
                 return SDC.get(['local_entities', 'by_eid', key, 'changedTs'])
             })
-    )
-    debug('getLastPollTs: ' + ts)
-    return ts
+        )
+        if (currentTs > SDC.get(['lastPollTs'], 1)) {
+            SDC.set('lastPollTs', currentTs)
+        }
+    }
 }
 
 
 // Save cache
 function saveCache(callback) {
     debug('LASTTS 1: ' + SDC.get('lastPollTs'))
-    var maxTs = getLastPollTs()
-    if (maxTs > SDC.get(['lastPollTs'], 0)) {
-        SDC.set('lastPollTs', getLastPollTs())
-    }
+    setLastPollTs()
     debug('LASTTS 2: ' + SDC.get('lastPollTs'))
     debug('Save Cache at ' + Date().toString())
 
@@ -418,6 +421,7 @@ cacheSeries.push(function cleanup(callback) {
 function pollEntu(workerReloadCB) {
     debug('Polling Entu')
     var updated = false
+    debug('Setting updated = ', updated)
 
     function removeFromCache(eId1, callback) {
         debug('removeFromCache(' + eId1 + ').')
@@ -434,6 +438,8 @@ function pollEntu(workerReloadCB) {
             })
         }, function(err) {
             if (err) { return callback(err) }
+            updated = affectedEIds.length > 0
+            debug('Setting updated = ', updated)
             async.each(affectedEIds, function(eId2, callback) {
                 var reverseRlationshipDefinitions = Object.keys(SDC.get(['relationships', String(eId2)], {}))
                 async.each(reverseRlationshipDefinitions, function(rDef, callback) {
@@ -482,17 +488,17 @@ function pollEntu(workerReloadCB) {
         limit: 100
     }, null, null)
     .then(function(updates) {
+        // debug('pollUpdates got ', updates)
         updates = updates.filter(function(a) { return a.action !== 'created at' })
         updates.sort(function(a,b) { return a.timestamp - b.timestamp }) // Ascending sort by timestamp
         debug('pollUpdates got ' + updates.length + ' tasks to check.')
         async.eachSeries(updates, function(update, callback) {
             if (update.action === 'deleted at') {
+                if (update.timestamp > 0) { setLastPollTs(update.timestamp) }
                 debug('Removing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
                 return removeFromCache(update.id, callback)
             }
-            if (update.changed_ts) {
-                update.timestamp = update.changed_ts
-            }
+            if (update.timestamp > 0) { setLastPollTs(update.timestamp) }
             debug('Updating ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
             entu.pollParents(update.id, null, null)
             .then(function(parents) {
@@ -506,6 +512,10 @@ function pollEntu(workerReloadCB) {
                 debug('1. Filtered parents of ', update, ': ', parents)
                 entu.getEntity(update.id, null, null)
                 .then(function(opEntity) {
+                    if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+                        debug('Unpublishing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
+                        return removeFromCache(update.id, callback)
+                    }
                     parents = parents.filter(function(element) {
                         return opEntity.get(['definition']) === element.definition
                     })
@@ -518,7 +528,8 @@ function pollEntu(workerReloadCB) {
                         debug('SDC.set([\'lastPollTs\'], ' + update.timestamp)
                         SDC.set(['lastPollTs'], update.timestamp)
                         updated = true
-                        saveCache(callback)
+                        debug('Setting updated = ', updated)
+                        return callback(null)
                     })
                 })
             })
@@ -530,9 +541,12 @@ function pollEntu(workerReloadCB) {
             else {
                 console.log('Cache routine finished', new Date())
                 setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)
+                debug('We have updated = ', updated)
                 if (updated) {
+                    debug('We have updated = ', updated)
                     updated = false
-                    workerReloadCB()
+                    debug('Setting updated = ', updated)
+                    saveCache(workerReloadCB)
                 }
             }
         })
