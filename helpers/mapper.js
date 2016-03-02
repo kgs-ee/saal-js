@@ -102,6 +102,7 @@ function mapEvent(eid, querystring) {
     entityOut.set('ordinal', opEntity.get(['properties', 'ordinal', 'value'], 0))
 
     entityOut.set('talk', opEntity.get('properties.talk.value') === 'True')
+    entityOut.set('canceled', opEntity.get('properties.canceled.value') === 'True')
 
     var performanceId = opEntity.get('properties.performance.reference')
     if (performanceId) {

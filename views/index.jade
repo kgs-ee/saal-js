@@ -71,6 +71,9 @@ block content
                                         p= (moment(datestring).locale(lang).format('L'))
                                         p= timestring
 
+                                        if op.get(p, 'canceled') === true
+                                            p.today= t('button.canceled')
+
                                         //- Premiere
                                         if op.get(p, 'performance.premiere.start-time')
                                             if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
@@ -78,11 +81,11 @@ block content
 
                                         //- Today
                                         if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
-                                            div.today= t('button.today')
+                                            p.today= t('button.today')
 
                                         //- Festival
                                         if (op.get(p,[lang+'-festival']))
-                                            div.today= op.get(p,[lang+'-festival'])
+                                            p.today= op.get(p,[lang+'-festival'])
 
                                     .col-xs-12.col-md-6.col-lg-6
                                         h3
@@ -147,7 +150,10 @@ block content
 
                                     if op.get(p, 'sales-status')
                                         .col-xs-6.col-md-2.col-lg-2.text-right
-                                            a.btn.btn-primary(class=((op.get(p, 'sales-status') == 'sold_out') || (op.get(p, 'sales-status') == 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                            if op.get(p, 'canceled') === true
+                                                a.btn.btn-primary(class="disabled")= t('button.canceled')
+                                            else
+                                                a.btn.btn-primary(class=((op.get(p, 'sales-status') === 'sold_out' || op.get(p, 'sales-status') === 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
@@ -174,6 +180,9 @@ block content
                                             p= (moment(datestring).locale(lang).format('L'))
                                             p= timestring
 
+                                            if op.get(p, 'canceled') === true
+                                                p.today= t('button.canceled')
+
                                             //- Premiere
                                             if op.get(p, 'performance.premiere.start-time')
                                                 if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
@@ -181,7 +190,7 @@ block content
 
                                             //- Today
                                             if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
-                                                div.today= t('button.today')
+                                                p.today= t('button.today')
                                                 
                                             //- Is SAAL Biennaal
                                             
@@ -244,7 +253,10 @@ block content
                                     
                                         .col-xs-6.col-md-2.text-right
                                             if op.get(p, 'sales-status')
-                                                a.btn.btn-primary(class=((op.get(p, 'sales-status') == 'sold_out') || (op.get(p, 'sales-status') == 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+                                                if op.get(p, 'canceled') === true
+                                                    a.btn.btn-primary(class="disabled")= t('button.canceled')
+                                                else
+                                                    a.btn.btn-primary(class=((op.get(p, 'sales-status') === 'sold_out' || op.get(p, 'sales-status') === 'free_admission') ? "disabled" : "") href=op.get(p, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
 
                                         .col-xs-12.col-md-12.col-lg-12
                                             hr

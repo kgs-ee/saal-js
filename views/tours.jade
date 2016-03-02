@@ -33,14 +33,20 @@ block content
                                         if timestring != '23:59'
                                             p= timestring
 
+                                        if op.get(p, 'canceled') === true
+                                            p.today= t('button.canceled')
+
                                         //- Premiere
                                         if op.get(p, ['performance', 'premiere', 'start-time'])
                                             if (moment(datestring).locale(lang).format('L') === moment(op.get(p, ['performance', 'premiere', 'start-time'])).locale(lang).format('L'))
                                                 p.today= t('button.premiere')
 
+                                        if op.get(p, 'canceled') === true
+                                            p.today= t('button.canceled')
+
                                         //- Today
                                         if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
-                                            div.today= t('button.today')
+                                            p.today= t('button.today')
 
                                     .col-xs-12.col-md-6.col-lg-6
                                         h3
