@@ -25,6 +25,8 @@ router.get('/:id', function(req, res) {
             pastEvents.push(event)
         }
     })
+    events.sort(function(a, b) { return a['start-time'] > b['start-time'] ? 1 : -1 })
+    pastEvents.sort(function(a, b) { return a['start-time'] < b['start-time'] ? 1 : -1 })
 
     var rootCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'rootCategory'], {}))
         .map(function(eId) {
