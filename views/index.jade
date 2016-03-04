@@ -269,12 +269,10 @@ block content
                         .col-lg-12
                             h2= t('title.no-tours')
 
-
+            if Object.keys(residencies).length > 0
                 .tour.row
                     .col-xs-12.col-md-12
                         h2= t('nav.residency')
-
-                    if Object.keys(residencies).length > 0
                         each datestring in Object.keys(residencies).sort().slice(0, listlength)
                             each timestring in Object.keys(op.get(residencies, [datestring])).sort()
                                 each p in op.get(residencies, [datestring, timestring])
@@ -306,9 +304,6 @@ block content
                         if Object.keys(residencies).length > listlength
                             .col-xs-12.col-md-12        
                                 a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all')
-                    else
-                        .col-lg-12
-                            h2= t('title.no-residencies')
 
 
             aside.col-xs-12.col-md-12.col-lg-3.sidebar
