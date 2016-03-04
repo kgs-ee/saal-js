@@ -165,12 +165,11 @@ block content
                     else
                         .col-lg-12
                             h2= t('title.no-events')
+                if tours
+                    .tour.row
+                        .col-xs-12.col-md-12.col-lg-12
+                            h2= t('nav.tours')
 
-                .tour.row
-                    .col-xs-12.col-md-12.col-lg-12
-                        h2= t('nav.tours')
-
-                    if tours
                         each datestring in Object.keys(tours).sort().slice(0, listlength)
                             each timestring in Object.keys(op.get(tours, [datestring])).sort()
                                 each p in op.get(tours, [datestring, timestring])
@@ -264,10 +263,7 @@ block content
                         if Object.keys(tours).length > listlength
                             .col-xs-12.col-md-12        
                                 a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all')
-                                
-                    else
-                        .col-lg-12
-                            h2= t('title.no-tours')
+                                    
 
             if Object.keys(residencies).length > 0
                 .tour.row
