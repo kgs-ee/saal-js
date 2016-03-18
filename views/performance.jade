@@ -80,7 +80,7 @@ block content
                                     if op.get(event, 'canceled') === true
                                         a.btn.btn-primary(class="disabled")= t('button.canceled')
                                     else
-                                        a.btn.btn-primary(class=((op.get(event, 'sales-status') === 'sold_out' || op.get(event, 'sales-status') === 'free_admission') ? "free disabled" : "") href=op.get(event, 'ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(event, 'sales-status'))
+                                        a.btn.btn-primary(class=((op.get(event, 'sales-status') === 'sold_out' || op.get(event, 'sales-status') === 'free_admission') ? "free disabled" : "") href=op.get(event, lang + '-ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
                             .col-xs-12.col-md-12.col-lg-12
                                 hr

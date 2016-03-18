@@ -62,7 +62,7 @@ block content
                                         p= op.get(p, [lang + '-location'])
                                         
                                         if op.get(p, ['sales-status'])
-                                            a.btn.btn-primary(class=(op.get(p, ['sales-status']) == 'sold_out' ? "disabled" : "") href=op.get(p, ['ticket-api']) target='_blank')= t('button.buy_ticket.' + op.get(p, ['sales-status']))
+                                            a.btn.btn-primary(class=(op.get(p, ['sales-status']) == 'sold_out' ? "disabled" : "") href=op.get(p, [lang + '-ticket-api']) target='_blank')= t('button.buy_ticket.' + op.get(p, ['sales-status']))
                                             
                                     .col-xs-12.col-md-12
                                         hr
