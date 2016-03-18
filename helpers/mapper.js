@@ -201,6 +201,18 @@ function mapPerformance(eid, querystring) {
     entityOut.set('et-technical-information', opEntity.get(['properties', 'et-technical-information', 0, 'md'], '').replace(re, highlight))
     entityOut.set('en-technical-information', opEntity.get(['properties', 'en-technical-information', 0, 'md'], '').replace(re, highlight))
     entityOut.set('premiere.start-time', opEntity.get(['properties', 'premiere-time', 0, 'value']))
+
+    // Map other works
+    entityOut.set('otherWorks', SDC.get(['relationships', eid, 'otherWork'], []).map(function(a) {
+        var enName = SDC.get(['local_entities', 'by_eid', a, 'properties', 'en-name', 0, 'value'])
+        var etName = SDC.get(['local_entities', 'by_eid', a, 'properties', 'et-name', 0, 'value'])
+        var artist = SDC.get(['local_entities', 'by_eid', a, 'properties', 'artist',  0, 'value'])
+        return {
+            'id': a,
+            'en-name': enName === '' ? artist : enName,
+            'et-name': etName === '' ? artist : etName
+        }
+    }))
     return entityOut.get()
 }
 

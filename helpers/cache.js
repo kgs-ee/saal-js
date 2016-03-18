@@ -196,6 +196,13 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
             }
         })
 
+        // Relate all related performances (Other Works)
+        var otherWorks = opEntity.get(['properties', 'otherWork'], [])
+        otherWorks.forEach(function(otherWork) {
+            debug('otherWork ', otherWork)
+            relate(opEntity.get('id'), 'otherWork', otherWork.reference, 'otherWork')
+        })
+
         var parentEid = opEntity.get('id')
         entu.getChilds(parentEid, null, APP_ENTU_OPTIONS)
         .then(function(entities) {

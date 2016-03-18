@@ -48,14 +48,16 @@ block content
                 if op.get(performance, ['duration'], op.get(events, [0, 'duration'], false))
                     .meta-info= t('label.duration') + ': ' + op.get(performance, ['duration'], op.get(events, [0, 'duration'])) + ' ' + t('label.minutes.short')
                 
-                .related-perfomance
-                    h2= t('title.related')
-                    .row
-                        .col-xs-12
-                            a(href='#')
-                                p Related Performance Title
-                        .col-xs-12.col-md-12.col-lg-12
-                            hr
+                if op.get(performance, ['otherWorks'], false)
+                    .related-perfomance
+                        h2= t('title.related')
+                        each otherWork in op.get(performance, ['otherWorks'], [])
+                            .row
+                                .col-xs-12
+                                    a(href='./performance/' + op.get(otherWork, ['id']))
+                                        p= op.get(otherWork, [lang + '-name'])
+                                .col-xs-12.col-md-12.col-lg-12
+                                    hr
 
             article.readMore.main-text.col-md-8.col-lg-6.h3!= op.get(performance, lang + '-description')
 
