@@ -13,11 +13,11 @@ block content
                         each cat in all_categories
                             if categories.indexOf(cat.id) === -1
                                 a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+categories.join(',') + ',' + cat.id)
-                                    = op.get(cat, ['properties', lang + '-name', 'value'])
+                                    = op.get(cat, ['properties', lang + '-name', 0, 'value'])
                                     span.icon-checkmark2
                             else
                                 a(href='program/'+monthNav.current.year+'/'+monthNav.current.month+'/'+arraySubtract(categories, cat.id).join(','))
-                                    .active= op.get(cat, ['properties', lang + '-name', 'value'])
+                                    .active= op.get(cat, ['properties', lang + '-name', 0, 'value'])
                                         span.icon-checkmark
                 
                 .row

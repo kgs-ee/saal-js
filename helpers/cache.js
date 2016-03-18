@@ -6,7 +6,9 @@ var op        = require('object-path')
 var fs        = require('fs')
 
 
-var entu      = require('../helpers/entu')
+var entu      = require('entulib')
+// var entu      = require('../helpers/entu')
+
 // var rearrange = require('../helpers/rearrange')
 POLLING_INTERVAL_MS = process.env.ENTU_POLL_SEC * 1e3 || 10e3
 CACHE_LOADED_MESSAGE = 'Cache successfully loaded'
@@ -77,15 +79,21 @@ cacheSeries.push(function loadCache(callback) {
 
 // Cache root elements
 cacheSeries.push(function cacheRoot(callback) {
-    debug('Caching root at ' + Date().toString())
+    // debug('Caching root at ' + Date().toString())
+    debug('Caching root with ', APP_ENTU_OPTIONS)
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
-    entu.getEntity(APP_ENTU_ROOT, null, null)
+    entu.getEntity(APP_ENTU_ROOT, APP_ENTU_OPTIONS)
     .then(function(institution) {
-        SDC.set(['root', 'main_color'], institution.get(['properties', 'main-color', 'value']))
-        SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color', 'value']))
-        SDC.set(['root', 'description'], institution.get(['properties', 'description', 'md']))
-        SDC.set(['root', 'gallery'], institution.get(['properties', 'photo']))
-        return callback()
+        SDC.set(['root', 'main_color'],      institution.get(['properties', 'main-color',       0, 'value']))
+        SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color',  0, 'value']))
+        SDC.set(['root', 'description'],     institution.get(['properties', 'description',      0, 'md']))
+        SDC.set(['root', 'gallery'],         institution.get(['properties', 'photo']))
+        // debug('Caching root success: ', institution.get())
+        return callback(null)
+    })
+    .catch(function(reason) {
+        debug('Caching root failed: ', reason)
+        return callback(reason)
     })
 })
 
@@ -98,7 +106,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         }
         SDC.set(['local_entities', 'by_definition', entity.definition, String(entity.id)], entity)
 
-        if (op.get(entity, ['properties', 'featured', 'value']) === 'True') {
+        if (op.get(entity, ['properties', 'featured', 0, 'value']) === 'True') {
             if (op.get(entity, ['definition']) === 'performance') {
                 SDC.set(['local_entities', 'featured', String(entity.id)], entity)
             }
@@ -148,14 +156,18 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
     function cacheCategory(opEntity, eClass, definition, callback) {
         // debug('!!! Cacheing ', opEntity.get('id'), eClass, definition)
         var parentEid = opEntity.get('id')
-        entu.getChilds(parentEid, definition, null, null)
+        entu.getChilds(parentEid, definition, APP_ENTU_OPTIONS)
         .then(function(opEntities) {
             // debug('!!! Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
             myProcessEntities(parentEid, definition, definition, opEntities, callback)
         })
+        .catch(function(reason) {
+            debug('Caching category failed: ', reason)
+            return callback(reason)
+        })
     }
     function cachePerformance(opEntity, callback) {
-        var perfRef = opEntity.get('properties.premiere.reference', false)
+        var perfRef = opEntity.get(['properties', 'premiere', 0, 'reference'], false)
         if (perfRef) {
             relate(opEntity.get('id'), 'premiere', perfRef, 'performance')
         }
@@ -164,7 +176,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         var categoryRefs = opEntity.get(['properties', 'category'], [])
         categoryRefs.forEach(function(categoryRef) {
             categoryRef = categoryRef.reference
-            // var categoryRef = opEntity.get(['properties', 'category', 'reference'], false)
+            // var categoryRef = opEntity.get(['properties', 'category', 0, 'reference'], false)
             // debug('cachePerformance ' + opEntity.get('id'), categoryRef)
             if (categoryRef) {
                 function relateParents(categoryRef) {
@@ -185,10 +197,10 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         })
 
         var parentEid = opEntity.get('id')
-        entu.getChilds(parentEid, null, null, null)
+        entu.getChilds(parentEid, null, APP_ENTU_OPTIONS)
         .then(function(entities) {
             async.each(entities, function(opEntity, callback) {
-                if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+                if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
                     return callback(null)
                 }
                 var entity = opEntity.get()
@@ -205,22 +217,26 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
                 callback()
             })
         })
+        .catch(function(reason) {
+            debug('Caching childs failed for performance: ' + parentEid, reason)
+            return callback(reason)
+        })
     }
     function cacheEvent(opEntity, callback) {
-        var perfRef = opEntity.get('properties.performance.reference', false)
+        var perfRef = opEntity.get(['properties', 'performance', 0, 'reference'], false)
         if (perfRef) {
             relate(opEntity.get('id'), 'performance', perfRef, 'event')
         }
 
         // Calculate duration of event
         var duration = (
-            (   ( new Date(opEntity.get(['properties', 'end-time', 'value'], 0)) ).getTime()
+            (   ( new Date(opEntity.get(['properties', 'end-time', 0, 'value'], 0)) ).getTime()
                 -
-                ( new Date(opEntity.get(['properties', 'start-time', 'value'], 0)) ).getTime()
+                ( new Date(opEntity.get(['properties', 'start-time', 0, 'value'], 0)) ).getTime()
             ) / 1e3 / 60)
         if (duration > 0) {
-            // debug(new Date(opEntity.get(['properties', 'start-time', 'value'], 0)), new Date(opEntity.get(['properties', 'end-time', 'value'], 0)))
-            opEntity.set(['properties', 'duration', 'value'], duration)
+            // debug(new Date(opEntity.get(['properties', 'start-time', 0, 'value'], 0)), new Date(opEntity.get(['properties', 'end-time', 0, 'value'], 0)))
+            opEntity.set(['properties', 'duration', 0, 'value'], duration)
         }
 
         // Relate all related categories
@@ -245,10 +261,10 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
 
 
         var parentEid = opEntity.get('id')
-        entu.getChilds(parentEid, null, null, null)
+        entu.getChilds(parentEid, null, APP_ENTU_OPTIONS)
         .then(function(entities) {
             async.each(entities, function(opEntity, callback) {
-                if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+                if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
                     return callback(null)
                 }
                 var entity = opEntity.get()
@@ -269,12 +285,16 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
                 callback()
             })
         })
+        .catch(function(reason) {
+            debug('Caching childs failed for event: ' + parentEid, reason)
+            return callback(reason)
+        })
     }
 
     if (entities.length === 0) { return callback() }
     debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
     async.each(entities, function(opEntity, callback) {
-        if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+        if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
             return callback(null)
         }
         var entity = opEntity.get()
@@ -334,25 +354,33 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
 
 // Fetch from Entu
 cacheSeries.push(function fetchFromEntu(callback) {
-    // debug('Fetch from Entu at ' + Date().toString())
+    debug('Fetch from Entu at ' + Date().toString())
 
     async.eachLimit(cacheFromEntu, 1, function(options, callback) {
         var definition = options.definition
         var eClass = options.class
-        // debug('Fetch ' + JSON.stringify(options) + ' from Entu.')
+        // debug('Fetch1 ' + JSON.stringify(options) + ' from Entu.')
         if (options.parent) {
             var parentEid = options.parent
-            // debug('Fetch ' + definition + '@' + parentEid + ' from Entu.')
-            entu.getChilds(parentEid, definition, null, null)
+            // debug('Fetch2 ' + definition + '@' + parentEid + ' from Entu.')
+            entu.getChilds(parentEid, definition, APP_ENTU_OPTIONS)
             .then(function(opEntities) {
-                // debug('Fetch ' + definition + '@' + parentEid + ' from Entu succeeded.')
+                // debug('Fetch2 ' + definition + '@' + parentEid + ' from Entu succeeded.')
                 myProcessEntities(parentEid, eClass, definition, opEntities, callback)
             })
+            .catch(function(reason) {
+                debug('Fetch2 ' + definition + '@' + parentEid + ' from Entu failed.', reason)
+                return callback(reason)
+            })
         } else {
-            // debug('Fetch ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
-            entu.getEntities(definition, null, null, null)
+            debug('Fetch3 ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
+            entu.getEntities(definition, null, APP_ENTU_OPTIONS)
             .then(function(opEntities) {
                 myProcessEntities(null, eClass, definition, opEntities, callback)
+            })
+            .catch(function(reason) {
+                debug('Fetch3 ' + definition + '@' + JSON.stringify(options) + ' from Entu failed.', reason)
+                return callback(reason)
             })
         }
     }, function(err) {
@@ -360,7 +388,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
             debug('Each failed for fetch from Entu')
             return callback(err)
         }
-        // debug('Each succeeded for fetch from Entu')
+        debug('Each succeeded for fetch from Entu')
         callback()
     })
 })
@@ -421,7 +449,7 @@ cacheSeries.push(function cleanup(callback) {
 function pollEntu(workerReloadCB) {
     debug('Polling Entu')
     var updated = false
-    debug('Setting updated = ', updated)
+    // debug('Setting updated = ', updated)
 
     function removeFromCache(eId1, callback) {
         debug('removeFromCache(' + eId1 + ').')
@@ -468,12 +496,12 @@ function pollEntu(workerReloadCB) {
                 var definitions = cacheFromEntu
                     .map(function(a) { return a.definition })
                     .filter(function(a, ix, self) { return self.indexOf(a) === ix })
-                debug('Candidate definitions', definitions)
+                // debug('Candidate definitions', definitions)
                 definitions.forEach(function(a) { SDC.del(['local_entities', 'by_definition', a, eId1]) })
                 var classes = cacheFromEntu
                     .map(function(a) { return a.class })
                     .filter(function(a, ix, self) { return self.indexOf(a) === ix })
-                debug('Candidate classes', classes)
+                // debug('Candidate classes', classes)
                 classes.forEach(function(a) { SDC.del(['local_entities', 'by_class', a, eId1]) })
                 SDC.del(['local_entities', 'featured', eId1])
                 SDC.del(['local_entities', 'by_eid', eId1])
@@ -482,25 +510,30 @@ function pollEntu(workerReloadCB) {
             })
         })
     }
+    // debug(APP_ENTU_OPTIONS)
 
-    entu.pollUpdates({
-        timestamp: SDC.get(['lastPollTs'], 1454661210) + 1,
-        limit: 100
-    }, null, null)
-    .then(function(updates) {
-        // debug('pollUpdates got ', updates)
-        updates = updates.filter(function(a) { return a.action !== 'created at' })
+    var pollOptions = {}
+    Object.keys(APP_ENTU_OPTIONS).forEach(function(key) {
+        pollOptions[key] = APP_ENTU_OPTIONS[key]
+    })
+    pollOptions.timestamp = SDC.get(['lastPollTs'], 1454661210) + 1
+    pollOptions.limit = 100
+    entu.pollUpdates(pollOptions)
+    .then(function(result) {
+        // debug('pollUpdates got ', result)
+        var updates = result.updates.filter(function(a) { return a.action !== 'created at' })
         updates.sort(function(a,b) { return a.timestamp - b.timestamp }) // Ascending sort by timestamp
         debug('pollUpdates got ' + updates.length + ' tasks to check.')
+        var toGo = updates.length
         async.eachSeries(updates, function(update, callback) {
             if (update.action === 'deleted at') {
                 if (update.timestamp > 0) { setLastPollTs(update.timestamp) }
-                debug('Removing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
+                debug('(' + (toGo--) + ') Removing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp + (new Date(update.timestamp*1000)))
                 return removeFromCache(update.id, callback)
             }
             if (update.timestamp > 0) { setLastPollTs(update.timestamp) }
-            debug('Updating ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
-            entu.pollParents(update.id, null, null)
+            debug('(' + (toGo--) + ') Updating ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp + (new Date(update.timestamp*1000)))
+            entu.pollParents(update.id, APP_ENTU_OPTIONS)
             .then(function(parents) {
                 var currentParents = parents.map(function(element) { return Number(element.id) })
                 var filteredCFE = cacheFromEntu.filter(function(n) {
@@ -508,30 +541,42 @@ function pollEntu(workerReloadCB) {
                 })
                 return filteredCFE
             })
+            .catch(function(reason) {
+                debug('\n\n!!!\nFetching parents of ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp, 'failed:', reason)
+                return callback(reason)
+            })
             .then(function(parents) {
-                debug('1. Filtered parents of ', update, ': ', parents)
-                entu.getEntity(update.id, null, null)
+                // debug('1. Filtered parents of ', update, ': ', parents)
+                entu.getEntity(update.id, APP_ENTU_OPTIONS)
                 .then(function(opEntity) {
-                    if (opEntity.get(['properties', 'nopublish', 'value']) === 'True') {
+                    if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
                         debug('Unpublishing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
                         return removeFromCache(update.id, callback)
                     }
                     parents = parents.filter(function(element) {
                         return opEntity.get(['definition']) === element.definition
                     })
-                    debug('2. Filtered parents of ', update, ': ', parents)
+                    // debug('2. Filtered parents of ', update, ': ', parents)
                     async.each(parents, function(parent, callback) {
                         myProcessEntities(null, parent.class, parent.definition, [opEntity], callback)
                     }, function(err) {
                         if (err) { return callback(err) }
-                        debug('1.Entity: ' + JSON.stringify(opEntity.get(['definition']) + ' ' + opEntity.get(['id']), null, 4), 'Parents: ', parents)
-                        debug('SDC.set([\'lastPollTs\'], ' + update.timestamp)
+                        // debug('1.Entity: ' + JSON.stringify(opEntity.get(['definition']) + ' ' + opEntity.get(['id']), null, 4), 'Parents: ', parents)
+                        // debug('SDC.set([\'lastPollTs\'], ' + update.timestamp)
                         SDC.set(['lastPollTs'], update.timestamp)
                         updated = true
                         debug('Setting updated = ', updated)
                         return callback(null)
                     })
                 })
+                .catch(function(reason) {
+                    debug('1. Filtered parents of ', update, ': ', parents, 'failed:', reason)
+                    return callback(reason)
+                })
+            })
+            .catch(function(reason) {
+                debug('\n\n!!!\nUpdating ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp, 'failed:', reason)
+                return callback(reason)
             })
         }, function(err) {
             if (err) {
@@ -551,12 +596,17 @@ function pollEntu(workerReloadCB) {
             }
         })
     })
+    .catch(function(reason) {
+        debug('\n\n!!!\nPoll updates failed.', reason, '\n')
+        return workerReloadCB(reason)
+    })
 }
 
 
 
 function performInitialSync(workerReloadCB) {
     // Set lastPollTs from freshly cached data
+    // debug(APP_ENTU_OPTIONS)
 
     debug('Performing cache sync at ' + Date().toString())
     async.series(cacheSeries, function syncFinally(err) {

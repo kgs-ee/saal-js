@@ -9,9 +9,6 @@ var random   = require('randomstring')
 
 APP_ROOT_REFRESH_MS = 30 * 60 * 1000
 APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
-APP_ENTU_URL        = process.env.ENTU_URL || 'https://saal.entu.ee/api2'
-APP_ENTU_USER       = process.env.ENTU_USER
-APP_ENTU_KEY        = process.env.ENTU_KEY
 APP_DEPLOYMENT      = process.env.DEPLOYMENT
 
 if (!process.env.ENTU_USER) {
@@ -21,6 +18,11 @@ if (!process.env.ENTU_KEY) {
     throw '"ENTU_KEY" missing in environment'
 }
 
+APP_ENTU_OPTIONS    = {
+    entuUrl: process.env.ENTU_URL || 'https://saal.entu.ee',
+    user: process.env.ENTU_USER,
+    key: process.env.ENTU_KEY
+}
 
 // Site data cache
 APP_ENTU_ROOT       = 1 // institution
@@ -29,6 +31,7 @@ if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
 
 var workers = []
 
+// debug(APP_ENTU_OPTIONS)
 var cache = require('./helpers/cache')
 cache.sync(function cacheSyncCB() {
     for (var i in workers) {
@@ -42,7 +45,9 @@ cache.sync(function cacheSyncCB() {
     }
 })
 
+debug('Check if PL sync', APP_DEPLOYMENT)
 if (APP_DEPLOYMENT === 'live' || APP_DEPLOYMENT === 'dev') {
+    debug('Initialising PL sync')
     var plSync = require('./helpers/pl-sync')
     function startPLSync() {
         if (plSync.state === undefined) {

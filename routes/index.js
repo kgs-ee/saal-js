@@ -16,41 +16,19 @@ var sideBanner
 
 var templatePath = require.resolve('../views/index.jade')
 var templateFn = require('jade').compileFile(templatePath)
-var cachedPage = {}
-
 
 router.get('/', function(req, res) {
-    debug('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
-    if (cachedPage[res.locals.lang]) {
-        debug('Found cache')
-        res.write(cachedPage[res.locals.lang])
-        res.end()
-    } else {
-        debug('Prerendering "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
-        var translate = require(require.resolve('../helpers/i18n')).translate
-        var locales = require(require.resolve('../helpers/i18n')).locales
-        // var lang = res.locals.lang,
-        // res.locals.t = require(require.resolve('../helpers/i18n')).translate
-        cachedPage[res.locals.lang] = templateFn ({
-            path: '',
-            t: translate,
-            locales: locales,
-            lang: res.locals.lang,
-            op: op,
-            SAAL: SDC.get('root'),
-            moment: require('moment'),
-            'featured': featured,
-            'program': programUpcoming,
-            'tours': toursUpcoming,
-            'residencies': residencyPast,
-            'sideBanner': sideBanner
-        })
-        debug('Done cacheing')
-        res.write(cachedPage[res.locals.lang])
-        res.end()
+    var pageData = {
+        'featured': featured,
+        'program': programUpcoming,
+        'tours': toursUpcoming,
+        'residencies': residencyPast,
+        'sideBanner': sideBanner,
+        path: req.path
     }
-    debug('Rendered "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
-    // res.end()
+    debug('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
+    res.render('index', pageData)
+    res.end()
 })
 
 
@@ -76,7 +54,7 @@ function prepareFeatured(callback) {
             callback(err)
             return
         }
-        // debug('Featured performances prepared.')
+        debug('Featured performances prepared.', featured.length)
         callback()
     })
 }
@@ -165,13 +143,6 @@ function preparePastResidency(callback) {
     })
 }
 
-// Past residency
-function clearCachedRender(callback) {
-    debug('Clearing cached render from ' + path.basename(__filename).replace('.js', ''))
-    cachedPage = {}
-    callback()
-}
-
 
 router.prepare = function prepare(callback) {
     // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
@@ -181,7 +152,6 @@ router.prepare = function prepare(callback) {
     parallelf.push(prepareUpcomingTours)
     parallelf.push(preparePastResidency)
     parallelf.push(prepareSideBanner)
-    parallelf.push(clearCachedRender)
     async.parallel(parallelf, function(err) {
         if (err) { return callback(err) }
         // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
