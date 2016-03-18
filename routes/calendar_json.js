@@ -68,8 +68,8 @@ router.prepare = function prepare(callback) {
         calEvent.eid = op.get(oneEvent, ['performance', 'id'], op.get(oneEvent, ['id']))
         calEvent.controller = op.get(oneEvent, ['performance', 'id'], false) ? 'performance' : 'event'
         calEvent.tag = op.get(oneEvent, ['tag'], [])
-        op.set(calEvent, ['name', 'et'], op.get(oneEvent, ['et-name']))
-        op.set(calEvent, ['name', 'en'], op.get(oneEvent, ['en-name']))
+        op.set(calEvent, ['name', 'et'], op.get(oneEvent, ['et-name']) === '' ? op.get(oneEvent, ['performance', 'artist']) : op.get(oneEvent, ['et-name']))
+        op.set(calEvent, ['name', 'en'], op.get(oneEvent, ['en-name']) === '' ? op.get(oneEvent, ['performance', 'artist']) : op.get(oneEvent, ['en-name']))
 
         calEvent.time = ''
         if (oneEvent['start-time'].length >= 16) {
