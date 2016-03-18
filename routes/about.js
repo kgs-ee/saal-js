@@ -28,12 +28,12 @@ router.get('/', function(req, res) {
 function prepareNews(callback) {
     var displayTopNewsCount = 5
     var newsEids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'], {})).filter(function (eid) {
-        if (SDC.get(['local_entities', 'by_eid', eid, 'properties', 'time', 'value'], false) === false) { return false }
+        if (SDC.get(['local_entities', 'by_eid', eid, 'properties', 'time', 0, 'value'], false) === false) { return false }
         return true
     })
     newsEids.sort(function(a, b) {
-        var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 'value']))
-        var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 'value']))
+        var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 0, 'value']))
+        var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 0, 'value']))
         // debug(a, aDate, b, bDate, aDate < bDate)
         return (aDate < bDate)
     })
