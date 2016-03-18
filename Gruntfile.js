@@ -67,7 +67,8 @@ module.exports = function(grunt) {
             '.video-sound',
             '.video-sound iframe',
             '.video-sound iframe:last-child',
-            '.related-perfomance'
+            '.related-perfomance',
+            '.btn.btn-primary.free.disabled'
 
         ],
         stylesheets  : ['../public/stylesheets/style.css', '../public/javascripts/fancybox2/source/jquery.fancybox.css'],

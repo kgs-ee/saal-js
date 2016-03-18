@@ -3470,6 +3470,12 @@ a.logo:hover {
   color: #fff;
 }
 
+.btn.btn-primary.free.disabled {
+  background-color: transparent;
+  border-color: #000;
+  color: #000;
+}
+
 /**	- - - - - - - - - - - - - - - - - - - - */
 
 /**	LAYOUT
