@@ -38,7 +38,7 @@ block content
                                         each category in SDC.get(['local_entities', 'by_class', 'rootCategory'])
                                             li.text-uppercase.h3(class=(categoryEIDs.indexOf(op.get(category, ['id'])) > -1 ? "" : "unactive"))
                                                 span
-                                                    a(href='search?q=category:' + op.get(category, ['id']))= op.get(category, ['properties', lang+'-name', 'value'])
+                                                    a(href='search?q=category:' + op.get(category, ['id']))= op.get(category, ['properties', lang+'-name', 0, 'value'])
 
 
                     a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
