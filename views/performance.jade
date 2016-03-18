@@ -47,6 +47,15 @@ block content
                     .meta-info!= op.get(performance, [lang + '-technical-information'])
                 if op.get(performance, ['duration'], op.get(events, [0, 'duration'], false))
                     .meta-info= t('label.duration') + ': ' + op.get(performance, ['duration'], op.get(events, [0, 'duration'])) + ' ' + t('label.minutes.short')
+                
+                .related-perfomance
+                    h2= t('title.related')
+                    .row
+                        .col-xs-12
+                            a(href='#')
+                                p Related Performance Title
+                        .col-xs-12.col-md-12.col-lg-12
+                            hr
 
             article.readMore.main-text.col-md-8.col-lg-6.h3!= op.get(performance, lang + '-description')
 

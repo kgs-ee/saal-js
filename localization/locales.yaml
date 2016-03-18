@@ -42,8 +42,8 @@ button:
             en: Sold out
             et: Välja müüdud
     canceled:
-        en: Canceled!
-        et: Jääb ära!
+        en: 'Canceled!'
+        et: 'Jääb ära!'
     category:
         en: Category
         et: Kategooria
@@ -327,6 +327,9 @@ title:
     pyhavaimu-residency:
         en: Residents of Pühavaimu SAAL
         et: Pühavaimu SAALi residendid
+    related:
+        en: Other works
+        et: Teised tööd
     residency:
         en: Residency
         et: Residentuur
