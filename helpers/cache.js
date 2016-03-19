@@ -630,11 +630,11 @@ function performInitialSync(report, workerReloadCB) {
                 level: 'warning',
                 extra: { err: err }
             })
-            return setTimeout(function() { performInitialSync(workerReloadCB) }, 25e3)
+            return setTimeout(function() { performInitialSync(report, workerReloadCB) }, 25e3)
         }
         // successful initial sync should error with CACHE_LOADED_MESSAGE
         debug('*NOTE*: Cache sync succeeded. Expecting "' + CACHE_LOADED_MESSAGE + '" on next try.')
-        performInitialSync(workerReloadCB)
+        performInitialSync(report, workerReloadCB)
     })
 }
 
