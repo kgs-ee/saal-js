@@ -5,11 +5,14 @@ var fs       = require('fs')
 var path     = require('path')
 var debug    = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var random   = require('randomstring')
+var raven    = require('raven')
 
 
 APP_ROOT_REFRESH_MS = 30 * 60 * 1000
 APP_COOKIE_SECRET   = process.env.COOKIE_SECRET || random.generate(16)
 APP_DEPLOYMENT      = process.env.DEPLOYMENT
+APP_VERSION         = process.env.VERSION || require('./package').version
+
 
 if (!process.env.ENTU_USER) {
     throw '"ENTU_USER" missing in environment'
@@ -29,21 +32,32 @@ APP_ENTU_ROOT       = 1 // institution
 APP_CACHE_DIR       = __dirname + '/pagecache'
 if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
 
+
+// initialize getsentry.com client
+var ravenClient = new raven.Client({ release: APP_VERSION })
+
+
 var workers = []
 
 // debug(APP_ENTU_OPTIONS)
 var cache = require('./helpers/cache')
-cache.sync(function cacheSyncCB() {
-    for (var i in workers) {
-        if (workers.hasOwnProperty(i)) {
-            var worker = workers[i]
-            if (worker) {
-                console.log('cacheSyncCB: Reload worker ' + worker.id)
-                worker.send({ cmd: 'reload', dir: APP_CACHE_DIR })
+cache.sync(
+    function report(message, options) {
+        options = options || { level: 'info' }
+        ravenClient.captureMessage(message, options)
+    },
+    function cacheSyncCB() {
+        for (var i in workers) {
+            if (workers.hasOwnProperty(i)) {
+                var worker = workers[i]
+                if (worker) {
+                    console.log('cacheSyncCB: Reload worker ' + worker.id)
+                    worker.send({ cmd: 'reload', dir: APP_CACHE_DIR })
+                }
             }
         }
     }
-})
+)
 
 debug('Check if PL sync', APP_DEPLOYMENT)
 if (APP_DEPLOYMENT === 'live' || APP_DEPLOYMENT === 'dev') {

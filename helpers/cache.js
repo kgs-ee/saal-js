@@ -1,20 +1,15 @@
 var path      = require('path')
 var debug     = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
-// var request   = require('request')
 var async     = require('async')
 var op        = require('object-path')
 var fs        = require('fs')
 
 
 var entu      = require('entulib')
-// var entu      = require('../helpers/entu')
 
-// var rearrange = require('../helpers/rearrange')
 POLLING_INTERVAL_MS = process.env.ENTU_POLL_SEC * 1e3 || 10e3
 CACHE_LOADED_MESSAGE = 'Cache successfully loaded'
 CACHE_RELOAD_REQUIRED_MESSAGE = 'Full cache reload required'
-
-debug('Caching Started at ' + Date().toString() + ' with interval of ' + POLLING_INTERVAL_MS + 'ms.')
 
 var state = 'idle'
 
@@ -587,7 +582,12 @@ function pollEntu(workerReloadCB) {
             })
         }, function(err) {
             if (err) {
-                console.log('Cache routine stumbled', new Date(), err)
+                var message = '*INFO*: Cache routine stumbled. Restart in ' + POLLING_INTERVAL_MS * 1e4
+                console.log(message, new Date(), err)
+                ravenClient.captureException(message, {
+                    level: 'warning',
+                    extra: { err: err }
+                })
                 setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS * 10)
             }
             else {
@@ -611,10 +611,11 @@ function pollEntu(workerReloadCB) {
 
 
 
-function performInitialSync(workerReloadCB) {
+function performInitialSync(report, workerReloadCB) {
     // Set lastPollTs from freshly cached data
     // debug(APP_ENTU_OPTIONS)
-
+    debug('Caching Started.')
+    report('Caching started.')
     debug('Performing cache sync at ' + Date().toString())
     async.series(cacheSeries, function syncFinally(err) {
         if (err === CACHE_LOADED_MESSAGE) {
@@ -623,7 +624,12 @@ function performInitialSync(workerReloadCB) {
             return pollEntu(workerReloadCB)
         }
         else if (err) {
-            debug('*NOTE*: Cache sync stumbled. Restart in 25', err)
+            var message = '*INFO*: Cache sync stumbled. Restart in 25'
+            debug(message, err)
+            report(message, {
+                level: 'warning',
+                extra: { err: err }
+            })
             return setTimeout(function() { performInitialSync(workerReloadCB) }, 25e3)
         }
         // successful initial sync should error with CACHE_LOADED_MESSAGE
