@@ -448,7 +448,7 @@ cacheSeries.push(function cleanup(callback) {
 
 
 
-function pollEntu(workerReloadCB) {
+function pollEntu(report, workerReloadCB) {
     debug('Polling Entu')
     var updated = false
     // debug('Setting updated = ', updated)
@@ -582,17 +582,17 @@ function pollEntu(workerReloadCB) {
             })
         }, function(err) {
             if (err) {
-                var message = '*INFO*: Cache routine stumbled. Restart in ' + POLLING_INTERVAL_MS * 1e4
+                var message = '*INFO*: Cache routine stumbled. Restart in ' + POLLING_INTERVAL_MS / 1e2
                 console.log(message, new Date(), err)
-                ravenClient.captureException(message, {
+                report(message, {
                     level: 'warning',
                     extra: { err: err }
                 })
-                setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS * 10)
+                setTimeout(function() { pollEntu(report, workerReloadCB) }, POLLING_INTERVAL_MS * 10)
             }
             else {
                 console.log('Cache routine finished', new Date())
-                setTimeout(function() { pollEntu(workerReloadCB) }, POLLING_INTERVAL_MS)
+                setTimeout(function() { pollEntu(report, workerReloadCB) }, POLLING_INTERVAL_MS)
                 debug('We have updated = ', updated)
                 if (updated) {
                     debug('We have updated = ', updated)
@@ -621,7 +621,7 @@ function performInitialSync(report, workerReloadCB) {
         if (err === CACHE_LOADED_MESSAGE) {
             debug('*NOTE*: Cache sync succeeded. ' + CACHE_LOADED_MESSAGE)
             workerReloadCB()
-            return pollEntu(workerReloadCB)
+            return pollEntu(report, workerReloadCB)
         }
         else if (err) {
             var message = '*INFO*: Cache sync stumbled. Restart in 25'
