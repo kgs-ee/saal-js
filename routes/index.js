@@ -17,6 +17,7 @@ var sideBanner
 var templatePath = require.resolve('../views/index.jade')
 var templateFn = require('jade').compileFile(templatePath)
 
+
 router.get('/', function(req, res) {
     var pageData = {
         'featured': featured,
@@ -26,7 +27,6 @@ router.get('/', function(req, res) {
         'sideBanner': sideBanner,
         path: req.path
     }
-    debug('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + req.path)
     res.render('index', pageData)
     res.end()
 })
@@ -158,5 +158,7 @@ router.prepare = function prepare(callback) {
         callback()
     })
 }
+
+debug('Route "' + path.basename(__filename).replace('.js', '') + '" loaded.')
 
 module.exports = router
