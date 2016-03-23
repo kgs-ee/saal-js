@@ -17,8 +17,10 @@ SDC = op({
     'root': {},
     'local_entities': {},
     'relationships': {},
-    'lastPollTs': 0,
+    'lastPollTs': 1402208876
 })
+
+setLastPollTs()
 
 var cacheFromEntu = [
     {'parent':'3808',                            'definition': 'category',    'class': 'rootCategory'},
@@ -397,6 +399,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
 
 
 function setLastPollTs(newTs) {
+    debug('setLastPollTs. Current: ' + SDC.get('lastPollTs') + ', new: ' + newTs)
     if (newTs && newTs > SDC.get(['lastPollTs'], 1)) {
         SDC.set(['lastPollTs'], newTs)
     }
@@ -412,6 +415,7 @@ function setLastPollTs(newTs) {
             SDC.set('lastPollTs', currentTs)
         }
     }
+    debug('setLastPollTs. Current: ' + SDC.get('lastPollTs'))
 }
 
 
@@ -534,7 +538,7 @@ function pollEntu(report, workerReloadCB) {
                 return removeFromCache(update.id, callback)
             }
             if (update.timestamp > 0) { setLastPollTs(update.timestamp) }
-            debug('(' + (toGo--) + ') Updating ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp + (new Date(update.timestamp*1000)))
+            debug('(' + (toGo--) + ') Updating ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp + ' ' + (new Date(update.timestamp*1000)))
             entu.pollParents(update.id, APP_ENTU_OPTIONS)
             .then(function(parents) {
                 var currentParents = parents.map(function(element) { return Number(element.id) })
