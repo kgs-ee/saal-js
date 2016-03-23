@@ -183,6 +183,7 @@ function mapPerformance(eid, querystring) {
     entityOut.set('et-supertitle',  opEntity.get(['properties', 'et-supertitle',  0, 'value'], ''))
     entityOut.set('en-description', opEntity.get(['properties', 'en-description', 0, 'md'], '').replace(re, highlight))
     entityOut.set('et-description', opEntity.get(['properties', 'et-description', 0, 'md'], '').replace(re, highlight))
+    entityOut.set('coprodOrdinal',  opEntity.get(['properties', 'coprodOrdinal',  0, 'value']))
     entityOut.set('duration',       opEntity.get(['properties', 'duration',       0, 'value']))
     entityOut.set('artist',         opEntity.get(['properties', 'artist',         0, 'value'], ''))
     entityOut.set('producer',       opEntity.get(['properties', 'producer',       0, 'value'], ''))
