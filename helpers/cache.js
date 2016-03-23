@@ -606,8 +606,13 @@ function pollEntu(report, workerReloadCB) {
         })
     })
     .catch(function(reason) {
-        debug('\n\n!!!\nPoll updates failed.', reason, '\n')
-        return workerReloadCB(reason)
+        var message = '*INFO*: nPoll updates failed. Restart in ' + POLLING_INTERVAL_MS / 1e2
+        console.log(message, new Date(), reason)
+        report(message, {
+            level: 'warning',
+            extra: { err: reason }
+        })
+        setTimeout(function() { pollEntu(report, workerReloadCB) }, POLLING_INTERVAL_MS * 10)
     })
 }
 
