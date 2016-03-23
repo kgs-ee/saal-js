@@ -49,39 +49,39 @@ block content
                 .row
 
                     .article.main-text.h3.col-sm-12.col-md-8.col-lg-8!= op.get(echo, [lang + '-contents'])
-                        
+
                         p.signature= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ') + ' @ ' + moment(op.get(echo, ['date'])).locale(lang).format('L')
 
-                    
-                        //- GALLERY    
-                        if op.get(performance, ['photos'])
+                        //- GALLERY
+                        if op.get(echo, ['photos'])
                             .gallery
                                 
                                 //- If is single image
-                                .row
-                                    .col-xs-12
-                                        img(src=op.get(photo, ['big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                                if op.get(echo, ['photos']).length === 1
+                                    .row
+                                        .col-xs-12
+                                            img(src=op.get(echo, ['photos', 0, 'big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
                                 
-                                //- Else if two or more, make gallery        
-                                        
-                                h2= t('title.gallery')
-                                .row
-                                    each photo in op.get(performance, ['photos'], [])
-                                        .single-image.col-xs-6.col-sm-3.col-md-4
-                                              a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
-                                                img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')                
+                                //- If more than one, make gallery
+                                if op.get(echo, ['photos']).length > 1
+                                    h2= t('title.gallery')
+                                    .row
+                                        each photo in op.get(echo, ['photos'], [])
+                                            .single-image.col-xs-6.col-sm-3.col-md-4
+                                                  a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
+                                                    img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')                
                         
                         //- VIDEO/SOUND
-                        if op.get(performance, ['audio']) || op.get(performance, ['video'])
+                        if op.get(echo, ['audio']) || op.get(echo, ['video'])
                             .video-sound
-                                if op.get(performance, ['audio'])
+                                if op.get(echo, ['audio'])
                                     div
                                         h2= t('title.sound')
-                                        div!= op.get(performance, ['audio'])
-                                if op.get(performance, 'video')
+                                        div!= op.get(echo, ['audio'])
+                                if op.get(echo, 'video')
                                     div
                                         h2= t('title.video')
-                                        div!= op.get(performance, ['video'])
+                                        div!= op.get(echo, ['video'])
                         
                         .comments
                             .fb-comments(data-href='', data-width="100%", data-numposts="10")
