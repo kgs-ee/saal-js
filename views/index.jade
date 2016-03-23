@@ -265,41 +265,41 @@ block content
                                 a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all')
                                     
 
-            if Object.keys(residencies).length > 0
-                .tour.row
-                    .col-xs-12.col-md-12
-                        h2= t('nav.residency')
-                        each datestring in Object.keys(residencies).sort().slice(0, listlength)
-                            each timestring in Object.keys(op.get(residencies, [datestring])).sort()
-                                each p in op.get(residencies, [datestring, timestring])
-                                    .col-xs-12.col-sm-2.col-lg-2
-                                        p= (moment(op.get(p,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(p,['end-time'])).locale('et').format('L')
+                if Object.keys(residencies).length > 0
+                    .tour.row
+                        .col-xs-12.col-md-12
+                            h2= t('nav.residency')
+                            each datestring in Object.keys(residencies).sort().slice(0, listlength)
+                                each timestring in Object.keys(op.get(residencies, [datestring])).sort()
+                                    each p in op.get(residencies, [datestring, timestring])
+                                        .col-xs-12.col-sm-2.col-lg-2
+                                            p= (moment(op.get(p,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(p,['end-time'])).locale('et').format('L')
 
-                                    .col-xs-12.col-md-6.col-lg-6
-                                        h3
-                                            a(href='/' + lang + '/resident/' + op.get(p,'id'))
-                                                //- if op.get(p, lang + '-subtitle', '')
-                                                //-     span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                    
-                                                if op.get(p, 'resident', false)
-                                                    span.artist= op.get(p, 'resident', []).join(', ')
-                                                    
-                                                if op.get(p, lang + '-name')
-                                                    span.name= op.get(p, lang + '-name')
+                                        .col-xs-12.col-md-6.col-lg-6
+                                            h3
+                                                a(href='/' + lang + '/resident/' + op.get(p,'id'))
+                                                    //- if op.get(p, lang + '-subtitle', '')
+                                                    //-     span.subtitle= op.get(p, lang + '-subtitle', '')
+                                                        
+                                                    if op.get(p, 'resident', false)
+                                                        span.artist= op.get(p, 'resident', []).join(', ')
+                                                        
+                                                    if op.get(p, lang + '-name')
+                                                        span.name= op.get(p, lang + '-name')
+                                                
+                                        .col-xs-12.col-md-4.col-lg-4
+                                            if op.get(p, [lang + '-location'], false)
+                                                p.location= op.get(p, [lang + '-location'])
                                             
-                                    .col-xs-12.col-md-4.col-lg-4
-                                        if op.get(p, [lang + '-location'], false)
-                                            p.location= op.get(p, [lang + '-location'])
-                                        
-                                        if op.get(p, ['saal-location', lang + '-name'])
-                                            p.location= op.get(p, ['saal-location', lang + '-name'])
-                                        
-                                    .col-xs-12.col-md-12
-                                        hr
-                    
-                        if Object.keys(residencies).length > listlength
-                            .col-xs-12.col-md-12        
-                                a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all')
+                                            if op.get(p, ['saal-location', lang + '-name'])
+                                                p.location= op.get(p, ['saal-location', lang + '-name'])
+                                            
+                                        .col-xs-12.col-md-12
+                                            hr
+                        
+                            if Object.keys(residencies).length > listlength
+                                .col-xs-12.col-md-12        
+                                    a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all')
 
 
             aside.col-xs-12.col-md-12.col-lg-3.sidebar

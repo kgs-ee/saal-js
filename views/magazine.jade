@@ -22,7 +22,6 @@ block content
                                             img.img-responsive(src=op.get(posting, ['photos', 0, 'medium', 'file'], '/images/placeholder.jpg'))
                                             p= (moment(op.get(posting, ['date'])).locale(lang).format('L'))
                                             p
-                                                //- if op.get(posting, 'author', []).length
                                                 span.artist= op.get(posting, lang + '-title')
                                                 
                                                 if op.get(posting, lang + '-subtitle', '')
