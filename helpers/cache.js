@@ -17,7 +17,7 @@ SDC = op({
     'root': {},
     'local_entities': {},
     'relationships': {},
-    'lastPollTs': 1458728996
+    'lastPollTs': new Date().getTime()/1e3
 })
 
 var cacheFromEntu = [
