@@ -1,0 +1,118 @@
+extends layout
+
+block vars
+
+block content
+
+    .container-fluid
+
+        .row
+            section.event-banner.carousel.slide(id='front-carousel' data-ride='carousel')
+                .carousel-inner(role='listbox')
+                    - var photoActive = 0
+                    each photo in op.get(echo, ['photos'], [{ix: 0, big: {file: '/images/placeholder.jpg'}}])
+                        .item(class=(photoActive++ === 0 ? 'active' : ''))
+                            figure(id = 'slide-' + photo.ix, style='background-image: url(' + op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) + ');')
+                            header.col-md-8
+                                p= moment(op.get(echo, ['date'])).locale(lang).format('L')
+
+                                h1.artist= op.get(echo, lang + '-title', '')
+
+                                    if op.get(echo, lang + '-subtitle', '')
+                                        span= ' / ' + op.get(echo, lang + '-subtitle', '')
+                                
+                                if op.get(echo, 'author', false)
+                                    p.subtitle= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ')
+
+                            ul.event-categories
+                                each echoCategory in echoCategories
+                                    li.text-uppercase.h3(class=(echoCategory.checked ? "" : "unactive"))
+                                        span= op.get(echoCategory, [lang+'-name'], t('Jon Doe'))
+
+                if op.get(echo, ['photos'], []).length > 1
+                    a.left.carousel-control(href='#front-carousel' role='button' data-slide='prev')
+                        span.icon-prev.arrow-left(aria-hidden='true')
+                        span.sr-only Previous
+                    a.right.carousel-control(href='#front-carousel' role='button' data-slide='next')
+                        span.icon-next.arrow-right(aria-hidden='true')
+                        span.sr-only Next
+
+                //- Gradient Map for images
+                each photo in op.get(echo, ['photos'], [{ix: 0, big: {file: '/images/placeholder.jpg'}}])
+                    script.
+                        var slide#{photo.ix} = document.getElementById('slide-#{photo.ix}');
+                        GradientMaps.applyGradientMap(slide#{photo.ix}, '#{SAAL.secondary_color}, #{SAAL.main_color}'); 
+
+        .row.front-page-margin
+
+            .col-md-12
+                .row
+
+                    .article.main-text.h3.col-sm-12.col-md-8.col-lg-8!= op.get(echo, [lang + '-contents'])
+                        
+                        p.signature= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ') + ' @ ' + moment(op.get(echo, ['date'])).locale(lang).format('L')
+
+                    
+                    //- GALLERY    
+                    if op.get(performance, ['photos'])
+                        .gallery
+                            
+                            //- If is single image
+                            .row
+                                .col-xs-12
+                                    img(src=op.get(photo, ['big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                            
+                            //- Else if two or more, make gallery        
+                                    
+                            h2= t('title.gallery')
+                            .row
+                                each photo in op.get(performance, ['photos'], [])
+                                    .single-image.col-xs-6.col-sm-3.col-md-4
+                                          a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
+                                            img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')                
+                        
+                    //- VIDEO/SOUND
+                    if op.get(performance, ['audio']) || op.get(performance, ['video'])
+                        .video-sound
+                            if op.get(performance, ['audio'])
+                                div
+                                    h2= t('title.sound')
+                                    div!= op.get(performance, ['audio'])
+                            if op.get(performance, 'video')
+                                div
+                                    h2= t('title.video')
+                                    div!= op.get(performance, ['video'])
+                        
+                        .comments
+                            .fb-comments(data-href='', data-width="100%", data-numposts="10")
+                    
+                            script.
+                                document.getElementsByClassName('fb-comments')[0].setAttribute('data-href', window.location.href)
+
+                    - var postCount = 0
+                    .col-sm-12.col-md-4.col-lg-4
+                        h2= t('title.articles')
+
+                        each yearString in Object.keys(echoArray).sort().reverse()
+                            each monthString in Object.keys(op.get(echoArray, [yearString], [])).sort().reverse()
+                                each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort().reverse()
+                                    each posting in op.get(echoArray, [yearString, monthString, dayString], [])
+                                        if postCount++ < 5
+
+                                            a(href='./magazine/' + op.get(posting,'id'))
+                                                p= (moment(op.get(posting, ['date'])).locale(lang).format('L'))
+                                                h3
+                                                    //- if op.get(posting, 'author', []).length
+                                                    span.artist= op.get(posting, lang + '-title')
+                                                    
+                                                    if op.get(posting, lang + '-subtitle', '')
+                                                        span.artist= ' / ' + op.get(posting, lang + '-subtitle', '')    
+
+                                                if op.get(posting, 'author', []).length
+                                                    span.author= op.get(posting, 'author', []).map(function(a){return a.value}).join(', ')
+                                                
+                                            hr
+                        .row
+                            .col-xs-12.col-md-12        
+                                a.load-more.btn.btn-primary(href='/' + lang + '/magazine/')= t('button.view-all')
+                
