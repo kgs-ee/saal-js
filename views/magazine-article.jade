@@ -93,25 +93,26 @@ block content
                     .col-sm-12.col-md-4.col-lg-4
                         h2= t('title.articles')
 
-                        each yearString in Object.keys(echoArray).sort().reverse()
-                            each monthString in Object.keys(op.get(echoArray, [yearString], [])).sort().reverse()
-                                each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort().reverse()
-                                    each posting in op.get(echoArray, [yearString, monthString, dayString], [])
-                                        if postCount++ < 5
+                        each echoArray in Object.keys(allEchos).sort()
+                            each yearString in Object.keys(op.get(allEchos, [echoArray], [])).sort().reverse()
+                                each monthString in Object.keys(op.get(allEchos, [echoArray, yearString], [])).sort().reverse()
+                                    each dayString in Object.keys(op.get(allEchos, [echoArray, yearString, monthString], [])).sort().reverse()
+                                        each posting in op.get(allEchos, [echoArray, yearString, monthString, dayString], [])
+                                            if postCount++ < 5
 
-                                            a(href='./magazine/' + op.get(posting,'id'))
-                                                p= (moment(op.get(posting, ['date'])).locale(lang).format('L'))
-                                                h3
-                                                    //- if op.get(posting, 'author', []).length
-                                                    span.artist= op.get(posting, lang + '-title')
+                                                a(href='./magazine/' + op.get(posting,'id'))
+                                                    p= (moment(op.get(posting, ['date'])).locale(lang).format('L'))
+                                                    h3
+                                                        //- if op.get(posting, 'author', []).length
+                                                        span.artist= op.get(posting, lang + '-title')
+                                                        
+                                                        if op.get(posting, lang + '-subtitle', '')
+                                                            span.artist= ' / ' + op.get(posting, lang + '-subtitle', '')    
+
+                                                    if op.get(posting, 'author', []).length
+                                                        span.author= op.get(posting, 'author', []).map(function(a){return a.value}).join(', ')
                                                     
-                                                    if op.get(posting, lang + '-subtitle', '')
-                                                        span.artist= ' / ' + op.get(posting, lang + '-subtitle', '')    
-
-                                                if op.get(posting, 'author', []).length
-                                                    span.author= op.get(posting, 'author', []).map(function(a){return a.value}).join(', ')
-                                                
-                                            hr
+                                                hr
                         .row
                             .col-xs-12.col-md-12        
                                 a.load-more.btn.btn-primary(href='/' + lang + '/magazine/')= t('button.view-all')

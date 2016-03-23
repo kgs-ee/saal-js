@@ -52,9 +52,10 @@ function renderEcho(res, currentEchoId) {
             return mappedCategory
         })
 
-        if(!currentEchoId) {
+        if(currentEchoId) {
             res.render('magazine-article', {
-                'allEchos': {feature: echoFA, others: echoA},
+                'allEchos': {'feature': echoFA, 'others': echoA},
+                'echo': mapper.echo(currentEchoId),
                 'echoCategories': echoCategories,
                 'minDate': minDate,
                 'maxDate': maxDate
@@ -62,9 +63,7 @@ function renderEcho(res, currentEchoId) {
         }
         else {
             res.render('magazine', {
-                'echo': mapper.echo(currentEchoId),
-                'echoArray': {feature: echoFA, others: echoA},
-                'echoCategories': echoCategories,
+                'allEchos': {'feature': echoFA, 'others': echoA},
                 'minDate': minDate,
                 'maxDate': maxDate
             })

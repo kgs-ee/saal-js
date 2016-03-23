@@ -14,10 +14,10 @@ block content
                     
                     .grid-row
                         each echoArray in Object.keys(allEchos).sort()
-                            each yearString in Object.keys(echoArray).sort().reverse()
-                                each monthString in Object.keys(op.get(echoArray, [yearString], [])).sort().reverse()
-                                    each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort().reverse()
-                                        each posting in op.get(echoArray, [yearString, monthString, dayString], [])
+                            each yearString in Object.keys(op.get(allEchos[echoArray], [])).sort().reverse()
+                                each monthString in Object.keys(op.get(allEchos, [echoArray,yearString], [])).sort().reverse()
+                                    each dayString in Object.keys(op.get(allEchos, [echoArray,yearString, monthString], [])).sort().reverse()
+                                        each posting in op.get(allEchos, [echoArray,yearString, monthString, dayString], [])
 
                                             a.col-xs-12.col-sm-4.col-md-3.col-lg-3.co-production(href='./magazine/' + op.get(posting,'id'))
                                                 img.img-responsive(src=op.get(posting, ['photos', 0, 'medium', 'file'], '/images/placeholder.jpg'))
