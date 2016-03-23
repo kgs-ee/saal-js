@@ -51,38 +51,37 @@ block content
                     .article.main-text.h3.col-sm-12.col-md-8.col-lg-8!= op.get(echo, [lang + '-contents'])
                         
                         p.signature= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ') + ' @ ' + moment(op.get(echo, ['date'])).locale(lang).format('L')
-                        
-                        
+
+                    
+                    //- GALLERY    
+                    if op.get(performance, ['photos'])
                         .gallery
+                            
+                            //- If is single image
                             .row
                                 .col-xs-12
-                                    img(src='http://placehold.it/1400x700', class='img-responsive')
+                                    img(src=op.get(photo, ['big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
                             
+                            //- Else if two or more, make gallery        
+                                    
                             h2= t('title.gallery')
                             .row
-                                .single-image.col-xs-12
-                                    img(src='http://placehold.it/1400x700', class='img-responsive')
-                                .single-image.col-xs-6.col-sm-3.col-md-4
-                                      a.fancybox(rel='gallery', href='http://placehold.it/1400x700')
-                                        img(src='http://placehold.it/350x350', class='img-responsive')
-                                .single-image.col-xs-6.col-sm-3.col-md-4
-                                      a.fancybox(rel='gallery', href='http://placehold.it/1400x700')
-                                        img(src='http://placehold.it/350x350', class='img-responsive')  
-                                .single-image.col-xs-6.col-sm-3.col-md-4
-                                      a.fancybox(rel='gallery', href='http://placehold.it/1400x700')
-                                        img(src='http://placehold.it/350x350', class='img-responsive')
-                                .single-image.col-xs-6.col-sm-3.col-md-4
-                                      a.fancybox(rel='gallery', href='http://placehold.it/1400x700')
-                                        img(src='http://placehold.it/350x350', class='img-responsive')    
+                                each photo in op.get(performance, ['photos'], [])
+                                    .single-image.col-xs-6.col-sm-3.col-md-4
+                                          a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
+                                            img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')                
                         
+                    //- VIDEO/SOUND
+                    if op.get(performance, ['audio']) || op.get(performance, ['video'])
                         .video-sound
-                            div
-                                h2= t('title.sound')
-                                <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/247879669&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
-                                
-                            div
-                                h2= t('title.video')
-                                <iframe src="https://player.vimeo.com/video/154566238?title=0&byline=0" width="100%" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            if op.get(performance, ['audio'])
+                                div
+                                    h2= t('title.sound')
+                                    div!= op.get(performance, ['audio'])
+                            if op.get(performance, 'video')
+                                div
+                                    h2= t('title.video')
+                                    div!= op.get(performance, ['video'])
                         
                         .comments
                             .fb-comments(data-href='', data-width="100%", data-numposts="10")
@@ -98,7 +97,7 @@ block content
                             each monthString in Object.keys(op.get(echoArray, [yearString], [])).sort().reverse()
                                 each dayString in Object.keys(op.get(echoArray, [yearString, monthString], [])).sort().reverse()
                                     each posting in op.get(echoArray, [yearString, monthString, dayString], [])
-                                        if postCount++ < 12
+                                        if postCount++ < 5
 
                                             a(href='./magazine/' + op.get(posting,'id'))
                                                 p= (moment(op.get(posting, ['date'])).locale(lang).format('L'))
@@ -113,4 +112,7 @@ block content
                                                     span.author= op.get(posting, 'author', []).map(function(a){return a.value}).join(', ')
                                                 
                                             hr
+                        .row
+                            .col-xs-12.col-md-12        
+                                a.load-more.btn.btn-primary(href='/' + lang + '/magazine/')= t('button.view-all')
                 
