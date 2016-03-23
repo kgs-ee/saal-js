@@ -63,7 +63,7 @@ function renderEcho(res, currentEchoId) {
         else {
             res.render('magazine', {
                 'echo': mapper.echo(currentEchoId),
-                'echoArray': echoA,
+                'echoArray': {feature: echoFA, others: echoA},
                 'echoCategories': echoCategories,
                 'minDate': minDate,
                 'maxDate': maxDate
