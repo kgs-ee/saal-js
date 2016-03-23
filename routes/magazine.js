@@ -12,24 +12,26 @@ function renderEcho(res, currentEchoId) {
     debug('Loading "' + path.basename(__filename).replace('.js', '') + '"')
 
     var echoA = {}
+    var echoFA = {}
     var minDate = false
     var maxDate = false
     var latestEchoId
-    var featuredEchoId
     async.each(SDC.get(['local_entities', 'by_class', 'echo']), function(entity, callback) {
         var echo = mapper.echo(entity.id)
         if (!echo.date) { return callback() }
 
-        if (echo.featured) {
-            featuredEchoId = echo.id
-        }
         if (maxDate === false || new Date(echo.date) > maxDate) {
             maxDate = new Date(echo.date)
             latestEchoId = echo.id
         }
         if (minDate === false || new Date(echo.date) < minDate) { minDate = new Date(echo.date) }
 
-        op.push(echoA, [echo.year, echo.month, echo.day], echo)
+        if (echo.featured) {
+            op.push(echoFA, [echo.year, echo.month, echo.day], echo)
+        }
+        else {
+            op.push(echoA, [echo.year, echo.month, echo.day], echo)
+        }
         callback()
     }, function(err) {
         if (err) {
@@ -37,31 +39,36 @@ function renderEcho(res, currentEchoId) {
             return
         }
 
-        if(!currentEchoId) {
-            currentEchoId = (currentEchoId ? currentEchoId : (featuredEchoId ? featuredEchoId : latestEchoId))
-            return res.redirect('magazine/' + currentEchoId)
-        }
-
         var echoCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'echoCategory'], {}))
-            .map(function(eId) {
-                var mappedCategory = mapper.category(eId)
-                eId = String(eId)
-                mappedCategory.checked = false
-                var echoCatIds = SDC.get(['relationships', currentEchoId, 'category'], [])
-                // debug(echoCatIds, echoCatIds.indexOf(eId), eId)
-                if (echoCatIds.indexOf(eId) > -1) {
-                    mappedCategory.checked = true
-                }
-                return mappedCategory
-            })
-
-        res.render('magazine', {
-            'echo': mapper.echo(currentEchoId),
-            'echoArray': echoA,
-            'echoCategories': echoCategories,
-            'minDate': minDate,
-            'maxDate': maxDate
+        .map(function(eId) {
+            var mappedCategory = mapper.category(eId)
+            eId = String(eId)
+            mappedCategory.checked = false
+            var echoCatIds = SDC.get(['relationships', currentEchoId, 'category'], [])
+            // debug(echoCatIds, echoCatIds.indexOf(eId), eId)
+            if (echoCatIds.indexOf(eId) > -1) {
+                mappedCategory.checked = true
+            }
+            return mappedCategory
         })
+
+        if(!currentEchoId) {
+            res.render('magazine-article', {
+                'allEchos': {feature: echoFA, others: echoA},
+                'echoCategories': echoCategories,
+                'minDate': minDate,
+                'maxDate': maxDate
+            })
+        }
+        else {
+            res.render('magazine', {
+                'echo': mapper.echo(currentEchoId),
+                'echoArray': echoA,
+                'echoCategories': echoCategories,
+                'minDate': minDate,
+                'maxDate': maxDate
+            })
+        }
         res.end()
     })
 }
