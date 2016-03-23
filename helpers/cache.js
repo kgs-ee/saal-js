@@ -17,10 +17,8 @@ SDC = op({
     'root': {},
     'local_entities': {},
     'relationships': {},
-    'lastPollTs': 1402208876
+    'lastPollTs': 1458728996
 })
-
-setLastPollTs()
 
 var cacheFromEntu = [
     {'parent':'3808',                            'definition': 'category',    'class': 'rootCategory'},
