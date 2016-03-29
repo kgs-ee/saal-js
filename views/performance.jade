@@ -48,7 +48,7 @@ block content
                 if op.get(performance, ['duration'], op.get(events, [0, 'duration'], false))
                     .meta-info= t('label.duration') + ': ' + op.get(performance, ['duration'], op.get(events, [0, 'duration'])) + ' ' + t('label.minutes.short')
                 
-                if op.get(performance, ['otherWorks'], false)
+                if op.get(performance, ['otherWorks', 0], false)
                     .related-perfomance
                         h2= t('title.related')
                         each otherWork in op.get(performance, ['otherWorks'], [])
