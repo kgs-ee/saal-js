@@ -101,10 +101,11 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         }
         SDC.set(['local_entities', 'by_definition', entity.definition, String(entity.id)], entity)
 
-        if (op.get(entity, ['properties', 'featured', 0, 'value']) === 'True') {
-            if (op.get(entity, ['definition']) === 'performance') {
-                SDC.set(['local_entities', 'featured', String(entity.id)], entity)
-            }
+        if (op.get(entity, ['properties', 'featured', 0, 'value']) === 'True' &&
+            op.get(entity, ['definition']) === 'performance') {
+            SDC.set(['local_entities', 'featured', String(entity.id)], entity)
+        } else {
+            SDC.del(['local_entities', 'featured', String(entity.id)])
         }
         return
     }
@@ -194,7 +195,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         // Relate all related performances (Other Works)
         var otherWorks = opEntity.get(['properties', 'otherWork'], [])
         otherWorks.forEach(function(otherWork) {
-            debug('otherWork ', otherWork)
+            // debug('otherWork ', otherWork)
             relate(opEntity.get('id'), 'otherWork', otherWork.reference, 'otherWork')
         })
 
