@@ -70,10 +70,10 @@ syncWaterfall.push(function parsePLData(PLData, callback) {
             if (!Array.isArray(plItems)) { return callback() }
             // debug(JSON.stringify([plLanguage, plDefinition, plItems], null, 4))
             async.each(plItems, function(item, callback) {
+                // debug('Parse Piletilevi ' + plDefinition + ':' + item.id)
                 switch (plDefinition) {
                     case 'category':
                         op.set(PLCategories, [item.id, 'raw', plLanguage], item)
-                        // debug('Parse Piletilevi ' + plDefinition)
                         op.set(PLCategories, [item.id, 'id'], item.id)
                         op.set(PLCategories, [item.id, 'parent'], item.parentCategoryId)
                         op.set(PLCategories, [item.id, 'title', plLanguage], item.title)
@@ -153,7 +153,10 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
     // debug('Matching with eID', eID, (doFullSync ? 'FULL' : 'PARTIAL'))
 
     entu.getEntity(eID, APP_ENTU_OPTIONS)
-    .catch(function(reason) { return syncWithEntuCB(reason) })
+    .catch(function(reason) {
+        debug('syncWithEntu failed to load ' + eID, APP_ENTU_OPTIONS)
+        return syncWithEntuCB(reason)
+    })
     .then(function(opEntity) {
         if (opEntity.get(['properties', 'nosync', 0, 'value']) === 'True') {
             return syncWithEntuCB(null)
@@ -187,7 +190,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
             var dateStringEntu = op.get(eItem, ['properties', propertyName, 0, 'value'], false)
             var momentStrEntu = ''
             if (dateStringEntu) { momentStrEntu = moment(dateStringEntu).format('YYYY-MM-DD HH:mm:ss') }
-            if (dateStringEntu && op.get(eItem, ['properties', propertyName, 0, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
+            if (dateStringEntu && op.get(eItem, ['properties', propertyName, 0, 'created_by'], false) !== String(APP_ENTU_OPTIONS.user)) { return }
             // debug('Dates E' + eItem.id + ' ?= PL' + plItem.id, momentStrEntu + '   ?==   ' + momentStrPL, tsPL)
             if (momentStrEntu !== momentStrPL) {
                 debug('Dates E' + eItem.id + ' ?= PL' + plItem.id, momentStrEntu + '   !==   ' + momentStrPL, tsPL)
@@ -208,7 +211,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
         function compareReference(eItem, propertyName, idPL) {
             var propertyEid = op.get(eItem, ['properties', propertyName, 0, 'id'], false)
             var idEntu = Number(op.get(eItem, ['properties', propertyName, 0, 'reference'], 0))
-            if (idEntu > 0 && op.get(eItem, ['properties', propertyName, 0, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
+            if (idEntu > 0 && op.get(eItem, ['properties', propertyName, 0, 'created_by'], false) !== String(APP_ENTU_OPTIONS.user)) { return }
             // debug(eItem.id, 'References ' + idEntu + '   ?==   ' + Number(op.get(mapPL2Entu, idPL, 0)))
             if (idEntu !== Number(op.get(mapPL2Entu, idPL, 0))) {
                 debug(eItem.id, 'References ' + idEntu + '   !==   ' + Number(op.get(mapPL2Entu, idPL, 0)))
@@ -225,7 +228,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
             var propertyEid = op.get(eItem, ['properties', propertyName, 0, 'id'], false)
             var strEntu = String(op.get(eItem, ['properties', propertyName, 0, 'value'], ''))
 
-            if (strEntu !== '' && op.get(eItem, ['properties', propertyName, 0, 'created_by'], false) !== String(APP_ENTU_USER)) { return }
+            if (strEntu !== '' && op.get(eItem, ['properties', propertyName, 0, 'created_by'], false) !== String(APP_ENTU_OPTIONS.user)) { return }
             // debug(eItem.id, 'Strings ' + strEntu + '   ?==   ' + strPL)
             if (strEntu !== strPL && strPL !== '') {
                 debug(eItem.id, 'Strings ' + strEntu + '   !==   ' + strPL)
@@ -293,6 +296,7 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
                 entu.edit(properties, APP_ENTU_OPTIONS)
                 .then(function() { callback() })
                 .catch(function(reason) {
+                    debug('syncWithEntu failed to edit ', properties, APP_ENTU_OPTIONS)
                     callback(reason)
                 })
             }, function (err) {
@@ -300,6 +304,10 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
                 return syncWithEntuCB(null)
             })
         }
+    })
+    .catch(function(reason) {
+        debug('syncWithEntu failed ' + eID, APP_ENTU_OPTIONS)
+        return syncWithEntuCB(reason)
     })
 }
 
@@ -382,7 +390,7 @@ syncWaterfall.push(function createInEntu(PLData, createInEntuCB) {
             })
             .catch(function(reason) {
                 debug('createNewEntity failed with reason:', reason)
-                // return callback(reason)
+                return callback(reason)
             })
         }, function(err) {
             if (err) { return iteratorCB(err) }
@@ -445,10 +453,10 @@ function routine(routineCB) {
 function preloadIdMapping(callback) {
     debug('PL sync preloader started at ' + Date().toString())
     async.forEachOfSeries(mapPlDefinitions, function iterator(eValue, plDefinition, callback) {
-        debug('loading from Entu ', eValue.parentEid, eValue.eDefinition)
+        // debug('loading from Entu ', eValue.parentEid, eValue.eDefinition)
         entu.getChilds(eValue.parentEid, eValue.eDefinition, APP_ENTU_OPTIONS)
         .then(function(opEntities) {
-            debug('loaded from Entu ' + opEntities.length)
+            // debug('loaded from Entu ' + opEntities.length)
             async.each(opEntities, function(opEntity, callback) {
                 if (opEntity.get(['properties', 'pl-id', 0, 'value'], false) !== false) {
                     op.set(mapPL2Entu, String(opEntity.get(['properties', 'pl-id', 0, 'value'])), String(opEntity.get(['id'])))
@@ -459,6 +467,10 @@ function preloadIdMapping(callback) {
                 debug('Existing ' + eValue.eDefinition + 's mapped to PL id\'s')
                 callback()
             })
+        })
+        .catch(function(reason) {
+            debug('loading from Entu failed: ', reason)
+            return callback(reason)
         })
     }, function finalCB(err) {
         if (err) { return callback(err) }
