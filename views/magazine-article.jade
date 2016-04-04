@@ -98,7 +98,7 @@ block content
                                 each monthString in Object.keys(op.get(allEchos, [echoArray, yearString], [])).sort().reverse()
                                     each dayString in Object.keys(op.get(allEchos, [echoArray, yearString, monthString], [])).sort().reverse()
                                         each posting in op.get(allEchos, [echoArray, yearString, monthString, dayString], [])
-                                            if postCount++ < 5
+                                            if postCount++ < 15
 
                                                 a(href='./magazine/' + op.get(posting,'id'))
                                                     p= (moment(op.get(posting, ['date'])).locale(lang).format('L'))

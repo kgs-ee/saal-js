@@ -13,9 +13,26 @@ function renderEcho(res, currentEchoId) {
 
     var echoA = {}
     var echoFA = {}
+    var echoLinkedA = {}
     var minDate = false
     var maxDate = false
     var latestEchoId
+
+    var echoCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'echoCategory'], {}))
+    .map(function(eId) {
+        var mappedCategory = mapper.category(eId)
+        eId = String(eId)
+        mappedCategory.checked = false
+        if (currentEchoId) {
+            var echoCatIds = SDC.get(['relationships', currentEchoId, 'category'], [])
+            // debug('current:', echoCatIds)
+            if (echoCatIds.indexOf(eId) > -1) {
+                mappedCategory.checked = true
+            }
+        }
+        return mappedCategory
+    })
+
     async.each(SDC.get(['local_entities', 'by_class', 'echo']), function(entity, callback) {
         var echo = mapper.echo(entity.id)
         if (!echo.date) { return callback() }
@@ -32,6 +49,19 @@ function renderEcho(res, currentEchoId) {
         else {
             op.push(echoA, [echo.year, echo.month, echo.day], echo)
         }
+
+        if (currentEchoId && Number(currentEchoId) !== Number(echo.id)) {
+            // debug(currentEchoId, '!==', echo.id)
+            var echoCatIds = SDC.get(['relationships', currentEchoId, 'category'], [])
+            // debug('check cats:', SDC.get(['relationships', echo.id, 'category'], []))
+            if (SDC.get(['relationships', echo.id, 'category'], []).some(function(eId) {
+                // debug(eId, echoCatIds)
+                return echoCatIds.indexOf(eId) > -1
+            })) {
+                op.push(echoLinkedA, [echo.year, echo.month, echo.day], echo)
+            }
+        }
+
         callback()
     }, function(err) {
         if (err) {
@@ -39,22 +69,10 @@ function renderEcho(res, currentEchoId) {
             return
         }
 
-        var echoCategories = Object.keys(SDC.get(['local_entities', 'by_class', 'echoCategory'], {}))
-        .map(function(eId) {
-            var mappedCategory = mapper.category(eId)
-            eId = String(eId)
-            mappedCategory.checked = false
-            var echoCatIds = SDC.get(['relationships', currentEchoId, 'category'], [])
-            // debug(echoCatIds, echoCatIds.indexOf(eId), eId)
-            if (echoCatIds.indexOf(eId) > -1) {
-                mappedCategory.checked = true
-            }
-            return mappedCategory
-        })
-
         if(currentEchoId) {
+            // debug(JSON.stringify(echoLinkedA))
             res.render('magazine-article', {
-                'allEchos': {'feature': echoFA, 'others': echoA},
+                'allEchos': {'linked': echoLinkedA},
                 'echo': mapper.echo(currentEchoId),
                 'echoCategories': echoCategories,
                 'minDate': minDate,
