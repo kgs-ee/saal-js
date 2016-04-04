@@ -31,12 +31,9 @@ function prepareResidency(callback) {
             return callback()
         }
         var eventDate = op.get(event, ['start-time'].slice(0,10))
-        var locationEid = op.get(event, ['saal-location', 'id'])
-        op.set(residency, [locationEid], op.get(residency, [locationEid], mapper.location(locationEid)))
-        op.set(residency, [locationEid, 'events', eventDate], op.get(residency, [locationEid, 'events', eventDate], []))
         // debug(JSON.stringify(residency, null, 2))
         // debug(JSON.stringify(event, null, 2))
-        op.push(residency, [locationEid, 'events', eventDate], event)
+        op.push(residency, [eventDate], event)
         callback()
     }, function(err) {
         if (err) {
