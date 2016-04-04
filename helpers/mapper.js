@@ -262,8 +262,8 @@ function mapEcho(eid) {
             }
         }))
     }
-    entityOut.set('audio', opEntity.get(['properties', 'audio', 0, 'value']))
-    entityOut.set('video', opEntity.get(['properties', 'video', 0, 'value']))
+    entityOut.set('audio', opEntity.get(['properties', 'audio'],[]).map(function(a){ return a.value }))
+    entityOut.set('video', opEntity.get(['properties', 'video'],[]).map(function(a){ return a.value }))
 
     var date = opEntity.get(['properties', 'date', 0, 'value'])
     if (date) {

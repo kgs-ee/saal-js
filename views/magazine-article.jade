@@ -74,14 +74,14 @@ block content
                         //- VIDEO/SOUND
                         if op.get(echo, ['audio']) || op.get(echo, ['video'])
                             .video-sound
-                                if op.get(echo, ['audio'])
-                                    div
-                                        h2= t('title.sound')
-                                        div!= op.get(echo, ['audio'])
-                                if op.get(echo, 'video')
-                                    div
-                                        h2= t('title.video')
-                                        div!= op.get(echo, ['video'])
+                                if op.get(echo, ['audio']).length
+                                    h2= t('title.sound')
+                                    each item in op.get(echo, ['audio'])
+                                        div!= item
+                                if op.get(echo, ['video']).length
+                                    h2= t('title.video')
+                                    each item in op.get(echo, 'video')
+                                        div!= item
                         
                         .comments
                             .fb-comments(data-href='', data-width="100%", data-numposts="10")
