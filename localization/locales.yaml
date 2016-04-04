@@ -268,9 +268,9 @@ title:
     archive:
         en: Archive
         et: Arhiiv
-    articles:
-        en: Other posts
-        et: Teised postitused
+    related-articles:
+        en: Related posts
+        et: Seotud postitused
     basement:
         en: Basement
         et: Kelder

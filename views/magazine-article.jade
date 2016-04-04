@@ -91,7 +91,7 @@ block content
 
                     - var postCount = 0
                     .col-sm-12.col-md-4.col-lg-4
-                        h2= t('title.articles')
+                        h2= t('title.related-articles')
 
                         each echoArray in Object.keys(allEchos).sort()
                             each yearString in Object.keys(op.get(allEchos, [echoArray], [])).sort().reverse()
