@@ -31,8 +31,8 @@ block content
 
                         - var indexCollapse = 0
                         - var indexIn = 0
-                        each bulletin, datestring in news
-                            each p in bulletin
+                        each datestring in Object.keys(news).sort(function(a,b){ return a < b })
+                            each p in op.get(news, [datestring])
                                 if op.get(p, lang + '-title', false)
                                     .panel
                                         div(role="tab" id="heading-"+op.get(p, 'id')+"")
