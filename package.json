@@ -19,7 +19,7 @@
   },
   "main": "master.js",
   "engines": {
-    "node": "4.x"
+    "node": "6.x"
   },
   "dependencies": {
     "async": "1.x",
