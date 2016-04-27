@@ -15,10 +15,11 @@
     "url": "https://github.com/kgs/saal-js/issues"
   },
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./master.js"
   },
+  "main": "master.js",
   "engines": {
-    "node": "4.x"
+    "node": "6.x"
   },
   "dependencies": {
     "async": "1.x",
