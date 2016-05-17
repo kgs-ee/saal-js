@@ -427,12 +427,9 @@ function saveCache(callback) {
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
         // debug('Saving ' + filename)
-        fs.writeFile(path.join(APP_CACHE_DIR, filename + '.json'), JSON.stringify(SDC.get(filename) + '.download'), (err) => {
+        fs.writeFile(path.join(APP_CACHE_DIR, filename + '.json'), JSON.stringify(SDC.get(filename), null, 4), (err) => {
             if (err) { return callback(err) }
-            fs.rename(SDC.get(filename) + '.download', SDC.get(filename), function(err) {
-              if (err) { return callback(err) }
-              callback()
-            })
+            callback()
         })
     }, function(err) {
         if (err) {
