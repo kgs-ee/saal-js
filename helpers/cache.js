@@ -426,10 +426,13 @@ function saveCache(callback) {
     debug('Save Cache at ' + Date().toString())
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
-        // debug('Saving ' + filename)
-        fs.writeFile(path.join(APP_CACHE_DIR, filename + '.json'), JSON.stringify(SDC.get(filename), null, 4), (err) => {
+        debug('Saving ' + filename)
+        fs.writeFile(path.join(APP_CACHE_DIR, filename + '.json' + '.download'), JSON.stringify(SDC.get(filename)), (err) => {
             if (err) { return callback(err) }
-            callback()
+            fs.rename(path.join(APP_CACHE_DIR, filename + '.json' + '.download'), path.join(APP_CACHE_DIR, filename + '.json'), function(err) {
+              if (err) { return callback(err) }
+              callback()
+            })
         })
     }, function(err) {
         if (err) {
