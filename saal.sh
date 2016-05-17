@@ -19,7 +19,7 @@ docker run -d \
     --name="saal" \
     --restart="always" \
     --cpu-shares=256 \
-    --memory="1g" \
+    --memory="490m" \
     --env="NODE_ENV=production" \
     --env="VERSION=$version" \
     --env="PORT=80" \
