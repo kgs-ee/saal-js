@@ -34,6 +34,7 @@ docker run -d \
     --env="ENTU_KEY=" \
     --env="SENTRY_DSN=" \
     --volume="/data/saal/log:/usr/src/saal/log" \
+    --volume="/data/saal/cache:/usr/src/saal/pagecache" \
     saal:latest
 
 printf "\n\n"
