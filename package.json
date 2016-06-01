@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "saal.ee-at-entu",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "license": "MIT",
   "description": "saal.ee on entu.ee webpage engine",
   "homepage": "https://github.com/kgs/saal-js",
