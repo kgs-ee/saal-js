@@ -370,16 +370,16 @@ function mapBannerType(eid) {
 }
 
 
-exports.category    = mapCategory
-exports.coverage    = mapCoverage
-exports.event       = mapEvent
-exports.news        = mapNews
-exports.location    = mapLocation
-exports.performance = mapPerformance
-exports.user        = mapUser
-exports.echo        = mapEcho
 exports.banner      = mapBanner
 exports.bannerType  = mapBannerType
+exports.category    = mapCategory
+exports.coverage    = mapCoverage
+exports.echo        = mapEcho
+exports.event       = mapEvent
+exports.location    = mapLocation
+exports.news        = mapNews
+exports.performance = mapPerformance
+exports.user        = mapUser
 
 exports.coverageByPerformanceSync = coverageByPerformanceSync
 exports.coverageByEventSync       = coverageByEventSync

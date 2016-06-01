@@ -33,6 +33,7 @@ router.get('/', function(req, res) {
     var date = op.get(req, 'query.date')
     if (date) {
         res.send(eventCalendar[date])
+        // res.send(eventCalendar[date].map(function(e){ return {cal:e, event:mapper.event(e.eid)} }))
     } else {
         maxDate.setDate(1)
         maxDate.setMonth(maxDate.getMonth() + 1)
@@ -61,13 +62,24 @@ router.prepare = function prepare(callback) {
 
         //debug(JSON.stringify(oneEvent, null, 2))
         if (!oneEvent['start-time']) { return callback() }
-        if (new Date(oneEvent['start-time']) < minDate) { return callback() }
+        var startDateTime = new Date(oneEvent['start-time'])
+        if (startDateTime < minDate) { return callback() }
         if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) !== -1) { return callback() }
-        if (new Date(oneEvent['start-time']) > maxDate) { maxDate = new Date(oneEvent['start-time']) }
+        if (startDateTime > maxDate) { maxDate = startDateTime }
 
         calEvent.eid = op.get(oneEvent, ['performance', 'id'], op.get(oneEvent, ['id']))
-        calEvent.controller = op.get(oneEvent, ['performance', 'id'], false) ? 'performance' : 'event'
         calEvent.tag = op.get(oneEvent, ['tag'], [])
+        if (oneEvent.resident) {
+          calEvent.controller = 'resident'
+          calEvent.tag = ['event']
+        }
+        else if (op.get(oneEvent, ['performance', 'id'], false) !== false) {
+          calEvent.controller = 'performance'
+        }
+        else {
+          calEvent.controller = 'event'
+        }
+        // calEvent.controller = op.get(oneEvent, ['performance', 'id'], false) ? 'performance' : 'event'
         op.set(calEvent, ['name', 'et'], op.get(oneEvent, ['et-name']) === '' ? op.get(oneEvent, ['performance', 'artist']) : op.get(oneEvent, ['et-name']))
         op.set(calEvent, ['name', 'en'], op.get(oneEvent, ['en-name']) === '' ? op.get(oneEvent, ['performance', 'artist']) : op.get(oneEvent, ['en-name']))
 
@@ -80,7 +92,19 @@ router.prepare = function prepare(callback) {
         calEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], 'Asukoht määramata!'))
         calEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], 'Location missing'))
 
-        op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], calEvent)
+        if (oneEvent.resident && oneEvent['end-time']) {
+          var startD = new Date(oneEvent['start-time'])
+          truncDate(startD)
+          var endD = new Date(oneEvent['end-time'])
+          truncDate(endD)
+          for (;startD <= endD; startD = new Date(startD.getTime() + 86400000)) {
+            op.push(eventCalendar, [formatDate(startD.toISOString().slice(0,10))], calEvent)
+          }
+        }
+        else {
+          op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], calEvent)
+        }
+
         callback()
     }, function(err) {
         if (err) {

@@ -131,7 +131,7 @@ i18n.configure({
 var ravenClient = new raven.Client({
   release: APP_VERSION,
   dataCallback: function (data) {
-    debug(JSON.stringify({data: data}, null, 4))
+    // debug(JSON.stringify({data: data}, null, 4))
     // delete data.request.env
     return data
   }
