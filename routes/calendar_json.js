@@ -59,12 +59,10 @@ router.prepare = function prepare(callback) {
     async.each(events, function(event, callback) {
         var oneEvent = mapper.event(event.id)
         var calEvent = {}
-
-        //debug(JSON.stringify(oneEvent, null, 2))
         if (!oneEvent['start-time']) { return callback() }
         var startDateTime = new Date(oneEvent['start-time'])
         if (startDateTime < minDate) { return callback() }
-        if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) !== -1) { return callback() }
+        // if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) !== -1) { return callback() }
         if (startDateTime > maxDate) { maxDate = startDateTime }
 
         calEvent.eid = op.get(oneEvent, ['performance', 'id'], op.get(oneEvent, ['id']))
