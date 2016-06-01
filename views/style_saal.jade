@@ -29,8 +29,12 @@ style.
         background-color: #{bgcolor};
     }
     
-    .highlight.multiple {
-        background-color: #{fgcolor} !important;
+    .highlight.tour.event {
+        background: #{bgcolor};
+        background: -webkit-linear-gradient(#{bgcolor}, #{fgcolor}); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#{bgcolor}, #{fgcolor}); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#{bgcolor}, #{fgcolor}); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#{bgcolor}, #{fgcolor}); /* Standard syntax */
     }
     
     .navbar-nav > .active > a,
