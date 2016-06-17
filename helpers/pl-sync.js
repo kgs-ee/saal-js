@@ -261,8 +261,11 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
             compareDates( eItem, 'end-time', op.get(plItem, ['endTimestamp'], 0) )
             compareDates( eItem, 'sales-time', op.get(plItem, ['salesTimestamp'], 0) )
             compare( eItem, 'sales-status', op.get(plItem, ['salesStatus'], '') )
-            compare( eItem, 'min-price', op.get(plItem, ['minPrice'], '') )
-            compare( eItem, 'max-price', op.get(plItem, ['maxPrice'], '') )
+            op.set(eItem, ['properties', 'min-price', 0, 'value'], Number(op.get(eItem, ['properties', 'min-price', 0, 'value'], 0)))
+            op.set(eItem, ['properties', 'max-price', 0, 'value'], Number(op.get(eItem, ['properties', 'max-price', 0, 'value'], 0)))
+            // op.get(eItem, ['properties', propertyName, 0, 'value'], '')
+            compare( eItem, 'min-price', Number(op.get(plItem, ['minPrice'], 0)) )
+            compare( eItem, 'max-price', Number(op.get(plItem, ['maxPrice'], 0)) )
             if (doFullSync) {
                 debug ('doFullSync', JSON.stringify(eItem, null, 4), JSON.stringify(plItem, null, 4))
                 compare( eItem, 'et-name', op.get(plItem, ['title', 'est'], '') )
