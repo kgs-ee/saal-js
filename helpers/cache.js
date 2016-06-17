@@ -531,7 +531,9 @@ function pollEntu(report, workerReloadCB) {
         // debug('pollUpdates got ', result)
         var updates = result.updates.filter(function(a) { return a.action !== 'created at' })
         updates.sort(function(a,b) { return a.timestamp - b.timestamp }) // Ascending sort by timestamp
-        debug('pollUpdates got ' + updates.length + ' tasks to check.')
+        if (updates.length) {
+          debug('pollUpdates got ' + updates.length + ' tasks to check.')
+        }
         var toGo = updates.length
         async.eachSeries(updates, function(update, callback) {
             if (update.action === 'deleted at') {
@@ -599,7 +601,6 @@ function pollEntu(report, workerReloadCB) {
             else {
                 console.log('Cache routine finished', new Date())
                 setTimeout(function() { pollEntu(report, workerReloadCB) }, POLLING_INTERVAL_MS)
-                debug('We have updated = ', updated)
                 if (updated) {
                     debug('We have updated = ', updated)
                     updated = false
