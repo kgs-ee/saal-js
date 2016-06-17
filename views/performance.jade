@@ -96,51 +96,65 @@ block content
                                     p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
                                 .col-xs-12.col-md-12.col-lg-12
                                     hr
-        if op.get(performance, ['audio']) || op.get(performance, ['video'])
-            .video-sound.row.front-page-margin
-                if op.get(performance, ['audio'])
-                    div.col-xs-12.col-md-6
-                        h2= t('title.sound')
-                        div!= op.get(performance, ['audio'])
-                if op.get(performance, 'video')
-                    div.col-xs-12.col-md-6
-                        h2= t('title.video')
-                        div!= op.get(performance, ['video'])
+
+
+            
+            //- .video-sound.row.front-page-margin
+            //-     if op.get(performance, ['audio'])
+            //-         div.col-xs-12.col-md-6
+            //-             h2= t('title.sound')
+            //-             div!= op.get(performance, ['audio'])
+            //-     if op.get(performance, 'video')
+            //-         div.col-xs-12.col-md-6
+            //-             h2= t('title.video')
+            //-             div!= op.get(performance, ['video'])
 
         .row.front-page-margin
-                .col-md-6
+            .col-md-6
 
-                    if op.get(performance, ['photos'])
-                        .gallery
-                            h2= t('title.gallery')
-                            .row
-                                each photo in op.get(performance, ['photos'], [])
-                                    .single-image.col-xs-6.col-sm-3.col-md-4
-                                          a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
-                                            img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                if op.get(performance, ['audio']) || op.get(performance, ['video'])
+                  if op.get(performance, 'video')
+                    .gallery
+                        h2= t('title.video')
+                          each video in op.get(performance, 'videos')
+                            div!= video
+                  if op.get(performance, 'audio')
+                    .gallery
+                        h2= t('title.audio')
+                          each audio in op.get(performance, 'audios')
+                            div!= audio
 
-                    .supporter
-                        ul.list-inline
-                            each logo in op.get(performance, ['logo'], [])
-                                li
-                                    img(src=logo.file, class='img-responsive')
+                if op.get(performance, ['photos'])
+                    .gallery
+                        h2= t('title.gallery')
+                        .row
+                            each photo in op.get(performance, ['photos'], [])
+                                .single-image.col-xs-6.col-sm-3.col-md-4
+                                      a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
+                                        img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
 
-                .col-md-6
-                    if coverage.length
-                        .press
-                            h2= t('title.press')
-                            .row
-                                each press in coverage
-                                    .col-md-12.h3(id='coverage_'+press.id)
-                                        if press.photo
-                                            a(target='_blank' href=press.photo.file)
-                                                img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
-                                                p= (moment(press.date).locale(lang).format('L')) + ": " + press.title
-                                            a(target='_blank' href=press.url)
-                                                p.source= press.source
-                                        else
-                                            a(target='_blank' href=press.url)= (moment(press.date).locale(lang).format('L')) + ': ' + press.title
-                                                p.source= press.source
-                                        
-                                    .col-xs-12.col-md-12
-                                        hr
+                .supporter
+                    ul.list-inline
+                        each logo in op.get(performance, ['logo'], [])
+                            li
+                                img(src=logo.file, class='img-responsive')
+
+            .col-md-6
+                if coverage.length
+                    .press
+                        h2= t('title.press')
+                        .row
+                            each press in coverage
+                                .col-md-12.h3(id='coverage_'+press.id)
+                                    if press.photo
+                                        a(target='_blank' href=press.photo.file)
+                                            img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
+                                            p= (moment(press.date).locale(lang).format('L')) + ": " + press.title
+                                        a(target='_blank' href=press.url)
+                                            p.source= press.source
+                                    else
+                                        a(target='_blank' href=press.url)= (moment(press.date).locale(lang).format('L')) + ': ' + press.title
+                                            p.source= press.source
+                                    
+                                .col-xs-12.col-md-12
+                                    hr

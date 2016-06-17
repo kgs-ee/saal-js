@@ -198,7 +198,13 @@ function mapPerformance(eid, querystring) {
     }))
     entityOut.set('logo',     opEntity.get(['properties', 'logo'], []))
     entityOut.set('audio',    opEntity.get(['properties', 'audio',    0, 'value']))
+    entityOut.set('audios',   opEntity.get(['properties', 'audio'], []).map(function(a) {
+      return a.value
+    }))
     entityOut.set('video',    opEntity.get(['properties', 'video',    0, 'value']))
+    entityOut.set('videos',   opEntity.get(['properties', 'video'], []).map(function(a) {
+      return a.value
+    }))
     entityOut.set('featured', opEntity.get(['properties', 'featured', 0, 'value']) === 'True')
     entityOut.set('et-technical-information', opEntity.get(['properties', 'et-technical-information', 0, 'md'], '').replace(re, highlight))
     entityOut.set('en-technical-information', opEntity.get(['properties', 'en-technical-information', 0, 'md'], '').replace(re, highlight))
