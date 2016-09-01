@@ -1,0 +1,22 @@
+apps:
+    -
+        script: ~/domeenid/www.saal.ee/htdocs/www2016/master.js
+        name: saal
+        watch: true
+        out_file: ~/domeenid/www.saal.ee/htdocs/www2016/logs/out.log
+        error_file: ~/domeenid/www.saal.ee/htdocs/www2016/logs/error.log
+        env:
+            NODE_ENV: production
+            PORT: 8080
+            COOKIE_SECRET:
+            ENTU_USER:
+            ENTU_KEY:
+            VIMEO_ID:
+            VIMEO_SECRET:
+            VIMEO_TOKEN:
+            NEW_RELIC_APP_NAME: saal-js
+            NEW_RELIC_LICENSE_KEY:
+            NEW_RELIC_LOG: stdout
+            NEW_RELIC_LOG_LEVEL: error
+            NEW_RELIC_NO_CONFIG_FILE: true
+            SENTRY_DSN:
