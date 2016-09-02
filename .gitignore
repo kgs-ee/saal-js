@@ -37,3 +37,7 @@ www.saal.ee.sublime-workspace
 temp/*
 test.js
 *.bak
+
+process.yaml
+
+.DS_Store
