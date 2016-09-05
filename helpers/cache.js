@@ -1,3 +1,5 @@
+require('./setenv.js')
+
 var path      = require('path')
 var debug     = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var async     = require('async')
@@ -7,7 +9,7 @@ var fs        = require('fs')
 
 var entu      = require('entulib')
 
-POLLING_INTERVAL_MS = process.env.ENTU_POLL_SEC * 1e3 || 10e3
+
 CACHE_LOADED_MESSAGE = 'Cache successfully loaded'
 CACHE_RELOAD_REQUIRED_MESSAGE = 'Full cache reload required'
 
@@ -21,20 +23,20 @@ SDC = op({
 })
 
 var cacheFromEntu = [
-    {'parent':'3808',                            'definition': 'category',    'class': 'rootCategory'},
-    {'parent':'1930',                            'definition': 'event',       'class': 'festival'},
-    {'parent':'597',                             'definition': 'event',       'class': 'program'},
-    {'parent':'1931',                            'definition': 'event',       'class': 'residency'},
-    {'parent':'1929',                            'definition': 'event',       'class': 'tour'},
-    {'parent':'1953',                            'definition': 'news',        'class': 'news'},
-    {'parent':'4051',                            'definition': 'person',      'class': 'team'},
-    {'parent':'1935',                            'definition': 'performance', 'class': 'performance'},
-    {'parent':'2109',                            'definition': 'location',    'class': 'location'},
-    {'parent':'2107',                            'definition': 'event',       'class': 'project'},
-    {'parent':'1',                               'definition': 'banner',      'class': 'supporters'},
-    {'parent':'2786',                            'definition': 'banner-type', 'class': 'banner types'},
-    {'parent':'4024',                            'definition': 'echo',        'class': 'echo'},
-    {'parent':'4024',                            'definition': 'category',    'class': 'echoCategory'},
+    {'parent':'3808', 'definition': 'category',    'class': 'rootCategory'},
+    {'parent':'1930', 'definition': 'event',       'class': 'festival'},
+    {'parent':'597',  'definition': 'event',       'class': 'program'},
+    {'parent':'1931', 'definition': 'event',       'class': 'residency'},
+    {'parent':'1929', 'definition': 'event',       'class': 'tour'},
+    {'parent':'1953', 'definition': 'news',        'class': 'news'},
+    {'parent':'4051', 'definition': 'person',      'class': 'team'},
+    {'parent':'1935', 'definition': 'performance', 'class': 'performance'},
+    {'parent':'2109', 'definition': 'location',    'class': 'location'},
+    {'parent':'2107', 'definition': 'event',       'class': 'project'},
+    {'parent':'1',    'definition': 'banner',      'class': 'supporters'},
+    {'parent':'2786', 'definition': 'banner-type', 'class': 'banner types'},
+    {'parent':'4024', 'definition': 'echo',        'class': 'echo'},
+    {'parent':'4024', 'definition': 'category',    'class': 'echoCategory'},
 ]
 
 // var tempLocalEntities = {}
@@ -75,7 +77,7 @@ cacheSeries.push(function loadCache(callback) {
 // Cache root elements
 cacheSeries.push(function cacheRoot(callback) {
     // debug('Caching root at ' + Date().toString())
-    debug('Caching root with ', APP_ENTU_OPTIONS)
+    // debug('Caching root with ', APP_ENTU_OPTIONS)
     SDC.set(['root', 'season'], (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2) + '/' + (new Date().getFullYear()-2000+(Math.sign(new Date().getMonth()-7.5)-1)/2+1))
     entu.getEntity(APP_ENTU_ROOT, APP_ENTU_OPTIONS)
     .then(function(institution) {
@@ -590,17 +592,17 @@ function pollEntu(report, workerReloadCB) {
             })
         }, function(err) {
             if (err) {
-                var message = '*INFO*: Cache routine stumbled. Restart in ' + POLLING_INTERVAL_MS / 1e2
+                var message = '*INFO*: Cache routine stumbled. Restart in ' + ENTU_POLL_SEC / 1e2
                 console.log(message, new Date(), err)
                 report(message, {
                     level: 'warning',
                     extra: { err: err }
                 })
-                setTimeout(function() { pollEntu(report, workerReloadCB) }, POLLING_INTERVAL_MS * 10)
+                setTimeout(function() { pollEntu(report, workerReloadCB) }, ENTU_POLL_SEC * 10)
             }
             else {
                 console.log('Cache routine finished', new Date())
-                setTimeout(function() { pollEntu(report, workerReloadCB) }, POLLING_INTERVAL_MS)
+                setTimeout(function() { pollEntu(report, workerReloadCB) }, ENTU_POLL_SEC)
                 if (updated) {
                     debug('We have updated = ', updated)
                     updated = false
@@ -611,19 +613,19 @@ function pollEntu(report, workerReloadCB) {
         })
     })
     .catch(function(reason) {
-        var message = '*INFO*: nPoll updates failed. Restart in ' + POLLING_INTERVAL_MS / 1e2
+        var message = '*INFO*: nPoll updates failed. Restart in ' + ENTU_POLL_SEC / 1e2
         console.log(message, new Date(), reason)
         report(message, {
             level: 'warning',
             extra: { err: reason }
         })
-        setTimeout(function() { pollEntu(report, workerReloadCB) }, POLLING_INTERVAL_MS * 10)
+        setTimeout(function() { pollEntu(report, workerReloadCB) }, ENTU_POLL_SEC * 10)
     })
 }
 
 
 
-function performInitialSync(report, workerReloadCB) {
+function performSync(report, workerReloadCB) {
     // Set lastPollTs from freshly cached data
     // debug(APP_ENTU_OPTIONS)
     debug('Caching Started.')
@@ -642,15 +644,18 @@ function performInitialSync(report, workerReloadCB) {
                 level: 'warning',
                 extra: { err: err }
             })
-            return setTimeout(function() { performInitialSync(report, workerReloadCB) }, 25e3)
+            return setTimeout(function() { performSync(report, workerReloadCB) }, 25e3)
         }
         // successful initial sync should error with CACHE_LOADED_MESSAGE
         debug('*NOTE*: Cache sync succeeded. Expecting "' + CACHE_LOADED_MESSAGE + '" on next try.')
-        performInitialSync(report, workerReloadCB)
+        performSync(report, workerReloadCB)
     })
 }
 
+performSync(
+  (data) => { console.log('Report: ' + data) },
+  () => { console.log('Callback') }
+)
 
-
-module.exports.sync = performInitialSync
+// module.exports.sync = performSync
 module.exports.state = state
