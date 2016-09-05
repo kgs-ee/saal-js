@@ -1,0 +1,22 @@
+apps:
+    -
+        script: ~/domeenid/www.saal.ee/www2016/helpers/plsync.js
+        name: saal-plsync
+        watch: false
+        out_file: /data01/virt30061/domeenid/www.saal.ee/log/www_plsync_out.log
+        error_file: /data01/virt30061/domeenid/www.saal.ee/log/www_plsync_error.log
+        env:
+            NODE_ENV: production
+            PORT: 8080
+            COOKIE_SECRET:
+            DEBUG: app.*
+            ENTU_USER: 1927
+            ENTU_KEY: xxxx
+            ENTU_POLL_SEC: 5
+            DEPLOYMENT: live
+            NEW_RELIC_APP_NAME: saal-plsync
+            NEW_RELIC_LICENSE_KEY: xxxx
+            NEW_RELIC_LOG: stdout
+            NEW_RELIC_LOG_LEVEL: error
+            NEW_RELIC_NO_CONFIG_FILE: true
+            SENTRY_DSN: xxxx

@@ -38,6 +38,4 @@ temp/*
 test.js
 *.bak
 
-process.yaml
-
 .DS_Store
