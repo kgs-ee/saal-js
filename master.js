@@ -2,16 +2,18 @@ if (process.env.NEW_RELIC_LICENSE_KEY) { require('newrelic') }
 
 require('./helpers/setenv.js')
 
+var path = require('path')
+var debug = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
+
 var async = require('async')
 var bparser = require('body-parser')
+var chokidar = require('chokidar')
 var cookie = require('cookie-parser')
 var express = require('express')
 var fs = require('fs')
 var i18n = require('./helpers/i18n')
 var moment = require('moment')
 var op = require('object-path')
-var path = require('path')
-var debug = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var raven = require('raven')
 
 
@@ -219,6 +221,8 @@ app
 
 debug('Started at port %s', APP_PORT)
 
+
+
 var cache = require('./helpers/cache')
 cache.sync(
   function report (message, options) {
@@ -264,9 +268,9 @@ function startPLSync () {
     })
   }
 }
-debug('Check if PL sync', APP_DEPLOYMENT)
-if (APP_DEPLOYMENT === 'live' || APP_DEPLOYMENT === 'dev') {
-  debug('Initialising PL sync')
-  var plSync = require('./helpers/pl-sync')
-  startPLSync()
-}
+// debug('Check if PL sync', APP_DEPLOYMENT)
+// if (APP_DEPLOYMENT === 'live' || APP_DEPLOYMENT === 'dev') {
+//   debug('Initialising PL sync')
+//   var plSync = require('./helpers/pl-sync')
+//   startPLSync()
+// }
