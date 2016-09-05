@@ -20,7 +20,7 @@ APP_ENTU_OPTIONS = {
 
 // Site data cache
 APP_ENTU_ROOT = 1 // institution
-APP_CACHE_DIR = path.join(APP_ROOT_DIR, 'pagecache')
+APP_CACHE_DIR = path.join(APP_ROOT_DIR, '..', 'www_cache')
 if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
 
 if (!process.env.ENTU_USER) {
