@@ -1,5 +1,7 @@
 if (process.env.NEW_RELIC_LICENSE_KEY) { require('newrelic') }
 
+require('./helpers/setenv.js')
+
 var async = require('async')
 var bparser = require('body-parser')
 var cookie = require('cookie-parser')
@@ -10,33 +12,9 @@ var moment = require('moment')
 var op = require('object-path')
 var path = require('path')
 var debug = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
-var random = require('randomstring')
 var raven = require('raven')
 
-APP_ROOT_REFRESH_MS = 30 * 60 * 1000
-APP_COOKIE_SECRET = random.generate(16)
-APP_DEPLOYMENT = process.env.DEPLOYMENT
-APP_VERSION = require('./package').version
-APP_DEBUG = process.env.DEBUG
-APP_PORT = process.env.PORT || 3000
 
-if (!process.env.ENTU_USER) {
-  throw '"ENTU_USER" missing in environment'
-}
-if (!process.env.ENTU_KEY) {
-  throw '"ENTU_KEY" missing in environment'
-}
-
-APP_ENTU_OPTIONS = {
-  entuUrl: process.env.ENTU_URL || 'https://saal.entu.ee',
-  user: process.env.ENTU_USER,
-  key: process.env.ENTU_KEY
-}
-
-// Site data cache
-APP_ENTU_ROOT = 1 // institution
-APP_CACHE_DIR = __dirname + '/pagecache'
-if (!fs.existsSync(APP_CACHE_DIR)) { fs.mkdirSync(APP_CACHE_DIR) }
 
 // initialize getsentry.com client
 var ravenClient = new raven.Client({ release: APP_VERSION })

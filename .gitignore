@@ -41,3 +41,9 @@ test.js
 .DS_Store
 
 *process.yaml
+
+cache_process.yaml
+
+plsync_process.yaml
+
+process.yaml
