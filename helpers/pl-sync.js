@@ -1,3 +1,5 @@
+require('./setenv.js')
+
 var path      = require('path')
 var debug     = require('debug')('app:' + path.basename(__filename).replace('.js', ''))
 var request   = require('request')
@@ -497,5 +499,16 @@ function startRoutine(startRoutineCB) {
         debug('PL sync routine started.')
     })
 }
-module.exports.routine = startRoutine
+
+startRoutine(function plSyncCB (err, message) {
+  if (err) {
+    console.log(err)
+    console.log(message)
+    throw 'PL sync totally messed up'
+  }
+  console.log(message + ' at ' + Date().toString())
+})
+
+
+// module.exports.routine = startRoutine
 module.exports.state = state
