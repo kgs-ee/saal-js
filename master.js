@@ -29,7 +29,7 @@ SDC = op({})
 
 var prepareControllersFa = []
 
-prepareControllersFa.push(function loadCache (callback) {
+function loadCache (callback) {
   var filenames = fs.readdirSync(APP_CACHE_DIR).map(function (filename) {
     return filename.split('.json')[0]
   })
@@ -64,11 +64,10 @@ prepareControllersFa.push(function loadCache (callback) {
     // debug('Cache loaded.')
     callback()
   })
-})
+}
 
 function prepareControllers (prepareControllersCB) {
-  // debug({ cmd: 'log', log: 'Preparing data for controllers.' })
-  // debug('Preparing data for controllers.')
+  debug('Preparing data for controllers.')
   var controllers = fs.readdirSync(path.join(__dirname, 'routes')).map(function (filename) {
     return filename.split('.js')[0]
   })
@@ -149,6 +148,10 @@ app
   // set defaults for views
   .use(function (req, res, next) {
     if (req.path === '/') { return res.redirect('/et/') }
+    // hard links
+    if (Object.keys(REDIRECTS).indexOf(req.path) !== -1) {
+      return res.redirect(REDIRECTS[req.path]) 
+    }
     // debug(JSON.stringify(req.path, null, '    '))
     // res.locals.lang = 'et'
     res.locals.moment = moment
@@ -260,6 +263,18 @@ var watcher = chokidar.watch(APP_CACHE_DIR, {
   } else if (_filename === 'lastPollTs.json') {
     debug('Poll TS:', fs.readFileSync(_path))
   }
+})
+
+loadCache(function() {
+  debug('1st run. Load cache.')
+  prepareControllers(function (err) {
+    debug('1st run. Prepping controllers.')
+    if (err) {
+      debug('ERR:', err)
+      return
+    }
+    debug('Controllers prepped.')
+  })
 })
 
 

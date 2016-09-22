@@ -30,4 +30,9 @@ if (!process.env.ENTU_KEY) {
   throw '"ENTU_KEY" missing in environment'
 }
 
+REDIRECTS = {
+  '/NUPerformanceFestival': '/et/festival/1933',
+  '/SAALBiennaal': '/et/festival/4054'
+}
+
 console.log('\n\nEnv loaded for', APP_ROOT_DIR, APP_VERSION)
