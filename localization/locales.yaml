@@ -235,10 +235,21 @@ nav:
         en: On Tour
         et: Tuurid
         lv: nav.tours
-placeholder:
-    newsletter:
+newsletter:
+    signup:
         en: Sign-up for newsletter
         et: Liitu uudiskirjaga
+    placeholder:
+        en: Enter e-mail
+        et: Sinu mailiaadress
+    mailchimp:
+        action:
+            en: //saal.us9.list-manage.com/subscribe/post?u=b4d371ad73e2be3853f5cd989&amp;id=deab6bd3c2
+            et: //saal.us9.list-manage.com/subscribe/post?u=b4d371ad73e2be3853f5cd989&amp;id=11b766323b
+        inputName:
+            en: b_b4d371ad73e2be3853f5cd989_deab6bd3c2
+            et: b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5
+placeholder:
     search:
         en: Search…
         et: Otsi…

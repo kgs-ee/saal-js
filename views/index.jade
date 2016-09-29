@@ -318,15 +318,17 @@ block content
                             a(href=sideBanner.url)
                                 img(src=op.get(sideBanner, ['photos', 0, 'file']), alt=sideBanner.name, class="img-responsive img-center front-banner")
 
+                    .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='newsletter-sign-up')
+                        p= t('newsletter.signup')
                     .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
-                        form.validate(action='//saal.us9.list-manage.com/subscribe/post?u=b4d371ad73e2be3853f5cd989&amp;id=11b766323b' method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank' novalidate)
+                        form.validate(action=t('newsletter.mailchimp.action') method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank' novalidate)
                             .mc-field-group
-                                input.required.email(type='text' value='' name='EMAIL' placeholder=t('placeholder.newsletter') id='mce-EMAIL')
+                                input.required.email(type='text' value='' name='EMAIL' placeholder=t('newsletter.placeholder') id='mce-EMAIL')
                             .clear(id='mce-responses')
                                 .response(id='mce-error-response' style='display:none')
                                 .response(id='mce-success-response' style='display:none')
                             div(style='position: absolute; left: -5000px;')
-                                input(type='text' name='b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5' tabindex='-1' value='')
+                                input(type='text' name=t('newsletter.mailchimp.inputName') tabindex='-1' value='')
                             .clear
                                 input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')
 
