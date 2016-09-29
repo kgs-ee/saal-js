@@ -33,6 +33,12 @@ router.prepare = function prepare(callback) {
         }
         // debug('"' + path.basename(__filename).replace('.js', '') + '" prepared.')
         performances.sort(function(a, b) {
+            if (a.coprodOrdinal === undefined) {
+                return 1
+            }
+            if (b.coprodOrdinal === undefined) {
+                return -1
+            }
             // if (a.premiere['start-time'] === '') { debug('Missing premiere on ', JSON.stringify(a, null, 4)) }
             // if (b.premiere['start-time'] === '') { debug('Missing premiere on ', JSON.stringify(b, null, 4)) }
             // debug(a.coprodOrdinal + '?>' + b.coprodOrdinal)
