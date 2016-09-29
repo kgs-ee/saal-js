@@ -68,6 +68,8 @@ router.prepare = function prepare(callback) {
         calEvent.eid = op.get(oneEvent, ['performance', 'id'], op.get(oneEvent, ['id']))
         calEvent.tag = op.get(oneEvent, ['tag'], [])
         if (oneEvent.resident) {
+          callback()
+          return
           calEvent.controller = 'resident'
           calEvent.tag = ['event']
         }
