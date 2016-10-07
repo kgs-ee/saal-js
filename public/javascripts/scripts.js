@@ -154,9 +154,7 @@ $(document).ready(function() {
     eventBannerHeight()
 
     // Prevent linking to front page
-    $('.festivals .dropdown-menu a').click(function(event) {
-        event.preventDefault();
-    });
+    $('.festivals .dropdown-menu a').click(function(event) {});
 })
 
 $(window).load(function() {
