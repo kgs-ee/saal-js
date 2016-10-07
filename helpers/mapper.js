@@ -88,6 +88,7 @@ function mapEvent(eid, querystring) {
     entityOut.set('ordinal',                  opEntity.get(['properties', 'ordinal',               0, 'value'], 0))
     entityOut.set('et-location',              opEntity.get(['properties', 'et-location',           0, 'value']))
     entityOut.set('en-location',              opEntity.get(['properties', 'en-location',           0, 'value']))
+    entityOut.set('location-url',             opEntity.get(['properties', 'location-url',          0, 'value']))
     entityOut.set('price',                    opEntity.get(['properties', 'price',                 0, 'value']))
     entityOut.set('onsite-price',             opEntity.get(['properties', 'onsite-price',          0, 'value']))
     entityOut.set('min-price',                opEntity.get(['properties', 'min-price',             0, 'value']))

@@ -90,7 +90,10 @@ block content
 
                                     .col-xs-6.col-md-2.col-lg-2
                                         if op.get(p, [lang + '-location'], false)
-                                            p.location= op.get(p, [lang + '-location'])
+                                            if op.get(p, ['location-url'], false)
+                                                a(href=op.get(p, ['location-url']))= op.get(p, [lang + '-location'])
+                                            else
+                                                p.location= op.get(p, [lang + '-location'])
                                             
                                         if op.get(p, ['saal-location', lang + '-name'])  
                                             p.location= op.get(p, ['saal-location', lang + '-name'])
