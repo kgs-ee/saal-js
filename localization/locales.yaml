@@ -42,8 +42,8 @@ button:
             en: Sold out
             et: Välja müüdud
     canceled:
-        en: 'Canceled!'
-        et: 'Jääb ära!'
+        en: Canceled!
+        et: Jääb ära!
     category:
         en: Category
         et: Kategooria
@@ -54,21 +54,21 @@ button:
         en: On Tour
         et: Tuuril
     premiere:
-        en: 'Premiere!'
-        et: 'Esietendus!'
+        en: Premiere!
+        et: Esietendus!
     search:
         en: Search
         et: Otsi
         lv: Meklē
     today:
-        en: 'Today!'
-        et: 'Täna!'
+        en: Today!
+        et: Täna!
     view-all:
         en: View all
         et: Vaata kõiki
     volunteer:
-        en: 'Become a volunteer!'
-        et: 'Tule vabatahtlikuks!'
+        en: Become a volunteer!
+        et: Tule vabatahtlikuks!
         lv: button.volunteer
     year:
         en: Year
@@ -79,9 +79,9 @@ categories:
         et: Tants
         lv: Deja
     film:
-        en: Film
-        et: Film
-        lv: Filma
+        en: Video
+        et: Video
+        lv: Video
     lecture:
         en: Lecture
         et: Loeng
@@ -105,7 +105,9 @@ categories:
 error:
     Not Found:
         en: Page not found
-        et: Seda lehte pole veel valmis tehtud või siis on heaks arvatud ta kustutada.
+        et: >-
+            Seda lehte pole veel valmis tehtud või siis on heaks arvatud ta
+            kustutada.
         lv: Lapa nav atrodama
     cache_missing_residency_past:
         en: Loading data. Should be ready in a minute
@@ -160,6 +162,8 @@ month:
     '2':
         en: February
         et: Veebruar
+    '2016':
+        et: month.2016
     '3':
         en: March
         et: Märts
@@ -236,19 +240,21 @@ nav:
         et: Tuurid
         lv: nav.tours
 newsletter:
-    signup:
-        en: Sign-up for newsletter
-        et: Liitu uudiskirjaga
-    placeholder:
-        en: Enter e-mail
-        et: Sinu mailiaadress
     mailchimp:
         action:
-            en: //saal.us9.list-manage.com/subscribe/post?u=b4d371ad73e2be3853f5cd989&amp;id=deab6bd3c2
-            et: //saal.us9.list-manage.com/subscribe/post?u=b4d371ad73e2be3853f5cd989&amp;id=11b766323b
+            en: >-
+                //saal.us9.list-manage.com/subscribe/post?u=b4d371ad73e2be3853f5cd989&amp;id=deab6bd3c2
+            et: >-
+                //saal.us9.list-manage.com/subscribe/post?u=b4d371ad73e2be3853f5cd989&amp;id=11b766323b
         inputName:
             en: b_b4d371ad73e2be3853f5cd989_deab6bd3c2
             et: b_1e1d48fe600fda5c3f6a39b75_fdc080b2d5
+    placeholder:
+        en: Enter e-mail
+        et: Sinu mailiaadress
+    signup:
+        en: Sign-up for newsletter
+        et: Liitu uudiskirjaga
 placeholder:
     search:
         en: Search…
@@ -279,9 +285,9 @@ title:
     archive:
         en: Archive
         et: Arhiiv
-    related-articles:
-        en: Related posts
-        et: Seotud postitused
+    audio:
+        en: title.audio
+        et: title.audio
     basement:
         en: Basement
         et: Kelder
@@ -299,8 +305,8 @@ title:
         en: Floorplans
         et: Saaliplaanid
     free:
-        en: 'Free of charge!'
-        et: 'Tasuta!'
+        en: Free of charge!
+        et: Tasuta!
     gallery:
         en: Gallery
         et: Galerii
@@ -341,6 +347,9 @@ title:
     related:
         en: Other works
         et: Teised tööd
+    related-articles:
+        en: Related posts
+        et: Seotud postitused
     residency:
         en: Residency
         et: Residentuur

@@ -5,6 +5,8 @@ var chokidar = require('chokidar')
 
 var cache_dir = path.join(__dirname, 'pagecache')
 var watched_files = ['local_entities.json', 'relationships.json', 'root.json']
+var log = console.log.bind(console)
+
 var watcher = chokidar.watch(cache_dir, {
   ignored: /[\/\\]\./,
   persistent: true,
@@ -15,8 +17,8 @@ var watcher = chokidar.watch(cache_dir, {
 }).on('change', _path => {
   let _filename = path.basename(_path)
   if (watched_files.indexOf(_filename) !== -1) {
-    console.log(`File ${path.basename(_path)} has been changed`)
+    log(`File ${path.basename(_path)} has been changed`)
   } else if (_filename === 'lastPollTs.json') {
-    console.log(`File ${path.basename(_path)} has been changed to ${fs.readFileSync(_path)}`)
+    log(`File ${path.basename(_path)} has been changed to ${fs.readFileSync(_path)}`)
   }
 })
