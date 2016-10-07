@@ -19,9 +19,12 @@ block content
         if festival.events
           h2= t('nav.schedule')
           .programme.row
-            each eventdate, datestring in festival.events
-              each eventtime, timestring in eventdate
-                each p, i in eventtime
+            each datestring in Object.keys(festival.events).sort()
+              each timestring in Object.keys(op.get(festival.events, [datestring])).sort()
+                each p in op.get(festival.events, [datestring, timestring])
+                  //- each eventdate, datestring in festival.events
+                  //-   each eventtime, timestring in eventdate
+                  //- each p, i in eventtime
                   .col-xs-12.col-md-2
                     p= t('weekdays.' + new Date(datestring).getDay())
                     p= (moment(datestring).locale(lang).format('L'))
