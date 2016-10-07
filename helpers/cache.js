@@ -83,7 +83,8 @@ cacheSeries.push(function cacheRoot(callback) {
     .then(function(institution) {
         SDC.set(['root', 'main_color'],      institution.get(['properties', 'main-color',       0, 'value']))
         SDC.set(['root', 'secondary_color'], institution.get(['properties', 'secondary-color',  0, 'value']))
-        SDC.set(['root', 'description'],     institution.get(['properties', 'description',      0, 'md']))
+        SDC.set(['root', 'et-description'],     institution.get(['properties', 'et-description',      0, 'md']))
+        SDC.set(['root', 'en-description'],     institution.get(['properties', 'en-description',      0, 'md']))
         SDC.set(['root', 'gallery'],         institution.get(['properties', 'photo']))
         // debug('Caching root success: ', institution.get())
         return callback(null)

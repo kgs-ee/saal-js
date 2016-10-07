@@ -21,7 +21,7 @@ block content
                         span.icon-next.arrow-right(aria-hidden='true')
 
                 article.main-text.h3
-                    p!= SDC.get(['root', 'description'])
+                    p!= SDC.get(['root', lang + '-description'])
             
             section.news.col-md-6
                 if Object.keys(news).length
