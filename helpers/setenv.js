@@ -32,7 +32,9 @@ if (!process.env.ENTU_KEY) {
 
 REDIRECTS = {
   '/NUPerformanceFestival': '/et/festival/1933',
+  '/nuperformancefestival': '/et/festival/1933',
   '/SAALBiennaal': '/et/festival/4054'
+  '/saalbiennaal': '/et/festival/4054'
 }
 
 console.log('\n\nEnv loaded for', APP_ROOT_DIR, APP_VERSION)
