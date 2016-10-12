@@ -17,7 +17,13 @@ function coverageByPerformanceSync(performanceEid) {
             })
         )
     })
-    return coverages
+    var coveragesByDate = {}
+    coverages.forEach( function(coverage) {
+      debug(coverage)
+      op.push(coveragesByDate, [coverage['date']], coverage)
+      debug(coveragesByDate)
+    })
+    return coveragesByDate
 }
 function coverageByEventSync(eventEid) {
     return coverageByPerformanceSync(SDC.get(['local_entities', 'by_eid', eventEid, 'properties', 'performance', 0, 'reference']))
