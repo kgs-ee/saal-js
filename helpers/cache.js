@@ -29,6 +29,7 @@ var cacheFromEntu = [
     {'parent':'1931', 'definition': 'event',       'class': 'residency'},
     {'parent':'1929', 'definition': 'event',       'class': 'tour'},
     {'parent':'1953', 'definition': 'news',        'class': 'news'},
+    {'parent':'1933', 'definition': 'coverage',    'class': 'coverage'}, // nu performance 2016
     {'parent':'4051', 'definition': 'person',      'class': 'team'},
     {'parent':'1935', 'definition': 'performance', 'class': 'performance'},
     {'parent':'2109', 'definition': 'location',    'class': 'location'},
@@ -430,7 +431,7 @@ function saveCache(callback) {
 
     async.each(Object.keys(SDC.get()), function(filename, callback) {
         debug('Saving ' + filename)
-        fs.writeFile(path.join(APP_CACHE_DIR, filename + '.json' + '.download'), JSON.stringify(SDC.get(filename)), (err) => {
+        fs.writeFile(path.join(APP_CACHE_DIR, filename + '.json' + '.download'), JSON.stringify(SDC.get(filename), null, 2), (err) => {
             if (err) { return callback(err) }
             fs.rename(path.join(APP_CACHE_DIR, filename + '.json' + '.download'), path.join(APP_CACHE_DIR, filename + '.json'), function(err) {
               if (err) { return callback(err) }
