@@ -20,7 +20,7 @@ function coverageByPerformanceSync(performanceEid) {
     return coverages
 }
 function coverageByEventSync(eventEid) {
-    return coverageByPerformanceSync(SDC.get(['local_entities', 'by_eid', eventEid, 'properties', 'performance', 'id']))
+    return coverageByPerformanceSync(SDC.get(['local_entities', 'by_eid', eventEid, 'properties', 'performance', 0, 'reference']))
 }
 
 function mapCategory(eid) {
