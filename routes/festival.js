@@ -18,7 +18,7 @@ router.get('/:festival_id', function(req, res) {
     res.end()
 })
 
-function prepareFestivals(callback) {
+router.prepare = function prepareFestivals(callback) {
     // var festivals = {}
     async.each(SDC.get(['local_entities', 'by_class', 'festival']), function(festivalEntity, callback) {
         op.set(festivals, festivalEntity.id, mapper.event(festivalEntity.id))
@@ -48,21 +48,6 @@ function prepareFestivals(callback) {
             return
         }
         // debug('Festivals prepared.' + JSON.stringify(festivals, null, 4))
-        callback()
-    })
-}
-
-router.prepare = function prepare(callback) {
-    // debug('Preparing ' + path.basename(__filename).replace('.js', ''))
-    var parallelf = []
-    parallelf.push(prepareFestivals)
-    async.parallel(parallelf, function(err) {
-        if (err) {
-            debug('Failed to prepare ' + path.basename(__filename).replace('.js', ''), err)
-            callback(err)
-            return
-        }
-        // debug('Prepared ' + path.basename(__filename).replace('.js', ''))
         callback()
     })
 }
