@@ -1,21 +1,33 @@
 nav.navbar.navbar-default.navbar-fixed-top
-    .container-fluid
-        .navbar-header
-            button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
-                .icon-bar
-                .icon-bar
-                .icon-bar
-             a.navbar-brand.logo(href='/' + lang + '/')
-                 img(src='/images/NUP_www_kodulehe_logo_149x32px_01.png', alt=t('.KGS_logo'))
-                //p.season.visible-lg= t('.season') + ' ' + SAAL.season
+  .container-fluid
+    .navbar-header
+      button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
+        .icon-bar
+        .icon-bar
+        .icon-bar
+      a.navbar-brand.logo(href='/' + lang + '/')
+        img(src='/images/NUP_www_kodulehe_logo_149x32px_01.png', alt=t('.KGS_logo'))
+        //p.season.visible-lg= t('.season') + ' ' + SAAL.season
 
-        .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
-            ul.nav.navbar-nav.navbar-right.social
-                li
-                    a.icon-facebook3(href='https://www.facebook.com/saalbiennaal?fref=ts', target='blank')
-                each locale in locales
-                    if lang !== locale
-                        li.lang.h3
-                            a(href='/'+locale+'/'+path)= t('lang.' + locale)
+    .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
+      ul.nav.navbar-nav.main-nav
+        li(class= action == 'about' ? 'active' : undefined )
+          a(href='/' + lang + '/festival/' + festival.id + '/about')= t('nav.about-festival')
+        if Object.keys(festival.coverage).length
+          li(class= action == 'press' ? 'active' : undefined )
+            a(href='/' + lang + '/festival/' + festival.id + '/press')= t('nav.press')
+        li(class= action == 'program' ? 'active' : undefined )
+          a(href='/' + lang + '/festival/' + festival.id + '/program')= t('nav.program')
+        li(class= action == 'tickets' ? 'active' : undefined )
+          a(href='/' + lang + '/festival/' + festival.id + '/tickets')= t('nav.tickets')
+            
+            
+      ul.nav.navbar-nav.navbar-right.social
+        li
+          a.icon-facebook3(href='https://www.facebook.com/saalbiennaal?fref=ts', target='blank')
+        each locale in locales
+          if lang !== locale
+            li.lang.h3
+              a(href='/'+locale+'/'+path)= t('lang.' + locale)
 
 //- #banner-strip

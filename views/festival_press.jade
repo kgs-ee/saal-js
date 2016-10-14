@@ -1,0 +1,25 @@
+extends layout
+
+block vars
+
+block content
+
+  .container-fluid
+    .row
+      .event-banner.carousel.slide(id='front-carousel')
+        .carousel-inner(role='listbox')
+          figure(style="background-image: url('/images/NUP_www_kodulehe_pais_1900x1400px_01.png');")
+
+    .row.page-margin
+      section.col-md-12
+        //- pre= JSON.stringify(festival, null, 4)
+        //- h2= op.get(festival, [lang + '-name'])
+
+        .programme.row
+          each datestring in Object.keys(festival.coverage).sort()
+            .col-12
+              h3= (moment(datestring).locale(lang).format('L')) + ' ' + (moment(datestring).locale(lang).format('dddd'))
+              each coverage in op.get(festival.coverage, [datestring])
+                h4= coverage.title
+                div!= coverage.text
+                hr

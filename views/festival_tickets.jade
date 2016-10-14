@@ -1,0 +1,16 @@
+extends layout
+
+block vars
+
+block content
+
+  .container-fluid
+    .row
+      .event-banner.carousel.slide(id='front-carousel')
+        .carousel-inner(role='listbox')
+          figure(style="background-image: url('/images/NUP_www_kodulehe_pais_1900x1400px_01.png');")
+
+    .row.page-margin
+      section.col-md-12
+        h2= op.get(festival, [lang + '-name'])
+        p!= op.get(festival, ['performance', lang + '-technical-information'])

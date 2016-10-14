@@ -13,11 +13,11 @@ block content
     .row.page-margin
       section.col-md-12
         //- pre= JSON.stringify(festival, null, 4)
-        h2= op.get(festival, [lang + '-name'])
-        h4= op.get(festival, [lang + '-subtitle'])
-        p!= op.get(festival, [lang + '-description'])
+        //- h2= op.get(festival, [lang + '-name'])
+        //- h4= op.get(festival, [lang + '-subtitle'])
+        //- p!= op.get(festival, [lang + '-description'])
         if festival.events
-          h2= t('nav.schedule')
+          //- h2= t('nav.schedule')
           .programme.row
             each datestring in Object.keys(festival.events).sort()
               each timestring in Object.keys(op.get(festival.events, [datestring])).sort()
@@ -49,8 +49,8 @@ block content
                           
                           if op.get(p, [lang + '-subtitle'], false)
                             span.subtitle= op.get(p, [lang + '-subtitle'])
-
-
+        
+        
                       else
                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
                           if op.get(p, lang + '-supertitle', '')
@@ -69,25 +69,25 @@ block content
                           
                           if op.get(p, lang + '-subtitle', '')
                             span.subtitle= op.get(p, lang + '-subtitle', '')
-
-
+        
+        
                   .col-xs-6.col-md-2.col-lg-2
                     if op.get(p, ['price']) == 0
                       p= t('title.free')
                     else
                       p= op.get(p, ['price'])
-
+        
                     if op.get(p, ['min-price'])
                       if op.get(p, ['min-price']) == op.get(p, ['max-price'])
                         p= op.get(p, ['min-price']) + '€'
                       else
                         p= op.get(p, ['min-price']) + '/' + op.get(p, ['max-price']) + '€'
-
+        
                   .col-xs-6.col-md-2.text-right
                     p= op.get(p, [lang + '-location'])
-
+        
                     if op.get(p, ['sales-status'])
                       a.btn.btn-primary(class=(op.get(p, ['sales-status']) == 'sold_out' ? "disabled" : "") href=op.get(p, [lang + '-ticket-api']) target='_blank')= t('button.buy_ticket.' + op.get(p, ['sales-status']))
-
+        
                   .col-xs-12.col-md-12
                     hr
