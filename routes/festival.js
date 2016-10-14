@@ -9,14 +9,14 @@ var mapper  = require('../helpers/mapper')
 
 var festivals = {}
 
-router.get('/:festival_id', function(req, res) {
-  return res.redirect('./' + req.params.festival_id + '/program')
+router.get('/:festivalId', function(req, res) {
+  return res.redirect('./' + req.params.festivalId + '/program')
 })
 
-router.get('/:festival_id/:action', function(req, res) {
+router.get('/:festivalId/:action', function(req, res) {
   let action = req.params.action ? req.params.action : 'program'
   debug('Loading "' + path.basename(__filename).replace('.js', '') + '" ' + action)
-  var festival = op.get(festivals, req.params.festival_id)
+  var festival = op.get(festivals, req.params.festivalId)
   res.render('festival_' + action, {
     'festival': festival,
     'action': action
@@ -38,8 +38,8 @@ router.prepare = function (callback) {
       if(event['start-time']) {
         var eventDate = (event['start-time']).slice(0,10)
         var eventTime = (event['start-time']).slice(11,16)
+        op.push(festivals, [festivalEntity.id, 'events', eventDate, eventTime], event)
       }
-      op.push(festivals, [festivalEntity.id, 'events', eventDate, eventTime], event)
       callback()
     }, function(err) {
       if (err) {
