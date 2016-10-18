@@ -25,69 +25,77 @@ block content
                   //- each eventdate, datestring in festival.events
                   //-   each eventtime, timestring in eventdate
                   //- each p, i in eventtime
-                  .col-xs-12.col-md-2
+                  .col-xs-12.col-sm-2.col-lg-2
                     p= (moment(datestring).locale(lang).format('dddd'))
                     p= (moment(datestring).locale(lang).format('L'))
                     p= timestring
-                  .col-xs-12.col-md-6
+
+                    if op.get(p, 'canceled') === true
+                      p.today= t('button.canceled')
+                    //- Premiere
+                    if op.get(p, 'performance.premiere.start-time')
+                      if (moment(datestring).locale(lang).format('L') === moment(op.get(p, 'performance.premiere.start-time')).locale(lang).format('L'))
+                        p.today= t('button.premiere')
+                    //- Today
+                    if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
+                      p.today= t('button.today')
+                    //- Artist Talk
+                    if (op.get(p,['talk'], false) === true)
+                      p.today= t('button.artist-talk')
+                    //- Festival
+                    if (op.get(p,[lang+'-festival']))
+                      p.today= op.get(p,[lang+'-festival'])
+
+                  .col-xs-12.col-md-6.col-lg-6
                     h3
                       if op.get(p, ['performance', 'id'], false)
                         a(href='/' + lang + '/performance/' + op.get(p,['performance', 'id']))
                           if op.get(p, [lang + '-supertitle'], false)
                             span.subtitle= op.get(p, [lang + '-supertitle'], 'foo')
-                          
-                          if op.get(p, ['performance', 'artist'], false)    
-                            span.artist= op.get(p, ['performance', 'artist'])
-                          
-                          if op.get(p, ['performance', 'producer'], false)
-                            span.producer= op.get(p, ['performance', 'producer'])
-                          
-                          if op.get(p, ['performance', lang + '-town'], false)
-                            span.town= op.get(p, ['performance', lang + '-town'])
-                          
-                          span.name= op.get(p, [lang + '-name'])
-                          
-                          if op.get(p, [lang + '-subtitle'], false)
-                            span.subtitle= op.get(p, [lang + '-subtitle'])
-        
-        
                       else
                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
                           if op.get(p, lang + '-supertitle', '')
                             span.subtitle= op.get(p, lang + '-supertitle', '')
-                            
-                          if op.get(p, 'performance.artist', '')    
-                            span.artist= op.get(p, 'performance.artist', '')
-                          
-                          if op.get(p, 'performance.producer', '')    
-                            span.producer= op.get(p, 'performance.producer', '')
-                          
-                          if op.get(p, ['performance', lang + '-town'], '')
-                            span.town= op.get(p, ['performance', lang + '-town'], '')
-                          
-                          span.name= op.get(p, lang + '-name')
-                          
-                          if op.get(p, lang + '-subtitle', '')
-                            span.subtitle= op.get(p, lang + '-subtitle', '')
-        
+
+                    if op.get(p, ['performance', 'artist'], false)    
+                      span.artist= op.get(p, ['performance', 'artist'])
+
+                    if op.get(p, ['performance', 'producer'], false)
+                      span.producer= op.get(p, ['performance', 'producer'])
+
+                    if op.get(p, ['performance', lang + '-town'], false)
+                      span.town= op.get(p, ['performance', lang + '-town'])
+
+                    span.name= op.get(p, lang + '-name')
+
+                    if op.get(p, [lang + '-subtitle'], false)
+                      span.subtitle= op.get(p, [lang + '-subtitle'])
         
                   .col-xs-6.col-md-2.col-lg-2
-                    if op.get(p, ['price']) == 0
+                    if op.get(p, [lang + '-location'], false) || op.get(p, ['saal-location', lang + '-name'], false)
+                      p.location= op.get(p, ['saal-location', lang + '-name'], op.get(p, [lang + '-location']))
+                    
+                    if op.get(p, 'price') === 0
                       p= t('title.free')
                     else
-                      p= op.get(p, ['price'])
-        
-                    if op.get(p, ['min-price'])
-                      if op.get(p, ['min-price']) == op.get(p, ['max-price'])
-                        p= op.get(p, ['min-price']) + '€'
+                      p= op.get(p, 'price')
+
+                    if op.get(p, 'min-price')
+                      if op.get(p, 'min-price') === op.get(p, 'max-price')
+                        p= op.get(p, 'min-price') + '€'
                       else
-                        p= op.get(p, ['min-price']) + '/' + op.get(p, ['max-price']) + '€'
-        
-                  .col-xs-6.col-md-2.text-right
-                    p= op.get(p, [lang + '-location'])
-        
-                    if op.get(p, ['sales-status'])
-                      a.btn.btn-primary(class=(op.get(p, ['sales-status']) == 'sold_out' ? "disabled" : "") href=op.get(p, [lang + '-ticket-api']) target='_blank')= t('button.buy_ticket.' + op.get(p, ['sales-status']))
-        
-                  .col-xs-12.col-md-12
+                        p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                    
+                    if op.get(p, 'onsite-price')
+                      p= t('title.onsite-price') + ': ' + op.get(p, 'onsite-price') + '€'       
+
+                  if op.get(p, 'sales-status')
+                    if (new Date(datestring + ' ' + timestring) > new Date())
+                      .col-xs-6.col-md-2.col-lg-2.text-right
+                        if op.get(p, 'canceled') === true
+                          a.btn.btn-primary(class="disabled")= t('button.canceled')
+                        else
+                          a.btn.btn-primary(class=((op.get(p, 'sales-status') === 'sold_out' || op.get(p, 'sales-status') === 'free_admission') ? "free disabled" : "") href=op.get(p, lang + '-ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(p, 'sales-status'))
+
+                  .col-xs-12.col-md-12.col-lg-12
                     hr
