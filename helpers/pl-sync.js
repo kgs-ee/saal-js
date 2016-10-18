@@ -223,6 +223,10 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
                 op.set(propertiesToUpdate, ['properties', propertyName, 'value'], op.get(mapPL2Entu, idPL, 0))
             }
         }
+        function compareFormula(eItem, propertyName, strPL) {
+          // Not going to compare formulas
+          return
+        }
         function compare(eItem, propertyName, strPL) {
             if (!strPL) {return}
             strPL = String(strPL)
@@ -278,8 +282,8 @@ function syncWithEntu(plDefinition, plItem, eID, doFullSync, syncWithEntuCB) {
                 compare( eItem, 'en-technical-information', op.get(plItem, ['purchaseDescription', 'eng'], '') )
             }
             compare( eItem, 'pl-id', op.get(plItem, ['id'], '') )
-            compare( eItem, 'ticket-api', op.get(plItem, ['shopUrl'], '') )
-            compare( eItem, 'pl-link', op.get(plItem, ['shopUrl'], '') )
+            compareFormula( eItem, 'ticket-api', op.get(plItem, ['shopUrl'], '') )
+            compareFormula( eItem, 'pl-link', op.get(plItem, ['shopUrl'], '') )
             compareReference( eItem, 'performance', op.get(plItem, ['showId'], '') )
         }
 
