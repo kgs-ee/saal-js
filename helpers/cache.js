@@ -328,6 +328,9 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
             case 'news':
                 callback()
                 break
+            case 'coverage':
+                callback()
+                break
             case 'person':
                 callback()
                 break

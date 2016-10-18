@@ -19,9 +19,9 @@ function coverageByPerformanceSync(performanceEid) {
     })
     var coveragesByDate = {}
     coverages.forEach( function(coverage) {
-      debug(coverage)
+      // debug(coverage)
       op.push(coveragesByDate, [coverage['date']], coverage)
-      debug(coveragesByDate)
+      // debug(coveragesByDate)
     })
     return coveragesByDate
 }
