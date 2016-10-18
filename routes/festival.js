@@ -19,7 +19,10 @@ router.get('/:festivalId/:action', function(req, res) {
   var festival = op.get(festivals, req.params.festivalId)
   res.render('festival_' + action, {
     'festival': festival,
-    'action': action
+    'action': action,
+    'title': 'NU Performance Festival',
+    'description': 'NU Performance Festival',
+    'keywords': ['NU Performance', 'Festival']
   })
   res.end()
 })
