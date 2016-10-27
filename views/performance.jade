@@ -127,21 +127,21 @@ block content
                     img(src=logo.file, class='img-responsive')
 
           .col-md-6
-            if coverage.length
+            if Object.keys(coverage).length
               .press
                 h2= t('title.press')
                 .row
-                  each press in coverage
-                    .col-md-12.h3(id='coverage_'+press.id)
-                      if press.photo
-                        a(target='_blank' href=press.photo.file)
-                          img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
-                          p= (moment(press.date).locale(lang).format('L')) + ": " + press.title
-                        a(target='_blank' href=press.url)
-                          p.source= press.source
-                      else
-                        a(target='_blank' href=press.url)= (moment(press.date).locale(lang).format('L')) + ': ' + press.title
-                          p.source= press.source
-
-                    .col-xs-12.col-md-12
-                      hr
+                  each datestring in Object.keys(coverage).sort()
+                    .col-md-12
+                      h3= (moment(datestring).locale(lang).format('L')) + ' ' + (moment(datestring).locale(lang).format('dddd'))
+                      each press in op.get(coverage, [datestring])
+                        br
+                        if press.photo
+                          a(target='_blank' href=press.photo.file)
+                            img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
+                            p= press.title
+                          a(target='_blank' href=press.url)
+                            p.source= press.source
+                        else
+                          a(target='_blank' href=press.url)= press.title
+                            p.source= press.source
