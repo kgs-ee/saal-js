@@ -14,6 +14,9 @@ block content
       section.col-md-12
         //- pre= JSON.stringify(festival, null, 4)
         //- h2= op.get(festival, [lang + '-name'])
+        .col-12
+          h2(style='text-align: right; transform: rotate(350deg);')
+            a(href='https://saal.entu.ee/api2/file-1712', style='', target='_blank')= t('NUP.get-newspaper-2016-1')
 
         .programme.row
           each datestring in Object.keys(festival.coverage).sort()
