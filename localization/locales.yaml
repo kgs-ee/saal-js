@@ -255,6 +255,10 @@ newsletter:
     signup:
         en: Sign-up for newsletter
         et: Liitu uudiskirjaga
+NUP:
+    get-newspaper-2016-1:
+        en: Get NUP NEWS!
+        et: Loe NUP lehte!
 placeholder:
     search:
         en: Search…
