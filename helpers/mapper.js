@@ -170,7 +170,8 @@ function mapPerformance(eid, querystring) {
 
     var re = new RegExp(null, 'gi')
     function highlight(str) {
-        return '<span style="background-color: yellow;">' + str + '</span>'
+        return str
+        // return '<span style="background-color: yellow;">' + str + '</span>'
     }
     if (querystring) {
         re = new RegExp(querystring, 'gi')
