@@ -42,7 +42,7 @@ router.prepare = function prepare(callback) {
             // if (a.premiere['start-time'] === '') { debug('Missing premiere on ', JSON.stringify(a, null, 4)) }
             // if (b.premiere['start-time'] === '') { debug('Missing premiere on ', JSON.stringify(b, null, 4)) }
             // debug(a.coprodOrdinal + '?>' + b.coprodOrdinal)
-            return a.coprodOrdinal > b.coprodOrdinal ? 1 : -1
+            return Number(a.coprodOrdinal) > Number(b.coprodOrdinal) ? 1 : -1
         })
         // debug(JSON.stringify(performances, null, 4))
         callback()
