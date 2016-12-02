@@ -13,4 +13,4 @@
 ![lavastuse leht](lavastuse leht.png)
 
 ## Lavastus Entus
-![lavastus entus](lavastus entus.png)
+![lavastus Entus](lavastus Entus.png)
