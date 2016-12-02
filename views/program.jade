@@ -117,12 +117,12 @@ block content
 
                                         if op.get(p, 'min-price')
                                             if op.get(p, 'min-price') === op.get(p, 'max-price')
-                                                p= op.get(p, 'min-price') + '€'
+                                                p= op.get(p, 'min-price')
                                             else
-                                                p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
+                                                p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price')
                                         
                                         if op.get(p, 'onsite-price')
-                                            p= t('title.onsite-price') + ': ' + op.get(p, 'onsite-price') + '€'       
+                                            p= t('title.onsite-price') + ': ' + op.get(p, 'onsite-price')
 
                                     if op.get(p, 'sales-status')
                                         if (new Date(datestring + ' ' + timestring) > new Date())
