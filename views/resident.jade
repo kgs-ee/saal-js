@@ -41,13 +41,35 @@ block content
         .row.front-page-margin
             article.main-text.col-md-12.col-lg-12.h3!= op.get(event, lang + '-description')
         
-        .row.page-margin
-            if op.get(event, 'audio')
-                div.col-xs-12.col-md-6
-                    h2= t('title.sound')
-                    div!= op.get(event, 'audio')
-                    
-            if op.get(event, 'video')
-                div.col-xs-12.col-md-6
-                    h2= t('title.video')
-                    div!= op.get(event, 'video')
+        .row.front-page-margin
+            .col-md-6
+                //- if op.get(event, 'audio')
+                //-     div.col-xs-12.col-md-6
+                //-         h2= t('title.sound')
+                //-         div!= op.get(event, 'audio')
+                //-         
+                //- if op.get(event, 'video')
+                //-     div.col-xs-12.col-md-6
+                //-         h2= t('title.video')
+                //-         div!= op.get(event, 'video')
+                //- 
+                //- hr
+                if op.get(event, 'video')
+                    .gallery
+                        h2= t('title.video')
+                            each video in op.get(event, 'videos')
+                                div!= video
+                if op.get(event, 'audio')
+                    .gallery
+                        h2= t('title.audio')
+                            each audio in op.get(event, 'audios')
+                                div!= audio
+
+                if op.get(event, ['photos'])
+                    .gallery
+                        h2= t('title.gallery')
+                        .row
+                            each photo in op.get(event, ['photos'], [])
+                                .single-image.col-xs-6.col-sm-3.col-md-4
+                                    a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
+                                        img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')

@@ -98,58 +98,58 @@ block content
                                     hr
 
         .row.front-page-margin
-          .col-md-6
+            .col-md-6
 
-            if op.get(performance, 'video')
-              .gallery
-                  h2= t('title.video')
-                    each video in op.get(performance, 'videos')
-                      div!= video
-            if op.get(performance, 'audio')
-              .gallery
-                  h2= t('title.audio')
-                    each audio in op.get(performance, 'audios')
-                      div!= audio
+                if op.get(performance, 'video')
+                    .gallery
+                        h2= t('title.video')
+                            each video in op.get(performance, 'videos')
+                                div!= video
+                if op.get(performance, 'audio')
+                    .gallery
+                        h2= t('title.audio')
+                            each audio in op.get(performance, 'audios')
+                                div!= audio
 
-            if op.get(performance, ['photos'])
-              .gallery
-                h2= t('title.gallery')
-                .row
-                  each photo in op.get(performance, ['photos'], [])
-                    .single-image.col-xs-6.col-sm-3.col-md-4
-                      a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
-                        img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                if op.get(performance, ['photos'])
+                    .gallery
+                        h2= t('title.gallery')
+                        .row
+                            each photo in op.get(performance, ['photos'], [])
+                                .single-image.col-xs-6.col-sm-3.col-md-4
+                                    a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
+                                        img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
 
-            .supporter
-              ul.list-inline
-                each logo in op.get(performance, ['logo'], [])
-                  li
-                    img(src=logo.file, class='img-responsive')
+                .supporter
+                    ul.list-inline
+                        each logo in op.get(performance, ['logo'], [])
+                            li
+                                img(src=logo.file, class='img-responsive')
 
-          .col-md-6
-            if Object.keys(coverage).length
-              .press
-                h2= t('title.press')
-                .row
-                  each datestring in Object.keys(coverage).sort(function(a,b){return a<b?1:-1})
-                    .col-md-12
-                      each press in op.get(coverage, [datestring])
-                        br
-                        if press.photo
-                          a(target='_blank' href=press.photo.file)
-                            img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
-                            if press.title
-                              p= press.title
-                          if press.source
-                            a(target='_blank' href=press.url)
-                              p.source= press.source
-                              p= (moment(datestring).locale(lang).format('L'))
-                          else
-                            p= (moment(datestring).locale(lang).format('L'))
-                        else
-                          if press.source
-                            a(target='_blank' href=press.url)= press.title
-                              p.source= press.source
-                              p= (moment(datestring).locale(lang).format('L'))
-                          else
-                            p= (moment(datestring).locale(lang).format('L'))
+            .col-md-6
+                if Object.keys(coverage).length
+                    .press
+                        h2= t('title.press')
+                        .row
+                            each datestring in Object.keys(coverage).sort(function(a,b){return a<b?1:-1})
+                                .col-md-12
+                                    each press in op.get(coverage, [datestring])
+                                        br
+                                        if press.photo
+                                            a(target='_blank' href=press.photo.file)
+                                                img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
+                                                if press.title
+                                                    p= press.title
+                                            if press.source
+                                                a(target='_blank' href=press.url)
+                                                    p.source= press.source
+                                                    p= (moment(datestring).locale(lang).format('L'))
+                                            else
+                                                p= (moment(datestring).locale(lang).format('L'))
+                                        else
+                                            if press.source
+                                                a(target='_blank' href=press.url)= press.title
+                                                    p.source= press.source
+                                                    p= (moment(datestring).locale(lang).format('L'))
+                                            else
+                                                p= (moment(datestring).locale(lang).format('L'))

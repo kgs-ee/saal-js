@@ -80,14 +80,22 @@ function mapEvent(eid, querystring) {
     entityOut.set('et-subtitle',    opEntity.get(['properties', 'et-subtitle',    0, 'value'], '').replace(re, highlight))
     entityOut.set('en-description', opEntity.get(['properties', 'en-description', 0, 'md'], '').replace(re, highlight))
     entityOut.set('et-description', opEntity.get(['properties', 'et-description', 0, 'md'], '').replace(re, highlight))
+
     entityOut.set('photo',          opEntity.get(['properties', 'photo-big',      0]))
     entityOut.set('photos',         opEntity.get('properties.photo-medium', []).map( function(phm, ix) {
         return {
             medium: phm,
-            big: opEntity.get(['properties', 'photo-big', ix])
+            big: opEntity.get(['properties', 'photo-gallery', ix])
         }
     }))
-    entityOut.set('video', opEntity.get(['properties', 'video', 0, 'value']))
+    entityOut.set('audio',    opEntity.get(['properties', 'audio',    0, 'value']))
+    entityOut.set('audios',   opEntity.get(['properties', 'audio'], []).map(function(a) {
+      return a.value
+    }))
+    entityOut.set('video',    opEntity.get(['properties', 'video',    0, 'value']))
+    entityOut.set('videos',   opEntity.get(['properties', 'video'], []).map(function(a) {
+      return a.value
+    }))
 
     var locationId = opEntity.get(['properties', 'saal-location', 0, 'reference'])
     if (locationId) { entityOut.set('saal-location', mapLocation(locationId)) }
@@ -202,7 +210,7 @@ function mapPerformance(eid, querystring) {
     entityOut.set('photos',         opEntity.get(['properties', 'photo-medium'], []).map( function(phm, ix) {
         return {
             medium: phm,
-            big: opEntity.get(['properties', 'photo-big', ix])
+            big: opEntity.get(['properties', 'photo-gallery', ix])
         }
     }))
     entityOut.set('logo',     opEntity.get(['properties', 'logo'], []))
