@@ -131,17 +131,25 @@ block content
               .press
                 h2= t('title.press')
                 .row
-                  each datestring in Object.keys(coverage).sort()
+                  each datestring in Object.keys(coverage).sort(function(a,b){return a<b?1:-1})
                     .col-md-12
-                      h3= (moment(datestring).locale(lang).format('L')) + ' ' + (moment(datestring).locale(lang).format('dddd'))
                       each press in op.get(coverage, [datestring])
                         br
                         if press.photo
                           a(target='_blank' href=press.photo.file)
                             img(src=press.photo.file, width='50', style='float:left; margin-right:1em')
-                            p= press.title
-                          a(target='_blank' href=press.url)
-                            p.source= press.source
+                            if press.title
+                              p= press.title
+                          if press.source
+                            a(target='_blank' href=press.url)
+                              p.source= press.source
+                              p= (moment(datestring).locale(lang).format('L'))
+                          else
+                            p= (moment(datestring).locale(lang).format('L'))
                         else
-                          a(target='_blank' href=press.url)= press.title
-                            p.source= press.source
+                          if press.source
+                            a(target='_blank' href=press.url)= press.title
+                              p.source= press.source
+                              p= (moment(datestring).locale(lang).format('L'))
+                          else
+                            p= (moment(datestring).locale(lang).format('L'))
