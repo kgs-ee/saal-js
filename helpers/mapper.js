@@ -110,7 +110,10 @@ function mapEvent(eid, querystring) {
     entityOut.set('max-price',                opEntity.get(['properties', 'max-price',             0, 'value']))
     entityOut.set('et-ticket-api',            opEntity.get(['properties', 'et-pl-link',            0, 'value']))
     entityOut.set('en-ticket-api',            opEntity.get(['properties', 'en-pl-link',            0, 'value']))
-    entityOut.set('sales-status',             opEntity.get(['properties', 'sales-status',          0, 'value']))
+    entityOut.set('sales-status',             opEntity.get(['properties', 'sales-status',          0, 'value'], 'regular_presale'))
+    if (entityOut.get('sales-status') === 'regular_presale' && !entityOut.get('price')) {
+      entityOut.set('sales-status', '')
+    }
     entityOut.set('en-technical-information', opEntity.get(['properties.en-technical-information', 0, 'md'], '').replace(re, highlight))
     entityOut.set('et-technical-information', opEntity.get(['properties.et-technical-information', 0, 'md'], '').replace(re, highlight))
     entityOut.set('start-time',               opEntity.get(['properties', 'start-time',            0, 'value']))
