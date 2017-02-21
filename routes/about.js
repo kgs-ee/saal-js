@@ -32,12 +32,16 @@ function prepareNews(callback) {
         return true
     })
     newsEids.sort(function(a, b) {
-        var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 0, 'value']))
-        var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 0, 'value']))
+        var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 0, 'value'])).getTime()
+        var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 0, 'value'])).getTime()
         // debug(a, aDate, b, bDate, aDate < bDate)
-        return (aDate < bDate)
+        return (bDate - aDate)
     })
     preppedNews = {}
+    // debug(newsEids.map(function(a) {
+    //   var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 0, 'value']))
+    //   return {a, aDate, t:aDate.getTime()}
+    // }))
     async.each(newsEids.slice(0, displayTopNewsCount), function(eid, callback) {
         var news = mapper.news(eid)
         if (!news.time) { return callback() }
