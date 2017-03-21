@@ -101,11 +101,25 @@ html
 
 .container-fluid
     footer.row
-        .col-xs-6.col-md-6
+        .col-xs-12.col-md-4
             p Kanuti Gildi SAAL
             p Pikk 20, 10133
             p Tallinn, Estonia
-        .col-xs-6.col-md-6.social.text-right
+        .col-xs-12.col-md-4.text-center
+            .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='newsletter-sign-up')
+                p= t('newsletter.signup')
+            .col-xs-12.col-sm-12.col-md-4.col-lg-12(id='mailchimp-sign-up')
+                form.validate(action=t('newsletter.mailchimp.action') method='post' id='mc-embedded-subscribe-form' name='mc-embedded-subscribe-form' class='validate' target='_blank' novalidate)
+                    .mc-field-group
+                        input.required.email(type='text' value='' name='EMAIL' placeholder=t('newsletter.placeholder') id='mce-EMAIL')
+                    .clear(id='mce-responses')
+                        .response(id='mce-error-response' style='display:none')
+                        .response(id='mce-success-response' style='display:none')
+                    div(style='position: absolute; left: -5000px;')
+                        input(type='text' name=t('newsletter.mailchimp.inputName') tabindex='-1' value='')
+                    .clear
+                        input.button(type='submit' value='OK!' name='subscribe' id='mc-embedded-subscribe')
+        .col-xs-12.col-md-4.social.text-right
             ul
                 li
                     a.icon-facebook3(href='https://www.facebook.com/KanutiGildiSAAL', target='blank')
