@@ -1,11 +1,17 @@
 '':
     KGS:
-        en: Kanuti Gildi Saal
-        et: Kanuti Gildi Saal
+        en: Kanuti Gildi SAAL
+        et: Kanuti Gildi SAAL
     KGS_logo:
-        en: Kanuti Gildi Saal logo
-        et: Kanuti Gildi Saali logo
-        lv: Kanuti Gildi Saal logo
+        en: Kanuti Gildi SAAL logo
+        et: Kanuti Gildi SAALi logo
+        lv: Kanuti Gildi SAAL logo
+    SB_logo:
+        en: SAAL Bieannaal logo
+        et: SAAL Bieannaal logo
+    NUP_logo:
+        en: New Performance logo
+        et: New Performance logo
     season:
         en: Season
         et: Hooaeg
