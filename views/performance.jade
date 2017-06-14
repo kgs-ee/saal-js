@@ -71,12 +71,11 @@ block content
                                 if (moment(op.get(event, ['start-time'])).locale(lang).format('HH:mm')) != '23:59'
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('HH:mm'))
 
-                            .col-xs-3.col-md-3.col-lg-3
-                                p= op.get(event, [lang + '-location'])
-                                P= op.get(event, ['saal-location', lang + '-name'])    
+                            .col-xs-8.col-md-8.col-lg-8
+                                p= op.get(event, [lang + '-name'], '')
                             
                             if op.get(event, ['sales-status'])
-                                .col-xs-5.col-md-5.col-lg-5.text-right
+                                span(style='float:right;')
                                     if op.get(event, 'canceled') === true
                                         a.btn.btn-primary(class="disabled")= t('button.canceled')
                                     else
@@ -90,10 +89,10 @@ block content
                         h2= t('title.past')
                         .row
                             each event in pastEvents
-                                .col-xs-6.col-md-6.col-lg-4
+                                .col-xs-6.col-md-5.col-lg-4
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
-                                .col-xs-6.col-md-6.col-lg-8
-                                    p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
+                                .col-xs-6.col-md-7.col-lg-8
+                                    p= op.get(event, [lang + '-name'], '')
                                 .col-xs-12.col-md-12.col-lg-12
                                     hr
 
