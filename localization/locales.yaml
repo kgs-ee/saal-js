@@ -6,12 +6,12 @@
         en: Kanuti Gildi SAAL logo
         et: Kanuti Gildi SAALi logo
         lv: Kanuti Gildi SAAL logo
-    SB_logo:
-        en: SAAL Bieannaal logo
-        et: SAAL Bieannaal logo
     NUP_logo:
         en: New Performance logo
         et: New Performance logo
+    SB_logo:
+        en: SAAL Bieannaal logo
+        et: SAAL Bieannaal logo
     season:
         en: Season
         et: Hooaeg
@@ -19,11 +19,17 @@
 Jon Doe:
     en: Unnamed
     et: Nimeta
+NUP:
+    get-newspaper-2016-1:
+        en: Get NUP NEWS!
+        et: Loe NUP lehte!
 button:
     artist-talk:
         en: Artist talk
         et: Vestlus
     buy_ticket:
+        Free_admission:
+            et: button.buy_ticket.Free_admission
         en: Buy ticket
         et: Osta pilet
         free_admission:
@@ -53,6 +59,9 @@ button:
     category:
         en: Category
         et: Kategooria
+    festival:
+        et: Festival
+        en: Festival
     load-more:
         en: Load more
         et: Lae veel
@@ -169,7 +178,11 @@ month:
         en: February
         et: Veebruar
     '2016':
+        en: month.2016
         et: month.2016
+    '2017':
+        en: month.2017
+        et: month.2017
     '3':
         en: March
         et: Märts
@@ -191,6 +204,9 @@ month:
     '9':
         en: September
         et: September
+    NaN:
+        en: month.NaN
+        et: month.NaN
 nav:
     about:
         en: About Us
@@ -261,10 +277,6 @@ newsletter:
     signup:
         en: Sign-up for newsletter
         et: Liitu uudiskirjaga
-NUP:
-    get-newspaper-2016-1:
-        en: Get NUP NEWS!
-        et: Loe NUP lehte!
 placeholder:
     search:
         en: Search…
@@ -385,6 +397,10 @@ title:
         en: Video
         et: Video
 weekdays:
+    '0':
+        en: Sunday
+        et: pühapäev
+        lv: svētdiena
     '1':
         en: Monday
         et: esmaspäev
@@ -409,7 +425,3 @@ weekdays:
         en: Saturday
         et: laupäev
         lv: sestdiena
-    '0':
-        en: Sunday
-        et: pühapäev
-        lv: svētdiena
