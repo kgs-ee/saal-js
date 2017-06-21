@@ -31,7 +31,8 @@ block content
                   .col-xs-12.col-sm-2.col-lg-2
                     p= (moment(datestring).locale(lang).format('dddd'))
                     p= (moment(datestring).locale(lang).format('L'))
-                    p= timestring
+                    if timestring != '23:59'
+                        p= timestring
 
                     if op.get(p, 'canceled') === true
                       p.today= t('button.canceled')
