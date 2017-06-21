@@ -26,10 +26,12 @@ var cacheFromEntu = [
     {'parent':'3808', 'definition': 'category',    'class': 'rootCategory'},
     {'parent':'1930', 'definition': 'event',       'class': 'festival'},
     {'parent':'597',  'definition': 'event',       'class': 'program'},
+    {'parent':'4054', 'definition': 'event',       'class': 'program'},
     {'parent':'1931', 'definition': 'event',       'class': 'residency'},
     {'parent':'1929', 'definition': 'event',       'class': 'tour'},
     {'parent':'1953', 'definition': 'news',        'class': 'news'},
-    {'parent':'1933', 'definition': 'coverage',    'class': 'coverage'}, // nu performance 2016
+    // {'parent':'1933', 'definition': 'coverage',    'class': 'coverage'}, // nu performance 2016
+    {'parent':'4054', 'definition': 'coverage',    'class': 'coverage'}, // SB 2017
     {'parent':'4051', 'definition': 'person',      'class': 'team'},
     {'parent':'1935', 'definition': 'performance', 'class': 'performance'},
     {'parent':'2109', 'definition': 'location',    'class': 'location'},
