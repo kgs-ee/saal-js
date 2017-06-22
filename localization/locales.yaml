@@ -60,8 +60,11 @@ button:
         en: Category
         et: Kategooria
     festival:
-        et: Festival
-        en: Festival
+        et: SAAL-Biennaal 2017
+        en: SAAL-Biennaal 2017
+    saalbiennaal:
+        et: SAAL-Biennaal 2017
+        en: SAAL-Biennaal 2017
     load-more:
         en: Load more
         et: Lae veel
