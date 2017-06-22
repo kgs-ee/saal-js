@@ -114,8 +114,8 @@ function mapEvent(eid, querystring) {
     if (entityOut.get('sales-status') === 'regular_presale' && !entityOut.get('price')) {
       entityOut.set('sales-status', '')
     }
-    entityOut.set('en-technical-information', opEntity.get(['properties.en-technical-information', 0, 'md'], '').replace(re, highlight))
-    entityOut.set('et-technical-information', opEntity.get(['properties.et-technical-information', 0, 'md'], '').replace(re, highlight))
+    entityOut.set('en-technical-information', opEntity.get(['properties', 'en-technical-information', 0, 'md'], '').replace(re, highlight))
+    entityOut.set('et-technical-information', opEntity.get(['properties', 'et-technical-information', 0, 'md'], '').replace(re, highlight))
     entityOut.set('start-time',               opEntity.get(['properties', 'start-time',            0, 'value']))
     entityOut.set('end-time',                 opEntity.get(['properties', 'end-time',              0, 'value']))
     entityOut.set('duration',                 opEntity.get(['properties', 'duration',              0, 'value']))
