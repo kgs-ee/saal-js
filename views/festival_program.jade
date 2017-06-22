@@ -8,10 +8,7 @@ block content
     .row
       .event-banner.carousel.slide(id='front-carousel')
         .carousel-inner(role='listbox')
-        - if (op.get(festival, [lang + '-name']).match(/NUP/))
-          figure(style="background-image: url('/images/NUP_www_kodulehe_pais_1900x1400px_01.png');")
-        - else
-          figure(style="background-image: url('https://saal.entu.ee/api2/file-2999');")
+          figure(style="background-image: url('" + op.get(festival, ['photo', 'file']) + "');")
 
     .row.page-margin
       section.col-md-12
@@ -46,9 +43,6 @@ block content
                     //- Artist Talk
                     if (op.get(p,['talk'], false) === true)
                       p.today= t('button.artist-talk')
-                    //- Festival
-                    if (op.get(p,[lang+'-festival']))
-                      p.today= op.get(p,[lang+'-festival'])
 
                   .col-xs-12.col-md-6.col-lg-6
                     h3
@@ -60,6 +54,10 @@ block content
                         a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
                           if op.get(p, lang + '-supertitle', '')
                             span.subtitle= op.get(p, lang + '-supertitle', '')
+
+                    //- Festival
+                    if (op.get(p,['tag']).includes('festival'))
+                        span.subtitle= t('button.festival')
 
                     if op.get(p, ['performance', 'artist'], false)    
                       span.artist= op.get(p, ['performance', 'artist'])
