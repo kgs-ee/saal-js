@@ -68,8 +68,8 @@ block content
                                             if op.get(p, ['performance', 'id'], false)
                                                 a(href='/' + lang + '/performance/' + op.get(p,['performance', 'id']))
                                                     //- Festival
-                                                    if (op.get(p,['tag']).includes('festival'))
-                                                        span.subtitle= t('button.festival')
+                                                    //- if (op.get(p,['tag']).includes('festival'))
+                                                    //-     span.subtitle= t('button.festival')
 
                                                     if op.get(p, [lang + '-supertitle'], false)
                                                         span.subtitle= op.get(p, [lang + '-supertitle'], 'foo')

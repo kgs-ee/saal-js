@@ -56,8 +56,8 @@ block content
                             span.subtitle= op.get(p, lang + '-supertitle', '')
 
                     //- Festival
-                    if (op.get(p,['tag']).includes('festival'))
-                        span.subtitle= t('button.festival')
+                    //- if (op.get(p,['tag']).includes('festival'))
+                    //-     span.subtitle= t('button.festival')
 
                     if op.get(p, ['performance', 'artist'], false)    
                       span.artist= op.get(p, ['performance', 'artist'])
