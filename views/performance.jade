@@ -73,6 +73,7 @@ block content
 
                             .col-xs-8.col-md-8.col-lg-8
                                 p= op.get(event, [lang + '-name'], '')
+                                p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
                             
                             if op.get(event, ['sales-status'])
                                 span(style='float:right;')
@@ -91,9 +92,9 @@ block content
                             each event in pastEvents
                                 .col-xs-6.col-md-5.col-lg-4
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
-                                    p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
                                 .col-xs-6.col-md-7.col-lg-8
                                     p= op.get(event, [lang + '-name'], '')
+                                    p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
                                 .col-xs-12.col-md-12.col-lg-12
                                     hr
 
