@@ -272,11 +272,13 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
         var parentEid = opEntity.get('id')
         entu.getChilds(parentEid, null, APP_ENTU_OPTIONS)
         .then(function(entities) {
-            async.each(entities, function(opEntity, callback) {
+            debug('Childs ' + entities.map(function(e) {return e.get('id')}).join(','))
+            async.eachLimit(entities, 1, function(opEntity, callback) {
+                var entity = opEntity.get()
+                debug('Fetched ' + entity.id + ' - child of ' + parentEid)
                 if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
                     return callback(null)
                 }
-                var entity = opEntity.get()
                 relate(entity.id, 'parent', parentEid, entity.definition)
 
                 add2cache(entity)
@@ -302,7 +304,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
 
     if (entities.length === 0) { return callback() }
     debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
-    async.each(entities, function(opEntity, callback) {
+    async.eachLimit(entities, 1, function(opEntity, callback) {
         if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
             return callback(null)
         }
