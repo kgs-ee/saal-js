@@ -147,6 +147,14 @@ label:
         short:
             en: min
             et: min
+    hours:
+        short:
+            en: h
+            et: t
+    days:
+        short:
+            en: d
+            et: p
 lang:
     en:
         en: EN

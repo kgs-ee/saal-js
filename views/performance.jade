@@ -45,8 +45,12 @@ block content
             aside.col-md-12.col-lg-3
                 if op.get(performance, [lang + '-technical-information'], false)
                     .meta-info!= op.get(performance, [lang + '-technical-information'])
-                if op.get(performance, ['duration'], op.get(events, [0, 'duration'], false))
-                    .meta-info= t('label.duration') + ': ' + op.get(performance, ['duration'], op.get(events, [0, 'duration'])) + ' ' + t('label.minutes.short')
+                - var duration = op.get(performance, ['duration'], op.get(events, [0, 'duration'], false))
+                if duration
+                    - var dur_m = (duration % 60 > 0) ? duration % 60 + ' ' + t('label.minutes.short') : ''
+                    - var dur_h = (((duration - duration % 60) / 60) % 24 > 0) ? ((duration - duration % 60) / 60) % 24 + ' ' + t('label.hours.short') : ''
+                    - var dur_d = ((duration - duration % 1440) / 1440 > 0) ? (duration - duration % 1440) / 1440 + ' ' + t('label.days.short') : ''
+                    .meta-info= t('label.duration') + ': ' + dur_d + ' ' + dur_h + ' ' + dur_m
                 
                 if op.get(performance, ['otherWorks', 0], false)
                     .related-perfomance
