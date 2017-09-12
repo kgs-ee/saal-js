@@ -1,0 +1,33 @@
+nav.navbar.navbar-default.navbar-fixed-top
+    .container-fluid
+        .navbar-header
+            button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
+                .icon-bar
+                .icon-bar
+                .icon-bar
+             a.navbar-brand.logo(href='/' + lang + '/')
+                 img(src='/images/saal-biennaal-banner_top.svg', alt=t('.KGS_logo'))
+                //p.season.visible-lg= t('.season') + ' ' + SAAL.season
+
+        .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
+            ul.nav.navbar-nav.main-nav.h3
+                li
+                    a(href='#')= t('nav.about-festival')
+                li
+                    a(href='#')= t('nav.schedule')
+                li
+                    a(href='#')= t('nav.sponsors')
+                li
+                    a(href='#')= t('nav.tickets')
+                li
+                    a(href='#')= t('nav.media')
+        
+            ul.nav.navbar-nav.navbar-right.social                         
+                li
+                    a.icon-facebook3(href='https://www.facebook.com/saalbiennaal?fref=ts', target='blank')
+                each locale in locales
+                    if lang !== locale
+                        li.lang.h3
+                            a(href='/'+locale+'/'+path)= t('lang.' + locale)
+
+//- #banner-strip

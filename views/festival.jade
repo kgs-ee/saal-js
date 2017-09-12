@@ -1,0 +1,100 @@
+extends layout
+
+block vars
+
+block content
+
+  .container-fluid
+    .row
+      .event-banner.carousel.slide(id='front-carousel')
+        .carousel-inner(role='listbox')
+          figure(style="background-image: url('/images/NUP_www_kodulehe_pais_1900x1400px_01.png');")
+
+    .row.page-margin
+      section.col-md-12
+        //- pre= JSON.stringify(festival, null, 4)
+        h2= op.get(festival, [lang + '-name'])
+        h4= op.get(festival, [lang + '-subtitle'])
+        p!= op.get(festival, [lang + '-description'])
+        if festival.events
+          h2= t('nav.schedule')
+          .programme.row
+            each datestring in Object.keys(festival.events).sort()
+              each timestring in Object.keys(op.get(festival.events, [datestring])).sort()
+                each p in op.get(festival.events, [datestring, timestring])
+                  //- each eventdate, datestring in festival.events
+                  //-   each eventtime, timestring in eventdate
+                  //- each p, i in eventtime
+                  .col-xs-12.col-md-2
+                    p= (moment(datestring).locale(lang).format('dddd'))
+                    p= (moment(datestring).locale(lang).format('L'))
+                    p= timestring
+                  .col-xs-12.col-md-6
+                    h3
+                      if op.get(p, ['performance', 'id'], false)
+                        a(href='/' + lang + '/performance/' + op.get(p,['performance', 'id']))
+                          if op.get(p, [lang + '-supertitle'], false)
+                            span.subtitle= op.get(p, [lang + '-supertitle'], 'foo')
+                          
+                          if op.get(p, ['performance', 'artist'], false)    
+                            span.artist= op.get(p, ['performance', 'artist'])
+                          
+                          if op.get(p, ['performance', 'producer'], false)
+                            span.producer= op.get(p, ['performance', 'producer'])
+                          
+                          if op.get(p, ['performance', lang + '-town'], false)
+                            span.town= op.get(p, ['performance', lang + '-town'])
+                          
+                          span.name= op.get(p, [lang + '-name'])
+                          
+                          if op.get(p, [lang + '-subtitle'], false)
+                            span.subtitle= op.get(p, [lang + '-subtitle'])
+
+
+                      else
+                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
+                          if op.get(p, lang + '-supertitle', '')
+                            span.subtitle= op.get(p, lang + '-supertitle', '')
+                            
+                          if op.get(p, 'performance.artist', '')    
+                            span.artist= op.get(p, 'performance.artist', '')
+                          
+                          if op.get(p, 'performance.producer', '')    
+                            span.producer= op.get(p, 'performance.producer', '')
+                          
+                          if op.get(p, ['performance', lang + '-town'], '')
+                            span.town= op.get(p, ['performance', lang + '-town'], '')
+                          
+                          span.name= op.get(p, lang + '-name')
+                          
+                          if op.get(p, lang + '-subtitle', '')
+                            span.subtitle= op.get(p, lang + '-subtitle', '')
+
+                        //- a(href='/' + lang + '/event/' + op.get(p,'id'))
+                        //-   span.subtitle= op.get(p, lang + '-subtitle', '')
+                        //-   span.artist= op.get(p, ['performance', 'artist'], '')
+                        //-   span.producer= op.get(p, ['performance', 'producer'], '')
+                        //-   span.town= op.get(p, ['performance', lang + '-town'], '')
+                        //-   br
+                        //-   span= op.get(p, lang + '-name')
+
+                  .col-xs-6.col-md-2.col-lg-2
+                    if op.get(p, ['price']) == 0
+                      p= t('title.free')
+                    else
+                      p= op.get(p, ['price'])
+
+                    if op.get(p, ['min-price'])
+                      if op.get(p, ['min-price']) == op.get(p, ['max-price'])
+                        p= op.get(p, ['min-price']) + '€'
+                      else
+                        p= op.get(p, ['min-price']) + '/' + op.get(p, ['max-price']) + '€'
+
+                  .col-xs-6.col-md-2.text-right
+                    p= op.get(p, [lang + '-location'])
+
+                    if op.get(p, ['sales-status'])
+                      a.btn.btn-primary(class=(op.get(p, ['sales-status']) == 'sold_out' ? "disabled" : "") href=op.get(p, [lang + '-ticket-api']) target='_blank')= t('button.buy_ticket.' + op.get(p, ['sales-status']))
+
+                  .col-xs-12.col-md-12
+                    hr
