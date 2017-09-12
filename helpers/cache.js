@@ -213,13 +213,17 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
       entu.getChilds(parentEid, null, APP_ENTU_OPTIONS)
       .then(function(entities) {
           async.each(entities, function(opEntity, callback) {
+            setTimeout(function () {
               if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
-                  return callback(null)
+                return callback(null)
               }
-              var entity = opEntity.get()
-              relate(entity.id, 'parent', parentEid, entity.definition)
-              add2cache(entity)
-              callback()
+              else {
+                var entity = opEntity.get()
+                relate(entity.id, 'parent', parentEid, entity.definition)
+                add2cache(entity)
+                callback()
+              }
+            }, 500)
           }, function(err) {
               if (err) {
                   debug('Each failed for childs of ' + parentEid)
