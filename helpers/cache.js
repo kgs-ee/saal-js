@@ -212,31 +212,29 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
       var parentEid = opEntity.get('id')
       entu.getChilds(parentEid, null, APP_ENTU_OPTIONS)
       .then(function(entities) {
-          async.each(entities, function(opEntity, callback) {
-            setTimeout(function () {
-              if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
-                return callback(null)
-              }
-              else {
-                var entity = opEntity.get()
-                relate(entity.id, 'parent', parentEid, entity.definition)
-                add2cache(entity)
-                callback()
-              }
-            }, 500)
-          }, function(err) {
-              if (err) {
-                  debug('Each failed for childs of ' + parentEid)
-                  callback(err)
-                  return
-              }
-              // debug('Each succeeded for childs of ' + parentEid)
-              callback()
-          })
+        async.each(entities, function(opEntity, callback) {
+          if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
+            return callback(null)
+          }
+          else {
+            var entity = opEntity.get()
+            relate(entity.id, 'parent', parentEid, entity.definition)
+            add2cache(entity)
+            callback()
+          }
+        }, function(err) {
+          if (err) {
+            debug('Each failed for childs of ' + parentEid)
+            callback(err)
+            return
+          }
+          // debug('Each succeeded for childs of ' + parentEid)
+          callback()
+        })
       })
       .catch(function(reason) {
-          debug('Caching childs failed for performance: ' + parentEid, reason)
-          return callback(reason)
+        debug('Caching childs failed for performance: ' + parentEid, reason)
+        return callback(reason)
       })
   }
   function cacheEvent(opEntity, callback) {
@@ -289,7 +287,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
           setTimeout(function () {
             debug('callback [002]')
             return callback(null)
-          }, 1200)
+          }, 800)
         }
         else {
           relate(entity.id, 'parent', parentEid, entity.definition)
@@ -302,7 +300,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
             setTimeout(function () {
               debug('callback [001]')
               return callback(null)
-            }, 1200)
+            }, 800)
           }
         }
       }, function(err) {
@@ -328,7 +326,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
       setTimeout(function () {
         debug('callback [003]')
         return callback(null)
-      }, 1200)
+      }, 800)
     }
     else {
       var entity = opEntity.get()
@@ -410,7 +408,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
         debug('Fetch2 ' + definition + '@' + parentEid + ' from Entu failed.', reason)
         setTimeout(function () {
           return callback(reason)
-        }, 1200)
+        }, 800)
       })
     } else {
       debug('Fetch3 ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
@@ -422,7 +420,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
         debug('Fetch3 ' + definition + '@' + JSON.stringify(options) + ' from Entu failed.', reason)
         setTimeout(function () {
           return callback(reason)
-        }, 1200)
+        }, 800)
       })
     }
   }, function(err) {
@@ -602,7 +600,7 @@ function pollEntu(report, workerReloadCB) {
             debug('Unpublishing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
             setTimeout(function () {
               return removeFromCache(update.id, callback)
-            }, 1200)
+            }, 800)
           }
           else {
             parents = parents.filter(function(element) {
