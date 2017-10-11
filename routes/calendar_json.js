@@ -11,13 +11,13 @@ var eventCalendar = {}
 
 // function pad2(d) { return (d < 10) ? '0' + d.toString() : d.toString() }
 function truncDate(date) {
-    date.setHours(0)
-    date.setMinutes(0)
-    date.setSeconds(0)
-    date.setMilliseconds(0)
+    date.setUTCHours(0)
+    date.setUTCMinutes(0)
+    date.setUTCSeconds(0)
+    date.setUTCMilliseconds(0)
 }
 function formatDate(date) {
-    if (Object.prototype.toString.call(date) !== '[object Date]') { date = new Date(date) }
+    if (Object.prototype.toString.call(date) !== '[object Date]') { date = new Date(date + 'Z') }
     return date.getFullYear() + '-' + (Number(date.getMonth())+1) + '-' + date.getDate()
 }
 
@@ -25,7 +25,7 @@ var maxDate = new Date()
 var minDate = new Date()
 minDate.setDate(1)
 minDate.setMonth(minDate.getMonth() - 1)
-if (minDate < new Date('2016-01-01')) { minDate = new Date('2016-01-01') }
+if (minDate < new Date('2016-01-01Z')) { minDate = new Date('2016-01-01Z') }
 truncDate(minDate)
 
 router.get('/', function(req, res) {
@@ -60,7 +60,7 @@ router.prepare = function prepare(callback) {
         var oneEvent = mapper.event(event.id)
         var calEvent = {}
         if (!oneEvent['start-time']) { return callback() }
-        var startDateTime = new Date(oneEvent['start-time'])
+        var startDateTime = new Date(oneEvent['start-time'] + 'Z')
         if (startDateTime < minDate) { return callback() }
         // if (SDC.get(['relationships', oneEvent.id, 'parent'], []).indexOf(residenciesEid) !== -1) { return callback() }
         if (startDateTime > maxDate) { maxDate = startDateTime }
@@ -92,17 +92,24 @@ router.prepare = function prepare(callback) {
         calEvent.location.et = op.get(oneEvent, ['saal-location', 'et-name'], op.get(oneEvent, ['et-location'], 'Asukoht määramata!'))
         calEvent.location.en = op.get(oneEvent, ['saal-location', 'en-name'], op.get(oneEvent, ['en-location'], 'Location missing'))
 
-        if (oneEvent.resident && oneEvent['end-time']) {
-          var startD = new Date(oneEvent['start-time'])
+        op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], calEvent)
+        if (oneEvent['end-time']) {
+          debug(oneEvent['start-time'], oneEvent['end'])
+          var startD = new Date(oneEvent['start-time'] + 'Z')
+          debug(oneEvent['start-time'], ' -> startD', startD)
           truncDate(startD)
-          var endD = new Date(oneEvent['end-time'])
+          startD = new Date(startD.getTime() + 86400000)
+          debug('startD', startD)
+          var endD = new Date(oneEvent['end-time'] + 'Z')
+          debug('endD', endD)
           truncDate(endD)
-          for (;startD <= endD; startD = new Date(startD.getTime() + 86400000)) {
-            op.push(eventCalendar, [formatDate(startD.toISOString().slice(0,10))], calEvent)
+          calEventC = JSON.parse(JSON.stringify(calEvent))
+          calEventC.time = ''
+          while (endD >= startD) {
+            op.push(eventCalendar, [formatDate(startD.toISOString().slice(0,10))], calEventC)
+            startD = new Date(startD.getTime() + 86400000)
+            debug('startD', startD)
           }
-        }
-        else {
-          op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], calEvent)
         }
 
         callback()
