@@ -17,11 +17,11 @@ block content
                             if op.get(performance, 'artist', '')
                                 span.artist= op.get(performance, ['artist'], '')
                             
-                            if op.get(performance, 'producer', '')    
+                            if op.get(performance, 'producer', '')
                                 span.producer= op.get(performance, ['producer'], '')
                             
-                            if op.get(performance, [lang + 'town'], '')    
-                                span.town= op.get(performance, [lang + 'town'], '')
+                            if op.get(performance, [lang + '-town'], '')
+                                span.town= op.get(performance, [lang + '-town'], '')
                                 
                         h1= op.get(performance, [lang + '-name'], '')
                         

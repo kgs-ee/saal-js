@@ -94,21 +94,16 @@ router.prepare = function prepare(callback) {
 
         op.push(eventCalendar, [formatDate(oneEvent['start-time'].slice(0,10))], calEvent)
         if (oneEvent['end-time']) {
-          debug(oneEvent['start-time'], oneEvent['end'])
           var startD = new Date(oneEvent['start-time'] + 'Z')
-          debug(oneEvent['start-time'], ' -> startD', startD)
           truncDate(startD)
           startD = new Date(startD.getTime() + 86400000)
-          debug('startD', startD)
           var endD = new Date(oneEvent['end-time'] + 'Z')
-          debug('endD', endD)
           truncDate(endD)
           calEventC = JSON.parse(JSON.stringify(calEvent))
           calEventC.time = ''
           while (endD >= startD) {
             op.push(eventCalendar, [formatDate(startD.toISOString().slice(0,10))], calEventC)
             startD = new Date(startD.getTime() + 86400000)
-            debug('startD', startD)
           }
         }
 
