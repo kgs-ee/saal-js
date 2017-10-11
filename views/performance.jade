@@ -5,7 +5,7 @@ block vars
 block content
 
     .container-fluid
-    
+
         .row
             .event-banner.carousel.slide(id='front-carousel')
                 .carousel-inner(role='listbox')
@@ -16,13 +16,13 @@ block content
                         h1
                             if op.get(performance, 'artist', '')
                                 span.artist= op.get(performance, ['artist'], '')
-                            
+
                             if op.get(performance, 'producer', '')
                                 span.producer= op.get(performance, ['producer'], '')
-                            
+
                             if op.get(performance, [lang + '-town'], '')
                                 span.town= op.get(performance, [lang + '-town'], '')
-                                
+
                         h1= op.get(performance, [lang + '-name'], '')
                         
                         if op.get(performance, [lang + '-subtitle'], '')
@@ -51,7 +51,7 @@ block content
                     - var dur_h = (((duration - duration % 60) / 60) % 24 > 0) ? ((duration - duration % 60) / 60) % 24 + ' ' + t('label.hours.short') : ''
                     - var dur_d = ((duration - duration % 1440) / 1440 > 0) ? (duration - duration % 1440) / 1440 + ' ' + t('label.days.short') : ''
                     .meta-info= t('label.duration') + ': ' + dur_d + ' ' + dur_h + ' ' + dur_m
-                
+
                 if op.get(performance, ['otherWorks', 0], false)
                     .related-perfomance
                         h2= t('title.related')
@@ -78,7 +78,7 @@ block content
                             .col-xs-8.col-md-8.col-lg-8
                                 p= op.get(event, [lang + '-name'], '')
                                 p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
-                            
+
                             if op.get(event, ['sales-status'])
                                 span(style='float:right;')
                                     if op.get(event, 'canceled') === true
