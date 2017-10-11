@@ -70,19 +70,19 @@ html
         //- script(src='/javascripts/jquery/jquery-2.1.3.min.js')
         //- script(src='/javascripts/jquery/jquery-ui.custom.min.js')
         //- script(src='/javascripts/jquery/jquery.ui.datepicker-en-GB.js')
-        //- script(src='/javascripts/jquery/jquery.ui.datepicker-et.js')    
+        //- script(src='/javascripts/jquery/jquery.ui.datepicker-et.js')
         //- script(src='/javascripts/bootstrap/carousel.js')
         //- script(src='/javascripts/bootstrap/collapse.js')
         //- script(src='/javascripts/bootstrap/dropdown.js')
         //- script(src='/javascripts/bootstrap/tooltip.js')
         //- script(src='/javascripts/bootstrap/popover.js')
-        //- script(src='/javascripts/bootstrap/transition.js')    
+        //- script(src='/javascripts/bootstrap/transition.js')
         //- script(src='/javascripts/fancybox2/source/jquery.fancybox.pack.js')
         //- script(src='/javascripts/gradientmaps/gradientmaps.js')
 
     body
         #fb-root
-        
+
         script.
             (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -91,12 +91,12 @@ html
             js.src = "//connect.facebook.net/et_EE/sdk.js#xfbml=1&version=v2.5&appId=1664471603808404";
             fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
-        
+
         if (route == 'festival')
             include nav_festival
         else
             include nav_saal
-        
+
         block content
 
 .container-fluid
@@ -129,11 +129,11 @@ html
                     a.icon-instagram(href='https://instagram.com/kanutigildisaal', target='blank')
                 li
                     a.icon-vimeo3(href='http://vimeo.com/kanutigildisaal', target='blank')
-                 
+
 
 if (route == 'festival')
     include style_saal
 else
     include style_saal
-        
+
     //- script(src='/javascripts/scripts.js')
