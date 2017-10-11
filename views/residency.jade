@@ -9,7 +9,7 @@ block content
             .col-md-12
                 h2= t('nav.residency')
             .grid-row
-                each eventdate in Object.keys(residencies).sort(function(a, b){ return a<b })
+                each eventdate in Object.keys(residencies).sort().reverse()
                     each event in op.get(residencies, [eventdate], [])
                         a.col-xs-12.col-sm-6.col-md-3.col-lg-3.resident(href='/' + lang + '/resident/' + op.get(event,'id'))
                             img.img-responsive(src=''+ op.get(event, ['photos', 0, 'medium', 'file'], '/images/placeholder.jpg'))
