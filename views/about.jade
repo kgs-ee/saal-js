@@ -31,7 +31,7 @@ block content
 
                         - var indexCollapse = 0
                         - var indexIn = 0
-                        each datestring in Object.keys(news).sort(function(a,b){ return a < b })
+                        each datestring in Object.keys(news)
                             each p in op.get(news, [datestring])
                                 if op.get(p, lang + '-title', false)
                                     .panel
@@ -42,10 +42,10 @@ block content
                                         .panel-collapse.collapse(class=(++indexIn === 1 ? 'in' : ' ') id="collapse-"+op.get(p, 'id')+"" role="tabpanel" aria-labelledby="heading-"+op.get(p, 'id')+"")
                                             div
                                                 p!= op.get(p, lang + '-body')
-                    
-                    .row
-                        .col-xs-12.col-md-12        
-                            a.load-more.btn.btn-primary(href='/' + lang + '/news/')= t('button.view-all')                            
+
+                    //- .row
+                    //-     .col-xs-12.col-md-12
+                    //-         a.load-more.btn.btn-primary(href='/' + lang + '/news/')= t('button.view-all')
 
                 .floorplans
                     h2= t('title.floorplans')

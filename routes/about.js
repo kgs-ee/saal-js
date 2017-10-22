@@ -26,26 +26,30 @@ router.get('/', function(req, res) {
 
 // News
 function prepareNews(callback) {
-    var displayTopNewsCount = 5
+    var displayTopNewsCount = 0 // set to zero to prepare all
     var newsEids = Object.keys(SDC.get(['local_entities', 'by_class', 'news'], {})).filter(function (eid) {
         if (SDC.get(['local_entities', 'by_eid', eid, 'properties', 'time', 0, 'value'], false) === false) { return false }
         return true
     })
-    newsEids.sort(function(a, b) {
-        var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 0, 'value'])).getTime()
-        var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 0, 'value'])).getTime()
-        // debug(a, aDate, b, bDate, aDate < bDate)
-        return (bDate - aDate)
-    })
+    // newsEids.sort(function(a, b) {
+    //     var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 0, 'value'])).getTime()
+    //     var bDate = new Date(SDC.get(['local_entities', 'by_eid', b, 'properties', 'time', 0, 'value'])).getTime()
+    //     // debug(a, aDate, b, bDate, aDate < bDate)
+    //     return (bDate - aDate)
+    // })
+    newsEids.sort().reverse()
     preppedNews = {}
     // debug(newsEids.map(function(a) {
     //   var aDate = new Date(SDC.get(['local_entities', 'by_eid', a, 'properties', 'time', 0, 'value']))
     //   return {a, aDate, t:aDate.getTime()}
     // }))
+    if (displayTopNewsCount === 0) {
+      displayTopNewsCount = newsEids.length
+    }
     async.each(newsEids.slice(0, displayTopNewsCount), function(eid, callback) {
         var news = mapper.news(eid)
         if (!news.time) { return callback() }
-        // debug(JSON.stringify(news, null, 2))
+        // debug(JSON.stringify(news['time'], null, 2))
         var newsDate = op.get(news, ['time']).slice(0,10)
         op.push(preppedNews, newsDate, news)
         callback()
