@@ -25,6 +25,7 @@ SDC = op({
 var cacheFromEntu = [
   {'parent':'3808', 'definition': 'category',    'class': 'rootCategory'},
   {'parent':'1930', 'definition': 'event',       'class': 'festival'},
+  {'parent':'1930', 'definition': 'performance', 'class': 'festival'},
   {'parent':'597',  'definition': 'event',       'class': 'program'},
   {'parent':'4054', 'definition': 'event',       'class': 'program'},
   {'parent':'1931', 'definition': 'event',       'class': 'residency'},
@@ -58,6 +59,7 @@ cacheSeries.push(function loadCache(callback) {
   debug('Loading local cache at ' + Date().toString())
   var mandatoryFilenames = Object.keys(SDC.get())
   var existingFilenames = fs.readdirSync(APP_CACHE_DIR).map(function(filename) {
+    debug('Existing cache files: ', APP_CACHE_DIR, filename.split('.json')[0])
     return filename.split('.json')[0]
   })
   var filenames = existingFilenames.concat(mandatoryFilenames.filter(function(item) {

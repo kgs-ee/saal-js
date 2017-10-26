@@ -51,18 +51,17 @@ function loadCache (callback) {
         SDC.set(filename, data)
       }
       // debug('Loaded: ', path.join(APP_CACHE_DIR, filename))
-      callback()
+      return callback()
     })
   }, function (err) {
     if (err) {
       debug('Failed to load local cache.', err)
       debug({ cmd: 'log', log: 'Failed to load local cache.', err: err })
-      callback(err)
-      return
+      return callback(err)
     }
     // debug({ cmd: 'log', log: 'Cache loaded.' })
     // debug('Cache loaded.')
-    callback()
+    return callback()
   })
 }
 
@@ -78,11 +77,11 @@ function prepareControllers (prepareControllersCB) {
       // debug({ cmd: 'log', log: 'Preparing ' + controller })
       cntrl.prepare(function () {
         // debug({ cmd: 'log', log: 'Callback from ' + controller })
-        callback()
+        return callback()
       })
     } else {
       // debug({ cmd: 'log', log: 'Not preparing ' + controller })
-      callback()
+      return callback()
     }
   }, function (err) {
     if (err) {
@@ -187,8 +186,9 @@ app
   .use('/:lang/projects/', require('./routes/projects'))
   .use('/:lang/contact/', require('./routes/contact'))
   .use('/:lang/magazine/', require('./routes/magazine'))
-  .use('/:lang/search', require('./routes/search'))
+  // .use('/:lang/search', require('./routes/search'))
   // .use('/:lang/signin',        require('./routes/signin'))
+  .use('/:lang/festivals', require('./routes/festivals'))
   .use('/:lang/festival', require('./routes/festival'))
   .use('/:lang/calendar_json', require('./routes/calendar_json'))
 
@@ -257,7 +257,7 @@ var watcher = chokidar.watch(APP_CACHE_DIR, {
           debug('ERR:', err)
           return
         }
-        debug('Controllers prepped.')
+        debug('Controllers prepped 2.')
       })
     })
   } else if (_filename === 'lastPollTs.json') {
@@ -273,59 +273,6 @@ loadCache(function() {
       debug('ERR:', err)
       return
     }
-    debug('Controllers prepped.')
+    debug('Controllers prepped 1.')
   })
 })
-
-
-// var cache = require('./helpers/cache')
-// cache.sync(
-//   function report (message, options) {
-//     options = options || { level: 'info' }
-//     ravenClient.captureMessage(message, options)
-//   },
-//   function reloadCache () {
-//     if (SDC.get(['lastPollTs'])) {
-//       debug({ cmd: 'log', log: 'Loading local cache from ' + new Date(SDC.get(['lastPollTs']) * 1e3) })
-//     } else {
-//       debug({ cmd: 'log', log: 'Waiting for cache...' })
-//     }
-//
-//     debug(280, prepareControllersFa)
-//     async.series(prepareControllersFa, function routineFinally (err) {
-//       if (err) {
-//         debug({ cmd: 'log', log: 'Reload failed', err: err })
-//         return
-//       }
-//       if (SDC.get(['lastPollTs'])) {
-//         debug({ cmd: 'log', log: 'Worker reloaded with cache from ' + new Date(SDC.get(['lastPollTs']) * 1e3) })
-//       } else {
-//         debug({ cmd: 'log', log: 'Worker reloaded with no cache.' })
-//       }
-//     })
-//   }
-// )
-//
-// function startPLSync () {
-//   if (plSync.state === undefined) {
-//     debug('PLSync not ready, try in a sec')
-//     setTimeout(function () {
-//       startPLSync()
-//     }, 1000)
-//   } else if (plSync.state === 'idle') {
-//     plSync.routine(function plSyncCB (err, message) {
-//       if (err) {
-//         console.log(err)
-//         console.log(message)
-//         throw 'PL sync totally messed up'
-//       }
-//       console.log(message + ' at ' + Date().toString())
-//     })
-//   }
-// }
-// debug('Check if PL sync', APP_DEPLOYMENT)
-// if (APP_DEPLOYMENT === 'live' || APP_DEPLOYMENT === 'dev') {
-//   debug('Initialising PL sync')
-//   var plSync = require('./helpers/pl-sync')
-//   startPLSync()
-// }

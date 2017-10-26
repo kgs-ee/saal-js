@@ -1,0 +1,23 @@
+extends layout
+
+block vars
+
+block content
+
+  .container-fluid
+    section.programme.row.page-margin
+      .col-md-12
+        h2= t('nav.festivals')
+      .grid-row
+        each eventdate in Object.keys(festivals).sort().reverse()
+          each event in op.get(festivals, [eventdate], [])
+            a.col-xs-12.col-sm-6.col-md-3.col-lg-3.resident(href='/' + lang + '/festival/' + op.get(event,'id'))
+              img.img-responsive(src=''+ op.get(event, ['photos', 0, 'medium', 'file'], '/images/placeholder.jpg'))
+              p= (moment(op.get(event,['start-time'])).locale('et').format('L')) + "—" + moment(op.get(event,['end-time'])).locale('et').format('L')
+
+              p
+                if op.get(event, 'resident', false)
+                  span.artist= op.get(event, 'resident', []).join(', ')
+
+                if op.get(event, lang + '-name')
+                  span.name= op.get(event, lang + '-name')
