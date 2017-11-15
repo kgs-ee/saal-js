@@ -23,6 +23,22 @@ block content
                 article.main-text.h3
                     p!= SDC.get(['root', lang + '-description'])
             
+                .floorplans
+                    h2= t('title.floorplans')
+                    ul.list-unstyled.h3
+                        each location in locations
+                            each floorplan in op.get(location, ['floorplan'], [])
+                                li
+                                    a(href=floorplan.file target='_blank')= op.get(location, [lang+'-name'])
+                
+                .old-www
+                    h2= t('title.archive')
+                    ul.list-unstyled.h3
+                        li
+                            a(href='http://2016.saal.ee/events/2016/01/' target='_blank') www.saal.ee 2008–2015
+                        li
+                            a(href='http://2016.saal.ee/archive/' + lang + '/programm2/arhiiv.html' target='_blank') www.saal.ee 2004–2008
+
             section.news.col-md-6
                 if Object.keys(news).length
                     h2= t('title.news')
@@ -46,22 +62,6 @@ block content
                     //- .row
                     //-     .col-xs-12.col-md-12
                     //-         a.load-more.btn.btn-primary(href='/' + lang + '/news/')= t('button.view-all')
-
-                .floorplans
-                    h2= t('title.floorplans')
-                    ul.list-unstyled.h3
-                        each location in locations
-                            each floorplan in op.get(location, ['floorplan'], [])
-                                li
-                                    a(href=floorplan.file target='_blank')= op.get(location, [lang+'-name'])
-                
-                .old-www
-                    h2= t('title.archive')
-                    ul.list-unstyled.h3
-                        li
-                            a(href='http://2016.saal.ee/events/2016/01/' target='_blank') www.saal.ee 2008–2015
-                        li
-                            a(href='http://2016.saal.ee/archive/' + lang + '/programm2/arhiiv.html' target='_blank') www.saal.ee 2004–2008
 
     .row.page-margin
         .supporter.col-md-12
