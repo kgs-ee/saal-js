@@ -29,7 +29,10 @@ block content
                         each location in locations
                             each floorplan in op.get(location, ['floorplan'], [])
                                 li
-                                    a(href=floorplan.file target='_blank')= op.get(location, [lang+'-name'])
+                                    a(href=floorplan.file target='_blank')
+                                        u= op.get(location, [lang+'-name'])
+                                    //- span &nbsp;|&nbsp;
+                                    span= ' | ' + op.get(location, [lang+'-description'])
                 
                 .old-www
                     h2= t('title.archive')

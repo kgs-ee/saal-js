@@ -322,11 +322,13 @@ function mapLocation(eid) {
     }
     var opEntity = op(entity)
     var entityOut = op({})
-    entityOut.set('id',         opEntity.get(['id']))
-    entityOut.set('et-name',    opEntity.get(['properties', 'et-name', 0, 'value']))
-    entityOut.set('en-name',    opEntity.get(['properties', 'en-name', 0, 'value']))
-    entityOut.set('geo',        opEntity.get(['properties', 'geo',     0, 'value']))
-    entityOut.set('floorplan',  opEntity.get(['properties', 'floorplan']))
+    entityOut.set('id',             opEntity.get(['id']))
+    entityOut.set('et-name',        opEntity.get(['properties', 'et-name',     0, 'value']))
+    entityOut.set('en-name',        opEntity.get(['properties', 'en-name',     0, 'value']))
+    entityOut.set('geo',            opEntity.get(['properties', 'geo',         0, 'value']))
+    entityOut.set('et-description', opEntity.get(['properties', 'et-description', 0, 'value']))
+    entityOut.set('en-description', opEntity.get(['properties', 'en-description', 0, 'value']))
+    entityOut.set('floorplan',      opEntity.get(['properties', 'floorplan']))
     return entityOut.get()
 }
 
