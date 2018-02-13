@@ -60,7 +60,8 @@ block content
                                 if op.get(echo, ['photos']).length === 1
                                     .row
                                         .col-xs-12
-                                            img(src=op.get(echo, ['photos', 0, 'big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                                            if op.get(echo, ['photos', 0, 'big', 'file'], false)
+                                                img(src=op.get(echo, ['photos', 0, 'big', 'file'], '/images/placeholder.jpg'), class='img-responsive, foo')
                                 
                                 //- If more than one, make gallery
                                 if op.get(echo, ['photos']).length > 1
@@ -69,7 +70,7 @@ block content
                                         each photo in op.get(echo, ['photos'], [])
                                             .single-image.col-xs-6.col-sm-3.col-md-4
                                                   a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
-                                                    img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')                
+                                                    img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive, baz')
                         
                         //- VIDEO/SOUND
                         if op.get(echo, ['audio']) || op.get(echo, ['video'])
