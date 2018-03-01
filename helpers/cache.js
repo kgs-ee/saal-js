@@ -289,7 +289,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
           setTimeout(function () {
             debug('callback [002]')
             return callback(null)
-          }, 600)
+          }, 61)
         }
         else {
           relate(entity.id, 'parent', parentEid, entity.definition)
@@ -302,7 +302,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
             setTimeout(function () {
               debug('callback [001]')
               return callback(null)
-            }, 600)
+            }, 61)
           }
         }
       }, function(err) {
@@ -328,7 +328,7 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
       setTimeout(function () {
         debug('callback [003]')
         return callback(null)
-      }, 600)
+      }, 61)
     }
     else {
       var entity = opEntity.get()
@@ -410,7 +410,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
         debug('Fetch2 ' + definition + '@' + parentEid + ' from Entu failed.', reason)
         setTimeout(function () {
           return callback(reason)
-        }, 600)
+        }, 61)
       })
     } else {
       debug('Fetch3 ' + definition + '@' + JSON.stringify(options) + ' from Entu.')
@@ -422,7 +422,7 @@ cacheSeries.push(function fetchFromEntu(callback) {
         debug('Fetch3 ' + definition + '@' + JSON.stringify(options) + ' from Entu failed.', reason)
         setTimeout(function () {
           return callback(reason)
-        }, 600)
+        }, 61)
       })
     }
   }, function(err) {
@@ -602,7 +602,7 @@ function pollEntu(report, workerReloadCB) {
             debug('Unpublishing ' + update.definition + ' ' + update.id + ' @ ' + update.timestamp)
             setTimeout(function () {
               return removeFromCache(update.id, callback)
-            }, 600)
+            }, 61)
           }
           else {
             parents = parents.filter(function(element) {
