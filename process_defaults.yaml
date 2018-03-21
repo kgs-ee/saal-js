@@ -12,7 +12,7 @@ apps:
             DEBUG: app.*
             ENTU_USER: xxxx
             ENTU_KEY: xxxx
-            ENTU_POLL_SEC: 5
+            ENTU_POLL_SEC: 10
             DEPLOYMENT: live
             NEW_RELIC_APP_NAME: saal-zone
             NEW_RELIC_LICENSE_KEY: xxxx
