@@ -53,9 +53,9 @@ button:
         sold_out:
             en: Sold out
             et: Välja müüdud
-    canceled:
-        en: Canceled!
-        et: Jääb ära!
+        canceled:
+            en: Canceled!
+            et: Jääb ära!
     category:
         en: Category
         et: Kategooria
