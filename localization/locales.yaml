@@ -56,6 +56,9 @@ button:
         canceled:
             en: Canceled!
             et: Jääb ära!
+    canceled:
+        en: Canceled!
+        et: Jääb ära!
     category:
         en: Category
         et: Kategooria
