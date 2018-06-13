@@ -10,6 +10,7 @@ var mapper  = require('../helpers/mapper')
 var festivals = {}
 
 router.get('/:festivalId', function(req, res) {
+  // debug(JSON.stringify( mapper.event(req.params.festivalId)['et-name'], null, 2))
   return res.redirect('./' + req.params.festivalId + '/program')
 })
 
@@ -20,8 +21,8 @@ router.get('/:festivalId/:action', function(req, res) {
   res.render('festival_' + action, {
     'festival': festival,
     'action': action,
-    'title': 'Festival',
-    'description': 'SAAL Biennaal Festival',
+    'title': mapper.event(req.params.festivalId)['et-name'],
+    'description': mapper.event(req.params.festivalId)['et-name'],
     'keywords': ['SAAL Biennaal', 'Festival']
   })
   res.end()
