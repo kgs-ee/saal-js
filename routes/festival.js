@@ -9,6 +9,19 @@ var mapper  = require('../helpers/mapper')
 
 var festivals = {}
 
+router.get('/nup', function(req, res) {
+  nup_id = 5305
+  var festival = op.get(festivals, 5305)
+  res.render('festival_about', {
+    'festival': festival,
+    'action': 'about',
+    'title': mapper.event(nup_id)['et-name'],
+    'description': mapper.event(nup_id)['et-name'],
+    'keywords': ['NUP', 'NU Performance', 'Festival']
+  })
+  res.end()
+})
+
 router.get('/:festivalId', function(req, res) {
   // debug(JSON.stringify( mapper.event(req.params.festivalId)['et-name'], null, 2))
   return res.redirect('./' + req.params.festivalId + '/program')
