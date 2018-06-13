@@ -11,9 +11,10 @@ block content
                     .carousel-inner(role='listbox')
                         - var featureActive = 0
                         each feature in featured
+                            - var carousel_url = op.get(feature, lang + '-name').includes('Baltoscandal') ? 'https://baltoscandal.ee' : ('/' + lang + '/performance/' + op.get(feature,'id'))
 
                             .item(class=(featureActive++ === 0 ? 'active' : ''))
-                                a(href='/' + lang + '/performance/' + op.get(feature,'id'))
+                                a(href=carousel_url)
                                     figure(id = 'slide-' + op.get(feature, 'id'), style='background-image: url(' + op.get(feature, ['photo', 'file'], '/images/placeholder.jpg') + ');')
                                     header.col-md-8
                                         if op.get(feature, lang + '-supertitle', '')
@@ -21,15 +22,15 @@ block content
                                         h1
                                             if op.get(feature, 'artist', '')
                                                 span.artist= op.get(feature, 'artist', '')
-                                            
-                                            if op.get(feature, 'producer', '')    
+
+                                            if op.get(feature, 'producer', '')
                                                 span.producer= op.get(feature, 'producer', '')
-                                            
-                                            if op.get(feature, lang + '-town', '')    
+
+                                            if op.get(feature, lang + '-town', '')
                                                 span.town= op.get(feature, lang + '-town', '')
-                                                
+
                                         h1= op.get(feature, lang + '-name', '')
-                                        
+
                                         if op.get(feature, lang + '-subtitle', '')
                                             p= op.get(feature, lang + '-subtitle', '')
 
@@ -52,7 +53,7 @@ block content
                     each feature in featured
                         script.
                             var slide#{feature.id} = document.getElementById('slide-#{feature.id}');
-                            GradientMaps.applyGradientMap(slide#{feature.id}, '#{SAAL.secondary_color}, #{SAAL.main_color}'); 
+                            GradientMaps.applyGradientMap(slide#{feature.id}, '#{SAAL.secondary_color}, #{SAAL.main_color}');
 
         .row.front-page-margin
             section.col-xs-12.col-md-12.col-lg-9
@@ -94,47 +95,47 @@ block content
                                                 a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
                                                     if op.get(p, lang + '-supertitle', '')
                                                         span.subtitle= op.get(p, lang + '-supertitle', '')
-                                                    
-                                                    if op.get(p, 'performance.artist', '')    
+
+                                                    if op.get(p, 'performance.artist', '')
                                                         span.artist= op.get(p, 'performance.artist', '')
-                                                    
-                                                    if op.get(p, 'performance.producer', '')    
+
+                                                    if op.get(p, 'performance.producer', '')
                                                         span.producer= op.get(p, 'performance.producer', '')
-                                                    
+
                                                     if op.get(p, ['performance', lang + '-town'], '')
                                                         span.town= op.get(p, ['performance', lang + '-town'], '')
-                                                    
+
                                                     span.name= op.get(p, lang + '-name')
-                                                    
+
                                                     if op.get(p, lang + '-subtitle', '')
                                                         span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                
+
                                             else
                                                 a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
                                                     if op.get(p, lang + '-supertitle', '')
                                                         span.subtitle= op.get(p, lang + '-supertitle', '')
-                                                    
-                                                    if op.get(p, 'performance.artist', '')    
+
+                                                    if op.get(p, 'performance.artist', '')
                                                         span.artist= op.get(p, 'performance.artist', '')
-                                                    
-                                                    if op.get(p, 'performance.producer', '')    
+
+                                                    if op.get(p, 'performance.producer', '')
                                                         span.producer= op.get(p, 'performance.producer', '')
-                                                    
+
                                                     if op.get(p, ['performance', lang + '-town'], '')
                                                         span.town= op.get(p, ['performance', lang + '-town'], '')
-                                                    
+
                                                     span.name= op.get(p, lang + '-name')
-                                                    
+
                                                     if op.get(p, lang + '-subtitle', '')
                                                         span.subtitle= op.get(p, lang + '-subtitle', '')
-                                        
+
                                     .col-xs-6.col-md-2.col-lg-2
                                         if op.get(p, [lang + '-location'], false)
                                             p.location= op.get(p, [lang + '-location'])
-                                            
+
                                         if op.get(p, ['saal-location', lang + '-name'])
                                             p.location= op.get(p, ['saal-location', lang + '-name'])
-                                            
+
                                         if op.get(p, 'price') == 0
                                             p= t('title.free')
                                         else
@@ -145,7 +146,7 @@ block content
                                                 p= op.get(p, 'min-price') + '€'
                                             else
                                                 p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
-                                        
+
                                         if op.get(p, 'onsite-price')
                                             p= t('title.onsite-price') + ': ' + op.get(p, 'onsite-price') + '€'
 
@@ -158,11 +159,11 @@ block content
 
                                     .col-xs-12.col-md-12.col-lg-12
                                         hr
-                        
+
                         if Object.keys(program).length > listlength
-                            .col-xs-12.col-md-12        
+                            .col-xs-12.col-md-12
                                 a.load-more.btn.btn-primary(href='/' + lang + '/program/')= t('button.view-all')
-                            
+
                     else
                         .col-lg-12
                             h2= t('title.no-events')
@@ -192,55 +193,55 @@ block content
                                             //- Today
                                             if (moment(datestring).format('M') + ' ' + moment(datestring).format('D')) == ((moment().month()+1) + ' ' + moment().date())
                                                 p.today= t('button.today')
-                                                
+
                                             //- Is SAAL Biennaal
-                                            
+
                                             //- Is Nu Performance Festival
-                                            
+
                                         .col-xs-12.col-md-6.col-lg-6
                                             h3
                                                 if op.get(p, 'performance.id', false)
                                                     a(href='/' + lang + '/performance/' + op.get(p,'performance.id'))
                                                         if op.get(p, lang + '-supertitle', '')
                                                             span.subtitle= op.get(p, lang + '-supertitle', '')
-                                                        
-                                                        if op.get(p, 'performance.artist', '')    
+
+                                                        if op.get(p, 'performance.artist', '')
                                                             span.artist= op.get(p, 'performance.artist', '')
-                                                        
-                                                        if op.get(p, 'performance.producer', '')    
+
+                                                        if op.get(p, 'performance.producer', '')
                                                             span.producer= op.get(p, 'performance.producer', '')
-                                                        
+
                                                         if op.get(p, ['performance', lang + '-town'], '')
                                                             span.town= op.get(p, ['performance', lang + '-town'], '')
-                                                        
+
                                                         span.name= op.get(p, lang + '-name')
-                                                        
+
                                                         if op.get(p, lang + '-subtitle', '')
                                                             span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                    
+
                                                 else
                                                     a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
                                                         if op.get(p, lang + '-subtitle', '')
                                                             span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                        
-                                                        if op.get(p, 'performance.artist', '')    
+
+                                                        if op.get(p, 'performance.artist', '')
                                                             span.artist= op.get(p, 'performance.artist', '')
-                                                        
-                                                        if op.get(p, 'performance.producer', '')    
+
+                                                        if op.get(p, 'performance.producer', '')
                                                             span.producer= op.get(p, 'performance.producer', '')
-                                                        
+
                                                         if op.get(p, ['performance', lang + '-town'], '')
                                                             span.town= op.get(p, ['performance', lang + '-town'], '')
-                                                        
+
                                                         span.name= op.get(p, lang + '-name')
 
                                         .col-xs-6.col-md-2.col-lg-2
                                             if op.get(p, [lang + '-location'], false)
                                                 p.location= op.get(p, [lang + '-location'])
-                                                
+
                                             if op.get(p, ['saal-location', lang + '-name'])
                                                 p.location= op.get(p, ['saal-location', lang + '-name'])
-                                                                                        
+
                                             if op.get(p, 'price') == 0
                                                 p= t('title.free')
                                             else
@@ -251,7 +252,7 @@ block content
                                                     p= op.get(p, 'min-price') + '€'
                                                 else
                                                     p= op.get(p, 'min-price') + '/' + op.get(p, 'max-price') + '€'
-                                    
+
                                         .col-xs-6.col-md-2.text-right
                                             if op.get(p, 'sales-status')
                                                 if op.get(p, 'canceled') === true
@@ -261,11 +262,11 @@ block content
 
                                         .col-xs-12.col-md-12.col-lg-12
                                             hr
-                        
+
                         if Object.keys(tours).length > listlength
-                            .col-xs-12.col-md-12        
+                            .col-xs-12.col-md-12
                                 a.load-more.btn.btn-primary(href='/' + lang + '/tours/')= t('button.view-all')
-                                    
+
 
                 if Object.keys(residencies).length > 0
                     .tour.row
@@ -282,30 +283,33 @@ block content
                                             a(href='/' + lang + '/resident/' + op.get(p,'id'))
                                                 //- if op.get(p, lang + '-subtitle', '')
                                                 //-     span.subtitle= op.get(p, lang + '-subtitle', '')
-                                                    
+
                                                 if op.get(p, 'resident', false)
                                                     span.artist= op.get(p, 'resident', []).join(', ')
-                                                    
+
                                                 if op.get(p, lang + '-name')
                                                     span.name= op.get(p, lang + '-name')
-                                            
+
                                     .col-xs-12.col-md-4.col-lg-4
                                         if op.get(p, [lang + '-location'], false)
                                             p.location= op.get(p, [lang + '-location'])
-                                        
+
                                         if op.get(p, ['saal-location', lang + '-name'])
                                             p.location= op.get(p, ['saal-location', lang + '-name'])
-                                        
+
                                     .col-xs-12.col-md-12
                                         hr
-                    
+
                         if Object.keys(residencies).length > listlength
-                            .col-xs-12.col-md-12        
+                            .col-xs-12.col-md-12
                                 a.load-more.btn.btn-primary(href='/' + lang + '/residency/')= t('button.view-all')
 
 
             aside.col-xs-12.col-md-12.col-lg-3.sidebar
                 .row
+                    .banner.col-xs-12.col-sm-6.col-md-4.col-lg-12
+                        a.text-center.h3.volunteer(href='https://saal.ee/et/festival/5305/about')= t('button.NUP')
+
                     .hidden-xs.col-sm-6.col-md-4.col-lg-12.datepicker-container
                         h2= t('title.calendar')
                         div(id='datepicker')
@@ -315,7 +319,7 @@ block content
 
                     .banner.col-xs-12.col-sm-6.col-md-4.col-lg-12
                         a.text-center.h3.volunteer(href='mailto:vabatahtlik@saal.ee')= t('button.volunteer')
-                        
+
                         if sideBanner
                             a(href=sideBanner.url)
                                 img(src=op.get(sideBanner, ['photos', 0, 'file']), alt=sideBanner.name, class="img-responsive img-center front-banner")
