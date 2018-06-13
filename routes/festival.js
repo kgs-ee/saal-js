@@ -20,7 +20,7 @@ router.get('/:festivalId/:action', function(req, res) {
   res.render('festival_' + action, {
     'festival': festival,
     'action': action,
-    'title': 'SAAL Biennaal Festival',
+    'title': 'Festival',
     'description': 'SAAL Biennaal Festival',
     'keywords': ['SAAL Biennaal', 'Festival']
   })
