@@ -22,6 +22,7 @@ block content
             each datestring in Object.keys(festival.events).sort()
               each timestring in Object.keys(op.get(festival.events, [datestring])).sort()
                 each p in op.get(festival.events, [datestring, timestring])
+                  - var p_url = (op.get(p, ['performance', 'id'], false) ? '/' + lang + '/performance/' + op.get(p,['performance', 'id']) : '/' + lang + '/event/' + op.get(p,'id'))
                   //- each eventdate, datestring in festival.events
                   //-   each eventtime, timestring in eventdate
                   //- each p, i in eventtime
@@ -45,33 +46,29 @@ block content
                       p.today= t('button.artist-talk')
 
                   .col-xs-12.col-md-6.col-lg-6
-                    h3
-                      if op.get(p, ['performance', 'id'], false)
-                        a(href='/' + lang + '/performance/' + op.get(p,['performance', 'id']))
-                          if op.get(p, [lang + '-supertitle'], false)
-                            span.subtitle= op.get(p, [lang + '-supertitle'], 'foo')
-                      else
-                        a(href='/' + lang + '/event/' + op.get(p,'id'))= op.get(p, lang + '-name')
-                          if op.get(p, lang + '-supertitle', '')
-                            span.subtitle= op.get(p, lang + '-supertitle', '')
+                    a(href=p_url)
+                        h3
+                          if op.get(p, ['performance', 'id'], false)
+                            if op.get(p, [lang + '-supertitle'], false)
+                              span.subtitle= op.get(p, [lang + '-supertitle'], 'foo')
+                          else
+                            span= op.get(p, lang + '-name')
+                              if op.get(p, lang + '-supertitle', '')
+                                span.subtitle= op.get(p, lang + '-supertitle', '')
 
-                    //- Festival
-                    //- if (op.get(p,['tag']).includes('festival'))
-                    //-     span.subtitle= t('button.festival')
+                        if op.get(p, ['performance', 'artist'], false)    
+                          span.artist= op.get(p, ['performance', 'artist'])
 
-                    if op.get(p, ['performance', 'artist'], false)    
-                      span.artist= op.get(p, ['performance', 'artist'])
+                        if op.get(p, ['performance', 'producer'], false)
+                          span.producer= op.get(p, ['performance', 'producer'])
 
-                    if op.get(p, ['performance', 'producer'], false)
-                      span.producer= op.get(p, ['performance', 'producer'])
+                        if op.get(p, ['performance', lang + '-town'], false)
+                          span.town= op.get(p, ['performance', lang + '-town'])
 
-                    if op.get(p, ['performance', lang + '-town'], false)
-                      span.town= op.get(p, ['performance', lang + '-town'])
+                        span.name= op.get(p, lang + '-name')
 
-                    span.name= op.get(p, lang + '-name')
-
-                    if op.get(p, [lang + '-subtitle'], false)
-                      span.subtitle= op.get(p, [lang + '-subtitle'])
+                        if op.get(p, [lang + '-subtitle'], false)
+                          span.subtitle= op.get(p, [lang + '-subtitle'])
         
                   .col-xs-6.col-md-2.col-lg-2
                     if op.get(p, [lang + '-location'], false) || op.get(p, ['saal-location', lang + '-name'], false)
