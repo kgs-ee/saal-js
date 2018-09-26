@@ -14,4 +14,15 @@ block content
       section.col-md-12
         h2= op.get(festival, [lang + '-name'])
         h4= op.get(festival, [lang + '-subtitle'])
+
+        //- VIDEO/SOUND
+        if op.get(festival, ['audio'], false) || op.get(festival, ['video'], false)
+          .video-sound
+            if op.get(festival, ['audio'], false)
+              //- h2= t('title.sound')
+              div!= op.get(festival, ['audio'])
+            if op.get(festival, ['video'], false)
+              //- h2= t('title.video')
+              div!= op.get(festival, ['video'])
+
         p!= op.get(festival, [lang + '-description']) 
