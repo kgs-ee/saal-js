@@ -64,10 +64,10 @@ block content
                                                 img(src=op.get(echo, ['photos', 0, 'big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
                                 
                                 //- If more than one, make gallery
-                                if op.get(echo, ['photos']).length > 1
+                                if op.get(echo, ['photos']).filter( function(ph) { return op.get(ph, 'medium', false) !== false }).length > 1
                                     h2= t('title.gallery')
                                     .row
-                                        each photo in op.get(echo, ['photos'], [])
+                                        each photo in op.get(echo, ['photos'], []).filter( function(ph) { return op.get(ph, 'medium', false) !== false })
                                             .single-image.col-xs-6.col-sm-3.col-md-4
                                                 a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
                                                     img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')

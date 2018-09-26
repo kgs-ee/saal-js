@@ -270,6 +270,14 @@ function mapEcho(eid) {
                 big: opEntity.get(['properties', 'photo-big', ix])
             }
         }))
+    } else if (opEntity.get(['properties', 'photo-big'], false)) {
+      entityOut.set('photos', opEntity.get(['properties', 'photo-big'], []).map( function(phb, ix) {
+        return {
+            ix: ix,
+            big: phb,
+            medium: opEntity.get(['properties', 'photo-medium', ix])
+        }
+      }))
     }
     entityOut.set('audio', opEntity.get(['properties', 'audio'],[]).map(function(a){ return a.value }))
     entityOut.set('video', opEntity.get(['properties', 'video'],[]).map(function(a){ return a.value }))
