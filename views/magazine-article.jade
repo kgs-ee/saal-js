@@ -48,16 +48,12 @@ block content
             .col-md-12
                 .row
 
-                    //- VIDEO/SOUND
-                    if op.get(echo, ['audio']) || op.get(echo, ['video'])
+                    //- SOUND
+                    if op.get(echo, ['audio'])
                         .video-sound
                             if op.get(echo, ['audio']).length
                                 //- h2= t('title.sound')
                                 each item in op.get(echo, ['audio'])
-                                    div!= item
-                            if op.get(echo, ['video']).length
-                                //- h2= t('title.video')
-                                each item in op.get(echo, 'video')
                                     div!= item
                     
                     .article.main-text.h3.col-sm-12.col-md-8.col-lg-8!= op.get(echo, [lang + '-contents'])
@@ -83,6 +79,14 @@ block content
                                             .single-image.col-xs-6.col-sm-3.col-md-4
                                                 a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
                                                     img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                        
+                        //- VIDEO/SOUND
+                        if op.get(echo, ['video'])
+                            .video-sound
+                                if op.get(echo, ['video']).length
+                                    h2= t('title.video')
+                                    each item in op.get(echo, 'video')
+                                        div!= item
                         
                         .comments
                             .fb-comments(data-href='', data-width="100%", data-numposts="10")
