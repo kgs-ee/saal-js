@@ -57,10 +57,10 @@ block content
                         h2= t('title.related')
                         each otherWork in op.get(performance, ['otherWorks'], [])
                             .row
-                                .col-xs-12
+                                .col-sm-12
                                     a(href='./performance/' + op.get(otherWork, ['id']))
                                         p= op.get(otherWork, [lang + '-name'])
-                                .col-xs-12.col-md-12.col-lg-12
+                                .col-sm-12.col-md-12.col-lg-12
                                     hr
 
             article.readMore.main-text.col-md-8.col-lg-6.h3!= op.get(performance, lang + '-description')
@@ -69,13 +69,13 @@ block content
                 if events.length
                     .tickets.row
                         each event in events
-                            .col-xs-4.col-md-4.col-lg-4
+                            .col-sm-4.col-md-4.col-lg-4
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('dddd'))
                                 p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
                                 if (moment(op.get(event, ['start-time'])).locale(lang).format('HH:mm')) != '23:59'
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('HH:mm'))
 
-                            .col-xs-8.col-md-8.col-lg-8
+                            .col-sm-8.col-md-8.col-lg-8
                                 p= op.get(event, [lang + '-name'], '')
                                 p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
 
@@ -86,7 +86,7 @@ block content
                                     else
                                         a.btn.btn-primary(class=((op.get(event, 'sales-status') === 'sold_out' || op.get(event, 'sales-status') === 'free_admission') ? "free disabled" : "") href=op.get(event, lang + '-ticket-api') target='_blank')= t('button.buy_ticket.' + op.get(event, 'sales-status'))
 
-                            .col-xs-12.col-md-12.col-lg-12
+                            .col-sm-12.col-md-12.col-lg-12
                                 hr
 
                 if pastEvents.length
@@ -94,12 +94,12 @@ block content
                         h2= t('title.past')
                         .row
                             each event in pastEvents
-                                .col-xs-6.col-md-5.col-lg-4
+                                .col-sm-6.col-md-5.col-lg-4
                                     p= (moment(op.get(event, ['start-time'])).locale(lang).format('L'))
-                                .col-xs-6.col-md-7.col-lg-8
+                                .col-sm-6.col-md-7.col-lg-8
                                     p= op.get(event, [lang + '-name'], '')
                                     p= op.get(event, ['saal-location', lang+'-name'], op.get(event, [lang + '-location'], ''))
-                                .col-xs-12.col-md-12.col-lg-12
+                                .col-sm-12.col-md-12.col-lg-12
                                     hr
 
         .row.front-page-margin
@@ -121,15 +121,9 @@ block content
                         h2= t('title.gallery')
                         .row
                             each photo in op.get(performance, ['photos'], [])
-                                .single-image.col-xs-6.col-sm-3.col-md-4
+                                .single-image.col-sm-6.col-sm-3.col-md-4
                                     a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
                                         img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
-
-                .supporter
-                    ul.list-inline
-                        each logo in op.get(performance, ['logo'], [])
-                            li
-                                img(src=logo.file, class='img-responsive')
 
             .col-md-6
                 if Object.keys(coverage).length
@@ -158,3 +152,10 @@ block content
                                                     p= (moment(datestring).locale(lang).format('L'))
                                             else
                                                 p= (moment(datestring).locale(lang).format('L'))
+
+            .col-md-12
+                .supporter
+                    ul.list-inline
+                        each logo in op.get(performance, ['logo'], [])
+                            li.col-sm-2.col-md-2.col-lg-2
+                                img(src=logo.file, class='img-responsive')
