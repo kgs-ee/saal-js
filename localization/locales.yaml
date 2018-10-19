@@ -94,7 +94,9 @@ button:
     NUP:
         en: NU Performance Festival 2018
         et: NU Performance Festival 2018
-        lv: NU Performance Festival 2018
+    NUPprint:
+        en: NU Performance Newspaper
+        et: NU Performance ajaleht
     year:
         en: Year
         et: Aasta
