@@ -61,24 +61,25 @@ block content
                         p.signature= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ') + ' @ ' + moment(op.get(echo, ['date'])).locale(lang).format('L')
 
                         //- GALLERY
-                        if op.get(echo, ['photos'])
-                            .gallery
-                                
-                                //- If is single image
-                                if op.get(echo, ['photos']).length === 1
-                                    .row
-                                        .col-xs-12
-                                            if op.get(echo, ['photos', 0, 'big', 'file'], false)
-                                                img(src=op.get(echo, ['photos', 0, 'big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
-                                
-                                //- If more than one, make gallery
-                                if op.get(echo, ['photos']).filter( function(ph) { return op.get(ph, 'medium', false) !== false }).length > 1
-                                    h2= t('title.gallery')
-                                    .row
-                                        each photo in op.get(echo, ['photos'], []).filter( function(ph) { return op.get(ph, 'medium', false) !== false })
-                                            .single-image.col-xs-6.col-sm-3.col-md-4
-                                                a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
-                                                    img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                        if op.get(echo, ['hide-gallery'], false) === false
+                            if op.get(echo, ['photos']) 
+                                .gallery
+                                    
+                                    //- If is single image
+                                    if op.get(echo, ['photos']).length === 1
+                                        .row
+                                            .col-xs-12
+                                                if op.get(echo, ['photos', 0, 'big', 'file'], false)
+                                                    img(src=op.get(echo, ['photos', 0, 'big', 'file'], '/images/placeholder.jpg'), class='img-responsive')
+                                    
+                                    //- If more than one, make gallery
+                                    if op.get(echo, ['photos']).filter( function(ph) { return op.get(ph, 'medium', false) !== false }).length > 1
+                                        h2= t('title.gallery')
+                                        .row
+                                            each photo in op.get(echo, ['photos'], []).filter( function(ph) { return op.get(ph, 'medium', false) !== false })
+                                                .single-image.col-xs-6.col-sm-3.col-md-4
+                                                    a.fancybox(rel='gallery', href=op.get(photo, ['big', 'file'], op.get(photo, ['medium', 'file'], '/images/placeholder.jpg')) )
+                                                        img(src=op.get(photo, ['medium', 'file'], '/images/placeholder.jpg'), class='img-responsive')
                         
                         //- VIDEO/SOUND
                         if op.get(echo, ['video'])

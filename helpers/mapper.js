@@ -260,7 +260,7 @@ function mapEcho(eid) {
     entityOut.set('en-contents',    opEntity.get(['properties', 'en-contents', 0, 'md']))
     entityOut.set('et-contents',    opEntity.get(['properties', 'et-contents', 0, 'md']))
     entityOut.set('featured',       opEntity.get(['properties', 'featured',    0, 'value']) === 'True')
-    entityOut.set('hide-gallery',   opEntity.get(['properties', 'hide-gallery',0, 'value']) === 'False')
+    entityOut.set('hide-gallery',   opEntity.get(['properties', 'hide-gallery',0, 'value']) === 'True')
     entityOut.set('photo',          opEntity.get(['properties', 'photo-big',   0]))
     entityOut.set('author',         opEntity.get(['properties', 'author'], []))
     if (opEntity.get(['properties', 'photo-medium'], false)) {
