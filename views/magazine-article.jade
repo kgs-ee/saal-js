@@ -58,7 +58,7 @@ block content
                     
                     .article.main-text.h3.col-sm-12.col-md-8.col-lg-8!= op.get(echo, [lang + '-contents'])
 
-                        p.signature= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ') + ' @ ' + moment(op.get(echo, ['date'])).locale(lang).format('L')
+                        //- p.signature= op.get(echo, 'author', []).map(function(a){return a.value}).join(', ') + ' @ ' + moment(op.get(echo, ['date'])).locale(lang).format('L')
 
                         //- GALLERY
                         if op.get(echo, ['hide-gallery'], false) === false
