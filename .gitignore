@@ -49,3 +49,4 @@ cache_process.yaml
 plsync_process.yaml
 
 process.yaml
+.remote-sync.json
