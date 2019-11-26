@@ -44,10 +44,8 @@ www_cache_sample/
 
 *process.yaml
 
-cache_process.yaml
 newrelic.js
-
+cache_process.yaml
 plsync_process.yaml
-
 process.yaml
 .remote-sync.json
