@@ -24,17 +24,32 @@ NUP:
         en: Get NUP NEWS!
         et: Loe NUP lehte!
 button:
+    LATEST:
+        en: LAT.EST
+        et: LAT.EST
+    NUP:
+        en: NU Performance Festival 2018
+        et: NU Performance Festival 2018
+    NUPprint:
+        en: NU Performance Newspaper
+        et: NU Performance ajaleht
     artist-talk:
         en: Artist talk
         et: Vestlus
     buy_ticket:
         Free_admission:
             et: button.buy_ticket.Free_admission
+        canceled:
+            en: Canceled!
+            et: Jääb ära!
         en: Buy ticket
         et: Osta pilet
         free_admission:
             en: Free Admission
             et: Tasuta
+        free_admission/:
+            en: button.buy_ticket.free_admission/
+            et: button.buy_ticket.free_admission/
         future_sale:
             et: Tuleb müüki
         going_now:
@@ -53,9 +68,6 @@ button:
         sold_out:
             en: Sold out
             et: Välja müüdud
-        canceled:
-            en: Canceled!
-            et: Jääb ära!
     canceled:
         en: Canceled!
         et: Jääb ära!
@@ -63,11 +75,8 @@ button:
         en: Category
         et: Kategooria
     festival:
-        et: SAAL Biennaal 2017
         en: SAAL Biennaal 2017
-    saalbiennaal:
         et: SAAL Biennaal 2017
-        en: SAAL Biennaal 2017
     load-more:
         en: Load more
         et: Lae veel
@@ -77,6 +86,9 @@ button:
     premiere:
         en: Premiere!
         et: Esietendus!
+    saalbiennaal:
+        en: SAAL Biennaal 2017
+        et: SAAL Biennaal 2017
     search:
         en: Search
         et: Otsi
@@ -91,15 +103,6 @@ button:
         en: Become a volunteer!
         et: Tule vabatahtlikuks!
         lv: button.volunteer
-    NUP:
-        en: NU Performance Festival 2018
-        et: NU Performance Festival 2018
-    LATEST:
-        en: LAT.EST
-        et: LAT.EST
-    NUPprint:
-        en: NU Performance Newspaper
-        et: NU Performance ajaleht
     year:
         en: Year
         et: Aasta
@@ -152,21 +155,21 @@ error:
         en: Loading data. Should be ready in a minute
         et: Laadin andmeid. Minuti pärast peaks valmis olema
 label:
-    duration:
-        en: Duration
-        et: Kestus
-    minutes:
-        short:
-            en: min
-            et: min
-    hours:
-        short:
-            en: h
-            et: t
     days:
         short:
             en: d
             et: p
+    duration:
+        en: Duration
+        et: Kestus
+    hours:
+        short:
+            en: h
+            et: t
+    minutes:
+        short:
+            en: min
+            et: min
 lang:
     en:
         en: EN
@@ -206,6 +209,12 @@ month:
     '2017':
         en: month.2017
         et: month.2017
+    '2018':
+        en: month.2018
+        et: month.2018
+    '2019':
+        en: month.2019
+        et: month.2019
     '3':
         en: March
         et: Märts
