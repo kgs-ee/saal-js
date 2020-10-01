@@ -19,7 +19,7 @@ block content
                         p tel: +372 64 64 704
                         p
                             a(href='mailto:saal@saal.ee') saal@saal.ee
-                    
+
                 .row.team.grid-row
                     each user in users
                         .col-xs-12.col-sm-4.col-md-4.col-lg-4.member
@@ -27,3 +27,23 @@ block content
                             p= op.get(user, 'occupation')
                             a(href="mailto:" + op.get(user, 'email') + "")= op.get(user, 'email')
                             p= op.get(user, 'phone')
+
+            article.col-md-12.covid
+                .row
+                    article.col-xs-12.col-sm-12.col-md-12.col-lg-12.location
+                        h2#covid Koroona meelespea 
+                        h3
+                            u 
+                                a(href="https://docs.google.com/forms/d/e/1FAIpQLSeyUfAKnQXZkIA4BBTLhthzbxc6zXXUsUBLEOgMcvtLbR0gfQ/viewform?fbclid=IwAR3-cvNroYGhUFqtAW6jvWLFwjcZZ0aRcYYD3SR04o1LkeOiFZxS7Z5aaUI") Registreeri oma külastus
+                        div Kanuti Gildi SAALi jaoks on meie vaatajate, kunstnike ja meeskonna liikmete tervis, ohutus ja heaolu tähtis ja prioriteetne. Selle nimel oleme panustanud ning panustame ka tulevikus, jälgides muutuvaid piiranguid, ettekirjutisi ja tervet mõistust.
+                        div Allpool mõned tegevused mida teiega koos tehes muudame külaskäigu teatrisse ohutumaks: 
+                            ul
+                                li Kui oled haigestunud, palun teatrisse mitte tulla! 
+                                li Kui etendajate ja publiku vahel toimub vahetu kontakt, lubame saali 50% publikumahust. 
+                                li Hoiame mõistlikku vahet. 
+                                li Kogume kõigi piletiostjate kontaktandmed, et vajadusel saaks Terviseamet teavitada nakatumise ohust. 
+                                li Piletite kontrollimine toimub kontaktivabalt. 
+                                li Koha peal soetatud piletid edastame meili teel. 
+                                li Müügil on ühekordsed maskid. 
+                                li Kui tunnete end tõbisena ja annate meile hiljemalt 2h enne etenduse algust teada, et ei saa haigestumise tõttu teatrisse tulla, ostame teie pileti tagasi või vahetame järgmise etenduse pääsme vastu. 
+                                li Palume teatrisse tulla aegsasti, et vältida tihedaid järjekordi. Uksed avame pool tundi enne etenduse algust. 

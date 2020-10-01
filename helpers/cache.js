@@ -280,14 +280,14 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
     var parentEid = opEntity.get('id')
     entu.getChilds(parentEid, null, APP_ENTU_OPTIONS)
     .then(function(entities) {
-      debug('Childs ' + entities.map(function(e) {return e.get('id')}).join(','))
+      // debug('Childs ' + entities.map(function(e) {return e.get('id')}).join(','))
       async.eachLimit(entities, 1, function(opEntity, callback) {
         var entity = opEntity.get()
-        debug('Fetched ' + entity.id + ' - child of ' + parentEid)
+        // debug('Fetched ' + entity.id + ' - child of ' + parentEid)
         if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
-          debug('callback [002] in 0.2')
+          // debug('callback [002] in 0.2')
           setTimeout(function () {
-            debug('callback [002]')
+            // debug('callback [002]')
             return callback(null)
           }, 61)
         }
@@ -298,9 +298,9 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
           if (opEntity.get('definition') === 'event') {
             cacheEvent(opEntity, callback)
           } else {
-            debug('callback [001] in 0.2')
+            // debug('callback [001] in 0.2')
             setTimeout(function () {
-              debug('callback [001]')
+              // debug('callback [001]')
               return callback(null)
             }, 61)
           }
@@ -324,9 +324,9 @@ function myProcessEntities(parentEid, eClass, definition, entities, callback) {
   debug('Processing ' + entities.length + ' entities (' + eClass + '|' + definition + ').')
   async.eachLimit(entities, 1, function(opEntity, callback) {
     if (opEntity.get(['properties', 'nopublish', 0, 'value']) === 'True') {
-      debug('callback [003] in 0.2')
+      // debug('callback [003] in 0.2')
       setTimeout(function () {
-        debug('callback [003]')
+        // debug('callback [003]')
         return callback(null)
       }, 61)
     }
@@ -699,4 +699,4 @@ performSync(
 )
 
 // module.exports.sync = performSync
-module.exports.state = state
+module.exports.stat
