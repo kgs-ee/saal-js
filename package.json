@@ -22,7 +22,7 @@
     "node": "6.x"
   },
   "dependencies": {
-    "async": "^2.0.0-rc.5",
+    "async": "^3.2.2",
     "body-parser": "^1.15.1",
     "chokidar": "^1.6.0",
     "cookie-parser": "^1.4.3",
