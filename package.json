@@ -27,7 +27,7 @@
     "chokidar": "^1.6.0",
     "cookie-parser": "^1.4.3",
     "debug": "^2.2.0",
-    "entulib": "^1.0.0",
+    "entulib": "^2.0.8",
     "express": "4.x",
     "fuse.js": "^2.2.0",
     "jade": "^1.11.0",
